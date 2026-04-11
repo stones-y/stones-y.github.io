@@ -1,78 +1,19 @@
 \documentclass[11pt, a4paper]{article}
+\input{../../../preamble}
+\input{../../../lecture-preamble}
 
-% --- Core Mathematics Packages ---
-\usepackage{amsmath, amssymb, amsthm}
-\usepackage{mathtools} % For advanced formatting (e.g., \coloneqq for :=)
-
-% --- Typography and Page Layout ---
-\usepackage[margin=1in]{geometry}
-\usepackage{microtype} % Improves text justification and spacing
-\usepackage{xcolor}    % Required for coloring links
-\usepackage{hyperref}  % Makes the table of contents and cross-references clickable
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,      
-    urlcolor=cyan,
-    pdftitle={Mathematics Notes},
-}
-
-% --- Theorem Environments ---
-% This links the numbering of theorems, lemmas, and definitions together.
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}[definition]{Example}
-
-\theoremstyle{plain}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{proposition}[definition]{Proposition}
-
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark} % The asterisk removes numbering for remarks
-
-% --- Custom Shortcuts (Macros) ---
-% Blackboard bold letters for standard sets
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\Q}{\mathbb{Q}}
-\newcommand{\C}{\mathbb{C}}
-
-% Upright 'd' for differentials (Standard UK/Imperial convention)
-\newcommand{\dd}{\mathrm{d}}
-
-% --- Document Information ---
-\title{Linear Algebra: Course Notes}
-\author{Your Name}
-\date{Summer 2026}
+\def\nmodule{Analysis I}
+\def\nlecturer{Prof. X}
+\def\nterm{Michaelmas}
+\def\nyear{2025}
 
 \begin{document}
-
 \maketitle
 \tableofcontents
 \newpage
 
-\section{Introduction to Vector Spaces}
-
-\begin{definition}
-    A \textbf{vector space} over a field $ \mathbb{F} $ is a set $ V $ equipped with two operations: vector addition and scalar multiplication, satisfying the eight vector space axioms.
-\end{definition}
-
-\begin{theorem}
-    Let $ V $ be a vector space. The zero vector $ 0 \in V $ is unique.
-\end{theorem}
-
-\begin{proof}
-    Suppose there exist two zero vectors, $ 0_1 $ and $ 0_2 $. By the property of additive identity, $ 0_1 + 0_2 = 0_1 $ (treating $ 0_2 $ as the identity) and $ 0_1 + 0_2 = 0_2 $ (treating $ 0_1 $ as the identity). Therefore, $ 0_1 = 0_2 $.
-\end{proof}
-The inclusion exclusion principle states that for a finite collection of finite sets $\{A_i\}_{i=1}^n$, we have:
-$$\left|\bigcup_{i=1}^nA_i\right|=\sum_{\emptyset\ne J\subseteq\{1,2,\dots,n\}} (-1)^{|J|+1}\left|\bigcap_{j\in J}A_j\right|$$
-
-$\bigoplus \bigwedge \bigsqcup \mho \partial \eth \star \ast \bullet $
+\section{...}
 
 
-testing, testing.
 
 \end{document}

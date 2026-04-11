@@ -1,0 +1,46 @@
+% --- Core Mathematics Packages ---
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools} % For advanced formatting (e.g., \coloneqq for :=)
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{13.59999pt}
+\addtolength{\topmargin}{-1.59999pt}
+
+% --- Typography and Page Layout ---
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype} % Improves text justification and spacing
+\usepackage{xcolor}    % Required for coloring links
+\usepackage{hyperref}  % Makes the table of contents and cross-references clickable
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Mathematics Notes},
+}
+
+% --- Theorem Environments ---
+% This links the numbering of theorems, lemmas, and definitions together.
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{proposition}[definition]{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark} % The asterisk removes numbering for remarks
+
+% --- Custom Shortcuts (Macros) ---
+% Blackboard bold letters for standard sets
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
+% Upright 'd' for differentials (Standard UK/Imperial convention)
+\newcommand{\dd}{\mathrm{d}}

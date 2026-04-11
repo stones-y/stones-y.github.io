@@ -1,0 +1,38 @@
+%%% TITLE PAGE
+\ifx\nauthor\undefined
+  \def\nauthor{Your Name}
+\fi
+
+\author{Based on lectures by \nlecturer \\ \small Notes taken by \nauthor}
+
+\date{
+  \nterm\ \nyear \\
+  \small Compiled on \today
+  \endgraf
+  \bigskip
+  \parbox{0.9\textwidth}{\centering
+    These notes are not in any way official and do not represent
+    the content of lectures. Be mindful of any mistakes or omissions
+    if using these notes for self-study or revision.
+    Any and all errors are my own.
+  }
+  \endgraf
+  \medskip
+  More details at \href{https://stones-y.github.io}{https://stones-y.github.io}.
+}
+
+\title{\nmodule}
+
+\AtBeginDocument{
+  \hypersetup{
+    pdfauthor={\nauthor},
+    pdftitle={\nmodule},
+  }
+}
+
+%%% HEADERS
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\small\nmodule}
+\fancyfoot[C]{\thepage}
