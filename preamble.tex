@@ -18,14 +18,21 @@
     urlcolor=cyan,
     pdftitle={Mathematics Notes},
 }
+\usepackage{nameref} % Readable theorem referencing
+
+
+
 \usepackage{framed}
 \definecolor{shadecolor}{gray}{0.92}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
 
 
 % --- Theorem Environments ---
 % This links the numbering of theorems, lemmas, and definitions together.
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
+\newtheorem{definition}{Definition}[chapter]
 \newtheorem{example}[definition]{Example}
 
 \theoremstyle{plain}
@@ -36,6 +43,11 @@
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark} % The asterisk removes numbering for remarks
+
+
+\newtheorem{exercise}{Exercise}[chapter]
+\newtheorem*{exercise*}{Exercise}  % unnumbered, for one-off inline prompts
+
 
 % --- Custom Shortcuts (Macros) ---
 % Blackboard bold letters for standard sets
