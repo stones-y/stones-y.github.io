@@ -32,8 +32,21 @@ of the introductory module, MATH40001.
         A set $A$ is countably infinite if there exists a bijection $f:\N\to A$.
     \end{shaded*}
 \end{definition}
-\noindent The idea is that you can list the elements of $A$ as $a_1,a_2,\dots$ using only the natural numbers.
-We say that a set is \textit{countable} if it is finite or countably infinite. Note we will take $\N=\{0,1,2,\dots\}$.
+\noindent Intuitively, this says that you can list the elements of $A$ as $a_1,a_2,\dots$ using only the natural numbers.
+We say that a set is \textit{countable} if it is finite or countably infinite. Note we will take $\N=\{1,2,\dots\}$, unless stated otherwise.\par
+Note that if there is a bijection between a given pair of sets $A$ and $B$, then $A$ is countable if and only if $B$ is countable.
+This extends the natural idea of finite sets having the same number of elements if and only if there is a bijection between the sets. Formally, we define two sets having the same $cardinality$ as follows:
+\begin{definition}
+    \begin{shaded*}
+        Let $A,B$ be sets. We say that $A$ and $B$ have the same cardinality if there exists a bijection $f:A\to B$.
+    \end{shaded*}
+\end{definition}
+The idea is that even in infinite settings, if we know a property about the 'size' of one set $A$, and there exists a bijection with another set $B$, then $B$ shares this notion of 'size'.
+For example, as we mentioned, if such a bijection exists between two sets $A,B$, then $A$ is countable if and only if $B$ is countable. 
+This gives rise to an equivalence relation, which we define as cardinality.
+\begin{exercise*}
+    Show that the relation $\sim$ on $\mathcal{P}(\mathcal{U})$ (where $\mathcal{U}$ is the universal set of interest) defined by $A\sim B \iff \exists f:A\to B$ such that $f$ is a bijection, is an equivalence relation.
+\end{exercise*}
 
 
 \begin{theorem}
@@ -66,10 +79,10 @@ We say that a set is \textit{countable} if it is finite or countably infinite. N
     $S$ is infinite, $S\setminus\{s_1,\dots,s_k\}$ is nonempty, so there is $s_{k+1}\in S\setminus \{s_1,\dots,s_k\}$. Define $f(k+1)\coloneqq s_{k+1}$.
     By construction, if $i<j$ are natural numbers, then $s_j\in S\setminus\{s_1,\dots,s_{j-1}\}$ so $s_j\ne s_i$. So $f$ is an injection.\qedhere
 \end{proof}
-The idea for the above theorem is that we can always $embed$ the natural numbers into any infinite set via an injection $f:\N\to S$ (where $S$ is any infinite set).
+As a result, we can always $embed$ the natural numbers into any infinite set via an injection $f:\N\to S$ (where $S$ is any infinite set).
 In this way, the natural numbers can be thought of as 'the smallest type of infinity'.
 
-A not so surprising fact which we can immediately prove is that the set of integers, $\Z$, is countably infinite:
+A not so surprising fact which we can prove immediately is that the set of integers, $\Z$, is countably infinite:
 \begin{theorem}
     \begin{shaded*}
         $\Z$ is countably infinite.
@@ -77,8 +90,8 @@ A not so surprising fact which we can immediately prove is that the set of integ
 \end{theorem}
 \begin{proof}
     Define $f:\N\to \Z$ by $$f(n)=\begin{cases}
-    n/2, & n\text{ even}\\
-    -\frac{(n+1)}{2}, & n\text{ odd}
+    n/2, & \text{if } n\text{ even}\\
+    -\frac{(n+1)}{2}, & \text{if }n\text{ odd}
     \end{cases}$$
     Then $f$ is injective: suppose $f(a)=f(b)$. If $a$ and $b$ are of different parity then $f(a)$ and $f(b)$ are of different sign, so cannot be equal. So this case cannot happen.
     If $a$ and $b$ are even, then $a/2=b/2$ so $a=b$. If $a$ and $b$ are odd, then $-(a+1)/2=-(b+1)/2$ so $a=b$. So $f$ is injective.
@@ -137,10 +150,11 @@ A less trivial fact is that the rational numbers, $\Q$, is countable. This may b
     The idea is illustrated in the above diagram. Note that the listing goes $$(0,0),(0,1),(1,0),(2,0),(1,1),(0,2),\dots$$
     Notice that along each diagonal, $a+b$ is constant for all pairs $(a,b)$ in that diagonal. This, along with the triangular number formula,
     provides the motivation for how to construct a bijection between $\N^2$ and $\N$.\par
-    Explicitly, define $f:\N^2\to\N$ by $f(a,b)=\frac{(a+b)(a+b+1)}{2}+b$. This is a bijection (exercise) so $\N^2$ is countable.\qedhere
+    Explicitly, define $f:\N^2\to\N$ by $f(a,b)=\frac{(a+b)(a+b+1)}{2}+b$. This is a bijection (exercise) so $\N^2$ is countable. Note that here we took $\N=\{0,1,2,\dots\}$.\qedhere
 \end{proof}
 As a consequence, we get:
 \begin{theorem}
+\label{thm:qcount}
     \begin{shaded*}
         $\Q$ is countably infinite.
     \end{shaded*}
@@ -153,8 +167,396 @@ As a consequence, we get:
     It follows (exercise) that $\Q$ is countably infinite, using the same idea (interleaving) as the proof that $\Z$ is countably infinite.
 \end{proof}
 \begin{exercise*}
-Finish the proof of Theorem 1.6. (\textit{Hint: use the fact that, by Theorem 1.6, there exists a bijection }$h:\N\to\Q_{\ge0}$).
+Finish the proof of Theorem \ref{thm:qcount}. (\textit{Hint: use the fact that, by Theorem 1.6, there exists a bijection }$h:\N\to\Q_{\ge0}$).
 \end{exercise*}
+
+The following lemma is a useful way of proving that a given set $S$ is countably infinite without explicitly constructing a bijection $f:\N\to S$.
+
+\begin{lemma}[A criterion for countability]
+\label{lem:countabilitycriterion}
+    \begin{shaded*}
+        Let $S$ be an infinite set.
+        \begin{enumerate}
+            \item[1.] $S$ is countably infinite if and only if there exists an injection $\iota: S\to\N$.
+            \item[2.] $S$ is countably infinite if and only if there exists a surjection $g:\N\to S$.
+        \end{enumerate}
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    a
+\end{proof}
+The idea for item (1) above is that if you can $embed$ your set into the natural numbers via an injection $\iota:S\to\N$, then it must be countably infinite, as $\iota(S)\subseteq\N$, and we have shown infinite subsets of $\N$ are countable,
+so since $\iota$ is an injection, $S$ has the same cardinality as $\iota (S)$, (i.e. $S\sim \iota(S)$), so $S$ is countably infinite. The idea for item (2)
+is similar: if you can use the natural numbers to list all the elements of your infinite set $S$, then even though this surjective map $g:\N\to S$ may not be injective, we have nonetheless listed all the elements of $S$ using only the natural numbers,
+so $S$ must be countably infinite also.\par
+A simple example using Lemma \ref{lem:countabilitycriterion} is that finite products of countable sets are countable (note that we already have the tools to prove this without Lemma \ref{lem:countabilitycriterion} by usin Theorem \ref{thm:N2}, which is a more elementary way of proving this fact via an explicit bijection).\par
+Before looking at the example, try and think of properties of the integers that we can use to construct an injection $\iota:A\times B\to \N$.
+\begin{example}
+    If $A,B$ are countably infinite sets, then $A\times B$ is countably infinite.
+\end{example}
+\begin{proof}
+    Recall from the introductory module that we define $$A\times B\coloneqq \{(a,b):a\in A,\, b\in B\}.$$
+    Since $A$ and $B$ are countably infinite, let $f:\N\to A$, $g:\N\to B$ be bijections. Therefore, we can write $A=\{a_1,a_2,\dots\}$ and $B=\{b_1,b_2,\dots\}$.
+    Define $\iota: A\times B\to \N$ by $\iota(a_i,b_j)=2^i3^j$. By the Fundamental Theorem of Arithmetic from the introductory module, $\iota$ is an injection because prime factorisations are unique,
+    so by Lemma \ref{lem:countabilitycriterion}, $A\times B$ is countably infinite.\qedhere
+\end{proof}
+This trick of mapping each element of the set to a prime factorisation is useful to keep in mind, as it is a very neat way of proving countability for sets.
+
+Not all sets are countably infinite:
+\begin{definition}
+    \begin{shaded*}
+        An infinite set is called $uncountable$ if it is not countably infinite.
+    \end{shaded*}
+\end{definition}
+
+\noindent For example, the set of real numbers $\R$ is uncountable. To show this, we first prove:
+
+\begin{lemma}
+\label{lem:01}
+    \begin{shaded*}
+        The set $(0,1)\coloneqq\{x\in\R:0<x<1\}$ is uncountable.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    The main technique that we use in arguing why a given set is uncountable is \textit{Cantor's diagonal argument}, which goes like this.
+    Suppose, for contradiction, that $(0,1)$ is countably infinite. Then there exists a bijection $f:\N\to (0,1)$ (note here we will let $\N=\{1,2,\dots\}$ for aesthetics; the argument does not change).
+    For each $n\in\N$, we write $f(n)=x_n=0.a_{1n}a_{2n}\dots$, writing each $x_n$ in decimal form, excluding tails of the digit $9$ (for example, $0.8999...=0.9$).
+    We now get a listing of the numbers in $(0,1)$ which looks like:
+    \begin{align*}
+        f(1)&=0.a_{11}a_{12}a_{13}a_{14}\dots\\
+        f(2)&=0.a_{21}a_{22}a_{23}a_{24}\dots\\
+        f(3)&=0.a_{31}a_{32}a_{33}a_{34}\dots\\
+        f(4)&=0.a_{41}a_{42}a_{43}a_{44}\dots\\
+        \vdots
+    \end{align*}
+    The idea is that we look at the $diagonal$ elements, $a_{ii}$ for $i\ge 1$, and construct a number $x\in (0,1)$ such that for all $i\ge 1$,
+    the $i^{\mathrm{th}}$ decimal place of $x$ differs from the $i^{\mathrm{th}}$ decimal place of $f(i)$, thereby constructing a number $x\in(0,1)$ that is not in the enumeration $f$ of the interval $(0,1)$, which is a contradiction to $f$ being surjective.
+    We construct $x\in (0,1)$ as follows: for $j\ge 1$, let $b_{j}$ be the $j^{\mathrm{th}}$ decimal place of $x$, then we define
+    $$b_j=\begin{cases}2 & \text{if }a_{jj}=1\\ 1 & \text{if }a_{jj}\ne 1\end{cases}$$
+    Then by construction, $b_i \ne a_{ii}$ for each $i\ge 1$, so in particular (by uniqueness of decimal representations under our restriction to decimal expansions with no digit $9$ tails), we have $x\ne f(i)$ for all $i\ge 1$,
+    so $x\in (0,1)$ is not in the image of $f$, a contradiction to $f$ being surjective onto $(0,1)$. Therefore, $(0,1)$ is uncountable.\qedhere
+\end{proof}
+\begin{theorem}
+    \begin{shaded*}
+        $\R$ is uncountable.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Follows from Lemma \ref{lem:01} (exercise). \qedhere
+\end{proof}
+
+\begin{exercise*}
+    Find a bijection $f:(0,1)\to \R$, and deduce that $\R$ is an uncountable set.
+\end{exercise*}
+
+\chapter{Sequences and Series}
+
+\section{Sequences}
+
+\begin{definition}
+    \begin{shaded*}
+        A real sequence is a function $f:\N\to\R$.
+    \end{shaded*}
+\end{definition}
+In general, $\R$ can be replaced by a metric space $X$, for example the complex numbers $\C$ which we will see later. It is therefore important to distinguish $real$ sequences. For notation, we will write $(a_n)_{n=1}^{\infty}$ to denote a sequence $a_1,a_2,\dots$, and sometimes this will be shortened to $(a_n)$, or just $a_n$. 
+
+
+\subsection{Convergence of sequences}
+Intuitively, a real sequence converges to a limit $L\in\R$ if we can make the terms of our sequence, $a_n$, aribtrarily close to $L$, whenever we go far enough out into the sequence.
+Clearly, this does not suffice as a mathematical definition, so instead we define convergence of a real sequence $(a_n)$ as follows.
+\begin{definition}[Convergence of a sequence]
+\label{def:convergence1}
+    \begin{shaded*}
+        A real sequence $(a_n)$ converges to $L\in\R$ if $$\forall\varepsilon>0,\,\exists N\in\N,\, \forall n\ge N,\, |a_n-L|<\varepsilon$$.
+    \end{shaded*}
+\end{definition}
+For notation, if Definition \ref{def:convergence1} holds for a sequence $(a_n)$, we will write $\lim_{n\to\infty}a_n=L$, which we will sometimes shorten to $a_n\to L$ (as $n\to\infty$) or $\lim a_n=L$, if from the context it is clear we are talking about a sequence, and not, say, a limit of a function $f(x)$ (which, as we will see, does not have to be the limit as $x\to\infty$).
+
+\begin{example}
+    Use Definition \ref{def:convergence1} to show that the sequence $(a_n)$ defined by $a_n=1/n$ for each $n\in\N$ converges to $0$.
+\end{example}
+\begin{proof}
+    Let $\varepsilon>0$ be arbitary. Choose $N\in\N$ such that $N>1/\varepsilon$ (such an $N$ exists by the Archimedean property of the real numbers from the introductory module).
+    Then, given $n\ge N$, we have $$|a_n-0|=1/n\le 1/N<\varepsilon,$$so $a_n\to 0$.\qedhere
+\end{proof}
+
+\begin{definition}
+    \begin{shaded*}
+        A sequence $diverges$ if it does not converge.
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}
+    \begin{shaded*}
+        A real sequence $(a_n)$ is bounded if there exists $M>0$ such that for all $n\in \N$, $|a_n|\le M$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Note that a real sequence can diverge but still be bounded (see below).
+\end{remark}
+
+\begin{example}
+    Use Definition \ref{def:convergence1} to show that the sequence $a_n\coloneqq (-1)^n$ diverges.
+\end{example}
+\begin{proof}
+    Suppose for contradiction that $a_n\to L\in \R$. Let $N\in\N$ be such that for all $n\ge N$, $$\left|(-1)^n-L\right|<1/2.$$
+    But also, by the triangle inequality, $$2=\left|(-1)^{2N}-(-1)^{2N+1}\right|\le \left|(-1)^{2N}-L\right|+\left|L-(-1)^{2N+1}\right|<1/2+1/2=1,$$which is a contradiction.
+    Therefore, $(a_n)$ diverges.\qedhere
+\end{proof}
+
+\subsection{Basic results on convergent sequences}
+Unsurprisingly, if a sequence converges to a limit, then it must be unique:
+\begin{theorem}
+    \begin{shaded*}
+        Limits of convergent sequences are unique.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Suppose $a_n\to L$ and $a_n\to M$, and let $\varepsilon>0$ be arbitrary. We wish to conclude that $L=M$. By convergence of $a_n\to L$, pick $N_1\in\N$ such that for all $n\ge N_1$, $|a_n-L|<\varepsilon/2$.
+    By convergence of $a_n\to M$ let $N_2\in\N$ be such that for all $n\ge N_2$, $|a_n-M|<\varepsilon/2$. Now, let $n\coloneqq \max\{N_1,N_2\}$. By the triangle inequality, we have
+    $$|L-M|=|L-a_n+a_n-M|\le|a_n-L|+|a_n-M|<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.$$
+    Therefore, since $\varepsilon$ was arbitrary, $L=M$ (to see this, if $L\ne M$ then one can pick $\varepsilon=|L-M|/2$ and get a contradiction).\qedhere
+\end{proof}
+
+\begin{theorem}[Order limit theorem]
+\label{thm:olt}
+    \begin{shaded*}
+        Suppose $(a_n)$ and $(b_n)$ are two real sequences such that $a_n\ge b_n$ for all $n\in\N$. Let $a_n\to a$ and $b_n\to b$. Then $a\ge b$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Suppose for contradiction that $a<b$. Pick $\varepsilon=\frac{b-a}{2}$. Since $a_n\to a$, there exists $N_1\in\N$ such that for all $n\ge N_1$, $|a_n-a|<\varepsilon$, so in particular for $n\ge N_1$, $$a_n<a+\varepsilon=a+\frac{b-a}{2}=\frac{a+b}{2},$$
+    and since $b_n\to b$ there exists $N_2\in\N$ such that for all $n\ge N_2$, $|b_n-b|<\varepsilon$, so in particular for $n\ge N_2$, $$b_n>b-\varepsilon=b-\frac{b-a}{2}=\frac{a+b}{2}.$$Therefore, choosing $n\coloneqq\max\{N_1,N_2\}$ it follows that $b_n>a_n$, which is a contradiction.\qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        Suppose $(a_n)$ is a real sequence with $a_n\to a$ such that $B\le a_n\le C$ for all $n\in\N$. Then $B\le a\le C$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Apply Theorem \ref{thm:olt} using constant sequences $b_n=B$ and $c_n=C$ for all $n\in \N$.\qedhere
+\end{proof}
+\begin{remark}
+    If $B<a_n<C$ for all $n\in\N$ in the above corollary, it is not necessarily true that $B<a<C$, but we do still get the non-strict inequalities $B\le a\le C$. Limits only preserve non-strict inequalities.
+\end{remark}
+
+\begin{theorem}
+\label{thm:boundedseq}
+    \begin{shaded*}
+        Convergent sequences are bounded.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $(a_n)$ be a convergent sequence, and let $L\in\R$ be such that $\lim a_n = L$. Let $N\in\N$ be such that for all $n\ge N$, $|a_n-L|<1.$ In other words, for all $n\ge N$ we have $$a_n\in (L-1,L+1).$$
+    Now, pick $M\coloneqq \max\{|a_1|,|a_2|,\dots,|a_{N-1}|,|L|+1\}$. Then by construction, $|a_n|\le M$ for all $n\in \N$, so $(a_n)$ is bounded.\qedhere
+\end{proof}
+\begin{remark}
+    The idea for the above proof is that we can control $(a_n)$ to be close to $L$ (say, within a distance of $1$ from $L$), past some point $N\in\N$, and before that, there are only finitely many terms in the sequence, so we can just take the maximum of a finite number of terms $|a_1|,\dots,|a_{N-1}|$, and then include $|L|+1$ to complete the bound.
+\end{remark}
+Similarly to the above observation, changing a finite number of terms in a convergent sequence does not affect its convergence. When dealing with convergence of sequences, we only care about the behaviour of the $tail$ of the sequence.
+This motivates the following definition:
+\begin{definition}
+    \begin{shaded*}
+        A sequence $(a_n)$ $eventually$ has a property $P$ if there exists $N\in\N$ such that for all $n\ge N$, $a_n$ has property $P$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Modifying the hypothesis of a theorem which requires a property of a sequence to hold for all $n\in \N$ with $eventually$ does not weaken the theorem; they are equivalent. 
+\end{remark}
+
+\begin{example}
+    Let the property $P$ be 'constant'. The sequence $a_1=1,a_2=2$ and $a_n=0$ for all $n\ge 3$ is $eventually$ constant.
+\end{example}
+\begin{exercise*}
+    Prove that if an integer sequence $(a_n)$ (that is, $a_n\in\Z$ for all $n\in\N$) converges, then it is eventually constant.
+\end{exercise*}
+
+
+
+\begin{definition}
+\label{def:seqinfinity}
+    \begin{shaded*}
+        Let $(a_n)$ be a real sequence.
+        \begin{itemize}
+            \item A sequence $a_n\to\infty$ if for every $R>0$, $a_n$ is eventually greater than $R$.
+            \item A sequence $a_n\to-\infty$ if for every $R<0$, $a_n$ is eventually less than $R$.
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item[1.] $a_n=n^2\to\infty$. Indeed, let $R>0$, and take $n>\sqrt{R}$. Then $$a_n=n^2>(\sqrt{R})^2=R$$.
+        \item[2.] Define $$a_n=\begin{cases}
+            0 & \text{if }n\text{ odd}\\
+            n & \text{if }n\text{ even}
+        \end{cases}$$
+        This is an example of a sequence which does not diverge to $\infty$, but is unbounded (as an exercise, use Definition \ref{def:seqinfinity} to prove this directly).
+    \end{enumerate}
+\end{example}
+\noindent Changing a finite number of terms in a convergent sequence does not affect convergence:
+
+\begin{lemma}
+    \begin{shaded*}
+        Let $K\in \N$ be arbitrary. Then $(a_n)_{n=1}^{\infty}$ is a convergent sequence with limit $L\in\R$ if and only if $(a_{n+K})_{n=1}^{\infty}$ is a convergent sequence, with limit $L\in\R$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Suppose $(a_n)$ converges to $L\in\R$. Pick $N\in \N$ such that for all $n\ge N$, $|a_n-L|<\varepsilon$. Since $K\ge 0$, given $n\ge N$, $n+K\ge n \ge N$, so $|a_{n+K}-L|<\varepsilon$.\par
+    Conversely, suppose $(a_{n+K})$ converges to $L\in \R$. Let $N\in \N$ be such that for all $n\ge N$, $|a_{n+K}-L|<\varepsilon$. Choose $N'\coloneqq N+K$. Given $n\ge N'$, we have $n\ge N+K$, so for $n\ge N'$, $|a_n-L|<\varepsilon$.\qedhere
+\end{proof}
+
+
+
+
+\subsection{The Algebraic Limit Theorem}
+
+There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use convergence results that we have already proven:
+\begin{theorem}[Algebraic limit theorem]
+\label{thm:alt}
+    \begin{shaded*}
+        Let $(a_n)$, and $(b_n)$ be real sequences, and suppose $a_n\to a\in\R$, and $b_n\to b\in \R$. Then
+        \begin{enumerate}
+            \item[1.] $a_n+b_n\to a+b$.
+            \item[2.] $a_nb_n\to ab$.
+            \item[3.] For all $\lambda\in \R$, $\lambda a_n\to \lambda a$. 
+            \item[4.] If $b_n\ne 0$ for all $n\in\N$ and $b\ne 0$, then $1/b_n\to 1/b$. 
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    (1) and (3) are good exercises to practice using Definition \ref{def:convergence1}.
+    \begin{enumerate}
+        \item[(2)] Case 1: without loss of generality, suppose that $a\ne 0$ and $b=0$; let $\varepsilon>0$ be arbitrary. By Theorem \ref{thm:boundedseq}, there exists $M>0$ such that for all $n\in\N$, $|a_n|\le M$.
+        By convergence of $b_n\to 0$, let $N\in\N$ be such that for all $n\ge N$, $|b_n|<\varepsilon/M$. Then for $n\ge N$, we have $$|a_nb_n|=|a_n||b_n|\le M|b_n|<M(\varepsilon/M)=\varepsilon,$$
+        so $a_nb_n\to 0$.\par
+        Case 2: Suppose that $a\ne 0$ and $b\ne 0$; let $\varepsilon>0$ be arbitrary. By Theorem \ref{thm:boundedseq} let $M>0$ be such that for all $n\in\N$, $|a_n|\le M$.
+        By convergence of $a_n\to a$, let $N_1\in\N$ be such that for all $n\ge N_1$, $|a_n-a|<\varepsilon/2|b|$.
+        Also, by convergence of $b_n\to b$, let $N_2\in\N$ be such that for all $n\ge N_2$, $|b_n-b|<\varepsilon/2M$.
+        Choose $N\coloneqq\max\{N_1,N_2\}$. Then for all $n\ge N$, we have
+        \begin{align*}
+            |a_nb_n-ab|&=|a_nb_n-a_nb+a_nb-ab|\\
+            &\le |a_nb_n-a_nb|+|a_nb-ab|\\
+            &=|a_n||b_n-b|+|b||a_n-a|\\
+            &\le M|b_n-b|+|b||a_n-a|\\
+            &< M\left(\frac{\varepsilon}{2M}\right)+|b|\left(\frac{\varepsilon}{2|b|}\right)\\
+            &=\varepsilon,
+        \end{align*}
+        so $a_nb_n\to ab$.
+        \item[(4)] Let $\varepsilon>0$ be arbitrary. Let $N_1\in\N$ be such that for all $n\ge N_1$, $|b_n-b|<|b|/2$, so by the triangle inequality we have, for $n\ge N_1$,
+        $$|b|=|b-b_n+b_n|\le |b_n-b|+|b_n|<\frac{|b|}{2}+|b_n|\implies |b_n|>\frac{|b|}{2}>0.$$
+        Now, let $N_2\in\N$ be such that for all $n\ge N_2$, $|b_n-b|<\frac{\varepsilon|b|^2}{2}$. Choose $N\coloneqq\max\{N_1,N_2\}$. For all $n\ge N$, we have $$\left|\frac{1}{b_n}-\frac{1}{b}\right|=\frac{|b_n-b|}{|b||b_n|}<\frac{|b_n-b|}{|b|^2/2}<\frac{\varepsilon|b|^2/2}{|b|^2/2}=\varepsilon,$$
+        so $1/b_n\to 1/b$.\qedhere
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    Using items (2) and (4) above, it follows that if $b\ne 0$ and $b_n\ne 0$ for all $n\in\N$, and $a_n\to a$, $b_n\to b$, then $a_n/b_n\to a/b$.
+\end{remark}
+
+\begin{example}
+    \begin{enumerate}
+        \item[1.] $a_n=\frac{n^2+4n+1}{2n^2+1}\to \frac{1}{2}$. For $n\in\N$ we have $$a_n=\frac{1+4/n+1/n^2}{2+1/n^2}.$$
+        Now, using (2) in Theorem \ref{thm:alt}, $1/n^2\to 0$ since we have shown $1/n\to 0$, and using (1), (3), (4) we get $\lim a_n=\frac{1}{2}$.
+        \item[2.] Applying (2) inductively, since $1/n\to 0$ we get that for any $m\in\N$, $1/n^m\to 0$.
+    \end{enumerate}
+\end{example}
+
+\subsection{Monotone convergence theorem}
+\begin{definition}
+    \begin{shaded*}
+        Let $(a_n)$ be a real sequence.
+        \begin{enumerate}
+            \item[1.] We say that $a_n$ is $increasing$ if for all $n\in\N$, $a_{n+1}\ge a_n$. If the inequality is strict for all $n\in\N$, we say that $a_n$ is \textit{strictly increasing}.
+            \item[2.] We say that $a_n$ is $decreasing$ if for all $n\in\N$, $a_{n+1}\le a_n$. If the inequality is strict for all $n\in\N$, we say that $a_n$ is \textit{strictly decreasing}.
+        \end{enumerate}
+    \end{shaded*}
+\end{definition}
+\begin{example}
+    The sequence $a_n=1/n$ is strictly decreasing and converges to $0$, the sequence $a_n=1-1/n$ is strictly increasing and converges to $1$, the sequence $a_n=n$ is strictly increasing and diverges to $\infty$,
+    and the sequence $a_n=(-1)^nn$ is neither strictly increasing nor strictly decreasing, and diverges.
+\end{example}
+\noindent We now state and prove an important theorem about monotonic and bounded real sequences.
+\begin{theorem}[Monotone convergence theorem]
+\label{thm:mct}
+    \begin{shaded*}
+        Let $(a_n)$ be a bounded and monotone real sequence. Then $(a_n)$ is convergent.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We will prove the case where $a_n$ is increasing. The case where $a_n$ is decreasing is similar, and is left as an exercise.
+\end{proof}
+
+
+
+
+\chapter{Limits and Continuity}
+
+
+
+
+
+
+\chapter{Differentiable functions}
+
+
+
+
+
+
+
+\chapter{Convexity}
+
+
+
+
+
+
+
+\chapter{The Integral}
+
+
+
+
+
+
+
+
+\chapter{Taylor's Theorem}
+
+
+
+
+
+
+
+
+
+\chapter{Convergence of functions}
+
+
+
+
+
+
+
+
+\chapter{Series of functions}
+
+
+
+
+
+
+
+
+\chapter{The Trigonometric functions}
+
+
+
+
 
 
 
