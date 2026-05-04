@@ -167,7 +167,7 @@ As a consequence, we get:
     It follows (exercise) that $\Q$ is countably infinite, using the same idea (interleaving) as the proof that $\Z$ is countably infinite.
 \end{proof}
 \begin{exercise*}
-Finish the proof of Theorem \ref{thm:qcount}. (\textit{Hint: use the fact that, by Theorem 1.6, there exists a bijection }$h:\N\to\Q_{\ge0}$).
+Finish the proof of Theorem \ref{thm:qcount}. (\textit{Hint: use the fact we proved above that $\Q_{\ge 0}$ is countably infinite, so there exists a bijection }$h:\N\to\Q_{\ge0}$).
 \end{exercise*}
 
 The following lemma is a useful way of proving that a given set $S$ is countably infinite without explicitly constructing a bijection $f:\N\to S$.
@@ -264,10 +264,10 @@ In general, $\R$ can be replaced by a metric space $X$, for example the complex 
 \subsection{Convergence of sequences}
 Intuitively, a real sequence converges to a limit $L\in\R$ if we can make the terms of our sequence, $a_n$, aribtrarily close to $L$, whenever we go far enough out into the sequence.
 Clearly, this does not suffice as a mathematical definition, so instead we define convergence of a real sequence $(a_n)$ as follows.
-\begin{definition}[Convergence of a sequence]
+\begin{definition}[Convergence of a sequence in $\R$]
 \label{def:convergence1}
     \begin{shaded*}
-        A real sequence $(a_n)$ converges to $L\in\R$ if $$\forall\varepsilon>0,\,\exists N\in\N,\, \forall n\ge N,\, |a_n-L|<\varepsilon$$.
+        A real sequence $(a_n)$ converges to $L\in\R$ if $$\forall\varepsilon>0,\,\exists N\in\N,\, \forall n\ge N,\, |a_n-L|<\varepsilon.$$
     \end{shaded*}
 \end{definition}
 For notation, if Definition \ref{def:convergence1} holds for a sequence $(a_n)$, we will write $\lim_{n\to\infty}a_n=L$, which we will sometimes shorten to $a_n\to L$ (as $n\to\infty$) or $\lim a_n=L$, if from the context it is clear we are talking about a sequence, and not, say, a limit of a function $f(x)$ (which, as we will see, does not have to be the limit as $x\to\infty$).
@@ -282,7 +282,7 @@ For notation, if Definition \ref{def:convergence1} holds for a sequence $(a_n)$,
 
 \begin{definition}
     \begin{shaded*}
-        A sequence $diverges$ if it does not converge.
+        A sequence $diverges$ if it does not converge to any $L\in\R$.
     \end{shaded*}
 \end{definition}
 
@@ -412,7 +412,7 @@ This motivates the following definition:
 
 
 
-\subsection{The Algebraic Limit Theorem}
+\subsection{Algebraic limit theorem}
 
 There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use convergence results that we have already proven:
 \begin{theorem}[Algebraic limit theorem]
@@ -469,14 +469,15 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
     \begin{shaded*}
         Let $(a_n)$ be a real sequence.
         \begin{enumerate}
-            \item[1.] We say that $a_n$ is $increasing$ if for all $n\in\N$, $a_{n+1}\ge a_n$. If the inequality is strict for all $n\in\N$, we say that $a_n$ is \textit{strictly increasing}.
-            \item[2.] We say that $a_n$ is $decreasing$ if for all $n\in\N$, $a_{n+1}\le a_n$. If the inequality is strict for all $n\in\N$, we say that $a_n$ is \textit{strictly decreasing}.
+            \item[1.] We say that $a_n$ is \textit{increasing} if for all $n\in\N$, $a_{n+1}\ge a_n$. If the inequality is strict for all $n\in\N$, we say that $a_n$ is \textit{strictly increasing}.
+            \item[2.] We say that $a_n$ is \textit{decreasing} if for all $n\in\N$, $a_{n+1}\le a_n$. If the inequality is strict for all $n\in\N$, we say that $a_n$ is \textit{strictly decreasing}.
+            \item[3.] A sequence $a_n$ is \textit{monotonic} if it is increasing or decreasing. 
         \end{enumerate}
     \end{shaded*}
 \end{definition}
 \begin{example}
     The sequence $a_n=1/n$ is strictly decreasing and converges to $0$, the sequence $a_n=1-1/n$ is strictly increasing and converges to $1$, the sequence $a_n=n$ is strictly increasing and diverges to $\infty$,
-    and the sequence $a_n=(-1)^nn$ is neither strictly increasing nor strictly decreasing, and diverges.
+    and the sequence $a_n=(-1)^nn$ is neither strictly increasing nor strictly decreasing, and diverges. Constant sequences are both increasing and decreasing.
 \end{example}
 \noindent We now state and prove an important theorem about monotonic and bounded real sequences.
 \begin{theorem}[Monotone convergence theorem]
@@ -486,11 +487,224 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
     \end{shaded*}
 \end{theorem}
 \begin{proof}
-    We will prove the case where $a_n$ is increasing. The case where $a_n$ is decreasing is similar, and is left as an exercise.
+    We will prove the case where $a_n$ is increasing. The case where $a_n$ is decreasing is similar, and is left as an exercise.\par
+    Consider the set $S\coloneqq\{a_n:n\in\N\}$. $S$ is nonmempty since $a_1\in S$, and since $a_n$ is bounded, the set $S$ is bounded. By the completeness of $\R$, $s\coloneqq \sup S$ exists. We claim that $a_n\to s$.\par
+    Let $\varepsilon>0$. By definition of supremum, there exists $N\in\N$ such that $s-\varepsilon<a_N\le s$. But since $s$ is an upper bound, and $a_n$ is increasing, we therefore have $$s-\varepsilon<a_N\le a_{N+1}\le \cdots\le s<s+\varepsilon,$$
+    i.e. for all $n\ge N$, we have $|a_n-s|<\varepsilon$, so $a_n\to s$.\qedhere
 \end{proof}
 
+\begin{remark}
+    This result is useful because it allows us to deduce convergence of a sequence without knowing what the limit is.
+\end{remark}
+\begin{example}
+    Define a sequence $(a_n)$ by $a_{n+1}=\sqrt{2+a_n}$ for $n\in\N$ with $a_1=\sqrt{2}$. We claim that $(a_n)$ converges.
+\end{example}
+\begin{proof}
+    By induction, $0<a_n<2$ for all $n\in\N$; indeed, if $a_k<2$ for all $k\in\N$ then $a_{k+1}=\sqrt{2+a_k}<\sqrt{2+2}=2$, and the base case $a_1=\sqrt{2}<2$. So $0<a_n<2$ for all $n\in\N$. Therefore, $a_n$ is bounded.
+    Also, the sequence is strictly increasing: for $n\in\N$ we have $$a_n=\sqrt{a_na_n}<\sqrt{2a_n}=\sqrt{a_n+a_n}<\sqrt{a_n+2}=a_{n+1},$$
+    so by Theorem \ref{thm:mct}, $(a_n)$ is convergent.\par
+    In fact, with recurrence relations, we can often find the limit as well, once we know that it converges: this is because $\lim a_{n+1}=\lim a_n=L$ for some $L\in\R$, which must satisfy, by the algebraic limit theorem (Theorem \ref{thm:alt}), $L=\sqrt{2+L}$, i.e. $$L^2-L-2=0\implies (L-2)(L+1)=0,$$
+    but since $0<a_n<2$ for all $n\in\N$, $0\le L\le 2$ by Theorem \ref{thm:olt} (order limit theorem), so $L=2$. 
+\end{proof}
+
+\subsection{Subsequences}
+\begin{definition}
+    \begin{shaded*}
+        Let $(a_n)$ be a sequence, and let $f:\N\to\N$ be a strictly increasing function. A \textit{subsequence} of $(a_n)$ is a sequence defined by $b_n\coloneqq a_{f(n)}$ for $n\in\N$.
+    \end{shaded*}
+\end{definition}
+\begin{remark}
+    In practice, if $\{n_k:k\in\N\}$ is any strictly increasing set of indices such that $n_1<n_2<n_3<\cdots$, the corresponding subsequence of $(a_n)_{n=1}^{\infty}$ is $(a_{n_k})_{k=1}^{\infty}$.
+\end{remark}
+\begin{example}
+    Let $a_n=n$ for $n\in\N$. Then $a_{2n}=2n$ is a subsequence of $a_n$. Let $a_n=1/n$ for $n\in\N$. Then $a_p=1/p$ for $p$ prime is a subsequence of $a_n$. However, $(1/3,1/2,1,1/4,1/5,\dots)$ is not a subsequence of $a_n$ (we changed the ordering of the terms).
+\end{example}
+
+\begin{lemma}
+\label{lem:subseqlem}
+    \begin{shaded*}
+        Let $f:\N\to\N$ be a strictly increasing function. Then for all $k\in\N$, $f(k)\ge k$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    The proof is by induction on $k$. For the base case, clearly $f(1)\ge 1$ since the codomain is $\N$, and $1$ is the smallest natural number. Given $m\in\N$, suppose that $f(m)\ge m$.
+    Since $f$ is strictly increasing, $f(m+1)>f(m)$ i.e. $f(m+1)\ge f(m)+1$, since $f(m+1)-f(m)\ge 1$ (smallest distance between distinct integers is $1$), so $$f(m+1)\ge f(m)+1\ge m+1,$$by the induction hypothesis, so $f(k)\ge k$ for all $k\in\N$. \qedhere
+\end{proof}
+
+\begin{theorem}
+\label{thm:subseqlim}
+    \begin{shaded*}
+        Let $(a_n)$ be a sequence that converges to $L\in\R$. Then any subsequence of $(a_n)$ converges to $L$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $(a_{n_k})$ be an arbitrary subsequence of $(a_n)$, and let $\varepsilon>0$.
+    Since $a_n\to L$, pick $N\in\N$ such that for all $n\in\N$, $|a_n-L|<\varepsilon$. Let $k\ge N$. Then by Lemma \ref{lem:subseqlem}, we have $n_k\ge k\ge N$, so $|a_{n_k}-L|<\varepsilon$, so $a_{n_k}\to L$ as $k\to\infty$.\qedhere
+\end{proof}
+\begin{remark}
+    In contrapositive form, Theorem \ref{thm:subseqlim} is very useful for showing that a sequence diverges. You only need to find two subsequences that converge to different limits, to prove that a sequence diverges.
+\end{remark}
+\begin{example}
+    We now get a much easier proof for the divergence of $a_n=(-1)^n$. We have $a_{2n}=1$ for all $n\in\N$ and $a_{2n-1}=-1$ for all $n\in\N$, so by Theorem \ref{thm:subseqlim} (the contrapositive), $a_n$ diverges. 
+\end{example}
+
+\begin{theorem}
+\label{thm:monotonesubseqthm}
+    \begin{shaded*}
+        Any sequence has a monotonic subsequence.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $(a_n)$ be any sequence. We consider the set of \textit{peak indices} in the sequence, $S\coloneqq\{n\in\N:a_n\ge a_m\, \forall m \ge n\}$. If $k\in S$, we say that $a_k$ is \textit{peak}.\par
+    Case 1: $S$ is finite (or empty). Let $m\in\N$ be such that $m>n$ for all $n\in S$ (note that this vacuously includes the case where $S$ is empty). Since $k\notin S$ for all $k\ge m$, in particular for all $k\ge m$, $a_k$ is not \textit{peak}. We therefore construct an increasing subsequence of $(a_n)$ by induction.
+    Define $n_1\coloneqq m$. Since $a_{n_1}$ is not \textit{peak}, there exists $n_2>n_1$ such that $a_{n_2}>a_{n_1}$. Given $k\in\N$, suppose that $a_{n_1}<a_{n_2}<\cdots<a_{n_k}$ have been chosen. Since $a_{n_k}$ is not \textit{peak}, there exists $n_{k+1}>n_k$ such that $a_{n_{k+1}}>a_{n_k}$. By construction, this is a (strictly) increasing subsequence of $(a_n)$.\par
+    Case 2: $S$ is infinite. By the well-ordering of the natural numbers, we may pick $n_1\coloneqq\min S$. Given $k\in\N$, suppose that $n_1<n_2<\cdots<n_k$ have been chosen such that $n_i\in S$ for all $1\le i\le k$. Since $S$ is infinite, $S\setminus\{n_1,\dots,n_k\}$ is nonempty, so we may pick $n_{k+1}\coloneqq \min (S\setminus\{n_1,\dots,n_k\})$. By definition of the set $S$, for all $k\in\N$, $a_{n_k}\ge a_{n_{k+1}}$, since by construction $a_{n_k}$ is \textit{peak} for all $k\in\N$, so $(a_n)$ is a decreasing subsequence of $(a_n)$.\qedhere
+\end{proof}
+
+\begin{theorem}[Bolzano-Weierstraß theorem]
+\label{thm:bw}
+    \begin{shaded*}
+        Any bounded real sequence has a convergent subsequence.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $(a_n)$ be a bounded sequence. By Theorem \ref{thm:monotonesubseqthm}, $(a_n)$ has a monotone subsequence $(a_{n_k})$, which is also bounded since $(a_n)$ is bounded, so by the monotone convergence theorem (Theorem \ref{thm:mct}), $(a_{n_k})$ is convergent.\qedhere
+\end{proof}
+\begin{example}
+    The sequence $a_n=\sin (n)$ has a convergent subsequence since $|a_n|\le 1$ for all $n\in\N$. Finding such a subsequence is harder and is beyond the scope of this course.
+\end{example}
 
 
+\subsection{Cauchy sequences}
+Convergent sequences, we have seen, get closer and closer to some limit $L$. What can we say about sequences whose terms get arbitrary close together, past some fixed point $N\in\N$? First, we define precisely what this means:
+\begin{definition}
+    \begin{shaded*}
+        A real sequence $(a_n)$ is \textit{Cauchy} if $$\forall\varepsilon>0,\,\exists N\in\N,\, \forall m,n\ge N,\, |a_m-a_n|<\varepsilon.$$
+    \end{shaded*}
+\end{definition}
+A useful fact we can immediately prove (in a similar way to Theorem \ref{thm:boundedseq}) is that Cauchy sequences are bounded.
+\begin{lemma}
+\label{lem:cauchybounded}
+    \begin{shaded*}
+        Cauchy sequences are bounded.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Exercise.
+\end{proof}
+
+In fact, in $\R$, the concepts of Cauchy sequences and convergent sequences are equivalent in the following sense:
+\begin{theorem}[Cauchy criterion for convergence in $\R$]
+    \begin{shaded*}
+        Let $(a_n)$ be a real sequence. Then $$(a_n)\text{ is convergent}\iff (a_n)\text{ is Cauchy}.$$
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Later.
+\end{proof}
+
+\begin{remark}
+    It is important to note that the above equivalence, in particular Cauchy $\implies$ convergent does not hold for all sets (however, convergence implies Cauchy in any metric space). It relies on the fact that $\R$ is a $complete$ set, that is, it has the least upper bound property.
+    For example, $\Q$ is not a complete set (indeed, $\R$ is the completion of $\Q$, as we saw when constructing $\R$ in the introductory module), so the fact that Cauchy sequences are convergent does not hold in $\Q$. For example, $(1+1/n)^n\to e\notin\Q$. We will prove the irrationality of $e$ later, and we may define $e\coloneqq \sup\{(1+1/n)^n:n\in\N\}$; then by the monotonce convergence theorem (Theorem \ref{thm:mct}), $\lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n=e$ (note that there are more practical ways of defining $e$ and the $\exp:\R\to (0,\infty)$ function, as we will see in Chapter 6).
+\end{remark}
+\begin{remark}
+    In addition to the above comment about completeness, we notice that the Bolzano-Weierstraß theorem was required to prove that Cauchy sequences are convergent. In fact, there is an equivalence between the following concepts for complete sets (in particular, $\R$ in our case):
+    \begin{itemize}
+        \item Least upper bound property: every non-empty subset of $\R$ that is bounded above has a supremum (least upper bound) in $\R$.
+        \item Cauchy completeness: Every Cauchy sequence in $\R$ converges to a limit in $\R$.
+        \item Bolzano-Weierstraß theorem: Every bounded sequence in $\R$ has a convergent subsequence.
+        \item Monotone convergence theorem: Every bounded, monotonic sequence in $\R$ converges.
+        \item Nested interval property: Any sequence of nested, closed, and bounded intervals $[a_n,b_n]$ has a nonempty intersection.
+    \end{itemize}
+\end{remark}
+\begin{exercise*}
+    Prove that the above concepts are equivalent. 
+\end{exercise*}
+
+\subsection{Complex sequences}
+As hinted at earlier, sequences need not be real. An interesting and rich area of mathematics is analysis of the complex numbers, $\C$, which we will see more of in second year. 
+Here, we build some theory on complex sequences (and later, complex series and complex power series). There will be no rigorous construction of $\C$ (however, it is not too bad now that we have constructed $\R$ because, in fact, we can construct $\C$ from $\R^2$ with some special operations, namely the usual complex addition and complex multiplication). We will assume all the usual properties of the complex numbers, in particular that $\C$ is a field with the usual complex addition and complex multiplication.
+\begin{definition}
+    \begin{shaded*}
+        A complex sequence is a function $f:\N\to\C$.
+    \end{shaded*}
+\end{definition}
+\noindent Again, practically, we write $(z_n)$ or just $z_n$ to denote a complex sequence. For a complex sequence $(z_n)$ it is natural to associate two real sequences $(x_n)$, $(y_n)$ with $(z_n)$ such that for each $n\in \N$, $z_n=x_n+iy_n$, i.e. $x_n=\Re(z_n)$ and $y_n=\Im(z_n)$, where $\Re$ and $\Im$ denote the real and imaginary parts of a complex number, respectively.
+It is therefore not too hard to prove facts about complex sequences using our results about real sequences.
+
+\begin{definition}[Convergence of a sequence in $\C$]
+    \begin{shaded*}
+        A complex sequence $(z_n)$ converges to $z\in \C$ if $$\forall\varepsilon>0,\,\exists N\in\N,\, \forall n\ge N,\, |z_n-z|<\varepsilon.$$
+    \end{shaded*}
+\end{definition}
+\begin{remark}
+    Note that the modulus $|\cdot|$ is now the \textit{complex} modulus defined by $|z|\coloneqq\sqrt{x^2+y^2}$ where $z=x+iy$.
+\end{remark}
+
+First, we prove a convergence criterion for complex sequences, in relation to its real and imaginary parts:
+\begin{theorem}
+\label{thm:complexrealconvergence}
+    \begin{shaded*}
+        Let $(z_n)$ be a complex sequence, and define real sequences $(x_n)$, $(y_n)$ by $x_n\coloneqq \Re(z_n)$ and $y_n\coloneqq\Im(z_n)$ for all $n\in\N$. Let $z\in \C$ and write $z=x+iy$ for some $x,y\in\R$. Then $$z_n\to z\iff x_n\to x\text{ and }y_n\to y.$$
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Later.
+\end{proof}
+
+\begin{definition}
+    \begin{shaded*}
+        A complex sequence $(z_n)$ is bounded if there exists $M\in \R_{>0}$ such that $|z_n|\le M$ for all $n\in\N$.
+    \end{shaded*}
+\end{definition}
+
+\begin{theorem}
+    \begin{shaded*}
+        Let $(z_n)$ be a complex sequence. If $(z_n)$ converges, then $(z_n)$ is bounded.
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Using the parts criterion for convergence in $\C$ (Theorem \ref{thm:complexrealconvergence}), $x_n\coloneqq \Re(z_n)$ and $y_n\coloneqq \Im(z_n)$ are convergent and so by Theorem \ref{thm:boundedseq} $(x_n)$ and $(y_n)$ are bounded. Let $M_1\in \R_{>0}$ be such that $|x_n|\le M_1$ for all $n\in\N$ and let $M_2\in\R_{>0}$ be such that $|y_n|\le M_2$ for all $n\in\N$.
+    Choose $M\coloneqq\max\{M_1,M_2\}\in\R_{>0}$; then $|x_n|\le M$ and $|y_n|\le M$ for all $n\in\N$, so for all $n\in\N$ we have $$|z_n|=\sqrt{x_n^2+y_n^2}\le \sqrt{2}M,$$
+    so $(z_n)$ is bounded.\qedhere
+\end{proof}
+
+\begin{theorem}[Bolzano-Weierstraß theorem in $\C$]
+\label{thm:bw-c}
+    \begin{shaded*}
+        Any bounded complex sequence has a convergent subsequence. 
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $(z_n)$ be a bounded complex sequence. Put $x_n\coloneqq \Re(z_n)$ and $y_n\coloneqq \Im(z_n)$. Then for all $n\in\N$, $|x_n|=\sqrt{x_n^2}\le\sqrt{x_n^2+y_n^2}=|z_n|$ and $|y_n|\le |z_n|$, so $(x_n)$ and $(y_n)$ are bounded.
+    By the Bolzano-Weierstraß theorem in $\R$ (Theorem \ref{thm:bw}), there exists a convergent subsequence $(x_{n_k})$ of $(x_n)$. Consider the subsequence $(y_{n_k})$ of $(y_n)$. By the Bolzano-Weierstraß theorem in $\R$, there exists a convergent subsequence $(y_{n_{k_j}})$ of $(y_{n_k})$.
+    Furthermore, by Theorem \ref{thm:subseqlim}, $(x_{n_{k_j}})$ is a convergent subsequence of $(x_n)$, so by the parts criterion for convergence in $\C$, $(z_{n_{k_j}})$ is a convergent subsequence of $(z_n)$.\qedhere
+\end{proof}
+
+\begin{definition}
+    \begin{shaded*}
+        A complex sequence is \textit{Cauchy} if $$\forall\varepsilon>0,\,\exists N\in\N,\,\forall m,n\ge N,\,|z_m-z_n|<\varepsilon.$$
+    \end{shaded*}
+\end{definition}
+
+\begin{theorem}[Cauchy criterion for convergence in $\C$]
+    \begin{shaded*}
+        Let $(z_n)$ be a complex sequence and let $x_n\coloneqq \Re(z_n)$, $y_n\coloneqq \Im(z_n)$ for all $n\in\N$. Then the following are equivalent:
+        \begin{enumerate}
+            \item[1.] $(z_n)$ is Cauchy in $\C$.
+            \item[2.] $(x_n)$ and $(y_n)$ are Cauchy in $\R$.
+            \item[3.] $(z_n)$ converges in $\C$. 
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Later.
+\end{proof}
+
+\section{Series}
+
+\section{Power Series}
 
 \chapter{Limits and Continuity}
 
@@ -553,6 +767,9 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
 
 
 \chapter{The Trigonometric functions}
+
+
+\chapter{Curves in the plane}
 
 
 

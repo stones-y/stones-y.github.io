@@ -7,7 +7,7 @@ Notes are available at [stones-y.github.io](https://stones-y.github.io).
 
 ## Contents
 
-First year modules (2024–25):
+First year modules (2025–26):
 - MATH40001 Introduction to University Mathematics
 - MATH40002 Analysis I
 - MATH40003 Linear Algebra and Groups
