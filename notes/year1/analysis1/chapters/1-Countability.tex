@@ -1,0 +1,240 @@
+\documentclass[../analysis1.tex]{subfiles}
+
+\begin{document}
+\chapter{Countability}
+
+
+
+\section{Introduction}
+In the introductory module (MATH40001), we constructed the number systems $\N,\Z,\Q$ and $\R$.
+Real analysis focuses on the real numbers, $\R$, formalising many properties about functions that we know from calculus.
+For example, an intuitive notion of a continuous function is that you can draw the function on a piece of paper
+without taking your pen off the page. We make concepts like these precise in this module.
+
+\section{Countability}
+Before starting this chapter (and, in general, this module), it
+is imperative that you are familiar with the logic and sets part
+of the introductory module, MATH40001.
+\begin{definition}
+    \begin{shaded*}
+        A set $A$ is countably infinite if there exists a bijection $f:\N\to A$.
+    \end{shaded*}
+\end{definition}
+\noindent Intuitively, this says that you can list the elements of $A$ as $a_1,a_2,\dots$ using only the natural numbers.
+We say that a set is \textit{countable} if it is finite or countably infinite. Note we will take $\N=\{1,2,\dots\}$, unless stated otherwise.\par
+Note that if there is a bijection between a given pair of sets $A$ and $B$, then $A$ is countable if and only if $B$ is countable.
+This extends the natural idea of finite sets having the same number of elements if and only if there is a bijection between the sets. Formally, we define two sets having the same $cardinality$ as follows:
+\begin{definition}
+    \begin{shaded*}
+        Let $A,B$ be sets. We say that $A$ and $B$ have the same cardinality if there exists a bijection $f:A\to B$.
+    \end{shaded*}
+\end{definition}
+The idea is that even in infinite settings, if we know a property about the 'size' of one set $A$, and there exists a bijection with another set $B$, then $B$ shares this notion of 'size'.
+For example, as we mentioned, if such a bijection exists between two sets $A,B$, then $A$ is countable if and only if $B$ is countable. 
+This gives rise to an equivalence relation, which we define as cardinality.
+\begin{exercise*}
+    Show that the relation $\sim$ on $\mathcal{P}(\mathcal{U})$ (where $\mathcal{U}$ is the universal set of interest) defined by $A\sim B \iff \exists f:A\to B$ such that $f$ is a bijection, is an equivalence relation.
+\end{exercise*}
+
+
+\begin{theorem}
+    \begin{shaded*}
+        If $A\subseteq\N$ is an infinite set, then $A$ is countably infinite.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We construct a function $f:\mathbb{N}\to A$ inductively: since $A$ is nonempty, and $A\subseteq\N$,
+    by well-ordering of the natural numbers we can pick $a_1=\min A$, and let $f(1)=a_1$. Assume that, for $k\ge 1$, $a_1,\dots,a_k$
+    have been chosen and $f(i)=a_i$ for $1\le i \le k$. Since $A$ is
+    infinite, $A\setminus\{a_1,\dots,a_k\}$ is nonempty. Pick $a_{k+1}=\min\left(A\setminus\{a_1,\dots,a_k\}\right)$,
+    and let $f(k+1)=a_{k+1}$. Thus by construction $f$ is strictly increasing. We claim that $f$ is a bijection.
+    \begin{itemize}
+        \item Injective: this holds because by construction $f$ is strictly increasing. We saw in the introductory module that strictly increasing functions are injective.
+        \item Surjective: suppose for contradiction that $f$ is not surjective. Then there exists
+        $a\in A$ such that for all $n\in\N$, $f(n)\ne a$. Consider $A\setminus\{\}$.
+    \end{itemize}
+\end{proof}
+
+\begin{lemma}
+    \begin{shaded*}
+        Let $S$ be an infinite set. There exists an injection $f:\N\to S$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    We construct a function $f:\N\to S$ inductively: since
+    $S$ is infinite, it is nonempty, so we can pick $s_1\in S$ and define $f(1)\coloneqq s_1$.
+    Suppose for $k\in\N$, $s_1,\dots,s_k$ have been chosen and we have defined $f(i)=s_i$ for $1\le i\le k$. Since
+    $S$ is infinite, $S\setminus\{s_1,\dots,s_k\}$ is nonempty, so there is $s_{k+1}\in S\setminus \{s_1,\dots,s_k\}$. Define $f(k+1)\coloneqq s_{k+1}$.
+    By construction, if $i<j$ are natural numbers, then $s_j\in S\setminus\{s_1,\dots,s_{j-1}\}$ so $s_j\ne s_i$. So $f$ is an injection.\qedhere
+\end{proof}
+As a result, we can always $embed$ the natural numbers into any infinite set via an injection $f:\N\to S$ (where $S$ is any infinite set).
+In this way, the natural numbers can be thought of as 'the smallest type of infinity'.
+
+A not so surprising fact which we can prove immediately is that the set of integers, $\Z$, is countably infinite:
+\begin{theorem}
+    \begin{shaded*}
+        $\Z$ is countably infinite.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Define $f:\N\to \Z$ by $$f(n)=\begin{cases}
+    n/2, & \text{if } n\text{ even}\\
+    -\frac{(n+1)}{2}, & \text{if }n\text{ odd}
+    \end{cases}$$
+    Then $f$ is injective: suppose $f(a)=f(b)$. If $a$ and $b$ are of different parity then $f(a)$ and $f(b)$ are of different sign, so cannot be equal. So this case cannot happen.
+    If $a$ and $b$ are even, then $a/2=b/2$ so $a=b$. If $a$ and $b$ are odd, then $-(a+1)/2=-(b+1)/2$ so $a=b$. So $f$ is injective.
+    Also, $f$ is surjective: let $m\in\Z$ be arbitrary. If $m<0$ then $f(-2m-1)=m$, and if $m\ge 0$ then $f(2m)=m$. Thus $f$ is a bijection and $\Z$ is countable.\qedhere
+\end{proof}
+\begin{remark}
+    This proof used a useful trick called interleaving, where we listed the integers as $0,-1,1,-2,2,\dots$, interleaving the negative and positive integers to create the desired bijection between $\N$ and $\Z$.
+\end{remark}  
+A less trivial fact is that the rational numbers, $\Q$, is countable. This may be hard to see until observing the proof of the following fact:
+\begin{theorem}
+\label{thm:N2}
+    \begin{shaded*}
+        $\N^2$ is countably infinite.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    \begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[>={Stealth[length=4pt]}, scale=1.2]
+
+        % Dots at each grid point
+        \foreach \i in {1,...,5} {
+          \foreach \j in {1,...,5} {
+            \fill[blue!70] (\i,-\j) circle (2pt);
+          }
+        }
+        
+        % Diagonal path arrows
+        \draw[->] (1,-1) -- (2,-1);
+        \draw[->] (2,-1) -- (1,-2);
+        \draw[->] (1,-2) -- (1,-3);
+        \draw[->] (1,-3) -- (2,-2);
+        \draw[->] (2,-2) -- (3,-1);
+        \draw[->] (3,-1) -- (4,-1);
+        \draw[->] (4,-1) -- (3,-2);
+        \draw[->] (3,-2) -- (2,-3);
+        \draw[->] (2,-3) -- (1,-4);
+        \draw[->] (1,-4) -- (1,-5);
+        \draw[->] (1,-5) -- (2,-4);
+        \draw[->] (2,-4) -- (3,-3);
+        \draw[->] (3,-3) -- (4,-2);
+        \draw[->] (4,-2) -- (5,-1);
+        
+        % Continuation dots
+        \foreach \i in {1,...,5} {
+          \node at (\i, -5.6) {$\vdots$};
+        }
+        \foreach \j in {1,...,5} {
+          \node at (5.6, -\j) {$\cdots$};
+        }
+        
+        \end{tikzpicture}
+        \caption{The diagonal listing of $\mathbb{N}^2$, showing it is countably infinite.}
+        \label{fig:diagonal-listing}
+    \end{figure}
+    The idea is illustrated in the above diagram. Note that the listing goes $$(0,0),(0,1),(1,0),(2,0),(1,1),(0,2),\dots$$
+    Notice that along each diagonal, $a+b$ is constant for all pairs $(a,b)$ in that diagonal. This, along with the triangular number formula,
+    provides the motivation for how to construct a bijection between $\N^2$ and $\N$.\par
+    Explicitly, define $f:\N^2\to\N$ by $f(a,b)=\frac{(a+b)(a+b+1)}{2}+b$. This is a bijection (exercise) so $\N^2$ is countable. Note that here we took $\N=\{0,1,2,\dots\}$.\qedhere
+\end{proof}
+As a consequence, we get:
+\begin{theorem}
+\label{thm:qcount}
+    \begin{shaded*}
+        $\Q$ is countably infinite.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    First we use Theorem \ref{thm:N2} to show that $\Q_{\ge 0}\coloneqq \{x\in\Q:x\ge 0\}$ is countably infinte.
+    Let $$S=\{(a,b)\in\N^2: b\ge 1,\, \gcd(a,b)=1\}.$$
+    Then $f:S\to \Q_{\ge 0 }$, defined by $f(a,b)=a/b$ is a bijection because we know that all rational numbers in $\Q_{\ge 0}$ take the unique form $a/b$ where $b\ge 1$ and $\gcd(a,b)=1$.
+    Since $\N^2$ is countably infinite by Theorem \ref{thm:N2}, $S\subseteq \N^2$ is also countably infinite, so $\Q_{\ge 0}$ is countably infinite.\par
+    It follows (exercise) that $\Q$ is countably infinite, using the same idea (interleaving) as the proof that $\Z$ is countably infinite.
+\end{proof}
+\begin{exercise*}
+Finish the proof of Theorem \ref{thm:qcount}. (\textit{Hint: use the fact we proved above that $\Q_{\ge 0}$ is countably infinite, so there exists a bijection }$h:\N\to\Q_{\ge0}$).
+\end{exercise*}
+
+The following lemma is a useful way of proving that a given set $S$ is countably infinite without explicitly constructing a bijection $f:\N\to S$.
+
+\begin{lemma}[A criterion for countability]
+\label{lem:countabilitycriterion}
+    \begin{shaded*}
+        Let $S$ be an infinite set.
+        \begin{enumerate}
+            \item[1.] $S$ is countably infinite if and only if there exists an injection $\iota: S\to\N$.
+            \item[2.] $S$ is countably infinite if and only if there exists a surjection $g:\N\to S$.
+        \end{enumerate}
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    a
+\end{proof}
+The idea for item (1) above is that if you can $embed$ your set into the natural numbers via an injection $\iota:S\to\N$, then it must be countably infinite, as $\iota(S)\subseteq\N$, and we have shown infinite subsets of $\N$ are countable,
+so since $\iota$ is an injection, $S$ has the same cardinality as $\iota (S)$, (i.e. $S\sim \iota(S)$), so $S$ is countably infinite. The idea for item (2)
+is similar: if you can use the natural numbers to list all the elements of your infinite set $S$, then even though this surjective map $g:\N\to S$ may not be injective, we have nonetheless listed all the elements of $S$ using only the natural numbers,
+so $S$ must be countably infinite also.\par
+A simple example using Lemma \ref{lem:countabilitycriterion} is that finite products of countable sets are countable (note that we already have the tools to prove this without Lemma \ref{lem:countabilitycriterion} by usin Theorem \ref{thm:N2}, which is a more elementary way of proving this fact via an explicit bijection).\par
+Before looking at the example, try and think of properties of the integers that we can use to construct an injection $\iota:A\times B\to \N$.
+\begin{example}
+    If $A,B$ are countably infinite sets, then $A\times B$ is countably infinite.
+\end{example}
+\begin{proof}
+    Recall from the introductory module that we define $$A\times B\coloneqq \{(a,b):a\in A,\, b\in B\}.$$
+    Since $A$ and $B$ are countably infinite, let $f:\N\to A$, $g:\N\to B$ be bijections. Therefore, we can write $A=\{a_1,a_2,\dots\}$ and $B=\{b_1,b_2,\dots\}$.
+    Define $\iota: A\times B\to \N$ by $\iota(a_i,b_j)=2^i3^j$. By the Fundamental Theorem of Arithmetic from the introductory module, $\iota$ is an injection because prime factorisations are unique,
+    so by Lemma \ref{lem:countabilitycriterion}, $A\times B$ is countably infinite.\qedhere
+\end{proof}
+This trick of mapping each element of the set to a prime factorisation is useful to keep in mind, as it is a very neat way of proving countability for sets.
+
+Not all sets are countably infinite:
+\begin{definition}
+    \begin{shaded*}
+        An infinite set is called $uncountable$ if it is not countably infinite.
+    \end{shaded*}
+\end{definition}
+
+\noindent For example, the set of real numbers $\R$ is uncountable. To show this, we first prove:
+
+\begin{lemma}
+\label{lem:01}
+    \begin{shaded*}
+        The set $(0,1)\coloneqq\{x\in\R:0<x<1\}$ is uncountable.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    The main technique that we use in arguing why a given set is uncountable is \textit{Cantor's diagonal argument}, which goes like this.
+    Suppose, for contradiction, that $(0,1)$ is countably infinite. Then there exists a bijection $f:\N\to (0,1)$ (note here we will let $\N=\{1,2,\dots\}$ for aesthetics; the argument does not change).
+    For each $n\in\N$, we write $f(n)=x_n=0.a_{1n}a_{2n}\dots$, writing each $x_n$ in decimal form, excluding tails of the digit $9$ (for example, $0.8999...=0.9$).
+    We now get a listing of the numbers in $(0,1)$ which looks like:
+    \begin{align*}
+        f(1)&=0.a_{11}a_{12}a_{13}a_{14}\dots\\
+        f(2)&=0.a_{21}a_{22}a_{23}a_{24}\dots\\
+        f(3)&=0.a_{31}a_{32}a_{33}a_{34}\dots\\
+        f(4)&=0.a_{41}a_{42}a_{43}a_{44}\dots\\
+        \vdots
+    \end{align*}
+    The idea is that we look at the $diagonal$ elements, $a_{ii}$ for $i\ge 1$, and construct a number $x\in (0,1)$ such that for all $i\ge 1$,
+    the $i^{\mathrm{th}}$ decimal place of $x$ differs from the $i^{\mathrm{th}}$ decimal place of $f(i)$, thereby constructing a number $x\in(0,1)$ that is not in the enumeration $f$ of the interval $(0,1)$, which is a contradiction to $f$ being surjective.
+    We construct $x\in (0,1)$ as follows: for $j\ge 1$, let $b_{j}$ be the $j^{\mathrm{th}}$ decimal place of $x$, then we define
+    $$b_j=\begin{cases}2 & \text{if }a_{jj}=1\\ 1 & \text{if }a_{jj}\ne 1\end{cases}$$
+    Then by construction, $b_i \ne a_{ii}$ for each $i\ge 1$, so in particular (by uniqueness of decimal representations under our restriction to decimal expansions with no digit $9$ tails), we have $x\ne f(i)$ for all $i\ge 1$,
+    so $x\in (0,1)$ is not in the image of $f$, a contradiction to $f$ being surjective onto $(0,1)$. Therefore, $(0,1)$ is uncountable.\qedhere
+\end{proof}
+\begin{theorem}
+    \begin{shaded*}
+        $\R$ is uncountable.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Follows from Lemma \ref{lem:01} (exercise). \qedhere
+\end{proof}
+
+\begin{exercise*}
+    Find a bijection $f:(0,1)\to \R$, and deduce that $\R$ is an uncountable set.
+\end{exercise*}
+
+\end{document}
