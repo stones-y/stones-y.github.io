@@ -1,0 +1,168 @@
+\documentclass[../linear_algebra_and_groups.tex]{subfiles}
+
+\begin{document}
+
+
+\chapter{Fields and Vector Spaces}
+
+
+\section{Fields}
+
+
+
+\begin{definition}[Field]
+    \begin{shaded*}
+        Let $F$ be a set with two binary operations, addition $+:F\times F\to F$ and multiplication $\cdot :F\times F\to F$. We say that $F$ is a \textit{field} if it satisfies the following axioms for all $a, b, c \in F$:\par
+        \noindent \textbf{Axioms for Addition $(F, +)$:}
+        \begin{itemize}
+            \item[\textbf{A1.}] \textbf{Associativity:} $(a + b) + c = a + (b + c)$
+            \item[\textbf{A2.}] \textbf{Commutativity:} $a + b = b + a$
+            \item[\textbf{A3.}] \textbf{Additive Identity:} There exists an element $0 \in F$ such that $a + 0 = a$.
+            \item[\textbf{A4.}] \textbf{Additive Inverse:} For each $a \in F$, there exists an element $-a \in F$ such that $a + (-a) = 0$.
+        \end{itemize}
+
+        \noindent \textbf{Axioms for Multiplication $(F, \cdot)$:}
+        \begin{itemize}
+            \item[\textbf{M1.}] \textbf{Associativity:} $(a \cdot b) \cdot c = a \cdot (b \cdot c)$
+            \item[\textbf{M2.}] \textbf{Commutativity:} $a \cdot b = b \cdot a$
+            \item[\textbf{M3.}] \textbf{Multiplicative Identity:} There exists an element $1 \in F$, with $1 \neq 0$, such that $a \cdot 1 = a$.
+            \item[\textbf{M4.}] \textbf{Multiplicative Inverse:} For each $a \in F\setminus\{0\}$ there exists an element $a^{-1} \in F\setminus\{0\}$ such that $a \cdot a^{-1} = 1$.
+        \end{itemize}
+
+        \noindent \textbf{Distributivity:}
+        \begin{itemize}
+            \item[\textbf{D1.}] $a \cdot (b + c) = (a \cdot b) + (a \cdot c)$
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    This is all the structure we need from the real numbers to do linear algebra. We can do linear algebra with many other fields, not just $\R$, like the finite field $\mathbb{F}_2$. Abstracting the scalars into an arbitrary field $F$ allows for some rich and interesting results in linear algebra.
+\end{remark}
+
+\begin{example}
+    The integers modulo $p$, $\mathbb{F}_p\coloneqq\{0,1,\dots,p-1\}$, where $p$ is prime, form a field. Addition and multiplication are defined modulo $p$. All properties except the existence of a multiplicative inverse follow easily from the fact that $\Z$ is a commutative ring.
+\end{example}
+
+\begin{lemma}
+    \begin{shaded*}
+        In $\mathbb{F}_p$, $xy=0 \iff x=0 \text{ or } y=0$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    $xy=0 \implies p\mid xy \implies p\mid x \text{ or } p\mid y$ (by Euclid's lemma). This means $x \equiv 0 \pmod p$ or $y \equiv 0 \pmod p$.
+    \qedhere
+\end{proof}
+
+\begin{theorem}
+    \begin{shaded*}
+        For every $a\in\mathbb{F}_p\setminus\{0\}$ there exists $a^{-1}\in\mathbb{F}_p\setminus\{0\}$ such that $aa^{-1}=1=a^{-1}a$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Given $a\in\mathbb{F}_p$, by commutativity we only need to find a $b\in\mathbb{F}_p$ such that $ab=1$. Finding an explicit construction for $b$ is difficult, so we instead show that the set of multiples $S \coloneqq \{a\cdot 0, a\cdot 1, \dots, a\cdot(p-1)\}$ is exactly equal to $\mathbb{F}_p$.
+
+    It suffices to show that the $p$ elements $a\cdot 0, a\cdot 1, \dots, a\cdot (p-1) \in \mathbb{F}_p$ are all distinct. Suppose $a\cdot c = a\cdot d$. Then $a\cdot(c-d) = 0$.
+    
+    By our lemma, since $a \neq 0$ ($p \nmid a$), we must have $c-d = 0$, which implies $c = d$. Thus, multiplication by $a$ maps distinct elements to distinct elements. Since there are $p$ elements in $\mathbb{F}_p$, the set $S$ covers all of $\mathbb{F}_p$. Because $1 \in \mathbb{F}_p$, there must be some element $b \in \{0, \dots, p-1\}$ such that $ab = 1$.
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        $\mathbb{F}_p$ is a field.
+    \end{shaded*}
+\end{corollary}
+
+\begin{remark}
+    The proof above relies on the Pigeonhole Principle. Because multiplication by a non-zero element $a$ is injective on the finite set $\mathbb{F}_p$, it must also be surjective.
+\end{remark}
+
+\begin{definition}[Subfield]
+    \begin{shaded*}
+        A subset $F\subseteq E$ of a field $E$ is a \textit{subfield} if $1\in F$ and it is closed under arithmetic: whenever $a,b\in F$ we have $a+b,ab\in F$; if $a\in F$ then $-a\in F$; and if $a\in F\setminus\{0\}$ then $a^{-1}\in F$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    This definition is slightly redundant. To prove a subset $F\subseteq E$ is a subfield, it actually suffices to show closure under addition and multiplication, the existence of multiplicative inverses for non-zero elements, and that $-1\in F$. Because if $-1\in F$ and we have the closures above, then $(-1)(-1)=1\in F$ and $(-1)+1=0\in F$. Additive inverses follow from closure of addition with $-1$.
+\end{remark}
+
+\begin{example}Some examples of subfields are:
+    \begin{itemize}
+        \item $\Q[i]\coloneqq\{a+bi:a,b\in\Q\}\subseteq\C$ is a field (the "Gaussian rationals"). It is a subfield of $\C$.
+        \item $F[X]=\{a_0+a_1X+\cdots+a_nX^n:a_i\in F\}$ is \textit{not} a field because non-constant polynomials lack multiplicative inverses (e.g., $1/X\notin F[X]$). However, it is a vector space.
+        \item The field of rational functions $F(X)\coloneqq\left\{\frac{p(X)}{q(X)}:p,q\in F[X],\,q\ne 0\right\}$ is a field.
+    \end{itemize}
+\end{example}
+
+\section{Vector Spaces}
+
+\begin{definition}
+    \begin{shaded*}
+        The vector space $F^n$ of $n$-tuples over a field $F$ is defined as:
+        $$F^n\coloneqq\left\{\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}:x_1,\dots,x_n\in F\right\}$$
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    This is the primordial example of a vector space. Every finite-dimensional vector space is structurally identical (isomorphic) to $F^n$. The geometric intuition of $\R^n$ (arrows, scaling, and adding tip-to-tail) carries over algebraically to arbitrary fields.
+\end{remark}
+
+\begin{definition}[Commutative Group]
+    \begin{shaded*}
+        A commutative group $(V,+)$ is a set equipped with a binary operation $+:V\times V\to V$ satisfying:
+        \begin{itemize}
+            \item \textbf{Associativity:} For all $u,v,w\in V$, $u+(v+w)=(u+v)+w$.
+            \item \textbf{Commutativity:} For all $v,w\in V$, $v+w=w+v$.
+            \item \textbf{Additive Identity:} There exists $0\coloneqq(0,\dots,0)\in V$ such that for all $v\in V$, $v+0=0+v=v$.
+            \item \textbf{Additive Inverse:} For all $v\in V$ there exists $-v\in V$ such that $v+(-v)=0=(-v)+v$.
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{lemma}
+    \begin{shaded*}
+        In a commutative group $(V,+)$, the zero vector and additive inverses are unique.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Given another zero vector $0'$, we have $0'=0+0'=0$. Thus, the zero vector is unique. 
+    
+    If $w$ also acts as an additive inverse to $v$ (so $w+v=0$), then:
+    $$w=w+0=w+(v+(-v))=(w+v)+(-v)=0+(-v)=-v.$$
+    Thus, the additive inverse is unique.
+    \qedhere
+\end{proof}
+
+\begin{definition}[Vector Space]
+    \begin{shaded*}
+        A vector space $V$ over a field $F$ is a commutative group $(V,+)$ together with an action $F\times V\to V$, mapped by $(\lambda,v)\mapsto\lambda v$, called \textit{scalar multiplication}, satisfying the following properties for all $\lambda,\mu\in F$ and $v,w\in V$:
+        \begin{itemize}
+            \item \textbf{Associativity:} $\lambda(\mu v)=(\lambda\mu)v$
+            \item \textbf{Distributivity of scalar sums:} $(\lambda+\mu)v=\lambda v+\mu v$
+            \item \textbf{Distributivity of vector sums:} $\lambda(v+w)=\lambda v+\lambda w$
+            \item \textbf{Unit multiplication:} $1\cdot v=v$
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Structurally, one can think of a vector space as having two tiers: the ``ground'' field $F$ provides the scalars (stretching factors), while the commutative group $V$ provides the vectors (the objects being stretched and added; indeed, $F$ acts on $V$ to get scalar multiples of vectors). The axioms ensure these tiers interact in a linear way.
+\end{remark}
+
+\begin{example}
+    Other examples of vector spaces include:
+    \begin{itemize}
+        \item $F[X]=\{a_0+a_1X+\cdots+a_nX^n:a_i\in F\}$ (polynomials).
+        \item Subfields $F\subseteq E$ ($E$ acts as a vector space over its subfield $F$).
+        \item $\text{Fun}(X,F)=\{f:X\to F\}$ (functions from an arbitrary set $X$ into $F$).
+    \end{itemize}
+\end{example}
+
+
+
+
+
+
+\end{document}

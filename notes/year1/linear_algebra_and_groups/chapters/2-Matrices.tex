@@ -1,0 +1,285 @@
+\documentclass[../linear_algebra_and_groups.tex]{subfiles}
+
+\begin{document}
+
+
+\chapter{Matrices}
+
+
+\section{Matrices and Linear Maps}
+
+Matrices are the "coordinated" way to describe linear transformations. We will formalise this in Theorem 2.3 below. But first, we define a linear transformation.
+
+
+\begin{definition}[Linear transformation]
+    \begin{shaded*}
+        Fix a field $F$ and two vector spaces $V,W$ over $F$. A \textit{linear transformation} (or linear map) is a function $T:V\to W$ such that:
+        \begin{itemize}
+            \item \textbf{Additivity:} $T(v_1+v_2)=T(v_1)+T(v_2)$ for all $v_1,v_2\in V$.
+            \item \textbf{Homogeneity:} $T(\lambda v)=\lambda T(v)$ for all $\lambda\in F$ and $v\in V$.
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{lemma}
+    \begin{shaded*}
+        If $T: V \to W$ is a linear transformation, then $T(0) = 0$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    By linearity, $T(0)=T(0+0)=T(0)+T(0)$. Adding $-T(0)$ (the additive inverse of $T(0)$ in $W$) to both sides yields $T(0)=0$.
+    \qedhere
+\end{proof}
+
+Recall that any finite-dimensional vector space $V$, with dimension $n$, is isomorphic to $F^n$. For now, when we say we have written $V$ and $W$ in coordinates, we mean we replace $V$ and $W$ with $F^n$ and $F^m$. This motivates the concept of matrices.
+
+\begin{theorem}
+    \begin{shaded*}
+        For all linear maps $T:F^n\to F^m$ defined by $(x_1,\dots,x_n)\mapsto(y_1,\dots,y_m)$, there exists an array of numbers $(a_{ij})$ such that:
+        $$y_i=\sum_{j=1}^n a_{ij}x_j$$
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We define the standard elementary vectors $e_j\in F^n$ to have value 1 in the $j$-th entry, and 0 everywhere else.
+    Since $T(e_j)$ is a vector in $F^m$, we can write it as a list of $m$ coordinates. For all $j$, define $a_{1j},\dots,a_{mj} \in F$ by:
+    $$T(e_j) = \begin{pmatrix} a_{1j} \\ \vdots \\ a_{mj} \end{pmatrix}$$
+    
+    \textit{(Idea: think of $T(e_j)$ as the $j^{\mathrm{th}}$ column of the matrix $(a_{ij})$).}
+    
+    Any input vector can be written as $(x_1,\dots,x_n)=x_1e_1+\cdots+x_ne_n$ by our definition of addition in $F^n$. By the linearity of $T$, we have:
+    \begin{align*}
+        T(x_1,\dots,x_n) &= T(x_1e_1+\cdots+x_ne_n) \\
+        &= x_1T(e_1)+\cdots+x_nT(e_n) \\
+        &= \sum_{j=1}^n x_j \begin{pmatrix} a_{1j} \\ \vdots \\ a_{mj} \end{pmatrix}
+    \end{align*}
+    Taking the $i^{\mathrm{th}}$ row (coordinate) of the above sum, we get:
+    $$y_i = \sum_{j=1}^n a_{ij}\,x_j$$
+    as required.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    The converse is also true: any function $T:F^n\to F^m$ given by such an array $(a_{ij})$ is a linear map. This is fundamental: \textit{linear maps are exactly the functions that can be represented by matrices}.
+\end{remark}
+
+Observe that all the information needed to compute this linear transformation is encoded in the array $A\coloneqq(a_{ij})$. 
+
+\begin{definition}[Matrix]
+    \begin{shaded*}
+        The set of $m \times n$ matrices over a field $F$ is defined as:
+        $$M_{m\times n}(F)\coloneqq\left\{\begin{pmatrix}a_{11} & \cdots & a_{1n}\\\vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}\end{pmatrix}: a_{ij}\in F\right\}$$
+    \end{shaded*}
+\end{definition}
+
+\noindent How do we conveniently encode the action of $T$ using this? We define matrix-vector multiplication:
+$$\begin{pmatrix}a_{11} & \cdots & a_{1n}\\\vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}\end{pmatrix}\begin{pmatrix}x_1\\\vdots\\x_n\end{pmatrix}=\begin{pmatrix}y_1\\\vdots\\y_m\end{pmatrix}$$
+The upshot is that, given a linear map $T:F^n\to F^m$, we \textit{define} matrix multiplication with a column vector precisely to execute this map.
+
+\section{Matrix Multiplication}
+
+\subsection{Motivation}
+
+First, we motivate the definition of general matrix multiplication. Consider two linear maps:
+\begin{itemize}
+    \item $T:F^k\to F^n$ represented by the matrix $B \in M_{n\times k}(F)$
+    \item $S:F^n\to F^m$ represented by the matrix $A \in M_{m\times n}(F)$
+\end{itemize}
+
+Define the composite linear map $R:F^k\to F^m$ by $R=S\circ T$. By Claim $(\star)$, this new linear map must also have a matrix representation, which we will call $C \in M_{m\times k}(F)$. 
+
+We \textit{want} to calculate $c_{i\ell}$, the $(i,\ell)^{\mathrm{th}}$ element of the matrix $C$. Let's calculate the $\ell^{\mathrm{th}}$ column of $C$, call it $C_\ell$. We know that each column of $C$ represents the effect of the linear map $R$ on the standard basis vector $e_\ell$:
+$$C_\ell = R(e_\ell) = S(T(e_\ell))$$
+
+We know $T(e_\ell)$ is exactly the $\ell^{\mathrm{th}}$ column of $B$, call it $B_\ell$. So we must calculate $S(B_\ell)$. Because $B_\ell$ is a column vector in $F^n$, evaluating $S(B_\ell)$ is equivalent to taking a linear combination of the columns of $A$ (which we will denote $A_1, \dots, A_n$):
+$$S(B_\ell) = b_{1\ell}A_1 + \cdots + b_{n\ell}A_n$$
+
+To find $c_{i\ell}$, we take the $i^{\mathrm{th}}$ row of this result:
+\begin{align*}
+    c_{i\ell} = (C_\ell)_i &= b_{1\ell}(A_1)_i + \cdots + b_{n\ell}(A_n)_i \\
+    &= b_{1\ell}a_{i1} + \cdots + b_{n\ell}a_{in} \\
+    &= \sum_{j=1}^n a_{ij}b_{j\ell}
+\end{align*}
+
+\noindent This is exactly the formula for $c_{i\ell}$ that we use to define matrix multiplication. Therefore, the fact that composition of linear maps gives the formula above for the numbers $c_{i\ell}$ is why we define matrix multiplicaation in the following way:
+
+\begin{definition}[Matrix operations]
+    \begin{shaded*}\phantom{A}
+        \begin{itemize}
+            \item Matrix multiplication is the function $\cdot :M_{m\times n}(F)\times M_{n\times p}(F)\to M_{m\times p}(F)$ defined by: 
+        $$(a_{ij})_{m\times n}\,(b_{k\ell})_{n\times p}\coloneqq\left(c_{i\ell}=\sum_{j=1}^n a_{ij}b_{j\ell}\right)_{m\times p}$$
+            \item  Matrix addition is the function $+:M_{m\times n}(F)\times M_{m\times n}(F)\to M_{m\times n}(F)$ defined by: 
+        $$(a_{ij})+(b_{ij})=(a_{ij}+b_{ij}).$$
+            \item Scalar multiplication for matrices is the function $\cdot:F\times M_{m\times n}(F)\to M_{m\times n}(F)$ defined by: 
+        $$\lambda(a_{ij})=(\lambda a_{ij}).$$
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Just like $F^n\cong M_{n\times 1}(F)$, the set $M_{m\times n}(F)$ forms a vector space under matrix addition and scalar multiplication. However, matrix multiplication gives $M_{n\times n}(F)$ \textit{additional} structure beyond just a vector space (it forms an algebra). 
+\end{remark}
+
+\begin{definition}[Square Matrix]
+    A matrix is square if $A\in M_{n\times n}(F)$ (the number of rows equals the number of columns). Square matrices of a fixed size can be multiplied by each other.
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        Matrix multiplication is associative: $(AB)C = A(BC)$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    $$((AB)C)_{i\ell} = \sum_j (AB)_{ij} c_{j\ell} = \sum_j \left(\sum_k a_{ik}b_{kj}\right) c_{j\ell} = \sum_{j,k} a_{ik}b_{kj}c_{j\ell}$$
+    $$(A(BC))_{i\ell} = \sum_k a_{ik} (BC)_{k\ell} = \sum_k a_{ik} \left(\sum_j b_{kj}c_{j\ell}\right) = \sum_{j,k} a_{ik}b_{kj}c_{j\ell}$$
+    Therefore, $((AB)C)_{i\ell} = (A(BC))_{i\ell}$.
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        Given linear maps $S:F^m\to F^n$ and $T:F^n\to F^p$ with matrix representations $A$ and $B$ (so $S(v)=Av$ and $T(v)=Bv$), the matrix representation of the composite map $T\circ S:F^m\to F^p$ is given by the matrix product $BA$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    $T \circ S(v) = T(S(v)) = B(Av) = (BA)v$ by associativity.
+    \qedhere
+\end{proof}
+
+\subsection{Some more formal properties of matrices}
+
+\begin{definition}[Bilinear Map]
+    \begin{shaded*}
+        Let $V,W,U$ be vector spaces over $F$. A map $f:V\times W\to U$ mapping $(v,w)\mapsto f(v,w)$ is \textit{bilinear} if it is linear in each argument when the other is held fixed:
+        \begin{itemize}
+            \item $(\lambda_1v_1+\lambda_2v_2,w)\mapsto \lambda_1f(v_1,w)+\lambda_2f(v_2,w)$
+            \item $(v,\lambda_1w_1+\lambda_2w_2)\mapsto\lambda_1f(v,w_1)+\lambda_2f(v,w_2)$
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Note that this implies the standard scalar extraction property $f(\lambda v,w)=f(v,\lambda w)=\lambda f(v,w)$ (simply set $\lambda_2 = 0$). 
+\end{remark}
+
+\begin{example}
+    The dot product $F^n\times F^n\to F$, defined by $((a_1,\dots,a_n),(b_1,\dots,b_n))\mapsto a_1b_1+\cdots+a_nb_n$ is bilinear. This follows easily from the distributive properties of the field $F$.
+\end{example}
+
+We want to prove that matrix multiplication is bilinear. To do this, we first establish how matrix multiplication interacts with columns and rows.
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $A\in M_{m\times n}(F)$ and $B=(B_1,\dots,B_p)\in M_{n\times p}(F)$, where $B_j$ are the columns of $B$. Then:
+        $$AB=(AB_1,\dots,AB_p)$$
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    By the formula, $(AB)_{i\ell}=\sum_k a_{ik}b_{k\ell}$. 
+    Notice that $\sum_k a_{ik}b_{k\ell}$ is exactly the $i^{\mathrm{th}}$ element of the matrix-vector product $AB_\ell$. Thus, the $\ell^{\mathrm{th}}$ column of $AB$ is exactly the vector $AB_\ell$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This provides a \textit{column-wise} way to calculate matrix products. To find the entire $j^{\mathrm{th}}$ column of $AB$, just calculate the matrix-vector product $AB_j$. The $j^{\mathrm{th}}$ column of $AB$ \textbf{only} depends on the $j^{\mathrm{th}}$ column of $B$.
+\end{remark}
+
+\begin{proposition}
+    \begin{shaded*}
+        We can separate \textit{rows} under right multiplication. Let $B_i$ be the rows of $B$. Then:
+        $$\begin{pmatrix}B_1\\\vdots\\B_p\end{pmatrix}A=\begin{pmatrix}B_1A\\\vdots\\B_pA\end{pmatrix}$$
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Same logic as above, switching indices appropriately.
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        Matrix multiplication is bilinear. 
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    We prove linearity in the second argument. Let $A$ be an $m \times n$ matrix, $B$ and $C$ be $n \times p$ matrices, and $\lambda \in F$.
+    \begin{align*}
+        A(\lambda B) &= A(\lambda B_1 \dots \lambda B_n) \\
+        &= (A(\lambda B_1) \dots A(\lambda B_n)) & \text{(Column separation)} \\
+        &= (\lambda(AB_1) \dots \lambda(AB_n)) & \text{(Matrix-vector linearity)} \\
+        &= \lambda(AB_1 \dots AB_n) \\
+        &= \lambda(AB)
+    \end{align*}
+    And for addition:
+    \begin{align*}
+        A(B+C) &= A(B_1+C_1 \dots B_n+C_n) \\
+        &= (A(B_1+C_1) \dots A(B_n+C_n)) \\
+        &= (A(B_1)+A(C_1) \dots A(B_n)+A(C_n)) \\
+        &= (A(B_1) \dots A(B_n)) + (A(C_1) \dots A(C_n)) \\
+        &= AB+AC
+    \end{align*}
+    Linearity in the first argument follows similarly.
+    \qedhere
+\end{proof}
+
+\begin{definition}[Transpose]
+    \begin{shaded*}
+        The transpose of a matrix $A=(a_{ij}) \in M_{m \times n}(F)$ is defined as $A^t=(a_{ji}) \in M_{n \times m}(F)$.
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        The transpose operation satisfies the following properties:
+        \begin{itemize}
+            \item Transpose is linear: $(A+B)^t = A^t + B^t$ and $(\lambda A)^t = \lambda A^t$.
+            \item $(A^t)^t = A$.
+            \item $(AB)^t = B^tA^t$.
+        \end{itemize}
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    We prove the product rule. Let $C = AB$. Then $c_{ij} = \sum_k a_{ik}b_{kj}$.
+    The $(i,j)$ entry of $(AB)^t$ is the $(j,i)$ entry of $AB$, which is $\sum_k a_{jk}b_{ki}$.
+    The $(i,j)$ entry of $B^tA^t$ is the dot product of the $i^{\mathrm{th}}$ row of $B^t$ and the $j^{\mathrm{th}}$ column of $A^t$.
+    This is exactly $\sum_k (B^t)_{ik}(A^t)_{kj} = \sum_k b_{ki}a_{jk} = \sum_k a_{jk}b_{ki}$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    Notice that the order reverses in $(AB)^t = B^tA^t$. This is necessary for the dimensions to align. For example, if $A$ is $1 \times 5$ and $B$ is $5 \times 1$, $AB$ is $1 \times 1$. $A^t$ is $5 \times 1$ and $B^t$ is $1 \times 5$. The product $A^t B^t$ is impossible, but $B^t A^t$ results in a $1 \times 1$ matrix.
+\end{remark}
+
+\subsection{Special Matrices}
+
+\begin{definition}[Symmetric Matrix]
+    \begin{shaded*}
+        A square matrix $A$ is \textit{symmetric} if $A=A^t$.
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}[Orthogonal Matrix]
+    \begin{shaded*}
+        A square matrix $A$ is \textit{orthogonal} if $AA^t = I$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    For a square matrix, $AA^t=I \iff A^tA=I$. What does it mean for $AA^t = I$? If $A_i$ are the rows of $A$, then $(AA^t)_{ij} = A_i \cdot A_j$. Therefore:
+    $$A_i \cdot A_j = \delta_{ij} \coloneqq \begin{cases} 1 & i=j \\ 0 & i\ne j \end{cases}$$
+    This means the \textit{rows} of $A$ are orthonormal. Similarly, $A^tA=I$ implies the \textit{columns} of $A$ are orthonormal. Geometrically in $\R^n$, multiplying by an orthogonal matrix represents a rigid transformation (a rotation or reflection) that preserves lengths and angles.
+\end{remark}
+
+\begin{definition}[Triangular and Diagonal Matrices]
+    \begin{shaded*}
+        Let $A = (a_{ij})$ be a matrix.
+        \begin{itemize}
+            \item $A$ is \textit{upper-triangular} if $a_{ij}=0$ for all $i>j$.
+            \item $A$ is \textit{lower-triangular} if $a_{ij}=0$ for all $i<j$.
+            \item $A$ is \textit{diagonal} if it is both upper and lower triangular (i.e., $a_{ij}=0$ for all $i\ne j$).
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+
+
+
+\end{document}

@@ -74,7 +74,7 @@ Unsurprisingly, if a sequence converges to a limit, then it must be unique:
     Therefore, since $\varepsilon$ was arbitrary, $L=M$ (to see this, if $L\ne M$ then one can pick $\varepsilon=|L-M|/2$ and get a contradiction).\qedhere
 \end{proof}
 
-\begin{theorem}[Order limit theorem]
+\begin{theorem}[Order Limit Theorem]
 \label{thm:olt}
     \begin{shaded*}
         Suppose $(a_n)$ and $(b_n)$ are two real sequences such that $a_n\ge b_n$ for all $n\in\N$. Let $a_n\to a$ and $b_n\to b$. Then $a\ge b$.
@@ -96,6 +96,20 @@ Unsurprisingly, if a sequence converges to a limit, then it must be unique:
 \begin{remark}
     If $B<a_n<C$ for all $n\in\N$ in the above corollary, it is not necessarily true that $B<a<C$, but we do still get the non-strict inequalities $B\le a\le C$. Limits only preserve non-strict inequalities.
 \end{remark}
+
+\begin{theorem}[Squeeze Theorem]
+\label{thm:squeeze}
+    \begin{shaded*}
+        Let $(a_n)$, $(b_n)$ and $(c_n)$ be real sequences such that for all $n\in\N$, $a_n\le b_n\le c_n$. Suppose that $a_n\to L$ and $c_n\to L$. Then $b_n\to L$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $\varepsilon>0$ be arbitrary. Since $a_n\to L$, we can pick $N_1\in\N$ such that for all $n\ge N_1$, $|a_n-L|<\varepsilon$. Since $c_n\to L$, we can also pick $N_2\in\N$ such that for all $n\ge N_2$, $|c_n-L|<\varepsilon$.
+    Let $N\coloneqq \max\{N_1,N_2\}$. Then given $n\ge N$, we have $a_n,c_n\in (L-\varepsilon,L+\varepsilon)$, i.e. $$L-\varepsilon< a_n\le b_n\le c_n<L+\varepsilon,$$so $|b_n-L|<\varepsilon$, so $b_n\to L$.\qedhere
+\end{proof}
+\begin{example}
+    Let $a_n=\frac{\sin n}{n}$. Then for all $n\in\N$ we have $$-\frac{1}{n}\le \frac{\sin n}{n}\le \frac{1}{n},$$since $|\sin n|\le 1$ for all $n\in\N$. Therefore, since $1/n\to 0$, $a_n\to 0$ by the Squeeze Theorem $a_n\to 0$.
+\end{example}
 
 \begin{theorem}
 \label{thm:boundedseq}
@@ -136,15 +150,15 @@ This motivates the following definition:
     \begin{shaded*}
         Let $(a_n)$ be a real sequence.
         \begin{itemize}
-            \item A sequence $a_n\to\infty$ if for every $R>0$, $a_n$ is eventually greater than $R$.
-            \item A sequence $a_n\to-\infty$ if for every $R<0$, $a_n$ is eventually less than $R$.
+            \item $a_n\to\infty$ (as $n\to\infty$) if for every $R>0$, $a_n$ is eventually greater than $R$.
+            \item $a_n\to-\infty$ (as $n\to\infty$) if for every $R<0$, $a_n$ is eventually less than $R$.
         \end{itemize}
     \end{shaded*}
 \end{definition}
 
-\begin{example}
+\begin{example}\phantom{a}
     \begin{enumerate}
-        \item[1.] $a_n=n^2\to\infty$. Indeed, let $R>0$, and take $n>\sqrt{R}$. Then $$a_n=n^2>(\sqrt{R})^2=R$$.
+        \item[1.] $a_n=n^2\to\infty$. Indeed, let $R>0$, and take $n>\sqrt{R}$. Then $$a_n=n^2>(\sqrt{R})^2=R.$$
         \item[2.] Define $$a_n=\begin{cases}
             0 & \text{if }n\text{ odd}\\
             n & \text{if }n\text{ even}
@@ -152,6 +166,68 @@ This motivates the following definition:
         This is an example of a sequence which does not diverge to $\infty$, but is unbounded (as an exercise, use Definition \ref{def:seqinfinity} to prove this directly).
     \end{enumerate}
 \end{example}
+
+\begin{theorem}
+\label{thm:divergenceresults1234}
+    \begin{shaded*}
+        Let $(a_n)$ and $(b_n)$ be real sequences.
+        \begin{enumerate}
+            \item[1.] If $a_n\to\infty$ and $b_n$ is bounded below, then $a_n+b_n\to\infty$.
+            \item[2.] If $a_n\to\infty$ and $\lambda\in\R$, then $$\lambda a_n\to\begin{cases}\infty, & \lambda>0,\\ 0, & \lambda=0,\\ -\infty, & \lambda<0. \end{cases}$$
+            \item[3.] If $(a_n)$ is bounded and $b_n\to\infty$ with $b_n\ne 0$ for all $n\in\N$ then $\frac{a_n}{b_n}\to 0$.
+            \item[4.] If $a_n\to\infty$ and there exists $B>0$ such that eventually $b_n>B$, then $a_nb_n\to\infty$. 
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[1.] Suppose $a_n\to\infty$ and let $M>0$ be such that $b_n\ge M$ for all $n\in\N$. Let $R>0$ be arbitrary. Since $a_n\to\infty$, let $N\in\N$ be such that for all $n\ge N$, $a_n>R-M$. Then given $n\ge N$, we have $$a_n+b_n\ge a_n+M>R-M+M=R,$$so $a_n+b_n\to\infty$.
+        \item[2.] Suppose $a_n\to\infty$, let $\lambda\in\R$. If $\lambda>0$, let $R>0$ be arbitrary. Then since $a_n\to\infty$ let $N\in\N$ be such that for all $n\ge N$, $a_n>R/\lambda$. Then for $n\ge N$, we have $\lambda a_n>\lambda(R/\lambda)=R,$ so $\lambda a_n\to\infty$. If $\lambda=0$, then $\lambda a_n$ is the constant zero sequence, so converges to $0$. If $\lambda<0$, let $R<0$ be arbitrary. Since $a_n\to\infty$ let $N\in\N$ be such that for all $n\ge N$, $a_n>R/\lambda$. Then for $n\ge N$ we have $\lambda a_n<\lambda(R/\lambda)=R$, so $a_n\to -\infty$.
+        \item[3.] Let $M>0$ be such that $|a_n|\le M$ for all $n\in\N$ and suppose $b_n\to\infty$ with $b_n\ne 0$ for all $n\in\N$. Let $\varepsilon>0$ be arbitrary; since $b_n\to\infty$, we can pick $N\in\N$ such that for all $n\ge N$, $b_n>M/\varepsilon$. Therefore, for $n\ge N$, we have $$\left|\frac{a_n}{b_n}\right|\le \frac{M}{b_n}<\frac{M}{M/\varepsilon}=\varepsilon,$$so $\frac{a_n}{b_n}\to 0$.
+        \item[4.] Suppose $a_n\to\infty$ and let $B>0$; suppose that $N_1\in\N$ is such that for all $n\ge N_1$, $b_n>B$. Now, let $R>0$ be arbitrary. Since $a_n\to\infty$, let $N_2\in\N$ be such that for all $n\ge N_2$, $a_n>R/B$. Let $N\coloneqq\max\{N_1,N_2\}$. Then given $n\ge N$ we have $$a_nb_n>a_nB>\left(\frac{R}{B}\right)B=R,$$so $a_nb_n\to\infty$.\qedhere
+    \end{enumerate}
+\end{proof}
+
+
+\begin{theorem}[Growth comparisons]
+    \begin{shaded*}\phantom{a}
+        \begin{enumerate}
+            \item[1.] Let $m\in\R$ with $m\ne 0$. Then $$\lim_{n\to\infty}n^m=\begin{cases}\infty, & m>0,\\ 0,& m<0.\end{cases}$$
+            \item[2.] Let $\lambda\in\R$ with $\lambda\ne 1$. Then $$\lim_{n\to\infty}\lambda^n=\begin{cases}
+                \infty,& \lambda>1,\\
+                0,& |\lambda|<1.
+            \end{cases}$$ 
+            If $\lambda\le -1$, then $\lambda^n$ diverges.
+            \item[3.] Let $m>0$ and $\lambda>1$. Then $\lim_{n\to\infty}\frac{\lambda^n}{n^m}=\infty$ (``exponentials beat powers of $n$'').
+            \item[4.] Let $m>0$. Then $\lim_{n\to\infty}\frac{\log n}{n^m}=0$ (``powers of $n$ beat logs'').
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[1.] We will prove the case for $m>0$; the case for $m<0$ follows immediately by item 3 in Theorem \ref{thm:divergenceresults1234}. Let $R>0$ be arbitrary, and pick $N\in\N$ such that $N>R^{1/m}$. Then for $n\ge N$ we have $n^m\ge N^m > (R^{1/m})^m = R$, since $x\mapsto x^m$ is an increasing function for $m>0$, $x>0$.
+        \item[2.] Suppose $\lambda>1$. Then we have by Bernoulli's inequality, for $n\in\N$, $$\lambda^n=(1+(\lambda-1))^n\ge 1+(\lambda-1)n\to\infty,$$since $\lambda-1>0$.\par
+        Suppose $0 < |\lambda| < 1$. Then there exists $\mu > 1$ such that $|\lambda| = 1/\mu$. By the result for $\lambda > 1$ and item 3 in Theorem \ref{thm:divergenceresults1234}, we have that $|\lambda|^n = 1/\mu^n \to 0$, since $\mu^n \to \infty$ by the $\lambda>1$ case we just proved. Because $|\lambda^n| \to 0$, it follows that $\lambda^n \to 0$.
+        Suppose $\lambda \le -1$. If $\lambda = -1$, the sequence is $(-1)^n$, which we have already shown diverges in an example. If $\lambda < -1$, then $|\lambda| > 1$, so by the first part, $|\lambda|^n \to \infty$. Since the absolute value of the sequence diverges to infinity, $\lambda^n$ cannot converge to a finite limit, and therefore diverges.
+        \item[3.] Let $\lambda > 1$. Then we can write $\lambda = 1 + \delta$ for some real number $\delta > 0$. 
+        Let $k \in \N$ be an integer strictly greater than $m$. 
+        For any $n \ge k$, we can expand $\lambda^n$ using the Binomial Theorem:
+        $$ \lambda^n = (1 + \delta)^n = \sum_{j=0}^n \binom{n}{j} \delta^j. $$
+        Since $\delta > 0$, every term in this sum is positive. We can establish a lower bound by dropping all terms except the $k$-th term:
+        $$ \lambda^n \ge \binom{n}{k} \delta^k = \frac{n(n-1)\cdots(n-k+1)}{k!} \delta^k. $$
+        For $n \ge 2k$, the first $k$ terms in the factorial expansion ($n, n-1, \dots, n-k+1$) are all greater than or equal to $n/2$. Thus, we can further bound the binomial coefficient:
+        $$ \binom{n}{k} \ge \frac{(n/2)^k}{k!} = \frac{n^k}{2^k k!}. $$
+        Substituting this back into our ratio, for $n \ge 2k$:
+        $$ \frac{\lambda^n}{n^m} \ge \frac{n^k}{n^m} \frac{\delta^k}{2^k k!} = n^{k-m} \left( \frac{\delta^k}{2^k k!} \right). $$
+        Notice that $\frac{\delta^k}{2^k k!}$ is a strictly positive constant independent of $n$. Because we chose $k > m$, the exponent $k-m$ is strictly positive. Therefore, $n^{k-m}$ diverges to $\infty$ as $n \to \infty$ by item 1 in this theorem. 
+        Since $\frac{\lambda^n}{n^m}$ is bounded below by a sequence diverging to $\infty$, we conclude that $\lim_{n \to \infty} \frac{\lambda^n}{n^m} = \infty$.
+        \item[4.] We will prove this when we rigorously define the $\exp$ and $\log$ functions in Chapter 6. Furthermore, it is much easier to prove this once we have built some more theory.\qedhere
+    \end{enumerate}
+\end{proof}
+
+
+
+
 \noindent Changing a finite number of terms in a convergent sequence does not affect convergence:
 
 \begin{lemma}
@@ -167,10 +243,10 @@ This motivates the following definition:
 
 
 
-\subsection{Algebraic limit theorem}
+\subsection{Algebra of Limits}
 
 There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use convergence results that we have already proven:
-\begin{theorem}[Algebraic limit theorem]
+\begin{theorem}[Algebra of Limits]
 \label{thm:alt}
     \begin{shaded*}
         Let $(a_n)$, and $(b_n)$ be real sequences, and suppose $a_n\to a\in\R$, and $b_n\to b\in \R$. Then
@@ -185,7 +261,7 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
 \begin{proof}
     (1) and (3) are good exercises to practice using Definition \ref{def:convergence1}.
     \begin{enumerate}
-        \item[(2)] Case 1: without loss of generality, suppose that $a\ne 0$ and $b=0$; let $\varepsilon>0$ be arbitrary. By Theorem \ref{thm:boundedseq}, there exists $M>0$ such that for all $n\in\N$, $|a_n|\le M$.
+        \item[2.] Case 1: without loss of generality, suppose that $a\ne 0$ and $b=0$; let $\varepsilon>0$ be arbitrary. By Theorem \ref{thm:boundedseq}, there exists $M>0$ such that for all $n\in\N$, $|a_n|\le M$.
         By convergence of $b_n\to 0$, let $N\in\N$ be such that for all $n\ge N$, $|b_n|<\varepsilon/M$. Then for $n\ge N$, we have $$|a_nb_n|=|a_n||b_n|\le M|b_n|<M(\varepsilon/M)=\varepsilon,$$
         so $a_nb_n\to 0$.\par
         Case 2: Suppose that $a\ne 0$ and $b\ne 0$; let $\varepsilon>0$ be arbitrary. By Theorem \ref{thm:boundedseq} let $M>0$ be such that for all $n\in\N$, $|a_n|\le M$.
@@ -201,25 +277,31 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
             &=\varepsilon,
         \end{align*}
         so $a_nb_n\to ab$.
-        \item[(4)] Let $\varepsilon>0$ be arbitrary. Let $N_1\in\N$ be such that for all $n\ge N_1$, $|b_n-b|<|b|/2$, so by the triangle inequality we have, for $n\ge N_1$,
+        \item[4.] Let $\varepsilon>0$ be arbitrary. Let $N_1\in\N$ be such that for all $n\ge N_1$, $|b_n-b|<|b|/2$, so by the triangle inequality we have, for $n\ge N_1$,
         $$|b|=|b-b_n+b_n|\le |b_n-b|+|b_n|<\frac{|b|}{2}+|b_n|\implies |b_n|>\frac{|b|}{2}>0.$$
         Now, let $N_2\in\N$ be such that for all $n\ge N_2$, $|b_n-b|<\frac{\varepsilon|b|^2}{2}$. Choose $N\coloneqq\max\{N_1,N_2\}$. For all $n\ge N$, we have $$\left|\frac{1}{b_n}-\frac{1}{b}\right|=\frac{|b_n-b|}{|b||b_n|}<\frac{|b_n-b|}{|b|^2/2}<\frac{\varepsilon|b|^2/2}{|b|^2/2}=\varepsilon,$$
         so $1/b_n\to 1/b$.\qedhere
     \end{enumerate}
 \end{proof}
 \begin{remark}
-    Using items (2) and (4) above, it follows that if $b\ne 0$ and $b_n\ne 0$ for all $n\in\N$, and $a_n\to a$, $b_n\to b$, then $a_n/b_n\to a/b$.
+    Using items 2 and 4 above, it follows that if $b\ne 0$ and $b_n\ne 0$ for all $n\in\N$, and $a_n\to a$, $b_n\to b$, then $a_n/b_n\to a/b$.
 \end{remark}
 
 \begin{example}
     \begin{enumerate}
-        \item[1.] $a_n=\frac{n^2+4n+1}{2n^2+1}\to \frac{1}{2}$. For $n\in\N$ we have $$a_n=\frac{1+4/n+1/n^2}{2+1/n^2}.$$
-        Now, using (2) in Theorem \ref{thm:alt}, $1/n^2\to 0$ since we have shown $1/n\to 0$, and using (1), (3), (4) we get $\lim a_n=\frac{1}{2}$.
+        \item[1.] Let $a_n=\frac{n^2+4n+1}{2n^2+1}$. For $n\in\N$ we have $$a_n=\frac{1+4/n+1/n^2}{2+1/n^2}.$$
+        Now, using 2 in the Algebra of Limits (Theorem \ref{thm:alt}), $1/n^2\to 0$ since we have shown $1/n\to 0$, and using 1, 3 and 4 in the Algebra of Limits we get $\lim a_n=\frac{1}{2}$.
         \item[2.] Applying (2) inductively, since $1/n\to 0$ we get that for any $m\in\N$, $1/n^m\to 0$.
+        \item[3.] Let $a_n=\sqrt{n^2+n}-n$. The standard trick is to multiply by the conjugate to convert the $\infty-\infty$ form into a situation where we can apply the Algebra of Limits; for $n\in\N$ we have
+        \begin{align*}
+            a_n=\left(\sqrt{n^2+n}-n\right)\frac{\sqrt{n^2+n}+n}{\sqrt{n^2+n}+n}&=\frac{n}{\sqrt{n^2+n}+n}\\
+            &= \frac{1}{\sqrt{1+\frac{1}{n}}+1}\to \frac{1}{2},
+        \end{align*}
+        by the Algebra of Limits, since $1/n\to 0$.
     \end{enumerate}
 \end{example}
 
-\subsection{Monotone convergence theorem}
+\subsection{Monotone Convergence Theorem}
 \begin{definition}
     \begin{shaded*}
         Let $(a_n)$ be a real sequence.
@@ -235,7 +317,7 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
     and the sequence $a_n=(-1)^nn$ is neither strictly increasing nor strictly decreasing, and diverges. Constant sequences are both increasing and decreasing.
 \end{example}
 \noindent We now state and prove an important theorem about monotonic and bounded real sequences.
-\begin{theorem}[Monotone convergence theorem]
+\begin{theorem}[Monotone Convergence Theorem]
 \label{thm:mct}
     \begin{shaded*}
         Let $(a_n)$ be a bounded and monotone real sequence. Then $(a_n)$ is convergent.
@@ -255,11 +337,11 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
     Define a sequence $(a_n)$ by $a_{n+1}=\sqrt{2+a_n}$ for $n\in\N$ with $a_1=\sqrt{2}$. We claim that $(a_n)$ converges.
 \end{example}
 \begin{proof}
-    By induction, $0<a_n<2$ for all $n\in\N$; indeed, if $a_k<2$ for all $k\in\N$ then $a_{k+1}=\sqrt{2+a_k}<\sqrt{2+2}=2$, and the base case $a_1=\sqrt{2}<2$. So $0<a_n<2$ for all $n\in\N$. Therefore, $a_n$ is bounded.
+    By induction, $0<a_n<2$ for all $n\in\N$; indeed, given $k\in\N$, if $a_k<2$ then $a_{k+1}=\sqrt{2+a_k}<\sqrt{2+2}=2$, and the base case $a_1=\sqrt{2}<2$. So $0<a_n<2$ for all $n\in\N$. Therefore, $a_n$ is bounded.
     Also, the sequence is strictly increasing: for $n\in\N$ we have $$a_n=\sqrt{a_na_n}<\sqrt{2a_n}=\sqrt{a_n+a_n}<\sqrt{a_n+2}=a_{n+1},$$
     so by Theorem \ref{thm:mct}, $(a_n)$ is convergent.\par
-    In fact, with recurrence relations, we can often find the limit as well, once we know that it converges: this is because $\lim a_{n+1}=\lim a_n=L$ for some $L\in\R$, which must satisfy, by the algebraic limit theorem (Theorem \ref{thm:alt}), $L=\sqrt{2+L}$, i.e. $$L^2-L-2=0\implies (L-2)(L+1)=0,$$
-    but since $0<a_n<2$ for all $n\in\N$, $0\le L\le 2$ by Theorem \ref{thm:olt} (order limit theorem), so $L=2$. 
+    In fact, with recurrence relations, we can often find the limit as well, once we know that it converges: this is because $\lim a_{n+1}=\lim a_n=L$ for some $L\in\R$, which must satisfy, by the Algebra of Limits (Theorem \ref{thm:alt}), $L=\sqrt{2+L}$, i.e. $$L^2-L-2=0\implies (L-2)(L+1)=0,$$
+    but since $0<a_n<2$ for all $n\in\N$, $0\le L\le 2$ by Theorem \ref{thm:olt} (Order Limit Theorem), so $L=2$. 
 \end{proof}
 
 \subsection{Subsequences}
@@ -289,7 +371,7 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
 \begin{theorem}
 \label{thm:subseqlim}
     \begin{shaded*}
-        Let $(a_n)$ be a sequence that converges to $L\in\R$. Then any subsequence of $(a_n)$ converges to $L$.
+        Let $(a_n)$ be a real sequence that converges to $L\in\R$. Then any subsequence of $(a_n)$ converges to $L$.
     \end{shaded*}
 \end{theorem}
 \begin{proof}
@@ -316,14 +398,14 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
     Case 2: $S$ is infinite. By the well-ordering of the natural numbers, we may pick $n_1\coloneqq\min S$. Given $k\in\N$, suppose that $n_1<n_2<\cdots<n_k$ have been chosen such that $n_i\in S$ for all $1\le i\le k$. Since $S$ is infinite, $S\setminus\{n_1,\dots,n_k\}$ is nonempty, so we may pick $n_{k+1}\coloneqq \min (S\setminus\{n_1,\dots,n_k\})$. By definition of the set $S$, for all $k\in\N$, $a_{n_k}\ge a_{n_{k+1}}$, since by construction $a_{n_k}$ is \textit{peak} for all $k\in\N$, so $(a_n)$ is a decreasing subsequence of $(a_n)$.\qedhere
 \end{proof}
 
-\begin{theorem}[Bolzano-Weierstraß theorem]
+\begin{theorem}[Bolzano-Weierstraß Theorem]
 \label{thm:bw}
     \begin{shaded*}
         Any bounded real sequence has a convergent subsequence.
     \end{shaded*}
 \end{theorem}
 \begin{proof}
-    Let $(a_n)$ be a bounded sequence. By Theorem \ref{thm:monotonesubseqthm}, $(a_n)$ has a monotone subsequence $(a_{n_k})$, which is also bounded since $(a_n)$ is bounded, so by the monotone convergence theorem (Theorem \ref{thm:mct}), $(a_{n_k})$ is convergent.\qedhere
+    Let $(a_n)$ be a bounded sequence. By Theorem \ref{thm:monotonesubseqthm}, $(a_n)$ has a monotone subsequence $(a_{n_k})$, which is also bounded since $(a_n)$ is bounded, so by the Monotone Convergence Theorem (Theorem \ref{thm:mct}), $(a_{n_k})$ is convergent.\qedhere
 \end{proof}
 \begin{example}
     The sequence $a_n=\sin (n)$ has a convergent subsequence since $|a_n|\le 1$ for all $n\in\N$. Finding such a subsequence is harder and is beyond the scope of this course.
@@ -350,25 +432,28 @@ A useful fact we can immediately prove (in a similar way to Theorem \ref{thm:bou
 
 In fact, in $\R$, the concepts of Cauchy sequences and convergent sequences are equivalent in the following sense:
 \begin{theorem}[Cauchy criterion for convergence in $\R$]
+\label{thm:cauchycriterionR}
     \begin{shaded*}
         Let $(a_n)$ be a real sequence. Then $$(a_n)\text{ is convergent}\iff (a_n)\text{ is Cauchy}.$$
     \end{shaded*}
 \end{theorem}
 \begin{proof}
-    Later.
+    Suppose that $(a_n)$ is a convergent real sequence with limit $L\in\R$, and let $\varepsilon>0$ be arbitrary. Let $N\in\N$ be such that for all $n\ge N$, $|a_n-L|<\frac{\varepsilon}{2}$. Then given $m,n\ge N$, we have by the triangle inequality $$|a_m-a_n|=|(a_m-L)+(L-a_n)|\le |a_m-L|+|a_n-L|<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon,$$so $(a_n)$ is Cauchy.\par
+    Conversely, suppose that $(a_n)$ is Cauchy. By Lemma \ref{lem:cauchybounded}, $(a_n)$ is bounded. By the Bolzano-Weierstraß Theorem, there exists a convergent subsequence of $(a_{n_k})$ of $(a_n)$ with limit $L\in\R$. We claim that $a_n\to L$. Let $\varepsilon>0$ be arbitrary. Since $\lim_{k\to\infty}a_{n_k}=L$, we can let $N_1\in\N$ be such that for all $n_j\ge N_1$, $|a_{n_j}-L|<\frac{\varepsilon}{2}$. Also, $(a_n)$ is Cauchy, so we can let $N_2\in\N$ be such that for all $m,n\ge N_2$, $|a_m-a_n|<\frac{\varepsilon}{2}$. Now, set $N\coloneqq\max\{N_1,N_2\}$ and let $n_i\in\N$ be large enough so that $n_i\ge N$. Then given $n\ge N$ we have $|a_n-a_{n_i}|<\frac{\varepsilon}{2}$ and so by the triangle inequality, we get $$|a_n-L|\le |a_n-a_{n_i}|+|a_{n_i}-L|<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon,$$so $a_n\to L$ and $(a_n)$ is convergent.\qedhere
 \end{proof}
+The key idea for the proof above of Cauchy in $\R\implies$ convergent in $\R$ for a given sequence is that by the Bolzano-Weierstraß theorem, there exists a convergent subsequence of $(a_n)$, but at the same time, since $(a_n)$ is Cauchy, the terms in the sequence are getting arbitrarily closer together, while the convergent subsequence terms are getting arbitrarily close to a limit $L\in\R$, so we can use this to force any sufficiently far out term in the sequence to be arbitrarily close to $L$ as well.
 
 \begin{remark}
     It is important to note that the above equivalence, in particular Cauchy $\implies$ convergent does not hold for all sets (however, convergence implies Cauchy in any metric space). It relies on the fact that $\R$ is a $complete$ set, that is, it has the least upper bound property, which means that, intuitively, all sequences in $\R$ that should converge (\textit{Cauchy} sequences) actually have a limit within that space.
-    For example, $\Q$ is not a complete set (indeed, $\R$ is the completion of $\Q$, as we saw when constructing $\R$ in the introductory module), so the fact that Cauchy sequences are convergent does not hold in $\Q$. For example, $(1+1/n)^n\to e\notin\Q$. We will prove the irrationality of $e$ later, and we may define $e\coloneqq \sup\{(1+1/n)^n:n\in\N\}$; then by the monotonce convergence theorem (Theorem \ref{thm:mct}), $\lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n=e$ (note that there are more practical ways of defining $e$ and the $\exp:\R\to (0,\infty)$ function, as we will see in Chapter 6).
+    For example, $\Q$ is not a complete set (indeed, $\R$ is the completion of $\Q$, as we saw when constructing $\R$ in the introductory module), so the fact that Cauchy sequences are convergent does not hold in $\Q$. For example, $(1+1/n)^n\to e\notin\Q$. We will prove the irrationality of $e$ later, and we may define $e\coloneqq \sup\{(1+1/n)^n:n\in\N\}$; then by the Monotonce Convergence Theorem (Theorem \ref{thm:mct}), $\lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n=e$ (note that there are more practical ways of defining $e$ and the $\exp:\R\to (0,\infty)$ function, as we will see in Chapter 6).
 \end{remark}
 \begin{remark}
-    In addition to the above comment about completeness, we notice that the Bolzano-Weierstraß theorem was required to prove that Cauchy sequences are convergent. In fact, there is an equivalence between the following concepts for complete sets (in particular, $\R$ in our case):
+    In addition to the above comment about completeness, we notice that the Bolzano-Weierstraß Theorem was required to prove that Cauchy sequences are convergent. In fact, there is an equivalence between the following concepts for complete sets (in particular, $\R$ in our case):
     \begin{itemize}
         \item Least upper bound property: every non-empty subset of $\R$ that is bounded above has a supremum (least upper bound) in $\R$.
         \item Cauchy completeness: Every Cauchy sequence in $\R$ converges to a limit in $\R$.
-        \item Bolzano-Weierstraß theorem: Every bounded sequence in $\R$ has a convergent subsequence.
-        \item Monotone convergence theorem: Every bounded, monotonic sequence in $\R$ converges.
+        \item Bolzano-Weierstraß Theorem: Every bounded sequence in $\R$ has a convergent subsequence.
+        \item Monotone convergence Theorem: Every bounded, monotonic sequence in $\R$ converges.
         \item Nested interval property: Any sequence of nested, closed, and bounded intervals $[a_n,b_n]$ has a nonempty intersection.
     \end{itemize}
 \end{remark}
@@ -397,14 +482,15 @@ It is therefore not too hard to prove facts about complex sequences using our re
 \end{remark}
 
 First, we prove a convergence criterion for complex sequences, in relation to its real and imaginary parts:
-\begin{theorem}
+\begin{theorem}[Parts criterion for convergence in $\C$]
 \label{thm:complexrealconvergence}
     \begin{shaded*}
         Let $(z_n)$ be a complex sequence, and define real sequences $(x_n)$, $(y_n)$ by $x_n\coloneqq \Re(z_n)$ and $y_n\coloneqq\Im(z_n)$ for all $n\in\N$. Let $z\in \C$ and write $z=x+iy$ for some $x,y\in\R$. Then $$z_n\to z\iff x_n\to x\text{ and }y_n\to y.$$
     \end{shaded*}
 \end{theorem}
 \begin{proof}
-    Later.
+    Suppose $z_n\to z=x+iy$, and let $\varepsilon>0$ be arbitrary. Let $N\in\N$ be such that for all $n\ge N$, $|z_n-z|<\varepsilon$. Given $n\ge N$, we have $$|x_n-x|=\sqrt{(x_n-x)^2}\le \sqrt{(x_n-x)^2+(y_n-y)^2}=|z_n-z|<\varepsilon,$$ and similarly $$|y_n-y|\le\sqrt{(x_n-x)^2+(y_n-y)^2} =|z_n-z|<\varepsilon,$$so $x_n\to x$ and $y_n\to y$.\par
+    Conversely, suppose $x_n\to x$ and $y_n\to y$. Let $N_1\in\N$ be such that for all $n\ge N_1$, $|x_n-x|<\frac{\varepsilon}{\sqrt{2}}$, and let $N_2\in\N$ be such that for all $n\ge N_2$, $|y_n-y|<\frac{\varepsilon}{\sqrt{2}}$. Let $N\coloneqq\max\{N_1,N_2\}$. Given $n\ge N$ we have $$|z_n-z|=\sqrt{(x_n-x)^2+(y_n-y)^2}<\sqrt{\frac{\varepsilon^2}{2}+\frac{\varepsilon^2}{2}}=\varepsilon,$$so $z_n\to z$.\qedhere
 \end{proof}
 
 \begin{definition}
@@ -425,7 +511,7 @@ First, we prove a convergence criterion for complex sequences, in relation to it
     so $(z_n)$ is bounded.\qedhere
 \end{proof}
 
-\begin{theorem}[Bolzano-Weierstraß theorem in $\C$]
+\begin{theorem}[Bolzano-Weierstraß Theorem in $\C$]
 \label{thm:bw-c}
     \begin{shaded*}
         Any bounded complex sequence has a convergent subsequence. 
@@ -433,7 +519,7 @@ First, we prove a convergence criterion for complex sequences, in relation to it
 \end{theorem}
 \begin{proof}
     Let $(z_n)$ be a bounded complex sequence. Put $x_n\coloneqq \Re(z_n)$ and $y_n\coloneqq \Im(z_n)$. Then for all $n\in\N$, $|x_n|=\sqrt{x_n^2}\le\sqrt{x_n^2+y_n^2}=|z_n|$ and $|y_n|\le |z_n|$, so $(x_n)$ and $(y_n)$ are bounded.
-    By the Bolzano-Weierstraß theorem in $\R$ (Theorem \ref{thm:bw}), there exists a convergent subsequence $(x_{n_k})$ of $(x_n)$. Consider the subsequence $(y_{n_k})$ of $(y_n)$. By the Bolzano-Weierstraß theorem in $\R$, there exists a convergent subsequence $(y_{n_{k_j}})$ of $(y_{n_k})$.
+    By the Bolzano-Weierstraß Theorem in $\R$ (Theorem \ref{thm:bw}), there exists a convergent subsequence $(x_{n_k})$ of $(x_n)$. Consider the subsequence $(y_{n_k})$ of $(y_n)$. By the Bolzano-Weierstraß Theorem in $\R$, there exists a convergent subsequence $(y_{n_{k_j}})$ of $(y_{n_k})$.
     Furthermore, by Theorem \ref{thm:subseqlim}, $(x_{n_{k_j}})$ is a convergent subsequence of $(x_n)$, so by the parts criterion for convergence in $\C$, $(z_{n_{k_j}})$ is a convergent subsequence of $(z_n)$.\qedhere
 \end{proof}
 
@@ -454,7 +540,9 @@ First, we prove a convergence criterion for complex sequences, in relation to it
     \end{shaded*}
 \end{theorem}
 \begin{proof}
-    Later.
+    $1\Rightarrow 2$: For $m,n\in\N$ we have $|x_m-x_n|=|\Re(z_m-z_n)|\le |z_m-z_n|$, so $(x_n)$ is Cauchy in $\R$, and similarly for $(y_n)$ (same argument, just use imaginary part).\par
+    $2\Rightarrow 3$: By the Cauchy Criterion for Convergence in $\R$ (Theorem \ref{thm:cauchycriterionR}), $x_n\to x$ and $y_n\to y$ for some $x,y\in\R$, so by Theorem \ref{thm:complexrealconvergence}, $z_n\to x+iy=z$.\par
+    $3\Rightarrow 1$: Suppose $z_n\to z$ for some $z\in\C$, and let $\varepsilon>0$ be arbitrary. Since $z_n\to z$, we can let $N\in\N$ be such that for all $n\ge N$, $|z_n-z|<\frac{\varepsilon}{2}$. Then given $m,n\ge N$ we have, by the triangle inequality, $$|z_m-z_n|\le |z_m-z|+|z_n-z|<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon,$$so $(z_n)$ is Cauchy in $\C$.\qedhere
 \end{proof}
 
 
@@ -463,10 +551,233 @@ First, we prove a convergence criterion for complex sequences, in relation to it
 
 \subsection{Partial sums}
 
+\begin{definition}
+    \begin{shaded*}
+        A complex sequence $(a_n)$ is called \textit{summable} (or convergent as a series) if the sequence of partial sums $s_n \coloneqq \sum_{i=1}^n a_i$ converges to some limit $s$ as $n \to \infty$. We then write $\sum_{n=1}^\infty a_n = s$.
+    \end{shaded*}
+\end{definition}
+
+Some remarks:
+\begin{itemize}
+    \item Note that complex sequences include real sequences.
+    \item A series is fundamentally just a special type of sequence—the sequence of its partial sums. All theorems about series are ultimately just theorems about sequences applied to $S_N$.
+    \item A series is fundamentally a \textit{limit of finite sums}, rather than an ``infinite sum''. It is dangerous to treat a series as an infinite form of addition because infinite series do not always obey the standard rules of finite arithmetic (such as commutativity and associativity), which we will see when we look at divergent series and conditionally convergent series. Because it is a limit, the \textit{order} in which we take the limit matters, which explains why rearranging the terms of conditionally convergent series can alter the final result.
+    \item Rather than saying a sequence $(a_n)$ is summable, we may also say that $\sum_{n=1}^{\infty} a_n$ converges, or sometimes if from the context it is clear that we are talking about series, we may just write $\sum a_n$ converges.
+    \item When talking about divergent series, we often abuse notation and write $\sum_{n=1}^{\infty}a_n$ diverges, even though writing $\sum_{n=1}^{\infty}a_n$ does not make sense in this case (it is not a real number, we just use it symbolically in this case).
+\end{itemize}
+
+ 
+\begin{example}
+    The geometric series $\sum_{n=1}^\infty (1/2)^n$ has partial sums $S_N = 1 - (1/2)^N$ (exercise: show this), which converge to $1$.
+\end{example}
+
+\begin{theorem}[Algebra of Limits for Series]
+\label{thm:alts}
+    \begin{shaded*}
+        If $\sum a_n$ and $\sum b_n$ are converge, and $\lambda \in \C$, then $\sum (a_n + b_n)$ and $\sum \lambda a_n$ are also summable, with:
+        $$ \sum_{n=1}^\infty (a_n + b_n) = \sum_{n=1}^\infty a_n + \sum_{n=1}^\infty b_n \quad \text{and} \quad \sum_{n=1}^\infty \lambda a_n = \lambda \sum_{n=1}^\infty a_n. $$
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    This is a simple application of the Algebra of Limits (Theorem \ref{thm:alt}) on the sequences $s_n\coloneqq \sum_{i=1}^n a_i\to s$ and $t_n\coloneqq \sum_{i=1}^nb_i$. In particular, set $u_n=\sum_{i=1}^n(a_i+b_i)$. Then we have $$u_n=\sum_{i=1}^na_i+\sum_{i=1}^nb_i=s_n+t_n\to s+t, $$
+    i.e. $\sum_{n=1}^{\infty}(a_n+b_n)=\sum_{n=1}^{\infty}a_n+\sum_{n=1}^{\infty}b_n$, as required. Furthermore, set $v_n=\sum_{i=1}^{n}\lambda a_n$. Then we have $$v_n=\lambda s_n\to \lambda s,$$by the Algebra of Limits for sequences again, i.e. $\sum_{n=1}^{\infty}\lambda a_n = \lambda\sum_{n=1}^{\infty}a_n$.\qedhere
+\end{proof}
+
+
+
+\begin{lemma}[Shift summability lemma]
+    \begin{shaded*}
+        A complex sequence $(a_n)$ is summable if and only if the shifted sequence $(a_{n+K})$ is summable for any fixed $K\in\N$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Define $b_n\coloneqq \sum_{i=K+1}^{n+K}a_i=\sum_{i=1}^na_{i+K}$. Then we have $$b_n=\sum_{i=1}^{n+K}a_i-\sum_{i=1}^Ka_i=\sum_{i=1}^{n+K}a_i-C,$$where $C\coloneqq \sum_{i=1}^Ka_i$ is a constant. Now, suppose $(a_n)$ is summable.
+    Therefore, $\lim_{n\to\infty}\sum_{i=1}^{n+K}a_i$ exists and we have that $\lim_{n\to\infty}b_n$ exists with $\sum_{n=1}^{\infty}a_{n+K}=\sum_{n=1}^\infty a_n -C$, using the Algebra of Limits.
+    Conversely, suppose that $(a_{n+K})$ is summable, i.e. $\lim_{n\to\infty} b_n$ exists. Therefore, from the above, $\sum_{n=1}^{\infty}a_n=\sum_{n=1}^{\infty}a_{n+K}+C$ using the Algebra of Limits.\qedhere
+\end{proof}
+
+\begin{remark}
+    Convergence is strictly a property of the ``tail'' of a sequence. Adding, removing, or changing the first million terms of a series changes its final sum, but it cannot change \textit{whether} the series converges or diverges.
+\end{remark}
+
 \subsection{Convergence tests for series}
 
-\subsection{Absolute convergence}
+\begin{theorem}[Necessary condition for summability]
+    \begin{shaded*}
+        If the complex sequence $(a_n)$ is summable, then $\lim_{n \to \infty} a_n = 0$.
+    \end{shaded*}
+\end{theorem}
 
-\subsection{Power series}
+\begin{proof}
+    Suppose $(a_n)$ is a summable complex sequence. Then $s_n\coloneqq \sum_{i=1}^na_i$ converges. Therefore, $(s_n)$ is Cauchy, so in particular given $\varepsilon>0$ we can pick $N\in\N$ such that for all $m,n\ge N$, we have $|s_m-s_n|<\varepsilon.$ Therefore, letting $n\ge N$ be arbitrary and picking $m=n+1$, we have $$|a_n|=|s_{n+1}-s_n|<\varepsilon,$$so $a_n\to 0$.\qedhere
+\end{proof}
+
+\begin{remark}
+    Note that this is a necessary, but \textit{not sufficient} condition for series convergence. The classic counterexample is the harmonic series $\sum \frac{1}{n}$. Even though $\frac{1}{n} \to 0$, the series diverges to infinity because the terms do not shrink \textit{fast enough}.
+    We will prove this now.
+\end{remark}
+
+\begin{theorem}[Divergence of the Harmonic Series]
+    \begin{shaded*}
+        The series $\sum_{n=1}^{\infty}\frac{1}{n}$ diverges.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Later.
+\end{proof}
+
+
+\noindent In fact, this result can be generalised:
+
+
+\begin{theorem}[Cauchy Condensation test]
+    \begin{shaded*}
+        Let $(a_n)$ be a decreasing sequence of non-negative real numbers. Then $$\sum_{n=1}^{\infty}a_n\text{ converges}\iff \sum_{n=1}^{\infty}2^na_{2^n}\text{ converges}.$$
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Later.
+\end{proof}
+
+\begin{theorem}[Comparison test]
+    \begin{shaded*}
+        Let $(a_n)$ and $(b_n)$ be real sequences such that $0 \le a_n \le b_n$ for all $n$ (or eventually). 
+        \begin{enumerate}
+            \item[1.] If $\sum b_n$ is summable, then $\sum a_n$ is summable.
+            \item[2.] If $\sum a_n$ diverges, then $\sum b_n$ diverges.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    
+\end{proof}
+
+
+\begin{definition}[Absolute and conditional convergence]
+    \begin{shaded*}
+        A complex sequence $(a_n)$ is \textit{absolutely summable} if the sequence of absolute values $(|a_n|)$ is summable. 
+        If $(a_n)$ is summable but not absolutely summable, it is called \textit{conditionally summable}.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Absolute convergence means the series converges purely based on the rapidly decreasing "size" of its terms, even in the worst-case scenario where every term is positive. Conditional convergence means the series only converges because of a delicate, structural cancellation between positive and negative terms.
+    \textbf{Example:} $\sum \frac{(-1)^n}{n^2}$ is absolutely convergent. $\sum \frac{(-1)^n}{n}$ is conditionally convergent (it converges, but its absolute value is the divergent harmonic series).
+\end{remark}
+
+\begin{theorem}
+    \begin{shaded*}
+        If a real sequence $(a_n)$ is absolutely summable, then it is summable.
+    \end{shaded*}
+\end{theorem}
+
+\begin{theorem}[Alternating series test]
+    \begin{shaded*}
+        Let $(a_n)$ be a sequence of positive real numbers that is monotonically decreasing ($a_{n+1} \le a_n$) and $a_n \to 0$ as $n \to \infty$. Then the alternating series $\sum_{n=1}^\infty (-1)^{n+1} a_n$ is convergent.
+    \end{shaded*}
+\end{theorem}
+
+
+\begin{theorem}[Ratio test]
+    \begin{shaded*}
+        Let $(a_n)$ be a complex sequence of non-zero terms. Suppose that $\lim_{n \to \infty} \left| \frac{a_{n+1}}{a_n} \right| = L$.
+        \begin{enumerate}
+            \item[1.] If $L < 1$, the series $\sum a_n$ is absolutely summable.
+            \item[2.] If $L > 1$, the series diverges.
+            \item[3.] If $L = 1$, the test is inconclusive.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+
+\begin{theorem}[Root test]
+    \begin{shaded*}
+        Let $(a_n)$ be a complex sequence. Suppose that $$\lim_{n \to \infty} \sqrt[n]{|a_n|} = L.$$
+        Then
+        \begin{enumerate}
+            \item[1.] If $L < 1$, the series $\sum a_n$ is absolutely summable.
+            \item[2.] If $L > 1$, the series diverges.
+            \item[3.] If $L = 1$, the test is inconclusive.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+
+\begin{remark}
+    Both the root and ratio tests examine whether the sequence in question can be bounded above ($L<1$) or below ($L>1$) by a convergent or divergent geometric series. If $L < 1$, it decays exponentially fast (like $(1/2)^n$), so it converges. If $L > 1$, it grows at least as fast as a divergent geometric series (intuitively), so it diverges.
+\end{remark}
+\begin{example}
+    For $a_n = \frac{1}{n!}$, the ratio is $\left| \frac{1/(n+1)!}{1/n!} \right| = \frac{1}{n+1} \to 0 < 1$. Thus, factorials grow so fast that their reciprocals decay much faster than any geometric series, guaranteeing absolute convergence.
+\end{example}
+
+\begin{theorem}[Dirichlet test]
+    \begin{shaded*}
+        Let $(a_n)$ and $(b_n)$ be sequences of real numbers such that:
+        \begin{enumerate}
+            \item[1.] $(a_n)$ is monotonically decreasing and $a_n \to 0$ as $n \to \infty$.
+            \item[2.] The partial sums of $(b_n)$ are bounded, i.e., $\exists M > 0$ such that $\left| \sum_{k=1}^n b_k \right| \le M$ for all $n \in \N$.
+        \end{enumerate}
+        Then the series $\sum_{n=1}^\infty a_n b_n$ converges.
+    \end{shaded*}
+\end{theorem}
+
+
+\section{Power series}
+
+\begin{definition}[Power series]
+    \begin{shaded*}
+        A \textit{power series} centred at $z_0 \in \C$ is a series of the form
+        $$ P(z) = \sum_{n=0}^{\infty} a_n (z - z_0)^n $$
+        where $z$ is a complex variable and $(a_n)$ is a sequence of complex coefficients.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    A power series is an ``infinite degree polynomial'', i.e. it is the function we get when we take the limit of finite polynomials in $\C$, i.e. the limit of $$\sum_{i=0}^n a_i (z-z_0)^i=a_0+a_1(z-z_0)+\cdots+a_n(z-z_0)^n.$$ Note that we have a \textit{different} sequence for \textit{each} value of $z\in\C$, and therefore when $P(z)$ converges, we have a different \textit{limit} for each value of $z\in\C$. Power series can therefore be seen as functions $\C\to\C$. Therefore, this motivates our interest in the radius of convergence for a power series, i.e. for which values of $z\in\C$ does the power series converge? Since the complex plane $\C$ has no natural ordering (we cannot say $z_1 < z_2$), we cannot directly apply real convergence tests to $a_n (z-z_0)^n$. Instead, we apply tests to their magnitudes $|a_n (z-z_0)^n|$, so the convergence problem is in $\R$. We will see why this makes sense below:
+\end{remark}
+
+\begin{theorem}
+    \begin{shaded*}
+        Let $(a_n)$ be a complex sequence and let $P(z)$ be the power series associated to $(a_n)$, centred at $z_0\in\C$. Let $w\ne 0$ be a complex number such that $P(w)$ is convergent. Then $P(z)$ is absolutely convergent for all $z\in\C$ such that $|z-z_0|<|w|$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+
+\begin{definition}[Radius of convergence]
+    \begin{shaded*}
+        The \textit{radius of convergence}, $R$, of a power series $P(z) = \sum_{n=0}^{\infty} a_n (z-z_0)^n$ is defined as: $$R\coloneqq\sup\left\{|z|\in\R_{\ge 0}:P(z)\text{ is convergent}\right\}.$$
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Power series convergence regions in $\C$ are circular. A power series will absolutely converge for any $z$ strictly inside the open disk defined by $|z - z_0| < R$, and it will diverge for any $z$ strictly outside ($|z - z_0| > R$). The boundary circle $|z - z_0| = R$ is the ambiguous zone where the series might converge, diverge, or conditionally converge depending on the specific point. This is why, as mentioned earlier, why we can apply tests to the magnitudes $|a_nz^n|$, rather than having to test individual values $z$ in the radius of convergence. However, individual values of $z\in\C$ such that $|z-z_0|=R$ must be tested to determine convergence or divergence on the boundary of the convergence region.
+\end{remark}
+
+\begin{theorem}[Power series ratio test]
+    \begin{shaded*}
+        Let $P(z) = \sum a_n z^n$ be a power series. If the limit $L = \lim_{n\to\infty} \left| \frac{a_{n+1}}{a_n} \right|$ exists (or is $\infty$), then the radius of convergence is given by $R = \frac{1}{L}$ (with the convention that $1/0 = \infty$ and $1/\infty = 0$).
+    \end{shaded*}
+\end{theorem}
+
+\begin{remark}
+    Intuitively, 
+\end{remark}
+
+\begin{definition}[The complex exponential function]
+    \begin{shaded*}
+        For any $z \in \C$, we define the complex exponential function as the power series:
+        $$ \exp(z) \coloneqq \sum_{n=0}^{\infty} \frac{z^n}{n!} $$
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Why define the exponential function this way? Structurally, if you take the formal term-by-term derivative of $\sum \frac{z^n}{n!}$, the $n$ comes down, cancels with the $n$ in the factorial, and leaves you with the exact same series. It is the unique power series (up to scaling) that is its own derivative—the defining mathematical characteristic of exponential growth. By the ratio test, its radius of convergence is $R = \infty$, so it converges for all $z \in \C$.
+\end{remark}
+
+
+
+
 
 \end{document}
