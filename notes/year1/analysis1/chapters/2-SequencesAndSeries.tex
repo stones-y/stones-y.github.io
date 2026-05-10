@@ -190,6 +190,7 @@ This motivates the following definition:
 
 
 \begin{theorem}[Growth comparisons]
+\label{thm:growthcomparisons}
     \begin{shaded*}\phantom{a}
         \begin{enumerate}
             \item[1.] Let $m\in\R$ with $m\ne 0$. Then $$\lim_{n\to\infty}n^m=\begin{cases}\infty, & m>0,\\ 0,& m<0.\end{cases}$$
@@ -493,6 +494,16 @@ First, we prove a convergence criterion for complex sequences, in relation to it
     Conversely, suppose $x_n\to x$ and $y_n\to y$. Let $N_1\in\N$ be such that for all $n\ge N_1$, $|x_n-x|<\frac{\varepsilon}{\sqrt{2}}$, and let $N_2\in\N$ be such that for all $n\ge N_2$, $|y_n-y|<\frac{\varepsilon}{\sqrt{2}}$. Let $N\coloneqq\max\{N_1,N_2\}$. Given $n\ge N$ we have $$|z_n-z|=\sqrt{(x_n-x)^2+(y_n-y)^2}<\sqrt{\frac{\varepsilon^2}{2}+\frac{\varepsilon^2}{2}}=\varepsilon,$$so $z_n\to z$.\qedhere
 \end{proof}
 
+\begin{example}
+    \begin{enumerate}
+        \item[1.] Let $z_n=\frac{1}{n}+in$. This does not converge because $\Im(z_n)=n\to\infty$. Geometrically, since $\Re(z_n)=\frac{1}{n}\to 0$, this sequence gets arbitrarily close to the imaginary axis in the complex plane, but diverges from the real axis.
+        \item[2.] For $k\in\N$, define the sequence $z_n=e^{\frac{2n\pi i}{k}}$; this does not converge (cycles around a regular $k$-gon centred at $(0,0)$). Exercise: what are the possible subsequential limits of this sequence? (i.e. if $(z_{n_k})$ is a subsequence of $(z_n)$, what are the possible limits?)
+        \item[3.] Fix $z_1\in \C$ and for $n\in\N$ define $z_{n+1}=\frac{z_n+|z_n|}{2}$. We claim that this sequence converges. First, for $n\in\N$ we write $z_n=x_n+iy_n$, so we have $$z_{n+1}=\frac{x_n+iy_n+|z_n|}{2},$$and $|z_n|$ is real for all $n\in\N$, so we have $x_{n+1}=\Re(z_{n+1})=\frac{x_n+|z_n|}{2}$ and $y_{n+1}=\Im(z_{n+1})=\frac{y_n}{2}$. Therefore, by induction $y_{n+1}=\frac{y_1}{2^n}$ so $y_n\to 0$. Furthermore, we know that $$|z_n|=\sqrt{x_n^2+y_n^2}\ge \sqrt{x_n^2}=|x_n|,$$so $x_{n+1}\ge x_n$ for all $n\in\N$. Also, by construction of $(z_n)$, $|z_n|\le |z_1|$ for all $n\in\N$ so $|x_n|\le |z_n|\le |z_0|$ for all $n\in\N$. Therefore, $(x_n)$ is an increasing sequence and is bounded above, so by the Monotone Convergence Theorem, $x_n$ converges to some $L\in\R$. Therefore, by Theorem \ref{thm:complexrealconvergence}, $z_n\to L$.
+    \end{enumerate}
+    \end{example}
+
+
+
 \begin{definition}
     \begin{shaded*}
         A complex sequence $(z_n)$ is bounded if there exists $M\in \R_{>0}$ such that $|z_n|\le M$ for all $n\in\N$.
@@ -602,7 +613,19 @@ Some remarks:
 
 \subsection{Convergence tests for series}
 
+\begin{theorem}[Geometric series]
+\label{thm:geoseries}
+    \begin{shaded*}
+        The series $\sum_{n=0}^{\infty}r^n$ converges if and only if $|r|<1$. Moreover, if $|r|<1$ then $$\sum_{n=0}^{\infty}r^n=\frac{1}{1-r}.$$
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $r\in\R$ and put $s_n=\sum_{i=0}^nr^i$. By an exercise, $s_n=\frac{1-r^{n+1}}{1-r}$. By item 2 in Theorem \ref{thm:growthcomparisons}, $\lim_{n\to\infty}r^n$ exists if and only if $|r|<1$, so $s_n$ converges if and only if $|r|<1$. Moreover, if $|r|<1$ then by item 2 in Theorem \ref{thm:growthcomparisons} we have $r^n\to 0$ as $n\to\infty$, therefore $$\sum_{n=0}^{\infty}r^n=\frac{1}{1-r},$$as desired.\qedhere
+\end{proof}
+
+
 \begin{theorem}[Necessary condition for summability]
+\label{thm:nthtermtest}
     \begin{shaded*}
         If the complex sequence $(a_n)$ is summable, then $\lim_{n \to \infty} a_n = 0$.
     \end{shaded*}
@@ -611,6 +634,14 @@ Some remarks:
 \begin{proof}
     Suppose $(a_n)$ is a summable complex sequence. Then $s_n\coloneqq \sum_{i=1}^na_i$ converges. Therefore, $(s_n)$ is Cauchy, so in particular given $\varepsilon>0$ we can pick $N\in\N$ such that for all $m,n\ge N$, we have $|s_m-s_n|<\varepsilon.$ Therefore, letting $n\ge N$ be arbitrary and picking $m=n+1$, we have $$|a_n|=|s_{n+1}-s_n|<\varepsilon,$$so $a_n\to 0$.\qedhere
 \end{proof}
+
+\begin{example}
+    \begin{enumerate}
+        \item[1.] Let $a_n=\left(1+\frac{1}{n}\right)^n$. Then $a_n\to e \ge 1>0$, so $\sum_{n=1}^{\infty}a_n$ diverges by Theorem \ref{thm:nthtermtest}.
+        \item[2.] Sometimes, $a_n\to 0$ but the series still diverges: let $s_n=\sum_{i=1}^n\log\left(\frac{i+1}{i}\right)$. Then $$s_n=\sum_{i=1}^n\left(\log(i+1)-\log(i)\right)=\log(n+1)\to\infty,$$so $\sum_{n=1}^{\infty}\log\left(\frac{n+1}{n}\right)$ diverges, even though $\log\left(1+\frac{1}{i}\right)\to 0$ as $i\to\infty$. 
+    \end{enumerate}
+    
+\end{example}
 
 \begin{remark}
     Note that this is a necessary, but \textit{not sufficient} condition for series convergence. The classic counterexample is the harmonic series $\sum \frac{1}{n}$. Even though $\frac{1}{n} \to 0$, the series diverges to infinity because the terms do not shrink \textit{fast enough}.
@@ -623,49 +654,105 @@ Some remarks:
     \end{shaded*}
 \end{theorem}
 \begin{proof}
-    Later.
+    Let $s_n=\sum_{i=1}^n\frac{1}{i}$ denote the partial sums of $\frac{1}{n}$. We consider $s_{2^n}$:
+    \begin{align*}
+        s_{2^n}&=1+\frac{1}{2}+\left(\frac{1}{3}+\frac{1}{4}\right)+\left(\frac{1}{5}+\frac{1}{6}+\frac{1}{7}+\frac{1}{8}\right)+\cdots+\underbrace{\left(\frac{1}{2^{n-1}+1}+\cdots+\frac{1}{2^n}\right)}_{2^{n-1}\text{ terms}}\\
+        & \ge 1+\frac{1}{2}+\left(\frac{1}{4}+\frac{1}{4}\right)+\left(\frac{1}{8}+\frac{1}{8}+\frac{1}{8}+\frac{1}{8}\right)+\cdots+\left(\frac{1}{2^{n}}+\cdots+\frac{1}{2^n}\right)\\
+        &= 1 + \frac{1}{2}+2\left(\frac{1}{4}\right)+4\left(\frac{1}{2^3}\right)+\cdots+2^{n-1}\left(\frac{1}{2^n}\right)\\
+        &=1+\frac{n}{2}\to\infty,
+    \end{align*}
+    so $s_{2^n}\to\infty$ as $n\to\infty$. Therefore, given $R>0$, let $n\in\N$ be such that $s_{2^n}>R$. Since $(s_n)$ is an increasing sequence, for $m\ge 2^n$ we have $s_m\ge s_{2^n}>R$, so $s_n\to\infty$ as $n\to\infty$.\qedhere 
 \end{proof}
 
+\noindent Therefore, despite the incredibly slow pace ($\mathcal{O}(\log n)$), this sequence of partial sums eventually surpasses every positive real number.\par
 
-\noindent In fact, this result can be generalised:
+In fact, the argument used in the previous result can be generalised:
 
 
 \begin{theorem}[Cauchy Condensation test]
+\label{thm:cauchycondensation}
     \begin{shaded*}
-        Let $(a_n)$ be a decreasing sequence of non-negative real numbers. Then $$\sum_{n=1}^{\infty}a_n\text{ converges}\iff \sum_{n=1}^{\infty}2^na_{2^n}\text{ converges}.$$
+        Let $(a_n)$ be a decreasing sequence of non-negative real numbers. Then $$\sum_{n=1}^{\infty}a_n\text{ converges}\iff \sum_{n=0}^{\infty}2^na_{2^n}\text{ converges}.$$
     \end{shaded*}
 \end{theorem}
 
 \begin{proof}
-    Later.
+    Let $s_n\coloneqq \sum_{i=1}^n a_i$ and $t_n\coloneqq \sum_{j=0}^n2^ja_{2^j}$. We will show that for all $k\in\N$, $$\frac{t_k}{2}\le s_{2^k}\le t_k,$$which will give us the desired result. Indeed, given $k\in\N$ we have
+    \begin{align*}
+        s_{2^k}&=a_1+a_2+(a_3+a_4)+(a_5+a_6+a_7+a_8)+\cdots+\left(a_{2^{k-1}+1}+\cdots+a_{2^k}\right)\\
+        &\ge \frac{1}{2}a_1+a_2+2a_4+4a_8+\cdots+2^{k-1}a_{2^k}\\
+        &=\frac{1}{2}\left(a_1+2a_2+4a_4+8a_8+\cdots+2^{k}a_{2^k}\right)\\
+        &=\frac{t_k}{2},
+    \end{align*}
+    and
+    \begin{align*}
+        s_{2^k}&=a_1+(a_2+a_3)+(a_4+a_5+a_6+a_7)+\cdots+\left(a_{2^{k-1}}+\cdots+a_{2^{k}-1}\right)+a_{2^k}\\
+        &\le a_1+(a_2+a_2)+(a_4+a_4+a_4+a_4)+\cdots+\left(a_{2^{k-1}}+\cdots+a_{2^{k-1}}\right)+2^ka_{2^k}\\
+        &=t_k,
+    \end{align*}
+    as desired. The result follows.\qedhere
+\end{proof}
+This is a powerful test and can be used to determine the convergence or divergence of a large class of infinite series. Indeed, a simple (but useful) corollary is:
+
+
+\begin{corollary}[$p$-series test]
+\label{cor:pseries}
+    \begin{shaded*}
+        The series $\sum_{n=1}^{\infty}\frac{1}{n^p}$ converges if and only if $p>1$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Put $a_n=\frac{1}{n^p}$ and let $t_n=\sum_{i=0}^n2^ia_{2^i}$. Then we have, for $n\in\N$, $$t_n=\sum_{i=0}^n2^i\frac{1}{\left(2^i\right)^p}=\sum_{i=0}^n2^{i(1-p)}.$$
+    This is a geometric sum, so by Theorem \ref{thm:geoseries}, $t_n$ converges if and only if $2^{1-p}<1$ i.e. if and only if $p>1$. By the Cauchy Condensation test (Theorem \ref{thm:cauchycondensation}), it follows that $\sum_{n=1}^\infty \frac{1}{n^p}$ converges if and only if $p>1$.\qedhere 
 \end{proof}
 
+\begin{exercise*}
+    Determine the values of $p$ for which the series $\sum_{n=2}^{\infty}\frac{1}{n(\log n)^p}$ converges.
+\end{exercise*}
+    
+
 \begin{theorem}[Comparison test]
+\label{thm:comparisontest}
     \begin{shaded*}
         Let $(a_n)$ and $(b_n)$ be real sequences such that $0 \le a_n \le b_n$ for all $n$ (or eventually). 
         \begin{enumerate}
-            \item[1.] If $\sum b_n$ is summable, then $\sum a_n$ is summable.
+            \item[1.] If $\sum b_n$ is convergent, then $\sum a_n$ is convergent.
             \item[2.] If $\sum a_n$ diverges, then $\sum b_n$ diverges.
         \end{enumerate}
     \end{shaded*}
 \end{theorem}
 
 \begin{proof}
-    
+    Let $s_n=\sum_{i=1}^na_i$ and $t_n=\sum_{i=1}^nb_i$. Since $0\le a_i\le b_i$ for all $i\in\N$, we can sum this inequality to get that $0\le s_n\le t_n$ for all $n\in\N$. Furthermore, observe that since $a_i\ge 0$ for all $i\in\N$, $(s_n)$ is an increasing sequence.
+    \begin{enumerate}
+        \item[1.] Suppose $\sum b_n$ is convergent. Then $(t_n)$ is bounded, so there exists $M>0$ such that for all $n\in\N$, $t_n\le M$. Therefore, using the above observation, $s_n\le t_n\le M$, so $(s_n)$ is bounded, and is increasing so by the Monotone Convergence Theorem (Theorem \ref{thm:mct}), $(s_n)$ is convergent, i.e. $\sum a_n$ is convergent.
+        \item[2.] Suppose $\sum a_n$ diverges, i.e. $(s_n)$ diverges. Then since $\allowbreak t_n\ge s_n\to\infty$, $t_n$ diverges i.e. $\sum b_n$ diverges.\qedhere 
+    \end{enumerate}
 \end{proof}
+\begin{remark}
+    If item 1 in the above theorem holds, we say that ``$\sum a_n$ converges by comparison with $\sum b_n$'' (and similarly for item 2). 
+\end{remark}
+\begin{example}
+    \begin{enumerate}
+        \item[1.] For $n\in\N$ we have $0\le \frac{1}{n^2+1}\le \frac{1}{n^2}$ and by the $p$-series test (Corollary \ref{cor:pseries}), $\frac{1}{n^2}$ is summable, so $\frac{1}{n^2+1}$ is summable.
+        \item[2.] For $n\in\N$ we have $0\le \frac{2+\cos n}{n^3}\le \frac{3}{n^3}$ since $|\cos n|\le 1$ so since $\frac{1}{n^3}$ is summable by the $p$-series test, $\sum_{n=1}^{\infty}\frac{2+\cos n}{n^3}$ is convergent. 
+    \end{enumerate}
+\end{example}
 
 
 \begin{definition}[Absolute and conditional convergence]
     \begin{shaded*}
-        A complex sequence $(a_n)$ is \textit{absolutely summable} if the sequence of absolute values $(|a_n|)$ is summable. 
+        A complex sequence $(a_n)$ is \textit{absolutely summable} if the sequence of absolute values $\left(|a_n|\right)$ is summable. 
         If $(a_n)$ is summable but not absolutely summable, it is called \textit{conditionally summable}.
     \end{shaded*}
 \end{definition}
 
 \begin{remark}
-    Absolute convergence means the series converges purely based on the rapidly decreasing "size" of its terms, even in the worst-case scenario where every term is positive. Conditional convergence means the series only converges because of a delicate, structural cancellation between positive and negative terms.
-    \textbf{Example:} $\sum \frac{(-1)^n}{n^2}$ is absolutely convergent. $\sum \frac{(-1)^n}{n}$ is conditionally convergent (it converges, but its absolute value is the divergent harmonic series).
+    Absolute convergence means the series converges purely based on the rapidly decreasing magnitude of its terms, even in the worst-case scenario where every term is positive. Conditional convergence means the series only converges because of cancellation between positive and negative terms. If you take the negative terms in your sequence, take the absolute value and construct a sequence of partial sums, and similarly construct a sequence of partial sums for the positive terms, absolute convergence means that both partial sums converge. It is therefore not surprising that rearranging terms arbitrarily in your sequence does not change the value of an absolutely convergent series (we will prove this later). However, rearranging terms in a conditionally convergent series.
 \end{remark}
+\begin{example}
+    $\sum \frac{(-1)^n}{n^2}$ is absolutely convergent. $\sum \frac{(-1)^n}{n}$ is conditionally convergent (it converges, but its absolute value is the harmonic series which we saw diverges).
+\end{example}
 
 \begin{theorem}
     \begin{shaded*}
@@ -673,16 +760,46 @@ Some remarks:
     \end{shaded*}
 \end{theorem}
 
-\begin{theorem}[Alternating series test]
+\begin{proof}
+    Suppose $(|a_n)$ is summable. For $n\in\N$ we have $0\le a_n+|a_n|\le 2|a_n|$, and $(|a_n|)$ is summable, so $(2|a_n|)$ is summable, so by the Comparison test (Theorem \ref{thm:comparisontest}), $(a_n+|a_n|)$ is summable. Therefore, $a_n=(a_n+|a_n|)-|a_n|$ is summable.\qedhere
+\end{proof}
+
+\begin{theorem}[Alternating Series test]
+\label{thm:alternatingseries}
     \begin{shaded*}
-        Let $(a_n)$ be a sequence of positive real numbers that is monotonically decreasing ($a_{n+1} \le a_n$) and $a_n \to 0$ as $n \to \infty$. Then the alternating series $\sum_{n=1}^\infty (-1)^{n+1} a_n$ is convergent.
+        Let $(a_n)$ be a sequence of non-negative real numbers that is decreasing and $a_n \to 0$ as $n \to \infty$. Then the alternating series $\sum_{n=1}^\infty (-1)^{n+1} a_n$ is convergent.
     \end{shaded*}
 \end{theorem}
+\begin{proof}
+    Let $(a_n)$ be a sequence such that $a_n \ge 0$, $a_{n+1} \le a_n$ for all $n \in \N$, and $\lim_{n \to \infty} a_n = 0$.
+        
+    Let $s_n$ denote the $n$-th partial sum, $s_n = \sum_{k=1}^n (-1)^{k+1} a_k$. We will first examine the even partial sums, $s_{2n}$. We can group the terms of $s_{2n}$ as follows:
+    \[ s_{2n} = (a_1 - a_2) + (a_3 - a_4) + \cdots + (a_{2n-1} - a_{2n}) \]
+        
+    Because the sequence $(a_n)$ is monotonically decreasing, we know that $a_{2k-1} - a_{2k} \ge 0$ for all $k$. Therefore, $s_{2n}$ is a sum of non-negative terms, which implies that the sequence of even partial sums $(s_{2n})$ is monotonically increasing: $s_{2n} \le s_{2(n+1)}$.
+        
+    Alternatively, we can rewrite the grouping of $s_{2n}$ by isolating the first term:
+    \[ s_{2n} = a_1 - (a_2 - a_3) - (a_4 - a_5) - \cdots - (a_{2n-2} - a_{2n-1}) - a_{2n} \]
+        
+    Again, because $a_k \ge a_{k+1}$, every term in parentheses is non-negative, and $a_{2n} > 0$. Thus, we are subtracting purely non-negative quantities from $a_1$, which guarantees that $s_{2n} \le a_1$ for all $n$.
+        
+    Since $(s_{2n})$ is monotonically increasing and bounded above by $a_1$, it must converge to some real number $s$ by the Monotone Convergence Theorem. That is, 
+    \[ \lim_{n \to \infty} s_{2n} = s \]
+        
+    Next, we examine the odd partial sums, $s_{2n+1}$. We can express the $(2n+1)$-th partial sum purely in terms of the $2n$-th partial sum and the next sequence term:
+    \[ s_{2n+1} = s_{2n} + a_{2n+1} \]
+        
+    Taking the limit of both sides as $n \to \infty$, and using the initial hypothesis that $\lim_{n \to \infty} a_n = 0$, we find, by the Algebra of Limits:
+    \[ \lim_{n \to \infty} s_{2n+1} = \lim_{n \to \infty} (s_{2n} + a_{2n+1}) = \lim_{n \to \infty} s_{2n} + \lim_{n \to \infty} a_{2n+1} = s + 0 = s \]
+        
+    Because the sequence of even partial sums $(s_{2n})$ and the sequence of odd partial sums $(s_{2n+1})$ both converge to the exact same limit $s$, the sequence of all partial sums $(s_m)$ must also converge to $s$. Therefore, the alternating series converges.\qedhere
+\end{proof}
 
 
 \begin{theorem}[Ratio test]
+\label{thm:ratiotest}
     \begin{shaded*}
-        Let $(a_n)$ be a complex sequence of non-zero terms. Suppose that $\lim_{n \to \infty} \left| \frac{a_{n+1}}{a_n} \right| = L$.
+        Let $(a_n)$ be a real sequence of non-zero terms. Suppose that $\lim_{n \to \infty} \left| \frac{a_{n+1}}{a_n} \right| = L$.
         \begin{enumerate}
             \item[1.] If $L < 1$, the series $\sum a_n$ is absolutely summable.
             \item[2.] If $L > 1$, the series diverges.
@@ -690,10 +807,25 @@ Some remarks:
         \end{enumerate}
     \end{shaded*}
 \end{theorem}
+\begin{proof}
+    Let $(a_n)$ be a real sequence with $a_n > 0$ for all $n \in \N$, and suppose $\lim_{n \to \infty} \frac{a_{n+1}}{a_n} = L$.\par
+
+    Case 1: $L<1$ (convergence). Choose $r\in\R$ such that $L < r < 1$. Because the limit of the ratio is $L<1$, there exists $N \in \N$ such that for all $n \ge N$, we have: \[ \frac{a_{n+1}}{a_n} < r \]
+    This implies that $a_{n+1} < r a_n$ for all $n \ge N$. By induction, for any $k \ge 1$ we get:
+    \[ a_{N+k} < r a_{N+k-1} < r^2 a_{N+k-2} < \cdots < r^k a_N \]
+    We are interested in the tail of the original series, $\sum_{k=1}^{\infty} a_{N+k}$. From the inequality above, we have:
+    \[ \sum_{k=1}^{\infty} a_{N+k} < \sum_{k=1}^{\infty} r^k a_N = a_N \sum_{k=1}^{\infty} r^k \]
+    Since $0 < r < 1$, the geometric series $\sum r^k$ converges. By the Direct Comparison Test, the tail $\sum a_{N+k}$ converges, and therefore the entire series $\sum a_n$ converges (by the shift summability lemma).\par
+
+    Case 2: $L > 1$ (divergence). Choose a real number $r$ such that $1 < r < L$. By the definition of the limit, there exists an integer $N \in \N$ such that for all $n \ge N$:
+    \[ \frac{a_{n+1}}{a_n} > r > 1 \]
+    This means $a_{n+1} > a_n$ for all $n \ge N$. Since the sequence of terms $(a_n)$ is strictly increasing and strictly positive for $n \ge N$, it is impossible for $\lim_{n \to \infty} a_n = 0$. By the $n$-th term divergence test (Theorem \ref{thm:nthtermtest}), the series $\sum a_n$ diverges.\qedhere
+\end{proof}
 
 \begin{theorem}[Root test]
+\label{thm:roottest}
     \begin{shaded*}
-        Let $(a_n)$ be a complex sequence. Suppose that $$\lim_{n \to \infty} \sqrt[n]{|a_n|} = L.$$
+        Let $(a_n)$ be a real sequence. Suppose that $$\lim_{n \to \infty} \sqrt[n]{|a_n|} = L.$$
         Then
         \begin{enumerate}
             \item[1.] If $L < 1$, the series $\sum a_n$ is absolutely summable.
@@ -702,6 +834,30 @@ Some remarks:
         \end{enumerate}
     \end{shaded*}
 \end{theorem}
+\begin{proof}
+    Let $(a_n)$ be a real sequence with $a_n \ge 0$ for all $n \in \N$, and suppose $\lim_{n \to \infty} \sqrt[n]{a_n} = L$.\par
+    Case 1: $L < 1$ (convergence). Choose $r\in\R$ such that $L < r < 1$. By the definition of the limit, there exists an integer $N \in \N$ such that for all $n \ge N$:
+    \[ \sqrt[n]{a_n} < r \]
+    Raising both sides to the $n$-th power, since both sides are non-negative, yields:
+    \[ a_n < r^n \quad \text{for all } n \ge N \]
+    Because $0 \le r < 1$, the geometric series $\sum_{n=N}^{\infty} r^n$ converges. By the Direct Comparison Test, the tail of our series $\sum_{n=N}^{\infty} a_n$ converges, which means the entire series $\sum a_n$ converges.\par
+
+    Case 2: $L > 1$ (divergence).
+    Since $L > 1$, there exists an integer $N \in \N$ such that for all $n \ge N$:
+    \[ \sqrt[n]{a_n} > 1 \]
+    Raising both sides to the $n$-th power gives:
+    \[ a_n > 1^n = 1 \quad \text{for all } n \ge N \]
+    Because the terms of the series are eventually bounded below by $1$, we know that $\lim_{n \to \infty} a_n \neq 0$. By the $n$-th term divergence test, the series $\sum a_n$ diverges.\qedhere
+\end{proof}
+
+\begin{example}
+    \begin{enumerate}
+        \item[1.] The series $\sum_{n=1}^{\infty}\frac{2^n}{n!}$ converges. Set $a_n=\frac{2^n}{n!}$ for $n\in\N$. Then we have \[\left|\frac{a_{n+1}}{a_n}\right|=\frac{2^{n+1}/(n+1)!}{2^n/n!}=\frac{2}{n+1}\to 0<1,\] so $\sum_{n=1}^{\infty}\frac{2^n}{n!}$ converges by the Ratio test (Theorem \ref{thm:ratiotest}).
+        \item[2.] The series $\sum_{n=1}^{\infty}\frac{n}{2^n}$ converges. Set $a_n=\frac{n}{2^n}$ for $n\in\N$. Then we have \[\left|\frac{a_{n+1}}{a_n}\right|=\frac{(n+1)/2^{n+1}}{n/2^n}=\frac{1}{2}\frac{n+1}{n}\to \frac{1}{2}<1,\] so $\sum_{n=1}^{\infty}\frac{n}{2^n}$ converges by the Ratio test.
+        \item[3.] The series $\sum_{n=1}^{\infty}\left(\frac{4n^2-3n}{5n^2+1}\right)^n$ converges. Set $a_n=\left(\frac{4n^2-3n}{5n^2+1}\right)^n$ for $n\in\N$. Then we have \[\sqrt[n]{a_n}=\frac{4n^2-3n}{5n^2+1}=\frac{4-\frac{3}{n}}{5+\frac{1}{n^2}}\to \frac{4}{5}<1,\] by the Algebra of Limits. Therefore, by the Root test (Theorem \ref{thm:roottest}), $\sum_{n=1}^{\infty}\left(\frac{4n^2-3n}{5n^2+1}\right)^n$ converges.
+    \end{enumerate}
+\end{example}
+
 
 \begin{remark}
     Both the root and ratio tests examine whether the sequence in question can be bounded above ($L<1$) or below ($L>1$) by a convergent or divergent geometric series. If $L < 1$, it decays exponentially fast (like $(1/2)^n$), so it converges. If $L > 1$, it grows at least as fast as a divergent geometric series (intuitively), so it diverges.
@@ -709,17 +865,51 @@ Some remarks:
 \begin{example}
     For $a_n = \frac{1}{n!}$, the ratio is $\left| \frac{1/(n+1)!}{1/n!} \right| = \frac{1}{n+1} \to 0 < 1$. Thus, factorials grow so fast that their reciprocals decay much faster than any geometric series, guaranteeing absolute convergence.
 \end{example}
-
+The following series test is useful for series with oscillating terms.
 \begin{theorem}[Dirichlet test]
+\label{thm:dirichlettest}
     \begin{shaded*}
         Let $(a_n)$ and $(b_n)$ be sequences of real numbers such that:
         \begin{enumerate}
-            \item[1.] $(a_n)$ is monotonically decreasing and $a_n \to 0$ as $n \to \infty$.
-            \item[2.] The partial sums of $(b_n)$ are bounded, i.e., $\exists M > 0$ such that $\left| \sum_{k=1}^n b_k \right| \le M$ for all $n \in \N$.
+            \item[1.] $(b_n)$ is decreasing and $b_n \to 0$ as $n \to \infty$.
+            \item[2.] The partial sums of $(a_n)$ are bounded, i.e., $\exists M > 0$ such that $\left| \sum_{i=1}^n a_i \right| \le M$ for all $n \in \N$.
         \end{enumerate}
         Then the series $\sum_{n=1}^\infty a_n b_n$ converges.
     \end{shaded*}
 \end{theorem}
+
+\begin{proof}
+    Let $(a_n)$ and $(b_n)$ be sequences of real numbers such that:
+    \begin{enumerate}
+        \item[1.] The partial sums $A_n = \sum_{i=1}^n a_i$ are bounded. That is, there exists a real number $M > 0$ such that $|A_n| \le M$ for all $n \in \N$.
+        \item[2.] The sequence $(b_n)$ is decreasing ($b_{n+1} \le b_n$ for all $n \in \N$).
+        \item[3.] $\lim_{n \to \infty} b_n = 0$.
+    \end{enumerate}
+\noindent Let $S_n = \sum_{k=1}^n a_k b_k.$ First, we rewrite $S_n$ using summation by parts (also known as Abel's lemma). Since $a_k = A_k - A_{k-1}$ (where we define $A_0 = 0$), we can substitute this into our partial sum:
+
+\[ S_n = \sum_{k=1}^n (A_k - A_{k-1}) b_k. \]
+
+\noindent Thus
+\[ S_n = A_n b_n + \sum_{k=1}^{n-1} A_k (b_k - b_{k+1}). \]
+Now, because $|A_n| \le M$ for all $n \in \N$, we have $\allowbreak -M b_n \le A_n b_n \le M b_n$.
+Since $\lim_{n \to \infty} b_n = 0$, both bounds approach zero. By the Squeeze Theorem (Theorem \ref{thm:squeeze}):
+\[ \lim_{n \to \infty} A_n b_n = 0. \]
+
+\noindent We must now show that the series $\sum_{k=1}^{\infty} A_k (b_k - b_{k+1})$ converges. We have
+\[ \sum_{k=1}^{n-1} |A_k (b_k - b_{k+1})| = \sum_{k=1}^{n-1} |A_k| |b_k - b_{k+1}|, \]
+and since $(b_n)$ is decreasing, $b_k - b_{k+1} \ge 0$, so we can drop the absolute value. Using our bound $|A_k| \le M$, we get:
+\[ \sum_{k=1}^{n-1} |A_k| (b_k - b_{k+1}) \le \sum_{k=1}^{n-1} M (b_k - b_{k+1}) = M \sum_{k=1}^{n-1} (b_k - b_{k+1}) = M(b_1 - b_n). \]
+Because $b_n \ge 0$, we know $M(b_1 - b_n) \le M b_1$. Therefore, the partial sums of the absolute series are bounded above by the constant $M b_1$. Because it is a series of non-negative terms with bounded partial sums, $\sum_{k=1}^{\infty} |A_k (b_k - b_{k+1})|$ converges. Absolute convergence implies convergence, so the series $\sum_{k=1}^{\infty} A_k (b_k - b_{k+1})$ must converge to some real number $L$.
+
+\textbf{Conclusion} \\
+Taking the limit of our summation by parts equation as $n \to \infty$, we have, by the Algebra of Limits:
+\[ \lim_{n \to \infty} S_n = \lim_{n \to \infty} A_n b_n + \lim_{n \to \infty} \sum_{k=1}^{n-1} A_k (b_k - b_{k+1}) = 0 + L = L \]
+Therefore, $(S_n)$ converges, i.e. the series $\sum_{n=1}^{\infty} a_n b_n$ converges.\qedhere
+\end{proof}
+
+\begin{example}
+    The series $\sum_{n=1}^{\infty}\frac{e^{in\theta}}{n}$ is convergent for all $\theta\not\equiv 0\mod 2\pi$. We have \[ \left|\sum_{k=1}^ne^{ik\theta}\right|=\left|\frac{e^{i\theta}\left(1-e^{in\theta}\right)}{1-e^{i\theta}}\right|\le \frac{2}{|1-e^{i\theta}|},\] since $\theta\not\equiv 0\mod 2\pi$, so $1-e^{i\theta}$ is a non-zero constant. Also, $\frac{1}{n}\to 0$ and is decreasing, so by the Dirichlet test (Theorem \ref{thm:dirichlettest}), $\sum_{n=1}^{\infty}\frac{e^{in\theta}}{n}$ is convergent.
+\end{example}
 
 
 \section{Power series}
@@ -736,45 +926,83 @@ Some remarks:
     A power series is an ``infinite degree polynomial'', i.e. it is the function we get when we take the limit of finite polynomials in $\C$, i.e. the limit of $$\sum_{i=0}^n a_i (z-z_0)^i=a_0+a_1(z-z_0)+\cdots+a_n(z-z_0)^n.$$ Note that we have a \textit{different} sequence for \textit{each} value of $z\in\C$, and therefore when $P(z)$ converges, we have a different \textit{limit} for each value of $z\in\C$. Power series can therefore be seen as functions $\C\to\C$. Therefore, this motivates our interest in the radius of convergence for a power series, i.e. for which values of $z\in\C$ does the power series converge? Since the complex plane $\C$ has no natural ordering (we cannot say $z_1 < z_2$), we cannot directly apply real convergence tests to $a_n (z-z_0)^n$. Instead, we apply tests to their magnitudes $|a_n (z-z_0)^n|$, so the convergence problem is in $\R$. We will see why this makes sense below:
 \end{remark}
 
-\begin{theorem}
+\begin{lemma}
+\label{lem:radiuslemma}
     \begin{shaded*}
-        Let $(a_n)$ be a complex sequence and let $P(z)$ be the power series associated to $(a_n)$, centred at $z_0\in\C$. Let $w\ne 0$ be a complex number such that $P(w)$ is convergent. Then $P(z)$ is absolutely convergent for all $z\in\C$ such that $|z-z_0|<|w|$.
+        Let $(a_n)$ be a complex sequence and let $P(z)$ be the power series associated to $(a_n)$, centred at $z_0\in\C$. Let $w\ne z_0$ be a complex number such that $P(w)$ is convergent. Then $P(z)$ is absolutely convergent for all $z\in\C$ such that $|z-z_0|<|w-z_0|$.
     \end{shaded*}
-\end{theorem}
+\end{lemma}
 \begin{proof}
-    
+By assumption $P(w) = \sum_{n=0}^{\infty} a_n (w - z_0)^n$ is convergent, hence $a_n (w - z_0)^n$ has to tend to $0$ and $(a_n (w - z_0)^n)$ is bounded. This means that there exists $M\in\R_{>0}$ such that $|a_n (w - z_0)^n| \leq M$ for all $n \in \mathbb{N}$. Let $z\in\C$ be such that $|z-z_0|<|w-z_0|$.
+
+Then
+\[
+|a_n (z - z_0)^n| = \left| a_n (w - z_0)^n \frac{(z - z_0)^n}{(w - z_0)^n} \right| = |a_n (w - z_0)^n| \left| \frac{z - z_0}{w - z_0} \right|^n \leq M \left|\frac{z-z_0}{w-z_0}\right|^n.
+\]
+Since $|w - z_0| > |z - z_0|$, we have $\left|\frac{z-z_0}{w-z_0}\right|<1$, so $P(z)$ is absolutely convergent by comparison with $M\left|\frac{z-z_0}{w-z_0}\right|^n$.
 \end{proof}
 
 \begin{definition}[Radius of convergence]
     \begin{shaded*}
-        The \textit{radius of convergence}, $R$, of a power series $P(z) = \sum_{n=0}^{\infty} a_n (z-z_0)^n$ is defined as: $$R\coloneqq\sup\left\{|z|\in\R_{\ge 0}:P(z)\text{ is convergent}\right\}.$$
+        The \textit{radius of convergence}, $R$, of a power series $P(z) = \sum_{n=0}^{\infty} a_n (z-z_0)^n$ centred at $z_0\in\C$ is defined as: $$R\coloneqq\sup\left\{|z-z_0|\in\R_{\ge 0}:P(z)\text{ is convergent}\right\}.$$
     \end{shaded*}
 \end{definition}
+Note that the supremum does not exist if the set is not bounded above. In this case we say that the power series has infinite radius of convergence, and we write $R=\infty$.
+Another remark is that 0 is always in the set of numbers for which the power series is convergent, hence $R\ge 0$. If $R=0$, this means that the power series is always divergent, except for the trivial case $z=0$.
 
 \begin{remark}
     Power series convergence regions in $\C$ are circular. A power series will absolutely converge for any $z$ strictly inside the open disk defined by $|z - z_0| < R$, and it will diverge for any $z$ strictly outside ($|z - z_0| > R$). The boundary circle $|z - z_0| = R$ is the ambiguous zone where the series might converge, diverge, or conditionally converge depending on the specific point. This is why, as mentioned earlier, why we can apply tests to the magnitudes $|a_nz^n|$, rather than having to test individual values $z$ in the radius of convergence. However, individual values of $z\in\C$ such that $|z-z_0|=R$ must be tested to determine convergence or divergence on the boundary of the convergence region.
 \end{remark}
 
+\begin{theorem}
+    \begin{shaded*}
+        Let $P(z)=\sum_{n=0}^{\infty}a_n(z-z_0)^n$ be a power series with radius of convergence $R$. Then
+        \begin{enumerate}
+            \item[1.] $P(z)$ is absolutely convergent if $|z-z_0|<R$.
+            \item[2.] $P(z)$ is divergent if $|z-z_0|>R$.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[1.] Let $z\in\C$ be such that $|z-z_0|<R$. Therefore, by definition of $R$, there exists $r\in\R$ such that $|z-z_0|<r\le R$ such that $P(r)$ is convergent. The result follows from Lemma \ref{lem:radiuslemma}.
+        \item[2.] Let $z\in\C$ be such that $|z-z_0|>R$, and suppose for contradiction $P(z)$ is convergent. Then there exists $r\in\R$ such that $|z-z_0|>r>R$, but then $P(r)$ is convergent by Lemma \ref{lem:radiuslemma}, contradicting the definition of $R$.\qedhere
+    \end{enumerate}
+\end{proof}
+
 \begin{theorem}[Power series ratio test]
     \begin{shaded*}
-        Let $P(z) = \sum a_n z^n$ be a power series. If the limit $L = \lim_{n\to\infty} \left| \frac{a_{n+1}}{a_n} \right|$ exists (or is $\infty$), then the radius of convergence is given by $R = \frac{1}{L}$ (with the convention that $1/0 = \infty$ and $1/\infty = 0$).
+        Let $P(z) = \sum a_n (z-z_0)^n$ be a power series centred at $z_0\in\C$. If the limit $L = \lim_{n\to\infty} \left| \frac{a_{n+1}}{a_n} \right|$ exists (or is $\infty$), then the radius of convergence is given by $R = \frac{1}{L}$ (with the convention that $1/0 = \infty$ and $1/\infty = 0$).
     \end{shaded*}
 \end{theorem}
 
+\begin{proof}
+    Case 1: $L\ne 0$. We observe that for $z\in\C$, we have $\left|\frac{a_{n+1}(z-z_0)^{n+1}}{a_n(z-z_0)^n}\right|\to L|z-z_0|$ as $n\to\infty$. If $L|z-z_0|<1$ then $\sum_{n=0}^{\infty}a_nz^n$ converges by the Ratio test, and if $L|z-z_0|>1$ then $\sum_{n=0}^{\infty}a_nz^n$ diverges, so $R=\frac{1}{L}$.\par
+    Case 2: $L=0$. Then for any $z\in\C$, $\left|\frac{a_{n+1}(z-z_0)^{n+1}}{a_n(z-z_0)^n}\right|\to 0$, so $R=\infty$ (the set of values for which $P(z)$ converges is unbounded).\par
+    Case 3: $L=\infty$. Then for any $z\ne 0$, $\left|\frac{a_{n+1}(z-z_0)^{n+1}}{a_n(z-z_0)^n}\right|\to \infty$, so $(a_n(z-z_0)^n)$ is not summable for any $z\ne 0$, so $R=0$.\qedhere
+\end{proof}
+
 \begin{remark}
-    Intuitively, 
+    Intuitively, you can think of the radius of convergence $R$ as the outcome of an asymptotic tug-of-war between two competing forces: the growth (or decay) rate of the coefficients $a_n$, and the geometric growth (or decay) of $|z-z_0|^n$.
 \end{remark}
 
+\begin{example}
+    \begin{enumerate}
+        \item[1.] The power series $\sum_{n=0}^{\infty}n!(z-z_0)^n$ has convergence radius $R=0$ because \[\left|\frac{a_{n+1}}{a_n}\right|=\frac{(n+1)!}{n!}=n+1\to\infty.\]
+        \item[2.] The power series $\sum_{n=0}^{\infty}\frac{n^n}{n!}(z-z_0)^n$ has convergence radius $R=\frac{1}{e}$ because \[ \left|\frac{a_{n+1}}{a_n}\right|=\frac{(n+1)^{n+1}/(n+1)!}{n^n/n!}=\frac{1}{n+1}\frac{(n+1)(n+1)^n}{n^n}=\left(1+\frac{1}{n}\right)^n\to e. \]
+        \item[3.] The power series $\sum_{n=0}^{\infty}\frac{1}{n!}z^n$ has convergence radius $R=\infty$ because \[ \left|\frac{a_{n+1}}{a_n}\right|=\frac{1/(n+1)!}{1/n!}=\frac{1}{n+1}\to 0.\]
+    \end{enumerate}
+\end{example}
+By item 3 above, the following function is well-defined:
 \begin{definition}[The complex exponential function]
     \begin{shaded*}
         For any $z \in \C$, we define the complex exponential function as the power series:
-        $$ \exp(z) \coloneqq \sum_{n=0}^{\infty} \frac{z^n}{n!} $$
+        \[ \exp(z) \coloneqq \sum_{n=0}^{\infty} \frac{z^n}{n!}. \]
     \end{shaded*}
 \end{definition}
-
-\begin{remark}
-    Why define the exponential function this way? Structurally, if you take the formal term-by-term derivative of $\sum \frac{z^n}{n!}$, the $n$ comes down, cancels with the $n$ in the factorial, and leaves you with the exact same series. It is the unique power series (up to scaling) that is its own derivative—the defining mathematical characteristic of exponential growth. By the ratio test, its radius of convergence is $R = \infty$, so it converges for all $z \in \C$.
-\end{remark}
+\begin{exercise*}
+    Prove that for any $z,w\in\C$, $\exp(z+w)=\exp(z)\exp(w)$. \textit{(Hint: use the Cauchy product formula for series and the Binomial Theorem)}.
+\end{exercise*}
 
 
 

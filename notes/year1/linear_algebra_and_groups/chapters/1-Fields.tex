@@ -88,11 +88,11 @@
     This definition is slightly redundant. To prove a subset $F\subseteq E$ is a subfield, it actually suffices to show closure under addition and multiplication, the existence of multiplicative inverses for non-zero elements, and that $-1\in F$. Because if $-1\in F$ and we have the closures above, then $(-1)(-1)=1\in F$ and $(-1)+1=0\in F$. Additive inverses follow from closure of addition with $-1$.
 \end{remark}
 
-\begin{example}Some examples of subfields are:
+\begin{example}Some examples of fields and subfields are:
     \begin{itemize}
         \item $\Q[i]\coloneqq\{a+bi:a,b\in\Q\}\subseteq\C$ is a field (the "Gaussian rationals"). It is a subfield of $\C$.
-        \item $F[X]=\{a_0+a_1X+\cdots+a_nX^n:a_i\in F\}$ is \textit{not} a field because non-constant polynomials lack multiplicative inverses (e.g., $1/X\notin F[X]$). However, it is a vector space.
-        \item The field of rational functions $F(X)\coloneqq\left\{\frac{p(X)}{q(X)}:p,q\in F[X],\,q\ne 0\right\}$ is a field.
+        \item $\Q[\sqrt{2}]\coloneqq\{a+b\sqrt{2}:a,b\in\Q\}\subseteq\R$ is a field, and it is a subfield of $\R$ (exercise: show this).
+        \item The field of rational functions $F(X)\coloneqq\left\{\frac{p(X)}{q(X)}:p,q\in F[X],\,q\ne 0\right\}$ is a field. $\Q(x)$ is a subfield of $\R(x)$, for example.
     \end{itemize}
 \end{example}
 

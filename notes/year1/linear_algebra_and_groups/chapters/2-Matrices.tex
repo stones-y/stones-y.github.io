@@ -147,7 +147,7 @@ To find $c_{i\ell}$, we take the $i^{\mathrm{th}}$ row of this result:
 
 \subsection{Some more formal properties of matrices}
 
-\begin{definition}[Bilinear Map]
+\begin{definition}[Bilinear map]
     \begin{shaded*}
         Let $V,W,U$ be vector spaces over $F$. A map $f:V\times W\to U$ mapping $(v,w)\mapsto f(v,w)$ is \textit{bilinear} if it is linear in each argument when the other is held fixed:
         \begin{itemize}
@@ -245,7 +245,7 @@ We want to prove that matrix multiplication is bilinear. To do this, we first es
 \end{proof}
 
 \begin{remark}
-    Notice that the order reverses in $(AB)^t = B^tA^t$. This is necessary for the dimensions to align. For example, if $A$ is $1 \times 5$ and $B$ is $5 \times 1$, $AB$ is $1 \times 1$. $A^t$ is $5 \times 1$ and $B^t$ is $1 \times 5$. The product $A^t B^t$ is impossible, but $B^t A^t$ results in a $1 \times 1$ matrix.
+    Notice that the order reverses in $(AB)^t = B^tA^t$. This is necessary for the dimensions to align. For example, if $A$ is $1 \times 5$ and $B$ is $5 \times 1$, $AB$ is $1 \times 1$. $A^t$ is $5 \times 1$ and $B^t$ is $1 \times 5$. The product $A^t B^t$ is impossible, but $B^t A^t$ results in a $1 \times 1$ matrix. There is a deeper reason for this, which we will see when we look at dual vector spaces and dual linear transformations.
 \end{remark}
 
 \subsection{Special Matrices}

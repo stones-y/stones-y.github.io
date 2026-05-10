@@ -1,0 +1,303 @@
+\documentclass[../linear_algebra_and_groups.tex]{subfiles}
+
+\begin{document}
+
+
+\chapter{Linear Equations}
+
+
+\section{Solving Linear Systems}
+
+\subsection{Gaussian Elimination}
+
+A system of $m$ linear equations in $n$ variables can be encoded by the matrix equation:
+\[\begin{pmatrix}a_{11} & \cdots & a_{1n}\\\vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}\end{pmatrix}\begin{pmatrix}x_1\\\vdots\\x_n\end{pmatrix}=\begin{pmatrix}b_1\\\vdots\\b_m\end{pmatrix}.\]
+
+\begin{definition}[Row equivalence]
+    \begin{shaded*}
+        Let $A,B\in M_{m\times n}(F)$. We say that $A$ and $B$ are \textit{row-equivalent} if $B$ can be obtained from $A$ by a finite sequence of the following elementary row operations:
+        \begin{itemize}
+            \item Permuting two rows.
+            \item Multiplying a row by a non-zero scalar.
+            \item Adding a scalar multiple of one row to another row.
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}[Row Echelon Form (REF)]
+    \begin{shaded*}
+        A matrix is in \textit{row echelon form} if:
+        \begin{itemize}
+            \item All rows consisting entirely of zeros are at the bottom.
+            \item The leading non-zero entries (pivots) of each non-zero row are 1.
+            \item The pivots of each non-zero row occurs strictly to the right of the pivot in the previous row.
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Gaussian elimination is an algorithm that uses elementary row operations to transform any matrix into REF. This allows us to solve linear systems by back-substitution.
+\end{remark}
+
+\begin{example}
+    Consider the augmented matrix of a linear system:
+    $$\left(\begin{array}{ccc|c} 1 & 2 & 1 & 4 \\ 2 & 5 & 3 & 10 \\ -1 & -1 & 1 & -1 \end{array}\right)$$
+    We apply Gaussian elimination to transform it into REF:
+    $$\left(\begin{array}{ccc|c} 1 & 2 & 1 & 4 \\ 0 & 1 & 1 & 2 \\ 0 & 1 & 2 & 3 \end{array}\right) \begin{matrix} \\ R_2 \to R_2 - 2R_1 \\ R_3 \to R_3 + R_1 \end{matrix}$$
+    $$\left(\begin{array}{ccc|c} 1 & 2 & 1 & 4 \\ 0 & 1 & 1 & 2 \\ 0 & 0 & 1 & 1 \end{array}\right) \begin{matrix} \\ \\ R_3 \to R_3 - R_2 \end{matrix}$$
+    This matrix is now in REF.
+\end{example}
+
+\subsection{Gauss-Jordan Elimination}
+
+\begin{definition}[Reduced Row Echelon Form (RREF)]
+    \begin{shaded*}
+        A matrix is in \textit{reduced row echelon form} if:
+        \begin{itemize}
+            \item It is in row echelon form.
+            \item Every pivot entry is equal to $1$.
+            \item Each pivot is the only non-zero entry in its column.
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Gauss-Jordan elimination continues the process of Gaussian elimination to transform a matrix from REF into RREF. In RREF, the pivot columns are exactly the standard basis vectors $e_i$. Solving a system in RREF requires no back-substitution; each pivot equation directly expresses a pivot variable in terms of the free variables.
+\end{remark}
+
+\begin{example}
+    Continuing from the previous example, we apply Gauss-Jordan elimination to reach RREF:
+    $$\left(\begin{array}{ccc|c} 1 & 2 & 0 & 3 \\ 0 & 1 & 0 & 1 \\ 0 & 0 & 1 & 1 \end{array}\right) \begin{matrix} R_1 \to R_1 - R_3 \\ R_2 \to R_2 - R_3 \\ \end{matrix}$$
+    $$\left(\begin{array}{ccc|c} 1 & 0 & 0 & 1 \\ 0 & 1 & 0 & 1 \\ 0 & 0 & 1 & 1 \end{array}\right) \begin{matrix} R_1 \to R_1 - 2R_2 \\ \\ \end{matrix}$$
+    The matrix is now in RREF. The solution is uniquely determined: $x_1=1, x_2=1, x_3=1$.
+\end{example}
+
+\begin{theorem}
+    \begin{shaded*}
+        Every matrix is row-equivalent to a matrix in RREF.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    This is achieved constructively by the Gauss-Jordan elimination algorithm.
+    \qedhere
+\end{proof}
+
+\subsection{Uniqueness of RREF}
+
+\begin{theorem}
+    \begin{shaded*}
+        An RREF augmented matrix $(A|b)$ represents an inconsistent system if and only if the last column is a pivot column.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    If the last column is a pivot column, the matrix contains a row of the form $(0\ \cdots\ 0\ \mid\ 1)$, which encodes the contradictory equation $0 = 1$. Thus, the system is inconsistent. 
+    
+    Conversely, if the system is inconsistent, its RREF must contain a contradiction of the form $(0\ \cdots\ 0\ \mid\ c)$ for some $c \neq 0$. Scaling this row by $c^{-1}$ leaves a $1$ in the final column, making it a pivot column.
+    \qedhere
+\end{proof}
+
+\begin{theorem}[Equivalence of Linear Systems]
+    \begin{shaded*}\phantom{a}
+        \begin{enumerate}
+            \item If $(A|b)$ is row-equivalent to $(A'|b')$, then the systems $Ax=b$ and $A'x=b'$ have the same solution set.
+            \item Conversely, if $(A|b)$ and $(A'|b')$ are consistent augmented matrices in $M_{m\times (n+1)}(F)$ with the same solution set, they are row-equivalent.
+            \item For any matrix $A$, there is a unique RREF matrix row-equivalent to $A$.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Elementary row operations are reversible and preserve the validity of equations. Permuting rows changes only the order; scaling a row by $\lambda \neq 0$ creates an equivalent equation; adding $\lambda R_i$ to $R_j$ creates a new equation whose solutions must still satisfy the original system.
+        \item If $(A|b)$ and $(A'|b')$ are consistent and have the same solutions, their respective RREF forms must also have the same solutions by (1). The RREF of a consistent system is uniquely determined by its solution set, because the parameterized solution explicitly identifies which variables are free and uniquely defines the pivot variables in terms of them. Therefore, their RREF matrices must be identical, meaning they are row-equivalent to each other.
+        \item Let $B$ and $B'$ be two RREF matrices row-equivalent to $A$. By (1), they have the same solution set. By (2), they must be identical since the solution set uniquely determines RREF, so $B=B'$. Therefore, there exists a unique RREF matrix that is row-equivalent to $A$.\qedhere
+        \qedhere
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}[Rank]
+    \begin{shaded*}
+        The \textit{rank} of a matrix is the number of pivot columns in its REF or RREF.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    The uniqueness of the RREF ensures that the rank of a matrix is a well-defined property, independent of the sequence of row operations used to compute it. The number of free variables is intrinsic to the solution set.
+\end{remark}
+
+\begin{definition}[Nullspace and Nullity]
+    \begin{shaded*}
+        For a matrix $A \in M_{m\times n}(F)$, the \textit{nullspace} of $A$ is the set of all solutions to the homogeneous equation $Ax=0$:
+        \[ \text{Null}(A) \coloneqq \{x \in F^n : Ax = 0\} \]
+        The \textit{nullity} of $A$ is the dimension of this nullspace.
+    \end{shaded*}
+\end{definition}
+\begin{remark}
+    We will rigorously define the concept of \textit{dimension} later, but for now the \textit{nullity} of a matrix $A$ can be thought of as the number of free variables in the solution set of $Ax=0$.
+\end{remark}
+
+\begin{theorem}[Rank-Nullity Theorem for Matrices]
+\label{thm:ranknullitymatrices}
+    \begin{shaded*}
+        Let $A \in M_{m\times n}(F)$. Then:
+        \[ \text{rank}(A) + \text{nullity}(A) = n \]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $R$ be the unique reduced row echelon form (RREF) of $A$. Since elementary row operations preserve the solution set of homogeneous systems, $Ax = 0 \iff Rx = 0$. Thus, $\text{Null}(A) = \text{Null}(R)$.
+
+    By definition, the rank of $A$, denoted $r$, is the number of pivot columns in $R$. Because $A$ has exactly $n$ columns, the variables $x_1, \dots, x_n$ are partitioned uniquely into $r$ pivot variables and $n - r$ free variables.
+
+    To completely describe the solution set $\text{Null}(R)$, we express each of the $r$ pivot variables strictly in terms of the $n - r$ free variables. Any solution $x \in \text{Null}(A)$ is entirely and uniquely determined by assigning arbitrary values from the field $F$ to these $n - r$ free variables. 
+
+    We construct a basis for $\text{Null}(A)$ by isolating the $n - r$ free variables: set one free variable to $1$ and the remaining free variables to $0$, and solve for the pivot variables. Doing this for each free variable generates exactly $n - r$ linearly independent vectors that span the entire solution space. 
+
+    Therefore, the dimension of the nullspace (the nullity) is identically the number of free variables:
+    \[ \text{nullity}(A) = n - r \]
+    Rearranging this equation yields $\text{rank}(A) + \text{nullity}(A) = n$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This proof links the abstract concept of vector space dimensions to solving linear equations. The Rank-Nullity Theorem is essentially an accounting law: every column in a matrix either provides a pivot (adding $1$ to the rank) or corresponds to a free variable (adding $1$ to the nullity), so their sum must be $n$, the number of columns. 
+\end{remark}
+
+\subsection{Structure of the Solution Space}
+
+When we solve a system $Ax=b$ using Gauss-Jordan elimination, the row operations depend only on $A$, not $b$. Consequently, if we find a solution to $Ax=b$, we are simultaneously exploring the structure of the homogeneous system $Ax=0$.
+
+\begin{lemma}
+    \begin{shaded*}
+        Let $x_p$ be a particular solution to $Ax=b$. Then any solution $z$ to $Ax=b$ can be written as $z = x_p + v$, where $v$ is a solution to the homogeneous system $Ax=0$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Suppose $Az = b$ and $Ax_p = b$. By the linearity of matrix multiplication:
+    $$A(z - x_p) = Az - Ax_p = b - b = 0.$$
+    Thus, $v \coloneqq z - x_p$ is a solution to the homogeneous system $Ax=0$. 
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    Geometrically, the solution set to $Ax=0$ (the nullspace of $A$) forms a linear subspace (e.g., a line or plane through the origin). The solution set to $Ax=b$ is exactly this same subspace, translated away from the origin by the particular solution vector $x_p$. The homogeneous solutions define the "directions" of the solution space, and $x_p$ acts as the ``anchor point''.
+\end{remark}
+
+
+\section{Matrix Inverses}
+
+\subsection{Matrix Equations}
+
+Now we consider inverting matrices. To solve multiple systems $Ax_1=B_1,\dots,Ax_k=B_k$ simultaneously, we do not need to apply the row reduction algorithm $k$ times. We can solve them all at once using an augmented matrix:
+\[ \left(\begin{array}{c|ccc} A & B_1 & \cdots & B_k \end{array}\right) \xrightarrow{\text{Gauss-Jordan}} \left(\begin{array}{c|ccc} R & C_1 & \cdots & C_k \end{array}\right) \]
+where $R$ is in RREF and $Rx_i=C_i$ for all $i$.
+
+\begin{remark}
+    The row operations performed during Gauss-Jordan elimination depend only on the matrix $A$. The target columns $B_1, \dots, B_k$ are just transformed alongside $A$. Since matrix multiplication acts column-wise, $R(x_1 \dots x_k) = (Rx_1 \dots Rx_k)$, the concatenated problem is strictly equivalent to the single matrix equation $AX=B$, where $X$ and $B$ are matrices. The $j^{\mathrm{th}}$ column of $X$ is the unique solution for the $j^{\mathrm{th}}$ column of $B$.
+\end{remark}
+
+We apply this to find the inverse of a matrix. To find a right inverse $X$ such that $AX=I_m$, we solve the matrix equation using the augmented matrix $\left(\begin{array}{c|c} A & I_m \end{array}\right)$.
+
+\begin{proposition}
+\label{prop:rightinvbound}
+    \begin{shaded*}
+        Let $A\in M_{m\times n}(F)$. If $AX=I_m$ has a solution, then $m\le n$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Suppose $m>n$. Then $A$ is taller than it is wide. When we perform Gauss-Jordan elimination:
+    \[ \left(\begin{array}{c|c} A & I_m \end{array}\right) \sim \left(\begin{array}{c|c} R & C \end{array}\right) \]
+    Since $R$ has $n$ columns and is in RREF, it can have at most $n$ pivots. Because $m>n$, $R$ must have at least one row of zeros at the bottom. By assumption, the system $AX=I_m$ is consistent, meaning $RX=C$ is also consistent. Therefore, a zero row in $R$ implies the corresponding row in $C$ must also be zero (to avoid an equation of the form $0 = c \neq 0$).
+    
+    However, elementary row operations are invertible. If we apply the exact same sequence of operations directly to $I_m$, we get $C$. Since $I_m$ is already the unique RREF matrix row-equivalent to itself, and $C$ has a zero row, we cannot row-reduce $C$ back to $I_m$, contradicting that $C$ is row-equivalent to $I_m$. Thus, $m\le n$.
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        Let $A \in M_{m\times n}(F)$. If $A$ has a right inverse $X \in M_{n\times m}(F)$ and a left inverse $Y \in M_{n\times m}(F)$ such that $AX = I_m$ and $YA = I_n$, then $A$ is a square matrix (i.e., $m=n$).
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Since $A$ has a right inverse $X$, the equation $AX = I_m$ has a solution. By our previous proposition, this implies $m \le n$. 
+    
+    Since $A$ has a left inverse $Y$, we have $YA = I_n$. Taking the transpose of both sides yields $A^t Y^t = I_n$. Here, $A^t \in M_{n\times m}(F)$ and $Y^t \in M_{m\times n}(F)$. Applying the same proposition to this new equation, the number of rows of $A^t$ must be less than or equal to its number of columns, which gives $n \le m$. 
+    
+    Since $m \le n$ and $n \le m$, we conclude $m=n$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    The trick above relies on transposing the \textit{left} inverse equation $YA = I_n$ to force the dimensionality bound (Proposition \ref{prop:rightinvbound}) in the opposite direction.
+\end{remark}
+
+\begin{lemma}
+    \begin{shaded*}
+        If $A$ has a right inverse $X$ and a left inverse $Y$, then $X=Y$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    By associativity of matrix multiplication:
+    \[ Y = Y I_m = Y (A X) = (Y A) X = I_n X = X \]
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        If $A\in M_{m\times n}(F)$ has both a right inverse and a left inverse, then $A$ is square, and all left and right inverses are equal to a unique two-sided inverse, denoted $A^{-1}$.
+    \end{shaded*}
+\end{corollary}
+
+\begin{remark}
+    To find a right inverse $X$ such that $AX=I_m$, row reduce $\left(\begin{array}{c|c} A & I_m \end{array}\right)$ to $\left(\begin{array}{c|c} R & C \end{array}\right)$ and solve $RX=C$. To find a left inverse $Y$ such that $YA=I_n$, we cannot directly use row operations. Instead, we transpose the equation to $A^t Y^t = I_n$. We then solve this as a right inverse problem for $A^t$ to find $Y^t$, and transpose the final result to obtain $Y$. For a square matrix $A$, if a right inverse exists, it is the unique two-sided inverse $A^{-1}$, so we only need to perform Gauss-Jordan elimination once.
+\end{remark}
+
+\begin{theorem}
+\label{thm:inverserowequiv}
+    \begin{shaded*}
+        If $A \in M_{n\times n}(F)$ is invertible, then $\left(\begin{array}{c|c} A & I_n \end{array}\right)$ row reduces to $\left(\begin{array}{c|c} I_n & A^{-1} \end{array}\right)$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Since $A$ is invertible, $AX=I_n$ has a solution. Applying Gauss-Jordan elimination yields $\left(\begin{array}{c|c} R & C \end{array}\right)$, where $RX=C$ is consistent. Since $R$ is square, if $R \neq I_n$, it must contain a zero row at the bottom. By consistency, the corresponding row in $C$ would also be zero. But $C$ is row-equivalent to $I_n$, which is impossible if $C$ has a zero row. Therefore, $R = I_n$. 
+    
+    The system becomes $I_n X = C$, meaning $X = C$. Since the inverse is unique, $C = A^{-1}$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    We can alternatively prove Theorem \ref{thm:inverserowequiv} using elementary matrices. An elementary row operation on a matrix corresponds to left-multiplication by an elementary matrix $E$, where $E$ is the matrix obtained from the identity by performing a single elementary row operation (exercise: prove that left multiplication by $E$ corresponds to performing the same elementary row operation on $A$ that was performed on $E$).\par
+    Now, let $A\in M_{n\times n}(F)$ be invertible, and consider the homogeneous system $Ax = 0$. Since $A$ is invertible, we can left-multiply by $A^{-1}$ to get $x = 0$. This means the system has only the trivial solution, which implies there are no free variables. An $n \times n$ matrix in RREF with no free variables must have a pivot in every column (by the Rank-Nullity Theorem for Matrices, Theorem \ref{thm:ranknullitymatrices}), meaning its RREF is exactly $I_n$.
+    
+    Because $A$ row reduces to $I_n$, there exists a sequence of elementary row operations, corresponding to left-multiplication by elementary matrices $E_1, \dots, E_k$, such that:
+    \[ E_k \cdots E_1 A = I_n \]
+    Let $E = E_k \cdots E_1$. Then $EA = I_n$. Multiplying both sides on the right by $A^{-1}$ yields:
+    \[ EAA^{-1} = I_n A^{-1} \implies E = A^{-1} \]
+    Applying this identical sequence of row operations to the augmented matrix $\left(\begin{array}{c|c} A & I_n \end{array}\right)$ corresponds to left-multiplying the entire block matrix by $E$:
+    \[ E\left(\begin{array}{c|c} A & I_n \end{array}\right) = \left(\begin{array}{c|c} EA & EI_n \end{array}\right) = \left(\begin{array}{c|c} I_n & E \end{array}\right) \]
+    Since we established $E = A^{-1}$, the augmented matrix reduces exactly to $\left(\begin{array}{c|c} I_n & A^{-1} \end{array}\right)$.
+\end{remark}
+
+\subsection{Preview of Determinants}
+
+When is a $2\times 2$ matrix invertible? From the previous theorem, $A$ is invertible if and only if its RREF is $I_2$.
+
+\begin{proposition}
+    \begin{shaded*}
+        A $2 \times 2$ matrix $A$ is invertible if and only if its rows $R_1$ and $R_2$ are not scalar multiples of each other.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    $(\implies)$ If $R_1$ and $R_2$ are multiples of each other, row reduction will produce a row of zeros. Thus, the RREF is not $I_2$, and $A$ is not invertible.
+    
+    $(\impliedby)$ If the rows are not multiples, then the first column cannot be entirely zero (otherwise $R_1$ and $R_2$ would be multiples of each other). After a possible row swap, we have:
+    \[ A = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \sim \begin{pmatrix} 1 & b' \\ 0 & d' \end{pmatrix} \]
+    where $a \neq 0$. Since $R_2$ is not a multiple of $R_1$, the row reduction $R_2 \to R_2 - \frac{c}{a}R_1$ leaves a non-zero entry $d'$. Thus, the second column contains a pivot, making the RREF $I_2$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    For a $2 \times 2$ matrix $\begin{pmatrix} a & b \\ c & d \end{pmatrix}$, the condition that the rows are not multiples means $ad \neq bc$. We define the determinant as $\det A \coloneqq ad - bc$. Thus, $A$ is invertible if and only if $\det A \neq 0$.
+\end{remark}
+
+
+
+\end{document}
