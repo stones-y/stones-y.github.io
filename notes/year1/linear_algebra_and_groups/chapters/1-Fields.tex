@@ -3,12 +3,9 @@
 \begin{document}
 
 
-\chapter{Fields and Vector Spaces}
-
+\chapter{Fields}
 
 \section{Fields}
-
-
 
 \begin{definition}[Field]
     \begin{shaded*}
@@ -137,7 +134,7 @@
 
 \begin{definition}[Vector Space]
     \begin{shaded*}
-        A vector space $V$ over a field $F$ is a commutative group $(V,+)$ together with an action $F\times V\to V$, mapped by $(\lambda,v)\mapsto\lambda v$, called \textit{scalar multiplication}, satisfying the following properties for all $\lambda,\mu\in F$ and $v,w\in V$:
+        A vector space $V$ over a field $F$ is a commutative group $(V,+)$ together with an action $F\times V\to V$, defined by $(\lambda,v)\mapsto\lambda v$, called \textit{scalar multiplication}, satisfying the following properties for all $\lambda,\mu\in F$ and $v,w\in V$:
         \begin{itemize}
             \item \textbf{Associativity:} $\lambda(\mu v)=(\lambda\mu)v$
             \item \textbf{Distributivity of scalar sums:} $(\lambda+\mu)v=\lambda v+\mu v$
@@ -146,6 +143,7 @@
         \end{itemize}
     \end{shaded*}
 \end{definition}
+For notation, unless stated otherwise, when we say ``a vector space $V$'', we assume by default that it is a vector space over a field $F$.
 
 \begin{remark}
     Structurally, one can think of a vector space as having two tiers: the ``ground'' field $F$ provides the scalars (stretching factors), while the commutative group $V$ provides the vectors (the objects being stretched and added; indeed, $F$ acts on $V$ to get scalar multiples of vectors). The axioms ensure these tiers interact in a linear way.

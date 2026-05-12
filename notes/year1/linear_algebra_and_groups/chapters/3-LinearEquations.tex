@@ -121,13 +121,13 @@ A system of $m$ linear equations in $n$ variables can be encoded by the matrix e
 \end{definition}
 
 \begin{remark}
-    The uniqueness of the RREF ensures that the rank of a matrix is a well-defined property, independent of the sequence of row operations used to compute it. The number of free variables is intrinsic to the solution set.
+    The uniqueness of the RREF ensures that the rank of a matrix is a well-defined property, independent of the sequence of row operations used to compute it. The number of free variables is intrinsic to the solution set. For $A\in M_{m\times n}(F)$, we write $\rank(A)$ for this number.
 \end{remark}
 
 \begin{definition}[Nullspace and Nullity]
     \begin{shaded*}
         For a matrix $A \in M_{m\times n}(F)$, the \textit{nullspace} of $A$ is the set of all solutions to the homogeneous equation $Ax=0$:
-        \[ \text{Null}(A) \coloneqq \{x \in F^n : Ax = 0\} \]
+        \[ \Null(A) \coloneqq \{x \in F^n : Ax = 0\} \]
         The \textit{nullity} of $A$ is the dimension of this nullspace.
     \end{shaded*}
 \end{definition}
@@ -139,7 +139,7 @@ A system of $m$ linear equations in $n$ variables can be encoded by the matrix e
 \label{thm:ranknullitymatrices}
     \begin{shaded*}
         Let $A \in M_{m\times n}(F)$. Then:
-        \[ \text{rank}(A) + \text{nullity}(A) = n \]
+        \[ \rank(A) + \mathrm{nullity}(A) = n \]
     \end{shaded*}
 \end{theorem}
 \begin{proof}
@@ -286,9 +286,9 @@ When is a $2\times 2$ matrix invertible? From the previous theorem, $A$ is inver
     \end{shaded*}
 \end{proposition}
 \begin{proof}
-    $(\implies)$ If $R_1$ and $R_2$ are multiples of each other, row reduction will produce a row of zeros. Thus, the RREF is not $I_2$, and $A$ is not invertible.
+    $(\Rightarrow)$ If $R_1$ and $R_2$ are multiples of each other, row reduction will produce a row of zeros. Thus, the RREF is not $I_2$, and $A$ is not invertible.
     
-    $(\impliedby)$ If the rows are not multiples, then the first column cannot be entirely zero (otherwise $R_1$ and $R_2$ would be multiples of each other). After a possible row swap, we have:
+    $(\Leftarrow)$ If the rows are not multiples, then the first column cannot be entirely zero (otherwise $R_1$ and $R_2$ would be multiples of each other). After a possible row swap, we have:
     \[ A = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \sim \begin{pmatrix} 1 & b' \\ 0 & d' \end{pmatrix} \]
     where $a \neq 0$. Since $R_2$ is not a multiple of $R_1$, the row reduction $R_2 \to R_2 - \frac{c}{a}R_1$ leaves a non-zero entry $d'$. Thus, the second column contains a pivot, making the RREF $I_2$.
     \qedhere

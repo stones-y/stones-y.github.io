@@ -1,0 +1,740 @@
+\documentclass[../linear_algebra_and_groups.tex]{subfiles}
+
+\begin{document}
+
+
+\chapter{Linear Transformations}
+
+This is really what linear algebra is all about: linear maps between vector spaces.
+
+\begin{definition}
+    \begin{shaded*}
+        Let $T:V\to W$ be a map between vector spaces over a field $F$. We say that $T$ is \textit{linear} if, for all $u,v\in V$ and $\lambda\in F$:
+        \begin{align*}
+            T(u+v) &= T(u)+T(v) \\
+            T(\lambda v) &= \lambda T(v)
+        \end{align*}
+    \end{shaded*}
+\end{definition}
+
+\noindent An important result that we can immediately prove is:
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $V$ and $W$ be vector spaces over $F$, and let $(v_1, \dots, v_n)$ be a basis for $V$. For any arbitrary choice of vectors $w_1, \dots, w_n \in W$, there exists a \textit{unique} linear map $T: V \to W$ such that:
+        \[ T(v_i) = w_i \quad \text{for all } i = 1, \dots, n \]
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    We must prove both that such a map exists (it is well-defined and linear) and that it is the only one.
+
+    \textit{Existence:} Let $v \in V$. Because $(v_1, \dots, v_n)$ is a basis, $v$ can be written uniquely as a linear combination:
+    \[ v = \lambda_1 v_1 + \cdots + \lambda_n v_n \]
+    We explicitly define the map $T$ by taking those exact same scalars and applying them to the chosen vectors $w_i$:
+    \[ T(v) \coloneqq \lambda_1 w_1 + \cdots + \lambda_n w_n \]
+    Because the representation of $v$ is unique, this map is unambiguous (well-defined). To check that $T(v_i) = w_i$, notice that the unique representation of $v_i$ has a coefficient of $1$ on $v_i$ and $0$ on all other basis vectors. Plugging this into our definition immediately yields $1w_i = w_i$.
+
+    We now verify $T$ is linear. Let $u = \alpha_1 v_1 + \cdots + \alpha_n v_n$.
+    \begin{align*}
+        T(v + u) &= T((\lambda_1 + \alpha_1)v_1 + \cdots + (\lambda_n + \alpha_n)v_n) \\
+        &= (\lambda_1 + \alpha_1)w_1 + \cdots + (\lambda_n + \alpha_n)w_n \\
+        &= (\lambda_1 w_1 + \cdots + \lambda_n w_n) + (\alpha_1 w_1 + \cdots + \alpha_n w_n) \\
+        &= T(v) + T(u)
+    \end{align*}
+    The proof for scalar multiplication $T(cv) = cT(v)$ follows identically:
+    \[ T(cv) = T(c\lambda_1 v_1 + \cdots + c\lambda_n v_n) = c\lambda_1 w_1 + \cdots + c\lambda_n w_n = cT(v) \]
+    Thus, $T$ is a valid linear map.
+
+    \textit{Uniqueness:} Suppose there is another linear map $S: V \to W$ that also satisfies $S(v_i) = w_i$ for all $i$. Let $v = \lambda_1 v_1 + \cdots + \lambda_n v_n$ be an arbitrary vector in $V$. By the linearity of $S$:
+    \begin{align*}
+        S(v) &= S(\lambda_1 v_1 + \cdots + \lambda_n v_n) \\
+        &= \lambda_1 S(v_1) + \cdots + \lambda_n S(v_n) \\
+        &= \lambda_1 w_1 + \cdots + \lambda_n w_n \\
+        &= T(v)
+    \end{align*}
+    Since $S(v) = T(v)$ for all $v \in V$, the maps are identical ($S = T$). The map is uniquely determined by its action on the basis.\qedhere
+\end{proof}
+
+\section{Isomorphisms}
+
+\begin{definition}
+    \begin{shaded*}
+        A linear map $T:V\to W$ is a (linear) \textit{isomorphism} if it is bijective.
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $V,W$ be vector spaces. If $T:V\to W$ is a linear isomorphism, its inverse $T^{-1}:W\to V$ is also a linear isomorphism.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Exercise.\qedhere
+\end{proof}
+
+\begin{remark}
+    Two vector spaces $V,W$ being isomorphic (we write $V \cong W$) means they are structurally identical as vector spaces, even if their elements are completely different mathematical objects (such as polynomials, matrices, or column vectors). In the finite-dimensional case, an abstract vector space of dimension $n$ can be viewed as a replica of $F^n$, as we will show below.\par
+    A linear isomorphism acts as a perfect translation dictionary between the two spaces. Because it is bijective, every element maps to exactly one counterpart, meaning no information is lost or collapsed. Because it is linear, the algebraic structure is perfectly preserved: adding two vectors in $V$ and then translating the result to $W$ gives the exact same answer as translating them first and adding them in $W$. If $V \cong W$, any purely linear algebraic property (like dimension, linear independence, or span) true in $V$ is automatically guaranteed to be true in $W$ (we will show these facts later).
+\end{remark}
+
+\begin{theorem}[Coordinate Isomorphism]
+\label{thm:coordiso}
+    \begin{shaded*}
+        Let $V$ be a finite-dimensional vector space over a field $F$ with $\dim(V) = n$. Then $V$ is isomorphic to $F^n$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Because $\dim(V) = n$, there exists a basis $\mathcal{B} = (v_1, \dots, v_n)$ of size $n$. 
+    
+    By Proposition \ref{prop:uniquerepbasis}, every $v \in V$ has a unique representation $v = c_1v_1 + \cdots + c_nv_n$. This allows us to construct a well-defined coordinate map $T : V \to F^n$ by extracting these unique scalars:
+    \[ T(v) = \begin{pmatrix} c_1 \\ \vdots \\ c_n \end{pmatrix} \]
+    
+    We claim that $T$ is a linear bijection.
+    
+    \textit{Linearity:} Let $u, w \in V$ and $\lambda \in F$. Let their unique representations in $\mathcal{B}$ be $u = a_1v_1 + \cdots + a_nv_n$ and $w = b_1v_1 + \cdots + b_nv_n$. 
+    Adding the vectors gives:
+    \[ u + w = (a_1 + b_1)v_1 + \cdots + (a_n + b_n)v_n \]
+    Applying the map $T$ to this sum:
+    \[ T(u+w) = \begin{pmatrix} a_1 + b_1 \\ \vdots \\ a_n + b_n \end{pmatrix} = \begin{pmatrix} a_1 \\ \vdots \\ a_n \end{pmatrix} + \begin{pmatrix} b_1 \\ \vdots \\ b_n \end{pmatrix} = T(u) + T(w) \]
+    Similarly, for scalar multiplication:
+    \[ \lambda u = (\lambda a_1)v_1 + \cdots + (\lambda a_n)v_n \]
+    Applying $T$:
+    \[ T(\lambda u) = \begin{pmatrix} \lambda a_1 \\ \vdots \\ \lambda a_n \end{pmatrix} = \lambda \begin{pmatrix} a_1 \\ \vdots \\ a_n \end{pmatrix} = \lambda T(u) \]
+    Thus, $T$ is a linear transformation.
+    
+    \textit{Injectivity:} Suppose $T(u) = T(w)$. This means their coordinate vectors in $F^n$ are identical, meaning $a_i = b_i$ for all $i$. Therefore:
+    \[ u = a_1v_1 + \cdots + a_nv_n = b_1v_1 + \cdots + b_nv_n = w \]
+    Since $T(u) = T(w) \implies u = w$, the map is injective.
+    
+    \textit{Surjectivity:} Let $x \in F^n$ be an arbitrary column vector with entries $x_1, \dots, x_n$. Define a vector $v \in V$ by:
+    \[ v = x_1v_1 + \cdots + x_nv_n \]
+    By the definition of our map, $T(v) = x$. Since every vector in $F^n$ has a pre-image in $V$, the map is surjective.
+    
+    Since $T$ is a linear transformation that is both injective and surjective, it is a linear isomorphism. Therefore, $V \cong F^n$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    For notation, the isomorphism $T:V\to F^n$ above is written $[\phantom{v}]_\mathcal{B}:V\to F^n$, where, for $v\in V$, $[v]_\mathcal{B}$ is the coordinate vector in $F^n$ whose entries are the coefficients of $v$ in the basis $\mathcal{B}$.
+\end{remark}
+
+\begin{example}
+    Let $V=F[x]_{\le 3}$ be the vector space of polynomials in $F$ with degree at most 3, and let $\mathcal{B}=(1,x,x^2,x^3)$ be the standard basis of $V$. Then \[[1+2x+3x^2+4x^3]_\mathcal{B}=\begin{pmatrix}1\\2\\3\\4\end{pmatrix}.\]
+    From this, the comment regarding arbitrary finite-dimensional vector spaces $V$ being replicas of $F^{\dim V}$ should be clear. 
+\end{example}
+
+\begin{proposition}[Isomorphisms preserve bases]
+    \begin{shaded*}
+        Let $T:V \to W$ be a linear isomorphism. If $(v_1, \dots, v_n)$ is a basis for $V$, then $(T(v_1), \dots, T(v_n))$ is a basis for $W$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    We must show that the mapped list of vectors is both linearly independent and spans $W$.
+    
+    \textit{Linear Independence:} Suppose there is a linear combination equal to the zero vector in $W$:
+    \[ \lambda_1 T(v_1) + \cdots + \lambda_n T(v_n) = 0 \]
+    By the linearity of $T$, we can combine the terms:
+    \[ T(\lambda_1 v_1 + \cdots + \lambda_n v_n) = 0 \]
+    Because $T$ is an isomorphism, it is injective. The only vector that maps to the zero vector under an injective linear map is the zero vector itself (we will prove this later). Thus:
+    \[ \lambda_1 v_1 + \cdots + \lambda_n v_n = 0 \]
+    Since $(v_1, \dots, v_n)$ is a basis for $V$, it is linearly independent. This forces all the scalars to be zero: $\lambda_1 = \cdots = \lambda_n = 0$. Therefore, $(T(v_1), \dots, T(v_n))$ is linearly independent.
+    
+    \textit{Spanning:} Let $w \in W$ be an arbitrary vector. Because $T$ is an isomorphism, it is surjective, so there exists some $v \in V$ such that $T(v) = w$. Since $(v_1, \dots, v_n)$ spans $V$, we can express $v$ as:
+    \[ v = c_1 v_1 + \cdots + c_n v_n \]
+    Applying $T$ to both sides and using linearity yields:
+    \[ w = T(c_1 v_1 + \cdots + c_n v_n) = c_1 T(v_1) + \cdots + c_n T(v_n) \]
+    This shows that every vector in $W$ can be written as a linear combination of $(T(v_1), \dots, T(v_n))$. Thus, the list spans $W$. 
+    
+    Since the list is both linearly independent and spans the space, it is a basis for $W$.
+    \qedhere
+\end{proof}
+As a corollary, we get:
+\begin{corollary}
+\label{cor:isodimequal}
+    \begin{shaded*}
+        Let $V,W$ be finite-dimensional vector spaces. If $T:V\to W$ is a linear isomorphism then $\dim V=\dim W$.
+    \end{shaded*}
+\end{corollary}
+
+\begin{remark}
+    The structure of that proof reveals a useful dictionary between the properties of the linear map and the structural properties of the vector subsets. In general:
+    \begin{itemize}
+        \item A linear map is injective if and only if it sends linearly independent sets in $V$ to linearly independent sets in $W$. It never ``collapses'' distinct independent directions into each other.
+        \item A linear map is surjective if and only if it sends spanning sets of $V$ to spanning sets of $W$. The mapped vectors have enough reach to cover the entire target space.
+    \end{itemize}
+    Since a basis is simply the combination of being linearly independent and spanning, and an isomorphism is the combination of being injective and surjective, it conceptually follows that isomorphisms must map bases exactly to bases.
+\end{remark}
+
+\section{Matrices and Linear Transformations}
+
+We have already explored the connection between matrices and linear maps in Chapter 2, however in this chapter we extend this theory to abstract finite-dimensional vector spaces, not just $F^n$, using the idea that for any finite-dimensional vector space $V$, $V\cong F^{\dim V}$ from Theorem \ref{thm:coordiso}.
+We first look at the connection between linear maps and matrices for coordinate vector spaces $F^n$.
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $T:F^n\to F^m$ be a map. Then $T$ is linear if and only if there exists a unique matrix $A\in M_{m\times n}(F)$ such that $T(v)=Av$ for all $v\in F^n$ (treating elements of $F^n$ and $F^m$ as column vectors).
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Suppose $T$ is linear. Let $(e_1,\dots,e_n)$ be the standard basis of $F^n$. Any $v\in F^n$ can be written uniquely as $v = \lambda_1e_1+\cdots+\lambda_ne_n$. By linearity of $T$:
+    \[ T(v) = T(\lambda_1e_1+\cdots+\lambda_ne_n) = \lambda_1T(e_1)+\cdots+\lambda_nT(e_n) \]
+    Define $A\in M_{m\times n}(F)$ to be the matrix whose $i^{\mathrm{th}}$ column is $T(e_i)$, meaning $A \coloneqq (T(e_1)\dots T(e_n))$. By the column-wise definition of matrix multiplication, $T(v)=Av$.
+    
+    Conversely, if $A\in M_{m\times n}(F)$ and $T(v)=Av$, the linearity of $T$ follows immediately from the linearity of matrix multiplication. The uniqueness of $A$ follows because a linear map is entirely determined by its action on a basis. Since the columns $T(e_i)$ are fixed, the matrix $A$ is uniquely determined.
+    \qedhere
+\end{proof}
+
+\begin{proposition}
+\label{prop:complinear}
+    \begin{shaded*}
+        Let $V,W,U$ be vector spaces. If $T:V\to W$ and $S:W\to U$ are linear, then $S\circ T:V\to U$ is linear.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Exercise.\qedhere
+\end{proof}
+
+\subsection{Coordinate Vectors and Arbitrary Bases}
+
+We want to make precise how to write vectors and linear transformations in arbitrary bases. This process takes vectors in an abstract finite-dimensional vector space $V$ to column vectors in $F^n$, and maps transformations between abstract spaces to standard matrices.
+
+If $\mathcal{B}=(v_1,\dots,v_n)$ is a basis of $V$, there exists an isomorphism $F^n\to V$ given by:
+\[ (\lambda_1,\dots,\lambda_n) \mapsto \lambda_1 v_1+\cdots+\lambda_n v_n \]
+This is a bijective linear map because every $v\in V$ has a unique representation in $\mathcal{B}$. The inverse isomorphism, denoted $[\phantom{v}]_\mathcal{B}:V\to F^n$, maps a vector to its coordinate column vector:
+\[ v \mapsto [v]_\mathcal{B} = \begin{pmatrix} \lambda_1 \\ \vdots \\ \lambda_n \end{pmatrix}. \]
+We call $[\phantom{v}]_\mathcal{B}$ a \textit{coordinate isomorphism}.
+
+\begin{definition}[Matrix of a Linear Map]
+    \begin{shaded*}
+        Let $T:V\to W$ be a linear map between finite-dimensional vector spaces, with $\mathcal{B}=(v_1,\dots,v_n)$ a basis of $V$ and $\mathcal{C}=(w_1,\dots,w_m)$ a basis of $W$. The \textit{matrix of $T$ with respect to $\mathcal{B}$ and $\mathcal{C}$} is the $m \times n$ matrix whose $i^{\mathrm{th}}$ column is the coordinate vector of $T(v_i)$ in the basis $\mathcal{C}$:
+        \[ {}_{\mathcal{C}}[T]_{\mathcal{B}} \coloneqq \left( [T(v_1)]_\mathcal{C} \dots [T(v_n)]_\mathcal{C} \right) \]
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $T:V\to W$ be a linear map between finite-dimensional vector spaces. There exists a unique matrix ${}_{\mathcal{C}}[T]_{\mathcal{B}}\in M_{m\times n}(F)$ such that for every $v\in V$:
+        \[ [T(v)]_{\mathcal{C}} = {}_{\mathcal{C}}[T]_{\mathcal{B}}[v]_\mathcal{B} \]
+        Equivalently, if $T(v_i) = \sum_{j=1}^m a_{ji}w_j$, then ${}_{\mathcal{C}}[T]_{\mathcal{B}} = (a_{ji})$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    We first present a direct proof. We constructed ${}_{\mathcal{C}}[T]_{\mathcal{B}}$ such that its $i^{\mathrm{th}}$ column is $[T(v_i)]_\mathcal{C}$. Thus:
+    \[ {}_{\mathcal{C}}[T]_{\mathcal{B}}[v_i]_\mathcal{B} = {}_{\mathcal{C}}[T]_{\mathcal{B}} e_i = [T(v_i)]_\mathcal{C} \]
+    The proposition holds exactly for the basis vectors $v_i$. Because any $v\in V$ is a unique linear combination of the basis vectors, and both coordinate mapping and matrix multiplication are linear operations, the equality holds for all $v \in V$.
+    \qedhere
+\end{proof}
+
+\begin{proof}[Alternative proof]
+    We now present a conceptual proof via coordinate isomorphisms. For $v\in V$, we have a unique coordinate vector $[v]_\mathcal{B} \in F^n$. Likewise, $T(v) \in W$ has a unique coordinate vector $[T(v)]_\mathcal{C} \in F^m$. 
+    
+    Define the composition map $\Phi:F^n\to F^m$ by:
+    \[ \Phi([v]_{\mathcal{B}}) \coloneqq [T(v)]_\mathcal{C} \implies \Phi = [\cdot ]_\mathcal{C} \circ T \circ [\cdot]^{-1}_\mathcal{B} \]
+    Because $[\cdot]_\mathcal{C}$, $T$, and $[\cdot]^{-1}_\mathcal{B}$ are all linear maps, their composition $\Phi$ is a linear map from $F^n \to F^m$ by Proposition \ref{prop:complinear}. 
+    
+    By our earlier proposition on coordinate spaces, every linear map from $F^n \to F^m$ is given by left-multiplication by a unique matrix. Let $A$ be this matrix, so $\Phi = T_A$. Therefore:
+    \[ [T(v)]_\mathcal{C} = \Phi([v]_\mathcal{B}) = A[v]_\mathcal{B} \]
+    To compute $A$, we evaluate $\Phi$ on the standard basis $e_i$:
+    \[ A e_i = \Phi(e_i) = [\cdot ]_\mathcal{C} \circ T (v_i) = [T(v_i)]_\mathcal{C} \]
+    Thus, $A$ matches our explicit construction of ${}_{\mathcal{C}}[T]_{\mathcal{B}}$.
+    \qedhere
+\end{proof}
+
+Note that the direct constructive proof showed existence, but the conceptual proof via coordinate isomorphisms showed \textit{why} such a matrix \textit{must} exist.
+
+\begin{remark}
+    The conceptual proof is summarized by this commuting square diagram:
+    \[
+    \begin{CD}
+    V @>T>> W \\
+    @V{[\cdot]_\mathcal{B}}VV @VV{[\cdot]_\mathcal{C}}V \\
+    F^n @>>T_A\coloneqq\Phi> F^m
+    \end{CD}
+    \]
+    To compute the coordinates of $T(v)$ in $W$, we can travel across the top and down (apply $T$, then find coordinates), or travel down and across the bottom (find coordinates in $V$, then multiply by the matrix $A$). The diagram guarantees both paths yield the same result.
+\end{remark}
+
+\begin{example}
+    Let $V=F[x]_{\le m}$ and $W=F[x]_{\le m-1}$ be the vector spaces of polynomials of degree at most $m$ and $m-1$ respectively. Consider the derivative map:
+    \[ T \coloneqq \frac{d}{dx}:V\to W \]
+    With respect to the standard monomial bases $\mathcal{B}=(1,x,\dots,x^m)$ of $V$ and $\mathcal{C}=(1,x,\dots,x^{m-1})$ of $W$, we map the basis vectors:
+    \[ \frac{d}{dx}(x^k) = kx^{k-1} \]
+    The coordinate vector of $kx^{k-1}$ in $\mathcal{C}$ has a $k$ in the $k^{\mathrm{th}}$ position (since the index starts at $x^0$) and zeros elsewhere. Thus, the matrix is:
+    \[
+    {}_\mathcal{C}[T]_\mathcal{B} = \begin{pmatrix} 0 & 1 & 0 & \cdots & 0 \\ 0 & 0 & 2 & \cdots & 0 \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & 0 & \cdots & m \end{pmatrix}
+    \]
+    
+    \noindent Now consider the integration map $S:W\to V$:
+    \[ \int x^k\,dx = \frac{x^{k+1}}{k+1} + c \]
+    With respect to the bases $\mathcal{C}$ and $\mathcal{B}$, the mapping of basis vectors is $x^k \mapsto c_k + \frac{1}{k+1}x^{k+1}$. The matrix encoding this transformation requires placing the constants $c_0, \dots, c_{m-1}$ in the first row (the $x^0$ coefficients):
+    \[
+    {}_\mathcal{B}[S]_\mathcal{C} = \begin{pmatrix} c_0 & c_1 & \cdots & c_{m-1} \\ 1 & 0 & \cdots & 0 \\ 0 & \frac{1}{2} & \cdots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \cdots & \frac{1}{m} \end{pmatrix}
+    \]
+    By matrix multiplication, one can check that ${}_\mathcal{C}[T]_\mathcal{B} {}_\mathcal{B}[S]_\mathcal{C} = I_m$. This algebraic result confirms that differentiation followed by integration returns the original polynomial in $W$ (noting that the constants $c_i$ are annihilated by the top row of zeros in the derivative matrix).
+\end{example}
+
+\noindent We now consider the composition of linear maps and its connection to matrix multiplication. We will see that the composition of linear maps corresponds exactly to the multiplication of their coordinate matrices.
+
+Let $U \xrightarrow{S} V \xrightarrow{T} W$ be linear maps. Let the spaces have the following bases:
+\begin{align*}
+    \mathcal{B} &= (u_1, \dots, u_m) \text{ for } U \\
+    \mathcal{C} &= (v_1, \dots, v_n) \text{ for } V \\
+    \mathcal{D} &= (w_1, \dots, w_p) \text{ for } W
+\end{align*}
+
+\begin{proposition}
+    \begin{shaded*}
+        With the notation above, the matrix of the composed map is the product of the matrices:
+        \[ {}_\mathcal{D}[T\circ S]_\mathcal{B} = {}_\mathcal{D}[T]_\mathcal{C} \cdot {}_\mathcal{C}[S]_\mathcal{B} \]
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    We evaluate $T \circ S$ on an arbitrary vector $u \in U$. By definition of the matrix of a linear map, we know that applying $S$ gives:
+    \[ [S(u)]_\mathcal{C} = {}_\mathcal{C}[S]_\mathcal{B}[u]_\mathcal{B} \]
+    Applying $T$ to the resulting vector $S(u) \in V$ gives:
+    \[ [T(S(u))]_\mathcal{D} = {}_\mathcal{D}[T]_\mathcal{C}[S(u)]_\mathcal{C} \]
+    Substituting the first equation into the second yields:
+    \[ [(T\circ S)(u)]_\mathcal{D} = {}_\mathcal{D}[T]_\mathcal{C} \left( {}_\mathcal{C}[S]_\mathcal{B}[u]_\mathcal{B} \right) = \left( {}_\mathcal{D}[T]_\mathcal{C} {}_\mathcal{C}[S]_\mathcal{B} \right) [u]_\mathcal{B} \]
+    However, by defining the composed map $T \circ S$ directly, we also have:
+    \[ [(T\circ S)(u)]_\mathcal{D} = {}_\mathcal{D}[T\circ S]_\mathcal{B}[u]_\mathcal{B} \]
+    Because these two equations hold for all $u \in U$, we can choose $u = u_i$, meaning $[u_i]_\mathcal{B} = e_i$. Multiplying by $e_i$ extracts the $i^{\mathrm{th}}$ column of a matrix. Since the columns are identical for all $i$, the matrices must be identical:
+    \[ {}_\mathcal{D}[T\circ S]_\mathcal{B} = {}_\mathcal{D}[T]_\mathcal{C} \cdot {}_\mathcal{C}[S]_\mathcal{B} \]
+    \qedhere
+\end{proof}
+
+\begin{proof}[Alternative proof]
+    Using coordinate isomorphisms, we can represent each linear map as a transformation between standard coordinate spaces. The matrix representation is exactly the map that makes the diagram commute.
+    \[ 
+    {}_\mathcal{D}[T\circ S]_\mathcal{B} = [\cdot]_\mathcal{D} \circ (T\circ S) \circ [\cdot]^{-1}_\mathcal{B} 
+    \]
+    By inserting the identity map $I_V = [\cdot]^{-1}_\mathcal{C} \circ [\cdot]_\mathcal{C}$ in the middle, we get:
+    \[ 
+    {}_\mathcal{D}[T\circ S]_\mathcal{B} = ([\cdot]_\mathcal{D} \circ T \circ [\cdot]^{-1}_\mathcal{C}) \circ ([\cdot]_\mathcal{C} \circ S \circ [\cdot]^{-1}_\mathcal{B}) 
+    \]
+    The first bracket is precisely the definition of ${}_\mathcal{D}[T]_\mathcal{C}$, and the second is ${}_\mathcal{C}[S]_\mathcal{B}$. Because the composition of transformations on coordinate spaces is defined by matrix multiplication, the result follows immediately.
+    \qedhere
+\end{proof}
+
+As an aside, we notice that the above formula for composition of linear maps and products of matrices seems more general than the original formula which works with only one linear map and one matrix. In fact, it is, and we can derive the original formula using this one, i.e. our original linear map matrix connection is a special case of the composition relationship!
+
+\begin{proposition}
+    \begin{shaded*}
+         Using notation as above, the formula
+         \[{}_\mathcal{D}[T\circ S]_\mathcal{B}={}_\mathcal{D}[T]_\mathcal{C}\cdot{}_\mathcal{C}[S]_\mathcal{B},\]
+         implies our original formula
+         \[[T(v)]_\mathcal{C}={}_\mathcal{C}[T]_\mathcal{B}[v]_\mathcal{B}.\]
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    The idea is that we want ${}_\mathcal{C}[S]_\mathcal{B}$ to be a column vector in $F^n$, so by definition $S$ must be a map from a 1-dimensional vector space to an $n$-dimensional vector space.\par
+    Define \[\mathrm{Hom}(F,V)\coloneqq\{S:F\to V:S\text{ is linear}\}.\] A useful observation is that there exists a linear isomorphism $\varphi:\mathrm{Hom}(F,V)\to V$ with $S\mapsto S(1)\in V$.
+    Intuitively, we can think of each function in $\mathrm{Hom}(F,V)$ as corresponding to a single ``line'' in $V$, and the function evaluated at $1$ is the representative of that line, $v$ itself. Any other output is just a scaled version of that vector by linearity, i.e. lies in ``the direction of $v$''.\par
+    To show that this is a linear isomorphism, if we are given $v\in V$ we can define $f_v\in\mathrm{Hom}(F,V)$ by $f_v(\lambda)=\lambda v$, so that in particular $f_v(1)=v$, so the map is surjective, and the map is injective because for any $\lambda\in F$, by linearity we have $S(\lambda)=\lambda S(1)$ and $S'(\lambda)=\lambda S'(1)$ so if $S(1)=S'(1)$ then the functions are identical for all $\lambda\in F$, i.e. $S=S'$, so the map is injective, and by construction is linear, so is a linear isomorphism.\par
+    In other words, we can identify a vector $v\in V$ by its unique function in $\mathrm{Hom}(F,V)$ evaluated at $1$.\par
+    So, back to the proof, we have $F$ as a 1-dimensional vector space with standard basis $\mathcal{E}\coloneqq\{1\}\subset F$, so that $[1]_\mathcal{E}=(1)$, and let $v\in V$ be arbitrary. Now, recall that $V$ is isomorphic to $\mathrm{Hom}(F,V)$, so let $S\in\mathrm{Hom}(F,V)$ be such that $S(1)=v$. Then by definition we have ${}_\mathcal{B}[S]_{(1)}=([S(1)]_\mathcal{B})$, but $S(1)=v$ by construction so now we have, by the hypothesis, \[{}_{\mathcal{C}}[(T\circ S)(1)]_{(1)}=[T(v)]_{\mathcal{C}}={}_\mathcal{C}[T]_\mathcal{B}{}_\mathcal{B}[S]_{(1)}(1)={}_\mathcal{C}[T]_\mathcal{B}[v]_\mathcal{B},\]
+    as required.\qedhere
+\end{proof}
+
+\subsection{Change of Basis}
+
+We now introduce the ``change-of-basis formula'', which allows us to translate the coordinate representation of a vector (or a linear map) from one basis to another.
+
+Let $\mathcal{B}, \mathcal{B}'$ be two bases of $V$. We define the \textit{change-of-basis matrix} as the matrix of the identity map $I_V : V \to V$ evaluated with respect to these two different bases:
+\[ {}_{\mathcal{B}'}[I_V]_\mathcal{B} \]
+By the evaluation formula, this matrix satisfies:
+\[ [v]_{\mathcal{B}'} = {}_{\mathcal{B}'}[I_V]_\mathcal{B} [v]_\mathcal{B} \]
+
+\begin{remark}
+    To compute the change-of-basis matrix ${}_{\mathcal{B}'}[I_V]_\mathcal{B}$, you take each basis vector from the "old" basis $\mathcal{B}$, find its coordinates in terms of the "new" basis $\mathcal{B}'$, and make those coordinate vectors the columns of your matrix. 
+    
+    When you multiply a coordinate vector $[v]_\mathcal{B}$ by this matrix, you are executing a systematic substitution: replacing every instance of an old basis vector with its exact expansion in the new basis vectors, and collecting the terms.
+\end{remark}
+In other words, we can compute the change-of-basis matrix from $\mathcal{B}'$ to $\mathcal{B}$, denoted ${}_{\mathcal{B}}[I]_{\mathcal{B}'}$, as follows: if $\mathcal{B}\coloneqq(v_1,\dots,v_n)$ and $\mathcal{B}'=(v'_1,\dots,v'_n)$ and we write \[v_i'=a_{1i}v_1+\cdots+a_{ni}v_n,\]
+then we have \[v=\lambda_1v'_1+\cdots+\lambda_nv'_n,\,\text{i.e. }[v]_{\mathcal{B}'}=\begin{pmatrix}\lambda_1\\\vdots\\\lambda_n\end{pmatrix},\]
+so \[[v]_{\mathcal{B}}=\lambda_1\begin{pmatrix}a_{11}\\\vdots\\a_{n1}\end{pmatrix}_B+\cdots+\lambda_n\begin{pmatrix}a_{1n}\\\vdots\\a_{nn}\end{pmatrix}_B,\]
+so by definition of matrix multiplication we get that \[{}_\mathcal{B}[I]_{\mathcal{B}'}=\begin{pmatrix}a_{11} & \cdots & a_{1n}\\\vdots & \ddots & \vdots \\ a_{n1} & \cdots & a_{nn}\end{pmatrix}\in M_{n,n}(F),\]
+whose $i$-th column is $[v'_i]_\mathcal{B}$.
+
+\begin{theorem}[Change of Basis for Linear Maps]
+\label{thm:changeofbasis}
+    \begin{shaded*}
+        Let $T:V\to W$ be linear, with bases $\mathcal{B},\mathcal{B}'$ for $V$ and $\mathcal{C},\mathcal{C}'$ for $W$. Then:
+        \[ {}_{\mathcal{C}'}[T]_{\mathcal{B}'} = {}_{\mathcal{C}'}[I_W]_{\mathcal{C}} \cdot {}_\mathcal{C}[T]_{\mathcal{B}} \cdot {}_\mathcal{B}[I_V]_{\mathcal{B}'} \]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    This follows directly from the composition of linear maps, since $T = I_W \circ T \circ I_V$.
+    
+    For an explicit algebraic proof, let $v \in V$. First, we compute $[T(v)]_{\mathcal{C}'}$ by translating the target space coordinates:
+    \[ [T(v)]_{\mathcal{C}'} = {}_{\mathcal{C}'}[I_W]_\mathcal{C} [T(v)]_{\mathcal{C}} = {}_{\mathcal{C}'}[I_W]_{\mathcal{C}} {}_{\mathcal{C}}[T]_\mathcal{B} [v]_\mathcal{B} \]
+    Now, substitute the source space coordinates $[v]_\mathcal{B} = {}_\mathcal{B}[I_V]_{\mathcal{B}'} [v]_{\mathcal{B}'}$:
+    \[ [T(v)]_{\mathcal{C}'} = \left( {}_{\mathcal{C}'}[I_W]_{\mathcal{C}} {}_{\mathcal{C}}[T]_\mathcal{B} {}_\mathcal{B}[I_V]_{\mathcal{B}'} \right) [v]_{\mathcal{B}'} \]
+    However, by definition, applying $T$ directly between the primed bases yields:
+    \[ [T(v)]_{\mathcal{C}'} = {}_{\mathcal{C}'}[T]_{\mathcal{B}'} [v]_{\mathcal{B}'} \]
+    Because this holds for all coordinate vectors $[v]_{\mathcal{B}'}$, the matrix on the right must perfectly equal the grouped product of matrices on the left.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This formula reads right to left. To apply $T$ to a vector given in $\mathcal{B}'$ coordinates and get the answer in $\mathcal{C}'$ coordinates:
+    \begin{enumerate}
+        \item Multiply by ${}_\mathcal{B}[I_V]_{\mathcal{B}'}$ to translate the input into the ``old'' $\mathcal{B}$ coordinates.
+        \item Multiply by ${}_\mathcal{C}[T]_\mathcal{B}$ to apply the transformation and get the output in ``old'' $\mathcal{C}$ coordinates.
+        \item Multiply by ${}_{\mathcal{C}'}[I_W]_{\mathcal{C}}$ to translate the output into the ``new'' $\mathcal{C}'$ coordinates.
+    \end{enumerate}
+\end{remark}
+
+\noindent Why is this useful?
+Well, we will see later that it is a lot easier to determine the image of basis vectors under $T$ in special bases of a vector space, from which we can easily get ${}_\mathcal{C}[T]_{\mathcal{B}}$, which then allows us to find the matrix in terms of, for example, the standard basis.
+In other words, some bases are better suited for a linear map than others.
+One example is diagonalisation of a matrix; we choose our bases $\mathcal{B},\mathcal{C}$ (in these cases $\mathcal{B}=\mathcal{C}$ since we are dealing with linear maps $V\to V$) to be such that the image of the basis vectors are merely stretched by the transformation, so that the matrix representing the linear transformation is diagonal, which has very nice properties (note that, of course, we are not guaranteed the existence of such a basis, so not all matrices / linear transformations are diagonalisable).
+We will develop this theory in a later chapter.
+
+\begin{example}
+    Let $T:\R^2\to\R^2$ be the linear map that reflects vectors across the line $y=2x$. We want to find the standard matrix of this transformation, ${}_\mathcal{E}[T]_\mathcal{E}$, where $\mathcal{E} = (e_1, e_2)$ is the standard basis.\par
+    Finding this matrix directly using trigonometry or projection formulas is tedious. Instead, we can choose a new basis $\mathcal{B} = (v_1, v_2)$ that is ``better suited'' for the geometry of the reflection (a direction parallel to the line, and the normal direction):
+    \begin{itemize}
+        \item Let $v_1$ point along the line: $v_1 = (1, 2)^\top$. Since it is on the mirror line, $T(v_1) = v_1$.
+        \item Let $v_2$ be orthogonal to the line: $v_2 = (-2, 1)^\top$. Since it is perpendicular to the mirror, it gets perfectly flipped, so $T(v_2) = -v_2$.
+    \end{itemize}
+    
+    Because the transformation is so simple on these specific vectors, writing the matrix of $T$ with respect to $\mathcal{B}$ is trivial. The coordinate vectors of the outputs are $[T(v_1)]_\mathcal{B} = (1, 0)^\top$ and $[T(v_2)]_\mathcal{B} = (0, -1)^\top$, giving the diagonal matrix:
+    \[ {}_\mathcal{B}[T]_\mathcal{B} = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \]
+    
+    Now, we use the change-of-basis formula: 
+    \[ {}_\mathcal{E}[T]_\mathcal{E} = {}_\mathcal{E}[I]_\mathcal{B} \cdot {}_\mathcal{B}[T]_\mathcal{B} \cdot {}_\mathcal{B}[I]_\mathcal{E} \]
+    
+    The matrix ${}_\mathcal{E}[I]_\mathcal{B}$ simply contains the vectors of $\mathcal{B}$ written in standard coordinates as its columns:
+    \[ {}_\mathcal{E}[I]_\mathcal{B} = \begin{pmatrix} 1 & -2 \\ 2 & 1 \end{pmatrix} \]
+    The matrix ${}_\mathcal{B}[I]_\mathcal{E}$ is its inverse, which we compute using the $2\times2$ inverse formula (determinant is $1(1) - (-2)(2) = 5$):
+    \[ {}_\mathcal{B}[I]_\mathcal{E} = \frac{1}{5} \begin{pmatrix} 1 & 2 \\ -2 & 1 \end{pmatrix} \]
+    
+    Multiplying them all together yields the standard matrix:
+    \begin{align*} 
+    {}_\mathcal{E}[T]_\mathcal{E} &= \begin{pmatrix} 1 & -2 \\ 2 & 1 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \frac{1}{5} \begin{pmatrix} 1 & 2 \\ -2 & 1 \end{pmatrix} \\
+    &= \frac{1}{5} \begin{pmatrix} 1 & 2 \\ 2 & -1 \end{pmatrix} \begin{pmatrix} 1 & 2 \\ -2 & 1 \end{pmatrix} \\
+    &= \frac{1}{5} \begin{pmatrix} -3 & 4 \\ 4 & 3 \end{pmatrix} 
+    \end{align*}
+\end{example}
+
+\begin{example}
+    Consider the space of $2 \times 2$ matrices $V = M_{2\times 2}(F)$ and the space of polynomials in $F$ with degree at most 2, $W = F[x]_{\le 2}$. Let $T: V \to W$ be defined by extracting the trace and off-diagonal elements:
+    \[ T\begin{pmatrix} a & b \\ c & d \end{pmatrix} = (a+d) + (b+c)x + (a-d)x^2 \]
+    
+    Let's find the matrix representation using the standard bases:
+    \[ \mathcal{B} = \left( \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}, \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}, \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}, \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} \right) \coloneqq (E_{11}, E_{12}, E_{21}, E_{22}) \]
+    \[ \mathcal{C} = (1, x, x^2) \]
+    
+    \noindent Applying the coordinate isomorphism $[\cdot]_\mathcal{C}$, we evaluate $T$ on each basis matrix in $\mathcal{B}$:
+    \begin{align*}
+        [T(E_{11})]_\mathcal{C} &= [1 + x^2]_\mathcal{C} = (1, 0, 1)^t \\
+        [T(E_{12})]_\mathcal{C} &= [x]_\mathcal{C} = (0, 1, 0)^t \\
+        [T(E_{21})]_\mathcal{C} &= [x]_\mathcal{C} = (0, 1, 0)^t \\
+        [T(E_{22})]_\mathcal{C} &= [1 - x^2]_\mathcal{C} = (1, 0, -1)^t 
+    \end{align*}
+    \noindent Placing these as columns gives the matrix:
+    \[ {}_\mathcal{C}[T]_\mathcal{B} = \begin{pmatrix} 1 & 0 & 0 & 1 \\ 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & -1 \end{pmatrix} \]
+    
+    \noindent Now, suppose we want to analyze this map using bases that reflect the symmetric and anti-symmetric properties of matrices. We define a new basis $\mathcal{B}'$ for $V$:
+    \[ \mathcal{B}' = (S_1, S_2, S_3, A_1) \]
+    where $S_1 = E_{11}$, $S_2 = E_{22}$, $S_3 = E_{12}+E_{21}$ (symmetric matrices), and $A_1 = E_{12}-E_{21}$ (anti-symmetric matrix). 
+    
+    We also define a new basis $\mathcal{C}'$ for $W$:
+    \[ \mathcal{C}' = (1+x^2, 1-x^2, x) \]
+    
+    \noindent Evaluating $T$ on the new basis $\mathcal{B}'$:
+    \begin{align*}
+        T(S_1) &= 1+x^2 \\
+        T(S_2) &= 1-x^2 \\
+        T(S_3) &= 2x \\
+        T(A_1) &= 0
+    \end{align*}
+    These are much nicer outputs. Their coordinate vectors in $\mathcal{C}'$ are $(1,0,0)^\top$, $(0,1,0)^\top$, $(0,0,2)^\top$, and $(0,0,0)^\top$. The transformation matrix in these new bases is therefore nicer:
+    \[ {}_{\mathcal{C}'}[T]_{\mathcal{B}'} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 2 & 0 \end{pmatrix} \]
+    
+    To link these two perspectives mathematically, we construct the change-of-basis matrices by expressing the new bases in terms of the old ones:
+    \[ {}_\mathcal{B}[I_V]_{\mathcal{B}'} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 1 \\ 0 & 0 & 1 & -1 \\ 0 & 1 & 0 & 0 \end{pmatrix}, \quad {}_\mathcal{C}[I_W]_{\mathcal{C}'} = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 0 & 1 \\ 1 & -1 & 0 \end{pmatrix} \]
+    
+    By our change-of-basis corollary, the relationship between all these matrices is given by the equation:
+    \[ {}_{\mathcal{C}'}[T]_{\mathcal{B}'} = ({}_\mathcal{C}[I_W]_{\mathcal{C}'})^{-1} \cdot {}_\mathcal{C}[T]_\mathcal{B} \cdot {}_\mathcal{B}[I_V]_{\mathcal{B}'} \]
+    
+    This demonstrates the power of coordinate isomorphisms: we can rigorously manipulate arbitrary polynomials and $2\times 2$ matrices using nothing but standard $3\times 4$ and $4\times 4$ scalar matrix multiplications.
+\end{example}
+
+
+\begin{corollary}
+    \begin{shaded*}
+        Let $V$ be a vector space. For any basis $\mathcal{B}$ of $V$, the matrix of the identity in that basis is the identity matrix: $${}_\mathcal{B}[I]_\mathcal{B}=I.$$Moreover, if we set $$P={}_\mathcal{B}[I]_{\mathcal{B}'},$$then $P$ is invertible and $$P^{-1}={}_{\mathcal{B}'}[I]_\mathcal{B}.$$That is, the inverse change-of-basis matrix corresponds to swapping $\mathcal{B}'$ and $\mathcal{B}$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    If $\mathcal{B}=(v_1,\dots,v_n)$, then $I(v_i)=v_i$ and so $[I(v_i)]_\mathcal{B}=[v_i]_\mathcal{B}=e_i$, so \[{}_\mathcal{B}[I]_\mathcal{B}=I=I_n.\]
+    Now, for $\mathcal{B},\mathcal{B}'$ we have, by composition of linear transformations and products of matrices earlier, \[{}_\mathcal{B}[I]_{\mathcal{B}'}{}_{\mathcal{B}'}[I]_\mathcal{B}={}_{\mathcal{B}}[I\circ I]_{\mathcal{B}}={}_\mathcal{B}[I]_\mathcal{B}=I,\]
+    and the same can be done for ${}_{\mathcal{B}'}[I]_{\mathcal{B}'}=I$, so by definition ${}_{\mathcal{B}'}[I]_{\mathcal{B}}$ is invertible and its inverse is ${}_\mathcal{B}[I]_{\mathcal{B}'}.$\qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        Let $P$ be the change-of-basis matrix writing source basis $\mathcal{B}'$ in terms of the target basis $\mathcal{B},$ i.e. $P={}_\mathcal{B}[I]_{\mathcal{B}'}$, and let $Q$ be the change-of-basis matrix writing source basis $\mathcal{C}'$ in terms of the target basis $\mathcal{C}$, i.e. $Q={}_\mathcal{C}[I]_{\mathcal{C}'}$. Then \[{}_{\mathcal{C}'}[T]_{\mathcal{B}'}=Q^{-1}\cdot{}_\mathcal{C}[T]_\mathcal{B}\cdot P.\]
+    \end{shaded*}
+\end{corollary}
+
+\section{Image, Kernel and Rank}
+
+We now move onto more general properties of linear transformations.
+
+\begin{definition}[Image and Kernel]
+    \begin{shaded*}
+        Let $T:V\to W$ be a linear map between vector spaces. 
+        \begin{itemize}
+            \item The \textit{image} (or range) of $T$ is the set of all outputs:
+            \[ \im(T) \coloneqq T(V) = \{T(v) : v\in V\} \subseteq W \]
+            \item The \textit{kernel} (or nullspace) of $T$ is the set of all inputs that map to zero:
+            \[ \ker(T) \coloneqq \{v\in V : T(v)=0\} \subseteq V \]
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        $\im(T)$ and $\ker(T)$ are vector subspaces of $W$ and $V$, respectively.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    \textit{Image:} Let $w_1, w_2 \in \im(T)$. By definition, there exist $v_1, v_2 \in V$ such that $T(v_1) = w_1$ and $T(v_2) = w_2$. By linearity:
+    \[ w_1 + w_2 = T(v_1) + T(v_2) = T(v_1+v_2) \in \im(T) \]
+    Similarly, for any scalar $\lambda \in F$:
+    \[ \lambda w_1 = \lambda T(v_1) = T(\lambda v_1) \in \im(T) \]
+    Thus, the image is closed under addition and scalar multiplication.
+
+    \textit{Kernel:} Let $v_1, v_2 \in \ker(T)$. This means $T(v_1) = 0$ and $T(v_2) = 0$. By linearity:
+    \[ T(v_1+v_2) = T(v_1) + T(v_2) = 0 + 0 = 0 \implies v_1+v_2 \in \ker(T) \]
+    For any scalar $\lambda \in F$:
+    \[ T(\lambda v) = \lambda T(v) = \lambda \cdot 0 = 0 \implies \lambda v \in \ker(T) \]
+    Thus, the kernel is closed under addition and scalar multiplication.
+    \qedhere
+\end{proof}
+
+Observe that $\im(T)=W$ if and only if $T$ is surjective (it has the largest possible image). By linearity, we also have a characterisation for injectivity.
+
+\begin{lemma}
+\label{lem:trivialkernel}
+    \begin{shaded*}
+        A linear map $T:V\to W$ is injective if and only if $\ker(T) = \{0\}$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Suppose $\ker(T) \ne \{0\}$. Then there exists a non-zero vector $v \ne 0$ such that $T(v) = 0$. Because $T$ is linear, we also know $T(0) = 0$. Since $T(v) = T(0)$ but $v \ne 0$, the map is not injective. 
+    
+    Conversely, suppose $T$ is not injective. There exist distinct vectors $v, w \in V$ ($v \ne w$) such that $T(v) = T(w)$. By linearity:
+    \[ T(v) - T(w) = 0 \implies T(v-w) = 0 \]
+    Since $v \ne w$, the vector $v-w \ne 0$. Thus, $v-w$ is a non-zero vector in the kernel, meaning $\ker(T) \ne \{0\}$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This highlights why the zero vector is so special in linear algebra. Because linear maps always send $0$ to $0$, we can detect whether a map fails injectivity simply by checking if anything other than $0$ gets mapped to $0$.
+\end{remark}
+
+\begin{definition}[Rank]
+    \begin{shaded*}
+        Let $T:V\to W$ be a linear map such that $\mathrm{im}(T)$ is finite-dimensional. The \textit{rank} of $T$ is defined as the dimension of its image:
+        \[ \rank(T) \coloneqq \dim(\mathrm{im}(T)) \]
+    \end{shaded*}
+\end{definition}
+
+\begin{example}
+    \begin{itemize}
+        \item If $T = \lambda I_V : V\to V$ and $V$ is finite-dimensional, then $\rank(T) = \dim(V)$ unless $\lambda=0$, in which case $\rank(T)=0$ since $\im(T)=\{0\}$.
+        \item If $T: V \to W$ is surjective and $W$ is finite-dimensional, then $\rank(T) = \dim(W)$ because $\im(T) = W$.
+        \item Let $T = \frac{d}{dx} : F[x]_{\le m} \to F[x]_{\le m-1}$ be the formal derivative. Taking the formal derivative of degree $m$ polynomials hits every possible degree $m-1$ polynomial, so the map is surjective. Thus, $\rank(T) = \dim(F[x]_{\le m-1}) = m$.\par
+        However, the map is not injective because the formal derivative sends constants to zero.
+        \item Define $T: F^2 \to F^2$ by left-multiplication:
+        \[ T\begin{pmatrix} a \\ b \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}\begin{pmatrix} a \\ b \end{pmatrix} = \begin{pmatrix} b \\ 0 \end{pmatrix} \]
+        The image consists of all vectors along the $x$-axis. This is a 1-dimensional space, so $\rank(T) = 1$.
+    \end{itemize}
+\end{example}
+
+\begin{remark}
+    The formal derivative example shows that $\frac{d}{dx} : F[x] \to F[x]$ on the infinite-dimensional space of all polynomials is surjective but not injective (since all constants map to zero). As we will see via the Rank-Nullity Theorem, this behavior (being surjective but not injective) is impossible for a linear map from a finite-dimensional space to itself.
+\end{remark}
+
+\begin{lemma}
+\label{lem:dimrestriction}
+    \begin{shaded*}
+        If $T:V\to W$ is a linear map and $U\subseteq V$ is a subspace such that the restriction $T|_U$ is injective, then $\dim(U) = \dim(T(U))$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Restrict the domain to $U$ and the codomain to the image $T(U)$. The restricted map $T|_U : U \to T(U)$ is surjective by definition. Because we assumed it is also injective, it is a bijection, and therefore a linear isomorphism. By Corollary \ref{cor:isodimequal}, $\dim(U)=\dim(T(U))$.\qedhere
+\end{proof}
+
+\begin{proposition}
+    \begin{shaded*}
+        \begin{enumerate}
+            \item Let $A\in M_{m\times n}(F)$ and let $T_A:F^n\to F^m$ be the left-multiplication map $T_A(v)=Av$. Then $\mathrm{rk}(T_A) = \mathrm{rk}(A)$.
+            \item Let $T:V\to W$ be a linear map between finite-dimensional spaces with bases $\mathcal{B}$ and $\mathcal{C}$. Then $\mathrm{rk}({}_\mathcal{C}[T]_\mathcal{B}) = \mathrm{rk}(T)$.
+        \end{enumerate}
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    \textit{(1)} The image of $T_A$ is the set of all outputs $\{Av : v\in F^n\}$. By the column-wise definition of matrix multiplication, $Av$ is simply a linear combination of the columns of $A$:
+    \[ \mathrm{im}(T_A) = \{Av : v\in F^n\} = \mathrm{Span}(A e_1, \dots, A e_n) \]
+    where $A e_i$ is the $i^{\mathrm{th}}$ column of $A$. The span of the columns is precisely the column space, $\mathrm{CS}(A)$. Since the rank of a matrix is defined as the dimension of its column space:
+    \[ \mathrm{rk}(T_A) \coloneqq \dim(\mathrm{im}(T_A)) = \dim(\mathrm{CS}(A)) = \mathrm{rk}(A) \]
+    
+    \textit{(2)} By definition, the columns of the matrix ${}_\mathcal{C}[T]_\mathcal{B}$ are the coordinate vectors $[T(v_1)]_\mathcal{C}, \dots, [T(v_n)]_\mathcal{C}$, where the $v_i$ are the basis vectors of $\mathcal{B}$.
+    
+    The column space of this matrix is the span of those coordinate vectors:
+    \[ \mathrm{CS}({}_\mathcal{C}[T]_\mathcal{B}) = \Span([T(v_1)]_\mathcal{C}, \dots, [T(v_n)]_\mathcal{C}) \]
+    Because the coordinate mapping $[\cdot]_\mathcal{C}$ is a linear isomorphism, taking the span of the coordinates is the same as taking the coordinates of the span. Thus, this is exactly the coordinate representation of the image space $\im(T)$:
+    \[ \CS({}_\mathcal{C}[T]_\mathcal{B}) = [\im(T)]_\mathcal{C} \]
+    Because the coordinate map $[\phantom{v}]_\mathcal{C} : W \to F^m$ is an isomorphism, it preserves dimension. Therefore, by Lemma \ref{lem:dimrestriction}, we have:
+    \[ \dim(\CS({}_\mathcal{C}[T]_\mathcal{B})) = \dim([\im(T)]_\mathcal{C}) = \dim(\im(T)) \]
+    Thus $\rank({}_\mathcal{C}[T]_\mathcal{B}) = \rank(T)$, as desired.\qedhere
+\end{proof}
+
+\section{The Rank-Nullity Theorem}
+
+\begin{theorem}[The Rank-Nullity Theorem]
+    \begin{shaded*}
+        Let $T:V\to W$ be linear, where $V$ is finite-dimensional. Then:
+        \[ \dim V = \rank(T) + \dim \ker(T) \]
+    \end{shaded*}
+\end{theorem}
+
+\begin{remark}
+    The core idea relies on extending a basis of a smaller subspace (the kernel). If we simply started with an arbitrary basis of $V$, say $(v_1,\dots,v_n)$, the list of mapped vectors $(T(v_1),\dots,T(v_n))$ would guarantee a spanning set for $\im(T)$. However, it does not guarantee linear independence because $T$ may not be injective (it might crush some directions together). By ignoring the kernel, we hit a dead end. Instead, we must start by isolating the kernel and build outwards.
+\end{remark}
+
+\begin{proof}
+    First, choose a basis for the kernel:
+    \[ (v_1, \dots, v_m) \]
+    Extend this to a full basis of $V$:
+    \[ (u_1, \dots, u_k, v_1, \dots, v_m) \]
+    Thus, $\dim V = k + m$. 
+
+    We claim that the list $(T(u_1), \dots, T(u_k))$ is a basis for $\im(T)$.\par
+    
+    \noindent\textit{Linear independence:} Suppose a linear combination equals zero:
+    \[ \lambda_1 T(u_1) + \cdots + \lambda_k T(u_k) = 0 \]
+    By linearity, this implies:
+    \[ T(\lambda_1 u_1 + \cdots + \lambda_k u_k) = 0 \]
+    This means the vector $x = \lambda_1 u_1 + \cdots + \lambda_k u_k$ lies in $\ker(T)$. But the kernel is spanned entirely by $(v_1, \dots, v_m)$. Because our chosen basis for $V$ is linearly independent, no non-trivial linear combination of the $u_i$ vectors can equal a linear combination of the $v_j$ vectors. Therefore, the only solution is $x=0$, which forces $\lambda_1 = \cdots = \lambda_k = 0$. The set is linearly independent.\par
+
+    \textit{Spanning:} For any arbitrary $v \in V$, we can express it in our chosen basis:
+    \[ v = \sum_{i=1}^k \alpha_i u_i + \sum_{j=1}^m \beta_j v_j \]
+    Applying $T$ and using linearity:
+    \[ T(v) = \sum_{i=1}^k \alpha_i T(u_i) + \sum_{j=1}^m \beta_j T(v_j) \]
+    Since $v_j \in \ker(T)$, we know $T(v_j) = 0$ for all $j$. The second sum vanishes completely:
+    \[ T(v) = \sum_{i=1}^k \alpha_i T(u_i) \]
+    Thus, every element of $\im(T)$ is a linear combination of $T(u_1), \dots, T(u_k)$, meaning they span $\im(T)$.
+    
+    Because they are independent and span the space, $\rank(T) = \dim \im(T) = k$. 
+    Therefore, $\dim V = k + m = \rank(T) + \dim \ker(T)$.
+    \qedhere
+\end{proof}
+
+\subsection{The Canonical Block Matrix}
+
+The structure of the proof above reveals exactly how we can systematically choose bases to simplify the matrix representation of any linear map.
+
+Let $T:V\to W$ be linear, let $\mathcal{B} = (u_1,\dots,u_k,v_1,\dots,v_m)$ be our basis for $V$, where the $v_j$ span the kernel and the $u_i$ fill out the remaining dimensions.
+
+If $W$ is also finite-dimensional, we can take our image basis $(T(u_1),\dots,T(u_k))$ and extend it to a full basis of $W$:
+\[ \mathcal{C} = (T(u_1),\dots,T(u_k), w_{k+1},\dots,w_p) \]
+
+\noindent With respect to these specific bases, consider where $T$ sends each basis vector of $\mathcal{B}$:
+\begin{itemize}
+    \item $T(u_i)$ is exactly the $i^{\mathrm{th}}$ basis vector of $\mathcal{C}$, so the coordinate column has a $1$ in the $i^{\mathrm{th}}$ position and $0$ elsewhere.
+    \item $T(v_j) = 0$, so the coordinate column is entirely zero.
+\end{itemize}
+
+\noindent The resulting matrix of $T$ is maximally simplified:
+\[ {}_\mathcal{C}[T]_\mathcal{B} = \begin{pmatrix} I_k & 0 \\ 0 & 0 \end{pmatrix} \]
+where $I_k$ is the $k \times k$ identity matrix, and $k = \rank(T)$.
+There is also the row and column operations viewpoint. Using Gaussian elimination, we can perform row operations to obtain a row echelon form, and then column operations to reach the block matrix \[\begin{pmatrix}I_k & 0 \\ 0 & 0\end{pmatrix}.\]
+So, for any linear map $T:V\to W$ of rank $k$, we can always choose suitable bases of $V$ and $W$ such that the linear map can be written as the block matrix $$\begin{pmatrix}I_k & 0 \\ 0 & 0\end{pmatrix},$$and conversely, the rank of such a matrix is $k$, so the rank is the unique integer $k$ such that ${}_\mathcal{C}[T]_\mathcal{B}$ can be brought to this form, running over all bases $\mathcal{B}$ of $V$ and $\mathcal{C}$ of $W$.
+\begin{remark}
+    This canonical form removes all of the coordinate complexity (i.e. the ``messy'' matrices we get by choosing random bases) and reveals the ``skeleton'' of a linear map. It proves that \textit{every} linear transformation, no matter how convoluted its standard matrix entries appear, is fundamentally doing exactly two things:
+    \begin{enumerate}
+        \item It preserves $k$ dimensions (the $I_k$ block), acting as an isomorphism from the $u_i$ subspace onto the image.
+        \item It annihilates the remaining dimensions (the zero blocks, representing the kernel).
+    \end{enumerate}
+    This provides a complete classification of linear maps. Rank is the \textit{only} true structural invariant. If two linear maps (or matrices) have the same rank, they are geometrically identical transformations—they preserve the exact same amount of information and destroy the exact same amount of information. Any apparent difference between them is merely an artifact of looking at them through misaligned or skewed coordinate bases.
+\end{remark}
+
+
+\noindent As a corollary we get:
+\begin{corollary}
+    \begin{shaded*}
+        Let $A\in M_{m,n}(F)$ and let $T_A:F^n\to F^m$ be the associated linear map. Then there exist invertible matrices $Q\in GL_m(F),P\in GL_n(F)$ such that \[Q^{-1}AP=\begin{pmatrix}I_k & 0 \\ 0 & 0\end{pmatrix},\]where $k=\rank(A)$. In other words, $A$ is equivalent to this canonical form under row and column operations.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    This follows immediately from the change of basis formula (Theorem \ref{thm:changeofbasis}) and the above discussion.\qedhere
+\end{proof}
+\noindent In other words, we have
+\[\{A\in M_{m\times n}(F):\rank(A)=k\}=\left\{Q\begin{pmatrix}I_k & 0 \\ 0 & 0\end{pmatrix}P^{-1}:Q\in GL_m(F),P\in GL_n(F)\right\}.\]
+
+\subsection{Left and Right Inverses}
+
+\noindent Another nice consequence of the Rank-Nullity Theorem is the following fact:
+\begin{corollary}
+\label{cor:samedim}
+    \begin{shaded*}
+        Let $T:V\to W$ be linear, with $V$ and $W$ finite-dimensional. Then the following are equivalent:
+        \begin{enumerate}
+            \item[1.] $T$ is bijective (an isomorphism),
+            \item[2.] $T$ is injective and $\dim V=\dim W$,
+            \item[3.] $T$ is surjective and $\dim V=\dim W$.
+        \end{enumerate}
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    $(1)\Rightarrow(2),(3)$: Suppose $T$ is an isomorphism, then in particular it is injective and surjective. By the lemma above, $\dim V=\dim W$.\par
+$(2)\Rightarrow (1)$: If $T$ is injective then $\ker(T)=\{0\}$ so by rank-nullity $$\dim V=\mathrm{rk}(T)+\dim\ker(T)=\mathrm{rk}(T).$$But $\dim V=\dim W$ so $\mathrm{rk}(T)=\dim W$. Hence $\mathrm{im}(T)$ is a subspace of $W$ of full dimension, so $\mathrm{im}(T)=W$, i.e. $T$ is surjective as well. Thus $T$ is bijective.\par
+$(3)\Rightarrow (1)$: If $T$ is surjective then $\mathrm{im}(T)=W$, so $$\mathrm{rk}(T)=\dim W=\dim V.$$By rank-nullity, $$\dim V=\mathrm{rk}(T)+\dim\ker(T),$$so this forces $\dim\ker(T)=0$, so as we saw in problem sheets this implies $\ker(T)=\{0\}$ and thus $T$ is injective, so $T$ is bijective. \qedhere
+\end{proof}
+
+\noindent We can also interpret this in terms of left and right inverses:
+
+\begin{proposition}
+\label{prop:inversesleftright}
+    \begin{shaded*}
+        Given a linear transformation $T:V\to W$ for $V$ and $W$ finite-dimensional:
+        \begin{enumerate}
+            \item[1.] There exists a left inverse $S:W\to V$, i.e. such that $S\circ T=I_V$ if and only if $T$ is injective,
+            \item[2.] There exists a right inverse $S:W\to V$, i.e. such that $T\circ S=I_W$, if and only if $T$ is surjective.
+        \end{enumerate}
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[1.] First, if there exists a left inverse then $S\circ T=I_V$ is injective, so $T$ must also be injective. Conversely, if $T$ is injective then $\ker(T)=\{0\}$ so pick a basis $B=(v_1,\dots,v_n)$ of $V$. We then have that $Tv_1,\dots,Tv_n$ is linearly independent and can be extended to a basis $(Tv_1,\dots,TV_n,w_1,\dots,w_{m-n})$ of $W$. We then define $S(Tv_i)=v_i$ and $S(w_i)=0$ and this uniquely extends to a linear map $S:W\to V$ with the property that $S(Tv_i)=v_i$ for all $i$ and since $(v_1,\dots,v_n)$ is a basis, $S\circ T=I_V$, as desired.
+        \item[2.] First, if there exists a right inverse then $T\circ S=I_W$ is surjective, so $T$ must also be surjective. Conversely, if $T$ is surjective, pick a basis $B=(v_1,\dots,v_n,u_1,\dots,u_k)$ of $V$ such that $(u_1,\dots,u_k)$ is a basis for $\ker(T)$. So $(Tv_1,\dots,Tv_n)$ is a basis of $C$, as above. We can then define $S(Tv_i)=Tv_i$ for all $i$ and this uniquely extends to a linear map $S:W\to V$ with the property that $T\circ S(Tv_i)=Tv_i$ for all $i$, so $T\circ S=I_W$ since $(Tv_1,\dots,Tv_n)$ is a basis of $W$. \qedhere
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        Let $T:V\to W$ be linear, with $V$ and $W$ finite-dimensional. Then the following are equivalent:
+        \begin{enumerate}
+            \item[1.] $T$ is bijective (i.e. an isomorphism),
+            \item[2.] $T$ has a left inverse and $\dim V=\dim W$,
+            \item[3.] $T$ has a right inverse and $\dim V=\dim W$.
+        \end{enumerate}
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Follows from Corollary \ref{cor:samedim} and Proposition \ref{prop:inversesleftright}.\qedhere
+\end{proof}
+\begin{remark}
+    As before, if $T$ is invertible, any left inverse is the inverse, and any right inverse is the inverse. Taking matrices, we recover what we knew before, that square matrices have an inverse if and only if they have \textit{either} a left or a right inverse (and, as we saw, every left or right inverse in this case is an inverse).
+\end{remark}
+
+\newpage
+a
+
+
+\end{document}

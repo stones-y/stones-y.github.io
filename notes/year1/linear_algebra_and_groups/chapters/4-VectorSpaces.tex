@@ -1,0 +1,809 @@
+\documentclass[../linear_algebra_and_groups.tex]{subfiles}
+
+\begin{document}
+
+
+\chapter{Vector Spaces}
+
+\section{Subspaces}
+
+\begin{definition}[Subspace]
+    \begin{shaded*}
+        Let $V$ be a vector space over a field $F$. A subset $W\subseteq V$ is a \textit{subspace} of $V$ if it satisfies the following three conditions:
+        \begin{itemize}
+            \item $0\in W$ (the additive identity is in $W$)
+            \item Closure under scalar multiplication: $w\in W\implies \lambda w\in W$ for all $\lambda\in F$
+            \item Closure under addition: $w_1,w_2\in W\implies w_1+w_2\in W$
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+For notation, sometimes we write $W\le V$ to indicate that $W\subseteq V$ is a subspace of $V$.
+
+
+\begin{remark}
+    The condition $0\in W$ ensures the subspace is not the empty set. Because vector spaces require closure under scalar multiplication, $0 \cdot w = 0$. Therefore, if $W$ is non-empty (contains at least one element $w$), it must automatically contain $0$. Thus, the first condition can be replaced with $W \ne \emptyset$.
+\end{remark}
+
+\begin{definition}[Linear Combination]
+    \begin{shaded*}
+       Let $V$ be a vector space over a field $F$. A \textit{linear combination} of vectors $v_1,\dots,v_k\in V$ is an expression of the form:
+        \[ \lambda_1v_1+\cdots+\lambda_kv_k \quad \text{where } \lambda_i\in F \]
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+\label{prop:spansubspace}
+    \begin{shaded*}
+        Let $V$ be a vector space over a field $F$, and let $v_1,\dots,v_k\in V$. Then \[W\coloneqq \{\lambda_1v_1+\cdots+\lambda_kv_k:\lambda_i\in F\}\subseteq V\] is a subspace of $V$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    We use the definition of subspace. Setting all $\lambda_i=0$ we get that $0\in W$. Let $v,w\in W$. Then we have, for some $\lambda_i\in F$, $\mu_i\in F$, \[v+w=\sum_{i=1}^k\lambda_iv_i+\sum_{i=1}^n\mu_iv_i=\sum_{i=1}^n(\lambda_i+\mu_i)v_i\in W.\]Also, given $\mu\in F$ we have \[\mu v= \mu\sum_{i=1}^n\lambda_iv_i=\sum_{i=1}^n(\mu\lambda_i)v_i\in W, \]so $W$ is a subspace of $V$.
+\end{proof}
+
+\subsection{Matrix Subspaces}
+
+\noindent We can now define three subspaces associated with any matrix.
+
+\begin{definition}[Null Space, Row Space, Column Space]
+    \begin{shaded*}
+        Let $A \in M_{m\times n}(F)$ with rows $R_1, \dots, R_m$ and columns $C_1, \dots, C_n$.
+        \begin{itemize}
+            \item \textbf{Null Space $N(A)$:} The solution set to the homogeneous equation $Ax=0$.
+            \[ N(A) \coloneqq \{x \in F^n : Ax = 0\} \subseteq F^n \]
+            \item \textbf{Row Space $RS(A)$:} The set of all linear combinations of the rows of $A$.
+            \[ RS(A) \coloneqq \{\lambda_1R_1+\cdots+\lambda_m R_m : \lambda_i\in F\} \subseteq F^n \]
+            \item \textbf{Column Space $CS(A)$:} The set of all linear combinations of the columns of $A$.
+            \[ CS(A) \coloneqq \{\lambda_1C_1+\cdots+\lambda_n C_n : \lambda_i\in F\} \subseteq F^m \]
+        \end{itemize}
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        $N(A)$ is a subspace of $F^n$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Clearly $0\in N(A)$ since $A0=0$. 
+    If $x\in N(A)$ and $\lambda\in F$, then $A(\lambda x)=\lambda(Ax)=\lambda 0=0$, so $\lambda x \in N(A)$. 
+    Finally, if $x,y\in N(A)$, then $A(x+y)=Ax+Ay=0+0=0$, so $x+y \in N(A)$. 
+    Thus, $N(A)$ is a subspace of $F^n$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    Recall that, by linearity, the solutions to $Ax=b$ are exactly the solutions of $Ax=0$ translated by a particular solution $v$ (where $Av=b$). Thus, any two solutions differ only by a vector in the null space $N(A)$.
+\end{remark}
+
+\subsection{Operations on Subspaces}
+
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $V$ be a vector space, and let $U,W$ be subspaces of $V$. Then:
+        \begin{enumerate}
+            \item[1.] $U+W \coloneqq \{u+w : u\in U,\, w\in W\}$ is a subspace.
+            \item[2.] $U\cap W$ is a subspace.
+            \item[3.] $U\cup W$ is not a subspace unless $U\subseteq W$ or $W\subseteq U$.
+        \end{enumerate}
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[1.]Take $u_1+w_1$ and $u_2+w_2$ in $U+W$. By commutativity and associativity of vector addition:
+    \[ (u_1+w_1)+(u_2+w_2) = (u_1+u_2)+(w_1+w_2) \]
+    Since $U$ and $W$ are closed under addition, $u_1+u_2 \in U$ and $w_1+w_2 \in W$, meaning the sum remains in $U+W$. 
+    For scalar multiplication with $\lambda \in F$:
+    \[ \lambda(u_1+w_1) = \lambda u_1 + \lambda w_1 \]
+    Since $U$ and $W$ are closed under scalar multiplication, $\lambda u_1 \in U$ and $\lambda w_1 \in W$, so the scaled vector is in $U+W$. 
+    Finally, $0 \in U$ and $0 \in W$, so $0+0=0 \in U+W$. Thus, $U+W$ is a subspace.
+
+    \item[2.] Take $v_1, v_2 \in U\cap W$ and $\lambda \in F$. Since $v_1, v_2 \in U$ and $U$ is a subspace, $v_1+v_2 \in U$ and $\lambda v_1 \in U$. By the exact same logic for $W$, $v_1+v_2 \in W$ and $\lambda v_1 \in W$. Therefore, $v_1+v_2$ and $\lambda v_1$ are in both, so they are in $U\cap W$. Finally, $0 \in U$ and $0 \in W$, so $0 \in U\cap W$.
+    
+    \item[3.] Exercise.\qedhere
+    \end{enumerate}
+\end{proof}
+
+\noindent We can generalise these results to arbitrary collections of subspaces:
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $\{U_i\}_{i\in I}$ be a collection of subspaces of $V$. 
+        \begin{itemize}
+            \item The intersection $\bigcap_{i\in I} U_i$ is a subspace.
+            \item The sum $\sum_{i\in I} U_i \coloneqq \left\{u_{i_1}+\cdots+u_{i_k} : k\in\N,\, i_j \in I,\, u_{i_j} \in U_{i_j}\right\}$ is a subspace.
+        \end{itemize}
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    The arguments for closure under addition, scalar multiplication, and the presence of the zero vector apply identically to the finite cases above.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    In linear algebra, we only define finite sums of vectors to avoid issues of convergence. Therefore, the sum of an arbitrary family of subspaces $\sum_{i\in I} U_i$ must be defined specifically as the set of all possible \textit{finite} sums of elements drawn from those subspaces.
+\end{remark}
+
+\section{Linear Independence and Span}
+
+\begin{definition}[Linear Dependence]
+    \begin{shaded*}
+        A list of vectors $(v_1,\dots,v_k)$ in $V$ is \textit{linearly dependent} if there exist scalars $\lambda_1, \dots, \lambda_k \in F$, not all zero, such that:
+        \[ \lambda_1v_1+\cdots+\lambda_kv_k=0 \]
+        Otherwise, the list $(v_1,\dots,v_k)$ is \textit{linearly independent}. Equivalently, they are independent if and only if the only solution to the above equation is the trivial solution $\lambda_1=\cdots=\lambda_k=0$.
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}[Span]
+    \begin{shaded*}
+        The \textit{span} of a list of vectors $(v_1,\dots,v_k)$ is the set of all their possible linear combinations:
+        \[ \text{Span}(v_1,\dots,v_k) \coloneqq \{\lambda_1v_1+\cdots+\lambda_kv_k : \lambda_i\in F\} \]
+        A list $(v_1,\dots,v_k)$ is called \textit{spanning} for $V$ if $\text{Span}(v_1,\dots,v_k)=V$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    By convention, the span of the empty list is the trivial subspace containing only the zero vector: $\text{Span}(\emptyset) \coloneqq \{0\}$. This ensures that the span of any set is always a valid vector subspace.
+\end{remark}
+
+\begin{definition}[Finite-Dimensional]
+    \begin{shaded*}
+        Let $V$ be a vector space over a field $F$. We say that $V$ is \textit{finite-dimensional} if there exists a finite spanning set, i.e. there exists $v_1,\dots,v_k$, where $k\in\N$, such that $\Span(v_1,\dots,v_n)=V$.
+    \end{shaded*}
+\end{definition}
+\begin{remark}
+    We define finite-dimensionality in terms of spanning sets rather than bases because the spanning condition is weaker. It allows us to establish the "size boundary" of the space without first needing to prove that a basis even exists.
+\end{remark}
+
+\begin{definition}[Basis]
+    \begin{shaded*}
+        Let $V$ be a vector space over a field $F$. A list of vectors $(v_1,\dots,v_k)$ is a \textit{basis} for $V$ if it is linearly independent and spans $V$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Given these definitions, our goal now is to prove that every basis of a finite-dimensional space $V$ has the exact same number of elements. If we have a spanning set where removing any $v_i$ breaks the spanning property, that number $n$ is unique. We will define this unique integer $n$ as the dimension, denoted $\text{dim}(V)$.
+\end{remark}
+
+\begin{remark}
+    So far, we have defined span and linear independence for finite \textit{tuples} of vectors $(v_1, \dots, v_n)$. We now redefine these concepts for \textit{subsets} $X \subseteq V$. 
+    
+    Working with subsets allows $X$ to be infinite without requiring infinite tuples. It also removes the need to track the ordering of elements. 
+\end{remark}
+
+\begin{remark}
+    Consider the tuple $(v,v)$ and the set $\{v,v\} = \{v\}$ for $v \neq 0$. 
+    The tuple $(v,v)$ is linearly dependent because $1v + (-1)v = 0$. However, the set $\{v\}$ is linearly independent. 
+    
+    When defining linear dependence for subsets, we must explicitly require that the vectors $x_1, \dots, x_n$ chosen from $X$ are distinct. Otherwise, we could select the exact same element from the set multiple times to artificially create a non-trivial solution like $1v - 1v = 0$. For the definition of span, distinctness is not required because repeated vectors simply collapse into a single term: $\lambda_i v + \lambda_j v = (\lambda_i + \lambda_j)v$.
+\end{remark}
+
+\begin{definition}
+    \begin{shaded*}
+        Let $X \subseteq V$. The \textit{span} of $X$ is the set of all finite linear combinations of elements of $X$:
+        \[ \Span(X) \coloneqq \{\lambda_1x_1+\cdots+\lambda_nx_n : n\in\N,\, x_i\in X,\, \lambda_i\in F\} \]
+    \end{shaded*}
+\end{definition}
+
+\begin{lemma}
+    \begin{shaded*}
+        For any $X \subseteq V$, $\Span(X)$ is a subspace of $V$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Follows from Proposition \ref{prop:spansubspace}.
+\end{proof}
+
+\begin{definition}
+    \begin{shaded*}
+        A subset $X \subseteq V$ is \textit{linearly dependent} if there exist distinct vectors $x_1,\dots,x_n \in X$ and scalars $\lambda_1,\dots,\lambda_n \in F$, not all zero, such that
+        \[ \lambda_1x_1+\cdots+\lambda_nx_n=0. \]
+        Otherwise, $X$ is \textit{linearly independent}.
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}
+    \begin{shaded*}
+        A subset $X \subseteq V$ is a \textit{basis} for $V$ if it is linearly independent and $\Span(X)=V$.
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $V$ be a vector space, and let $v_1, \dots, v_n \in V$.
+        \begin{itemize}
+            \item The tuple $(v_1,\dots,v_n)$ is spanning $\iff$ the set $\{v_1,\dots,v_n\}$ is spanning.
+            \item The tuple $(v_1,\dots,v_n)$ is linearly independent $\iff$ the vectors $v_1,\dots,v_n$ are distinct and the set $\{v_1,\dots,v_n\}$ is linearly independent.
+        \end{itemize}
+    \end{shaded*}
+\end{proposition}
+
+
+\section{Dimension}
+
+Our goal want to prove that any two bases of the same finite-dimensional vector space have the exact same size. 
+To do this, we will prove a stronger statement: given a finite-dimensional vector space $V$, for any linearly independent set $L\subseteq V$ and any finite spanning set $S\subseteq V$, we must have $|L| \le |S|$. Because any two bases are both linearly independent and spanning, this will immediately force their sizes to be equal.
+First, we need to build some more theory:
+
+\subsection{Basic results on linear independence and span}
+
+Two simple observations that follow directly from the definitions are:
+\begin{itemize}
+    \item If $X \subseteq Y$ and $Y$ is linearly independent, then $X$ is linearly independent.
+    \item If $X \subseteq Y$ and $X$ is spanning, then $Y$ is spanning.
+\end{itemize}
+
+\noindent Now we establish how to grow or shrink sets without losing their key properties.
+
+\begin{lemma}[Extending linearly independent sets]
+\label{lem:extendlinindep}
+    \begin{shaded*}
+        Suppose $X \subseteq V$ is linearly independent and $v \notin \Span(X)$. Then $X \cup \{v\}$ is linearly independent.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Suppose there exists a linear dependence:
+    \[ \lambda v + \lambda_1 x_1 + \cdots + \lambda_n x_n = 0 \]
+    where $x_1, \dots, x_n \in X$ are distinct, and the scalars $\lambda, \lambda_1, \dots, \lambda_n$ are not all zero.
+    \begin{itemize}
+        \item \textit{Case 1: $\lambda = 0$.} Then $\lambda_1 x_1 + \cdots + \lambda_n x_n = 0$ with the remaining scalars not all zero. This is a linear dependence among vectors strictly in $X$, contradicting the linear independence of $X$.
+        \item \textit{Case 2: $\lambda \ne 0$.} We can solve for $v$:
+        \[ v = -\frac{\lambda_1}{\lambda}x_1 - \cdots - \frac{\lambda_n}{\lambda}x_n \]
+        This implies $v \in \Span(X)$, which contradicts our initial assumption.
+    \end{itemize}
+    Both cases yield a contradiction, so $X \cup \{v\}$ must be linearly independent.
+    \qedhere
+\end{proof}
+
+\begin{lemma}[Shrinking linearly dependent sets]
+\label{lem:shrinklindep}
+    \begin{shaded*}
+        If $X \subseteq V$ is linearly dependent, then there exists $x \in X$ such that $\Span(X) = \Span(X \setminus \{x\})$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Because $X$ is linearly dependent, there exists a non-trivial linear combination:
+    \[ \lambda_1 x_1 + \cdots + \lambda_n x_n = 0 \]
+    with at least one scalar $\lambda_i \ne 0$. Rearranging this equation to isolate $x_i$ gives:
+    \[ x_i = -\frac{\lambda_1}{\lambda_i}x_1 - \cdots - \frac{\lambda_n}{\lambda_i}x_n \]
+    where the right side is a linear combination of vectors in $X \setminus \{x_i\}$. Thus, $x_i \in \Span(X \setminus \{x_i\})$, meaning its removal does not reduce the overall span of the set.
+    \qedhere
+\end{proof}
+
+
+\noindent Combining these two ideas allows us to swap vectors in and out of a spanning set:
+
+\begin{lemma}[Steinitz Exchange Lemma]
+\label{lem:steinitz}
+    \begin{shaded*}
+        Let $X \subseteq V$ and $v \in \Span(X)$ with $v \ne 0$. Suppose:
+        \[ v = \lambda_1 x_1 + \cdots + \lambda_n x_n \]
+        for distinct $x_1, \dots, x_n \in X$ and all $\lambda_i \ne 0$ (we discard terms with zero coefficients). Then for any index $i$, we can exchange $x_i$ for $v$ without altering the span:
+        \[ \Span(X) = \Span((X \setminus \{x_i\}) \cup \{v\}) \]
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Without loss of generality, assume $i=1$. Because $\lambda_1 \ne 0$, we can rearrange the equation to isolate $x_1$:
+    \[ x_1 = \lambda_1^{-1}(v - \lambda_2 x_2 - \cdots - \lambda_n x_n) \]
+    This shows $x_1 \in \Span((X \setminus \{x_1\}) \cup \{v\})$. Because $x_1$ is already in the span of the new modified set, adding it back in does not increase the span. Therefore, $\Span((X \setminus \{x_1\}) \cup \{v\}) = \Span(X \cup \{v\})$. 
+    
+    Since $v \in \Span(X)$ by assumption, $\Span(X \cup \{v\}) = \Span(X)$. Combining these equalities yields the result.
+    \qedhere
+\end{proof}
+
+
+
+\subsection{Comparing Cardinalities}
+
+\begin{lemma}
+    \label{lem:cardinalityinduction}
+        \begin{shaded*}
+            Let $V$ be a finite-dimensional vector space. Let $X, Y \subseteq V$ be finite sets, with $X$ linearly independent and $Y$ spanning. There exists a subset $Y' \subseteq X \cup Y$ such that:
+            \[ Y' \supseteq X, \quad |Y'| = |Y|, \quad \text{and } Y' \text{ is spanning.} \]
+        \end{shaded*}
+    \end{lemma}
+    \begin{proof}
+        We proceed by induction on $k \coloneqq |X \setminus Y|$, the number of vectors in $X$ that are not currently in $Y$.
+        
+        \textit{Base Case:} If $k = 0$, then $X \subseteq Y$. We simply set $Y' = Y$ and the conditions are trivially satisfied.
+        
+        \textit{Inductive Step:} Suppose $k > 0$ and the claim holds for $k - 1$. Choose a vector $x \in X \setminus Y$. Since $Y$ is spanning, we can write $x$ as a linear combination:
+        \[ x = \lambda_1 y_1 + \cdots + \lambda_n y_n \]
+        with $y_i \in Y$ and all $\lambda_i \ne 0$. 
+        
+        We claim that at least one of these $y_i$ is not in $X$. If every $y_i$ were in $X$, we could rewrite the equation as:
+        \[ -x + \lambda_1 y_1 + \cdots + \lambda_n y_n = 0 \]
+        Since $x \notin Y$, $x$ is distinct from all $y_i$. This creates a non-trivial linear combination of distinct elements of $X$ equating to zero, which contradicts the linear independence of $X$. Thus, there exists some $y_i \notin X$.
+        
+        Define a new set by swapping $y_i$ out for $x$:
+        \[ Y^* \coloneqq (Y \setminus \{y_i\}) \cup \{x\} \]
+        By the Steinitz Exchange Lemma (Lemma \ref{lem:steinitz}), $Y^*$ is still spanning. Because we removed an element not in $X$ and added an element from $X$, the number of elements in $X$ missing from our new spanning set has decreased by exactly one: $|X \setminus Y^*| = k - 1$. Furthermore, the size of the set remained constant: $|Y^*| = |Y|$.
+        
+        By the inductive hypothesis applied to $X$ and $Y^*$, there exists a spanning set $Y'$ containing $X$ such that $|Y'| = |Y^*| = |Y|$ and $Y' \subseteq X \cup Y^* \subseteq X \cup Y$. This completes the proof.
+        \qedhere
+    \end{proof}
+
+\begin{remark}
+    The induction here just formalises our algorithmic process of slowly putting each ``problematic'' $x\in X\setminus Y$ into a new set $Y'$ by replacing a $y_j$ which is outside of $X$ (if it was already in $X$ this is what we wanted - so replacing it would be redundant!). We then repeat and this process terminates because $X$ is finite; this is what the induction formalises.
+\end{remark}
+
+\noindent Consequently, we get:
+\begin{theorem}
+\label{thm:comparingcardinality}
+    \begin{shaded*}
+        For a vector space $V$, let $X \subseteq V$ be linearly independent and $Y \subseteq V$ be spanning. If $|Y| < \infty$, then $|X| \le |Y|$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We first reduce to the case where $|X|$ is finite. Suppose $|Y| = m \in \N$. If $|X|$ were infinite, we could simply select a finite subset $X' \subseteq X$ such that $|X'| = m + 1$. Since $X'$ is a subset of a linearly independent set, it is also linearly independent. If we can prove the theorem for finite sets, it would force $m + 1 \le m$, a contradiction. Thus, we only need to prove the theorem assuming $|X| < \infty$.
+    
+    But the theorem for $|X|<\infty$ follows from Lemma \ref{lem:cardinalityinduction}, which constructs a spanning set of size exactly $|Y|$ that completely contains $X$, so we are done.\qedhere
+\end{proof}
+
+
+\subsection{Bases and Dimension}
+
+\begin{theorem}[Invariance of Basis Size]
+    \begin{shaded*}
+        Any two bases of a finite-dimensional vector space $V$ have the same cardinality.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $B_1$ and $B_2$ be bases of $V$. Because $V$ is finite-dimensional, there exists a finite spanning set $X \subseteq V$. 
+    
+    Since $B_1$ and $B_2$ are linearly independent and $X$ is a finite spanning set, Theorem \ref{thm:comparingcardinality} guarantees that:
+    \[ |B_1| \le |X| \quad \text{and} \quad |B_2| \le |X| < \infty \]
+    This proves both bases are finite. Now we apply the Theorem \ref{thm:comparingcardinality} again directly to the bases. Since $B_1$ is linearly independent and $B_2$ is spanning, $|B_1| \le |B_2|$. Reversing their roles, since $B_2$ is linearly independent and $B_1$ is spanning, $|B_2| \le |B_1|$. Therefore, $|B_1| = |B_2|$.\qedhere
+\end{proof}
+
+Before we can rigorously define dimension, we must prove that a basis actually exists in any finite-dimensional space. We can find a basis either by shrinking a spanning set or growing a linearly independent set, however since we \textit{defined} finite-dimensional in terms of spanning sets, we need to prove the following fact:
+
+\begin{proposition}
+\label{prop:minimalspanning}
+    \begin{shaded*}
+        Suppose $X \subseteq V$ is a minimal spanning set (meaning that for every proper subset $X' \subsetneq X$, $X'$ does not span $V$). Then $X$ is a basis of $V$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    By assumption, $X$ is spanning. We only need to show $X$ is linearly independent. 
+    
+    Suppose for contradiction that $X$ is linearly dependent. Then there exists a non-trivial linear combination:
+    \[ \lambda_1 x_1 + \cdots + \lambda_n x_n = 0 \]
+    with all $\lambda_i \ne 0$ among distinct elements $x_1, \dots, x_n \in X$. 
+    
+    By the Steinitz Exchange Lemma, we can exchange $x_1$ for the zero vector and maintain the exact same span. Thus, $(X \setminus \{x_1\}) \cup \{0\}$ spans $V$. Because the zero vector contributes nothing to a linear combination, the set $X \setminus \{x_1\}$ alone must span $V$. 
+    
+    This contradicts the minimality of $X$. Therefore, $X$ must be linearly independent, making it a basis.
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        If $Y \subseteq V$ is a finite spanning set, then there exists a subset $X \subseteq Y$ which is a basis of $V$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Let $Y$ be a spanning set with $|Y| < \infty$. If $Y$ is linearly independent, it is already a basis and we are done. 
+    
+    If $Y$ is linearly dependent, there exists a redundant vector $v \in Y$ such that $Y \setminus \{v\}$ still spans $V$. If this smaller set is still dependent, we repeat the process. Because $Y$ is finite, this removal process must terminate. The resulting set $X \subseteq Y$ is a minimal spanning set, which is a basis by Proposition \ref{prop:minimalspanning}.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This proof is constructive. It provides an algorithm to extract a basis from a finite spanning set by systematically hunting for and removing linear dependencies. In practice, finding these dependencies is done by writing the vectors as columns in a matrix and applying Gaussian elimination to identify the pivot columns.
+\end{remark}
+
+We have now proven two key facts for finite-dimensional vector spaces: at least one basis always exists, and all bases are exactly the same size. This allows us to define dimension rigorously:
+
+\begin{definition}[Dimension]
+    \begin{shaded*}
+        If $V$ is a finite-dimensional vector space, the \textit{dimension} of $V$, denoted $\dim(V)$, is defined as the cardinality $|B|$ of any basis $B$ of $V$.
+    \end{shaded*}
+\end{definition}
+
+\begin{proposition}
+    \begin{shaded*}
+        If $X \subseteq V$ is a maximal linearly independent set (meaning no proper superset $Y \supsetneq X$ is linearly independent), then $X$ is a basis of $V$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    If $X$ does not span $V$, there exists some $v \in V$ such that $v \notin \Span(X)$. By our earlier extension lemma (Lemma \ref{lem:extendlinindep}), the set $X \cup \{v\}$ is linearly independent. This contradicts the maximality of $X$. Thus, every vector in $V$ must lie in $\Span(X)$, making $X$ a spanning set and therefore a basis.
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        Let $V$ be finite-dimensional. Let $X \subseteq V$ be linearly independent and $Y \subseteq V$ be spanning. There exists a basis $B$ of $V$ such that:
+        \[ X \subseteq B \subseteq X \cup Y \]
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Let $n = \dim(V) < \infty$. If $X$ spans $V$, it is already a basis, and we set $B = X$. 
+    
+    If $X$ does not span $V$, then $\Span(X) \subsetneq V = \Span(Y)$. This implies $Y$ cannot be entirely contained within $\Span(X)$, so there exists some vector $y_1 \in Y$ such that $y_1 \notin \Span(X)$. 
+    
+    By the extension lemma (Lemma \ref{lem:extendlinindep}), $X_1 \coloneqq X \cup \{y_1\}$ is linearly independent. We repeat this process, obtaining a strictly increasing chain of linearly independent sets:
+    \[ X = X_0 \subsetneq X_1 \subsetneq X_2 \subsetneq \cdots \]
+    where $X_k \subseteq X \cup Y$. Because $V$ is finite-dimensional, the size of any linearly independent set is bounded by $n$. Thus, the process must terminate. The final set in this chain spans $V$, making it a basis $B$ that contains $X$ and is built entirely from elements of $X$ and $Y$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    To formalize the ``this process eventually terminates'' argument, one would use induction on the integer $k \coloneqq n - |X|$, representing the number of vectors needed to reach the dimension of the space.
+\end{remark}
+
+\noindent The following proposition gives another useful way to think about bases.
+\begin{proposition}
+\label{prop:uniquerepbasis}
+    \begin{shaded*}
+        Let $V$ be a vector space and let $X,Y,B\subseteq V$.
+        \begin{enumerate}
+            \item $X$ is linearly independent $\iff$ every vector $v\in V$ has \textit{at most one} representation as a linear combination of elements of $X$.
+            \item $Y$ is spanning $\iff$ every $v\in V$ has \textit{at least one} representation as a linear combination of elements of $Y$.
+            \item $B$ is a basis $\iff$ every $v\in V$ has \textit{exactly one} representation as a linear combination of elements of $B$.
+        \end{enumerate}
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[1.] Suppose $X$ is linearly independent and $v\in\Span(X)$ has two expressions:
+        \[ v = \lambda_1x_1+\cdots+\lambda_mx_m = \lambda'_1x_1+\cdots+\lambda'_mx_m \]
+        for distinct $x_i \in X$. Subtracting the second from the first gives:
+        \[ 0 = (\lambda_1-\lambda'_1)x_1+\cdots+(\lambda_m-\lambda'_m)x_m \]
+        Since $X$ is linearly independent, the only solution to this homogeneous equation is the trivial one. This forces $\lambda_i-\lambda'_i=0$, meaning $\lambda_i=\lambda'_i$ for all $i$. Thus, the representation is unique.
+        \item[2.] This is the exact definition of $\Span(Y)=V$.
+        \item[3.] A basis is by definition both linearly independent and spanning. Combining (1) and (2) ensures both the existence and uniqueness of the linear combination.\qedhere 
+    \end{enumerate}
+\end{proof}
+
+\noindent Another useful proposition is:
+\begin{proposition}
+    \begin{shaded*}
+        Let $V$ be a finite-dimensional vector space with $n \coloneqq \dim(V)$. Then the following are equivalent for a subset $X\subseteq V$:
+        \begin{enumerate}
+            \item $X$ is a basis of $V$.
+            \item $X$ is linearly independent and $|X|=n$.
+            \item $X$ is spanning and $|X|=n$.
+        \end{enumerate}
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Clearly (1) implies both (2) and (3) by the definition of dimension. We are left to show that (2) implies (1) and (3) implies (1).
+    
+    \textit{$(2)\Rightarrow (1)$}: Let $X$ be a linearly independent set with $|X|=n$. If $X$ were not a basis, it would not span $V$. By our extension lemma, we could add a vector $v\notin\Span(X)$ to obtain a strictly larger linearly independent set $X\cup \{v\}$ of size $n+1$. However, no linearly independent set can be strictly larger than the dimension of the space, contradicting $\dim(V)=n$. Thus, $X$ must span $V$.
+    
+    \textit{$(3)\Rightarrow (1)$}: Let $X$ be a spanning set with $|X|=n$. If $X$ were not linearly independent, we know from earlier lemmas there would exist a proper subset $X'\subsetneq X$ which is still spanning but with $|X'|<n$. The dimension of a space is the size of its minimal spanning sets (bases), so a spanning set of size strictly less than $n$ contradicts $\dim(V)=n$. Thus, $X$ must be linearly independent.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This is a powerful computational tool: if you know the dimension of a space is $n$, you only need to check \textit{either} linear independence \textit{or} spanning for a set of $n$ vectors to prove it is a basis. You do not need to check both.
+\end{remark}
+
+\begin{example}
+    $\dim(F^n)=n$ with the standard basis $\{e_1,\dots,e_n\}$.
+\end{example}
+
+\begin{example}
+    $\dim(M_{m\times n}(F))=mn$. A natural basis is given by the matrices $E^{(i,j)}$ with a single $1$ in position $(i,j)$ and zeros elsewhere: 
+    \[ \left(E^{(i,j)}\right)_{k\ell}=\begin{cases}1,&\text{if }k=i,\,\ell=j\\0,&\text{otherwise}\end{cases} \]
+    Structurally, $M_{m\times n}(F) \cong F^{mn}$; it is isomorphic to $mn$-tuples, we simply reorganize the entries into a rectangular array.
+\end{example}
+
+\begin{example}
+    In real geometry, $\dim(\R^3)=3$. We can also look at dimensions of subspaces. A plane $U\subset \R^3$ passing through the origin has $\dim(U)=2$ since $U=\Span(u_1,u_2)$ where $u_1,u_2$ are linearly independent direction vectors. Similarly, a line $\ell\subset\R^3$ through the origin has $\dim(\ell)=1$. 
+    
+    \textit{Note:} Subspaces must pass through the origin to contain the zero vector. Lines or planes that do not pass through the origin are called \textit{affine} subspaces (translations of vector subspaces). 
+\end{example}
+
+
+\subsection{Dimensions of Subspaces}
+
+\begin{proposition}
+\label{prop:subspacedim}
+    \begin{shaded*}
+        If $V$ is finite-dimensional and $U\subseteq V$ is a subspace, then $U$ is also finite-dimensional and:
+        \[ \dim(U) \le \dim(V) \]
+        Moreover, $\dim(U)=\dim(V)$ if and only if $U=V$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Any basis of $U$ is a linearly independent subset of $V$. We know the cardinality of any linearly independent set in $V$ cannot exceed $\dim(V)$, giving $\dim(U)\le \dim(V)$.
+    
+    We must prove such a basis for $U$ exists. Start with the empty set (which is linearly independent) and repeatedly adjoin vectors from $U$ that are not yet in the span. Since no linearly independent subset of $V$ can have more than $\dim(V)$ elements, this process must terminate in at most $\dim(V)$ steps, yielding a finite basis for $U$.
+    
+    Finally, if $\dim(U)=\dim(V)$, then a basis of $U$ is a linearly independent subset of $V$ of size exactly $\dim(V)$. By our previous corollary, it must therefore be a basis for $V$, meaning its span is all of $V$, so $U=V$. Conversely, if $U=V$, clearly $\dim(U)=\dim(V)$.\qedhere
+\end{proof}
+\noindent Now, consider the following examples:
+
+\begin{example}
+    Let $V=F^n$. Define the following subspaces:
+    \[ U \coloneqq \{(x_1,\dots,x_m,0,\dots,0) : x_i\in F\} \]
+    \[ W \coloneqq \{(0,\dots,0,y_1,\dots,y_p) : y_i\in F\} \]
+    Notice that $U$ is isomorphic to $F^m$ and $W$ is isomorphic to $F^p$. 
+    
+    If $m+p \le n$, there is no overlap between the non-zero entries. Thus, $U\cap W=\{0\}$, meaning $\dim(U\cap W)=0$. The sum is:
+    \[ U+W = \{(x_1,\dots,x_m,0,\dots,0,y_1,\dots,y_p) : x_i,y_j\in F\} \]
+    Since $U+W \cong F^{m+p}$, we have $\dim(U+W)=m+p$. This matches the formula:
+    \[ \dim(U+W) = \dim(U) + \dim(W) - \dim(U\cap W) = m + p - 0 = m+p \]
+
+    If $m+p \ge n$, the non-zero components overlap in exactly $m+p-n$ positions. Thus:
+    \[ U\cap W \cong F^{m+p-n} \implies \dim(U\cap W) = m+p-n \]
+    Because the combined non-zero components cover all $n$ coordinates, $U+W = F^n$, so $\dim(U+W) = n$. This again matches the formula:
+    \[ \dim(U) + \dim(W) - \dim(U\cap W) = m + p - (m+p-n) = n \]
+\end{example}
+
+\begin{example}
+    Take two non-parallel planes $U,W\subset\R^3$ passing through the origin. Their sum $U+W$ is all of $\R^3$, so $\dim(U+W)=3$. Their intersection $U\cap W$ is a 1-dimensional line. Notice that:
+    \[ \dim(U+W) = 3 = 2 + 2 - 1 = \dim(U) + \dim(W) - \dim(U\cap W) \]
+    If we build a basis for $U+W$ by simply pasting together a basis for $U$ and a basis for $W$, we will have 4 vectors, which is linearly dependent in $\R^3$. The redundancy exactly corresponds to the vectors that lie in the shared intersection $U \cap W$.
+\end{example}
+\noindent Given this motivation, we now state and prove the Dimension Formula for finite-dimensional vector spaces.
+\begin{theorem}[Dimension of Sums of Subspaces]
+\label{thm:dimensionformula}
+    \begin{shaded*}
+        Let $U,W\subseteq V$ be finite-dimensional subspaces. Then:
+        \[ \dim(U+W) = \dim(U) + \dim(W) - \dim(U\cap W) \]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $(v_1,\dots,v_m)$ be a basis for $U\cap W$. 
+    Because $U\cap W$ is a subspace of $U$, we can extend this to a basis of $U$ by adding vectors $u_1,\dots,u_n$:
+    \[ (v_1,\dots,v_m,u_1,\dots,u_n) \]
+    Similarly, we extend the intersection basis to a basis of $W$ by adding vectors $w_1,\dots,w_p$:
+    \[ (v_1,\dots,v_m,w_1,\dots,w_p) \]
+    We claim that the combined list:
+    \[ B = (v_1,\dots,v_m,u_1,\dots,u_n,w_1,\dots,w_p) \]
+    is a basis for $U+W$.
+    
+    \textit{Linear Independence:} Suppose there is a linear dependence:
+    \[ \sum_{i=1}^m \lambda_i v_i + \sum_{j=1}^n \mu_j u_j + \sum_{k=1}^p \nu_k w_k = 0 \]
+    Rearranging to isolate the $w_k$ terms:
+    \[ \sum_{i=1}^m \lambda_i v_i + \sum_{j=1}^n \mu_j u_j = - \sum_{k=1}^p \nu_k w_k \]
+    Let this vector be denoted by $x$. The left side is a linear combination of basis vectors for $U$, so $x \in U$. The right side is a linear combination of vectors in $W$, so $x \in W$. Therefore, $x \in U \cap W$.
+    
+    Because $x \in U\cap W$, it can be uniquely written in terms of the basis for the intersection:
+    \[ x = \sum_{i=1}^m \alpha_i v_i \]
+    However, looking at our right side, $x$ is written entirely using the $w_k$ vectors:
+    \[ \sum_{i=1}^m \alpha_i v_i = - \sum_{k=1}^p \nu_k w_k \implies \sum_{i=1}^m \alpha_i v_i + \sum_{k=1}^p \nu_k w_k = 0 \]
+    Since $(v_1,\dots,v_m,w_1,\dots,w_p)$ is a basis for $W$, it is linearly independent. This forces all coefficients to be zero, meaning $\alpha_i = 0$ and $\nu_k = 0$. 
+    
+    Because $\nu_k = 0$, our original linear dependence collapses to:
+    \[ \sum_{i=1}^m \lambda_i v_i + \sum_{j=1}^n \mu_j u_j = 0 \]
+    Since $(v_1,\dots,v_m,u_1,\dots,u_n)$ is a basis for $U$, it is linearly independent. This forces $\lambda_i = 0$ and $\mu_j = 0$. Since all coefficients $\lambda_i, \mu_j, \nu_k$ are exactly zero, the combined list $B$ is linearly independent.
+    
+    \textit{Spanning:} Any vector in $U+W$ is of the form $u+w$. The vector $u$ is in the span of the $U$ basis, and $w$ is in the span of the $W$ basis. Adding them together simply creates a linear combination of vectors from the combined list $B$. Thus, $B$ spans $U+W$.\par
+    We conclude that $B$ is a basis for $U+W$. Counting the vectors, we have:
+    \[ \dim(U+W) = m + n + p \]
+    Observe that $\dim(U) = m+n$, $\dim(W) = m+p$, and $\dim(U\cap W) = m$. Therefore:
+    \[ \dim(U) + \dim(W) - \dim(U\cap W) = (m+n) + (m+p) - m = m+n+p = \dim(U+W), \]
+    which concludes the proof.\qedhere
+\end{proof}
+Even though the union of vector spaces is not in general a subspace, we get the following natural result when we take the \textit{span} of the union:
+\begin{lemma}
+    \begin{shaded*}
+        For subsets $X,Y\subseteq V$, $\Span(X)+\Span(Y)=\Span(X\cup Y)$.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    The inclusion $\Span(X)+\Span(Y) \subseteq \Span(X\cup Y)$ clearly holds because any sum of a vector in $\Span(X)$ and a vector in $\Span(Y)$ is just a linear combination of elements drawn from both sets, which lies in $X\cup Y$. 
+    
+    For the reverse inclusion, let $v\in\Span(X\cup Y)$. It is a finite linear combination:
+    \[ v = \lambda_1z_1+\cdots+\lambda_kz_k \quad \text{for } z_i\in X\cup Y \]
+    We can group all terms where $z_i \in X$ and all terms where $z_i \in Y$ separately (arbitrarily assigning elements in the intersection to one side), to obtain:
+    \[ v = (\mu_1x_1+\cdots+\mu_ax_a) + (\nu_1y_1+\cdots+\nu_by_b) \]
+    where $x_i \in X$ and $y_j \in Y$. The first group lies entirely in $\Span(X)$ and the second group lies entirely in $\Span(Y)$. Thus, $v \in \Span(X)+\Span(Y)$.\qedhere
+\end{proof}
+
+
+\subsection{Rank of a Matrix}
+
+We now revisit the row space, column space, null space, and rank of a matrix with our more sophisticated tools. For a matrix $A\in M_{m\times n}(F)$, recall that we denote these spaces as $\RS(A)$, $\CS(A)$, and $\Null(A)$ respectively.
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $A\in M_{m\times n}(F)$. Elementary row operations do not change the row space of $A$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    If $A'$ is obtained from $A$ by a sequence of row operations, then each row of $A'$ is a linear combination of the rows of $A$. Thus, $\RS(A') \subseteq \RS(A)$. 
+    
+    Conversely, since elementary row operations are invertible, each row of $A$ can be reconstructed as a linear combination of the rows of $A'$. Hence, $\RS(A) \subseteq \RS(A')$. The two spaces coincide.\qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+        The dimension of the row space of $A\in M_{m\times n}(F)$ is equal to the number of non-zero rows in any row echelon form (REF) of $A$. This is identically the number of pivots.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    By the previous proposition, $\RS(A) = \RS(R)$, where $R$ is the REF of $A$. The non-zero rows of $R$ clearly span $\RS(R)$. We only need to show they are linearly independent. 
+    
+    In REF, the leading non-zero entry (pivot) of each row occurs strictly to the right of the pivot in the row above it. Because of this "staircase" structure, no row can be constructed as a linear combination of the rows below it. Thus, any linear combination:
+    \[ \lambda_1 R_1 + \cdots + \lambda_k R_k = 0 \]
+    must evaluate to zero from top to bottom, forcing $\lambda_1 = 0$, then $\lambda_2 = 0$, and so on. The non-zero rows form a linearly independent spanning set for the row space. 
+    \qedhere
+\end{proof}
+
+\begin{proposition}
+    \begin{shaded*}
+        Let $A\in M_{m\times n}(F)$ with columns $C_1,\dots,C_n$. The set of solutions to:
+        \[ \lambda_1C_1+\dots+\lambda_nC_n=0 \]
+        is unaffected by row operations on $A$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    The linear combination can be written as the matrix-vector product $A\lambda = 0$, where $\lambda = (\lambda_1, \dots, \lambda_n)^\top$. 
+    If $A'$ is obtained from $A$ by row operations, we know from our study of linear systems that the homogeneous solution set is preserved:
+    \[ A\lambda = 0 \iff A'\lambda = 0 \]
+    Thus, $\Null(A) = \Null(A')$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This means elementary row operations do not change which subsets of columns are linearly independent. A subset of columns in $A$ is linearly independent if and only if the corresponding subset of columns in $A'$ is linearly independent.
+\end{remark}
+
+\begin{theorem}[Basis of the Column Space]
+    \begin{shaded*}
+        If the pivot columns of a row echelon form of $A$ are at indices $i_1,\dots,i_k$, then the corresponding columns $\{C_{i_1},\dots,C_{i_k}\}$ from the \textit{original} matrix $A$ form a basis for $\CS(A)$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $R$ be the reduced row echelon form (RREF) of $A$. In $R$, the pivot columns are exactly the standard basis vectors $e_1, \dots, e_k$. These columns are clearly linearly independent and they span the column space of $R$. Any non-pivot column in $R$ is explicitly a linear combination of these pivot columns.
+    
+    Because row operations preserve linear dependencies (as proven above), any linear relationship that exists among the columns of $R$ exists identically among the columns of $A$. 
+    
+    Since the pivot columns of $R$ are linearly independent, the corresponding columns of $A$ are linearly independent. Since every non-pivot column of $R$ is a linear combination of the pivot columns of $R$, every non-pivot column of $A$ is the exact same linear combination of the pivot columns of $A$. 
+    
+    Thus, the pivot columns of $A$ are linearly independent and span $\CS(A)$, making them a basis.
+    \qedhere
+\end{proof}
+
+\begin{example}
+    Consider a matrix $A$ and its RREF form $R$:
+    \[ A = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 7 \\ 1 & 2 & 4 \end{pmatrix} \sim R = \begin{pmatrix} 1 & 2 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{pmatrix} \]
+    Look at the column space of $R$. The pivot columns are $C'_1 = (1,0,0)^t$ and $C'_3 = (0,1,0)^t$. The second column is a redundant copy scaled by 2: $C'_2 = 2C'_1$.
+    
+    \textit{Observation:} Row operations completely change the column space. $\CS(R)$ is the $xy$-plane, but $\CS(A)$ is a different plane in $\R^3$. We cannot use $C'_1$ and $C'_3$ as a basis for $\CS(A)$. 
+    
+    However, the \textit{relationship} $C'_2 - 2C'_1 = 0$ translates to $R(-2, 1, 0)^t = 0$. Because $\Null(R) = \Null(A)$, it must be identically true that $A(-2, 1, 0)^t = 0$. Therefore, in the original matrix, $C_2 - 2C_1 = 0$, meaning $C_2 = 2C_1$. 
+    
+    Because the linear dependencies are identical, the positions of the independent columns (columns 1 and 3) remain the same. The basis for $\CS(A)$ is the set of columns from the \textit{original} matrix at those exact indices:
+    \[ \left\{ \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 3 \\ 7 \\ 4 \end{pmatrix} \right\} \]
+\end{example}
+
+\begin{corollary}
+\label{cor:commonrank}
+    \begin{shaded*}
+        For any matrix $A \in M_{m\times n}(F)$, $\dim(\RS(A)) = \dim(\CS(A))$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    The dimension of the row space equals the number of non-zero rows in the RREF of $A$. Since every non-zero row contains exactly one pivot, this is equal to the number of pivot columns. 
+    By our previous theorem, the dimension of the column space is also exactly equal to the number of pivot columns. Thus, the dimensions are equal.
+    \qedhere
+\end{proof}
+
+
+An alternative way to prove that for any $A\in M_{m\times n}(F)$, $\dim(\RS(A))=\dim(\CS(A))$ (Corollary \ref{cor:commonrank}) is to use ``matrix factorisations''; we provide this proof below:
+
+\begin{proof}[Alternative proof.]
+    Let $k = \dim \CS(A)$. Choose a basis $b_1, \dots, b_k$ for the column space of $A$. Form a matrix $B \in M_{m \times k}(F)$ whose columns are exactly these basis vectors. 
+    
+    Because every column $A_j$ of $A$ belongs to $\CS(A)$, it can be written as a linear combination of the basis vectors:
+    \[ A_j = c_{1j}b_1 + \cdots + c_{kj}b_k \]
+    for some scalars $c_{ij} \in F$. We use these scalars to define a matrix $C \in M_{k \times n}(F)$ where the $(i,j)$-entry is $c_{ij}$. 
+    
+    By the column-wise definition of matrix multiplication, this explicitly means $A = BC$. 
+    
+    Now, consider the rows of $A$. By the row-wise view of matrix multiplication, the $i^{\mathrm{th}}$ row of $A$, denoted $A_{i*}$, is obtained by taking the dot product of the $i^{\mathrm{th}}$ row of $B$ with the rows of $C$:
+    \[ A_{i*} = b_{i1}C_{1*} + \cdots + b_{ik}C_{k*} \]
+    where $C_{l*}$ denotes the $l^{\mathrm{th}}$ row of $C$. 
+    
+    This shows that every row of $A$ is a linear combination of the $k$ rows of $C$. Therefore, the row space of $A$ is spanned by the rows of $C$. Since the dimension of a vector space is bounded by the size of any spanning set:
+    \[ \dim \RS(A) \le k = \dim \CS(A) \]
+    
+    To obtain the reverse inequality, apply the exact same argument to the transpose $A^\top$. The column space of $A^\top$ is the row space of $A$, and the row space of $A^\top$ is the column space of $A$. Thus:
+    \[ \dim \RS(A^\top) \le \dim \CS(A^\top) \implies \dim \CS(A) \le \dim \RS(A) \]
+    Combining both inequalities yields $\dim \RS(A) = \dim \CS(A)$.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    This method is known as \textit{rank factorization}. If a matrix $A$ has column rank $k$, it can always be factored as $A = BC$, where the inner dimension is $k$. The idea is that the matrix factorization $A=BC$ reveals a dimensional ``bottleneck''. When multiplying $Ax$, the operation can be split into two steps: $x \mapsto Cx \mapsto B(Cx)$. The matrix $C$ compresses the $n$-dimensional input into a $k$-dimensional intermediate space, and $B$ maps that $k$-dimensional intermediate space into the $m$-dimensional output space. 
+    
+    Because all information must pass through this $k$-dimensional bottleneck, the matrix cannot contain more than $k$ independent linear equations (rows), nor can it reach more than $k$ independent directions in the output (columns). The rank of a matrix is precisely the smallest inner integer $k$ for which the factorization $A=BC$ exists.
+\end{remark}
+\noindent Therefore, the following definition makes sense:
+\begin{definition}[Rank]
+    \begin{shaded*}
+        Let $A\in M_{m\times n}(F)$. The common dimension of the row space and the column space of $A$ is called the \textit{rank} of $A$ and is denoted $\rank(A)$.
+    \end{shaded*}
+\end{definition}
+
+The rank of $A\in M_{m\times n}(F)$ can thus be computed as the number of pivots. This is also the dimension of $\Span(v_1,\dots,v_m)$ if we treat the vectors $v_i$ either as rows or as columns. We now formalize the rank-nullity theorem using our new dimension terminology.
+
+\begin{theorem}[Rank-Nullity Theorem for Matrices]
+    \begin{shaded*}
+        For any matrix $A\in M_{m\times n}(F)$:
+        \[ \rank(A) + \dim(\Null(A)) = n \]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $k$ be the number of free variables in the homogeneous system $Ax=0$. We know the solution set is parameterized by these $k$ variables. 
+    
+    If $R$ is the RREF of $A$ and the free variables are $x_{i_1},\dots,x_{i_k}$, we can construct specific solution vectors $v_1,\dots,v_k$ by setting exactly one free variable to $1$ and the rest to $0$. Every pivot variable is uniquely determined by these choices. 
+    
+    By construction, the list $(v_1, \dots, v_k)$ spans $\Null(A)$. To see that it is linearly independent, consider the linear combination:
+    \[ \lambda_1v_1+\cdots+\lambda_kv_k = 0 \]
+    Look specifically at the entries corresponding to the free variables $x_{i_j}$. Because each $v_j$ has a $1$ in the $i_j^{\mathrm{th}}$ position and a $0$ in all other free variable positions, the $i_j^{\mathrm{th}}$ entry of the total sum is exactly $\lambda_j$. For the vector to be zero, we must have $\lambda_1 = \cdots = \lambda_k = 0$. 
+    
+    Thus, $(v_1, \dots, v_k)$ is a basis for $\Null(A)$, meaning $\dim(\Null(A)) = k$. Since the number of pivot variables is exactly $\rank(A)$, and the total number of variables is $n$:
+    \[ \#\text{pivot variables} + \#\text{free variables} = n \implies \rank(A) + \dim(\Null(A)) = n,\]
+    as desired.\qedhere
+\end{proof}
+
+\begin{theorem}[Invertibility Criteria]
+    \begin{shaded*}
+        The following are equivalent for a square matrix $A\in M_{n\times n}(F)$:
+        \begin{enumerate}
+            \item $A$ has a right inverse.
+            \item $A$ has a left inverse.
+            \item $\rank(A)=n$.
+            \item $A$ is invertible.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We know from earlier that (3) is equivalent to (4) because $\rank(A)=n \iff \text{RREF}(A)=I_n$. We also know that if $A$ has both left and right inverses, it is invertible, so (4) implies (1) and (2). We only need to prove $(1) \Rightarrow (3)$ and $(3) \Rightarrow (1)$.
+    
+    \textit{$(1) \Rightarrow (3)$}: Suppose $B$ is a right inverse of $A$, meaning $AB = I_n$. Notice that any column of $AB$ is a linear combination of the columns of $A$. Therefore, the column space of the product is contained in the column space of the left matrix: $\CS(AB) \subseteq \CS(A)$.
+    Because $AB = I_n$, we have $\CS(AB) = \CS(I_n) = F^n$. This forces $\CS(A) = F^n$. Thus, $\rank(A) = \dim(\CS(A)) = n$.
+    
+    \textit{$(3) \Rightarrow (1)$}: Suppose $\rank(A)=n$. Then $\CS(A)=F^n$. Because the standard basis vectors $e_i$ are in $F^n$, they are in the column space of $A$. This guarantees there exist vectors $b_i$ such that $Ab_i = e_i$ for all $i = 1, \dots, n$. 
+    Sticking these column vectors together to form a matrix $B \coloneqq (b_1 \dots b_n)$, we get:
+    \[ AB = A(b_1 \dots b_n) = (Ab_1 \dots Ab_n) = (e_1 \dots e_n) = I_n \]
+    Thus, $B$ is a right inverse.
+    
+    By taking transposes, $(2) \iff (3)$ follows identically because $\rank(A) = \rank(A^\top)$. Thus, all statements are equivalent.
+    \qedhere
+\end{proof}
+
+\begin{remark}
+    We can interpret the above result in terms of linear transformations. Recall that a matrix $A\in M_{m\times n}(F)$ encodes a linear transformation $T: F^n \to F^n$. 
+    \begin{itemize}
+        \item Having a right inverse means $T$ is surjective (onto), meaning its image (the column space) fills the entire codomain $F^n$. 
+        \item Having a left inverse means $T$ is injective (one-to-one), meaning its kernel (the nullspace) is trivial $\{0\}$.
+    \end{itemize}
+    The Rank-Nullity Theorem states $\dim(\text{Image}) + \dim(\text{Kernel}) = n$. If the transformation is surjective, $\dim(\text{Image}) = n$, which forces $\dim(\text{Kernel}) = 0$ (injective). Conversely, if it is injective, $\dim(\text{Kernel}) = 0$, which forces $\dim(\text{Image}) = n$ (surjective). For finite-dimensional vector spaces of the same dimension, injectivity and surjectivity are strictly equivalent, just like in maps between finite sets of the same cardinality (we will see this later).
+\end{remark}
+
+\subsection{Computing Bases}
+
+Suppose we are given a subspace defined by a spanning set: $U = \Span(v_1, \dots, v_k) \subseteq F^n$. Depending on the type of basis we want, we can extract one using Gauss-Jordan elimination in two different ways.
+
+\textit{Method 1: Extracting a subset of the original vectors}
+\begin{itemize}
+    \item \textit{Setup:} Form a matrix $A = (v_1 \dots v_k)$ where the vectors are the \textit{columns}.
+    \item \textit{Action:} Row reduce $A$ to its RREF, $R$. 
+    \item \textit{Result:} Identify the pivot columns in $R$. The corresponding original columns of $A$ form a basis for $\CS(A) = U$. 
+    \item \textit{Why?} Row operations preserve linear dependencies between columns. The pivot columns in $R$ are a basis for $\CS(R)$, so the corresponding columns in $A$ are a basis for $\CS(A)$.
+\end{itemize}
+
+\textit{Method 2: Constructing an echelon basis}
+\begin{itemize}
+    \item \textit{Setup:} Form a matrix $A^\top$ where the vectors $v_1^t, \dots, v_k^t$ are the \textit{rows}.
+    \item \textit{Action:} Row reduce $A^\top$ to its RREF, $R'$.
+    \item \textit{Result:} The non-zero rows of $R'$ form a basis for $\RS(A^\top) = U$. 
+    \item \textit{Why?} Row operations do not change the row space ($\RS(A^\top) = \RS(R')$). The non-zero rows of an RREF matrix are guaranteed to be linearly independent due to their staircase structure. This creates a clean, simplified "echelon basis" that is highly useful for checking if a given vector lies in $U$.
+\end{itemize}
+
+
+
+
+
+\end{document}
+

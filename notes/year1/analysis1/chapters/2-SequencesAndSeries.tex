@@ -14,6 +14,39 @@
     \end{shaded*}
 \end{definition}
 In general, $\R$ can be replaced by a metric space $X$, for example the complex numbers $\C$ which we will see later. It is therefore important to distinguish $real$ sequences. For notation, we will write $(a_n)_{n=1}^{\infty}$ to denote a sequence $a_1,a_2,\dots$, and sometimes this will be shortened to $(a_n)$, or just $a_n$. 
+Visually, sequences can be depicted in the following way:
+
+\begin{center}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{%
+        \begin{tikzpicture}
+            % Draw x-axis
+            \draw[->] (-0.5, 0) -- (6, 0) node[right] {$n$};
+            % Draw y-axis
+            \draw[->] (0, -2) -- (0, 2) node[above] {$\R$};
+            % Define the sequence points (n, a_n)
+            \foreach \i in {0.5,1,...,5.5} {
+                \filldraw[red!50!black] (\i, {cos(\i r)}) circle (2pt);
+            }
+        \end{tikzpicture}%
+        }
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{%
+        \begin{tikzpicture}
+            % Draw x-axis
+            \draw[->] (-0.5, 0) -- (6, 0) node[right] {$n$};
+            % Draw y-axis
+            \draw[->] (0, -2) -- (0, 2) node[above] {$\R$};
+            \foreach \i in {0.5,1,...,5.5} {
+            \filldraw[blue!50!black] (\i, {sin(\i r)}) circle (2pt);
+        }
+        \end{tikzpicture}%
+        }
+    \end{minipage}
+\end{center}
 
 
 \subsection{Convergence of sequences}
@@ -229,7 +262,7 @@ This motivates the following definition:
 
 
 
-\noindent Changing a finite number of terms in a convergent sequence does not affect convergence:
+Changing a finite number of terms in a convergent sequence does not affect convergence:
 
 \begin{lemma}
     \begin{shaded*}
@@ -317,7 +350,7 @@ There is a useful theorem that allows us to avoid $\varepsilon$ proofs and use c
     The sequence $a_n=1/n$ is strictly decreasing and converges to $0$, the sequence $a_n=1-1/n$ is strictly increasing and converges to $1$, the sequence $a_n=n$ is strictly increasing and diverges to $\infty$,
     and the sequence $a_n=(-1)^nn$ is neither strictly increasing nor strictly decreasing, and diverges. Constant sequences are both increasing and decreasing.
 \end{example}
-\noindent We now state and prove an important theorem about monotonic and bounded real sequences.
+We now state and prove an important theorem about monotonic and bounded real sequences.
 \begin{theorem}[Monotone Convergence Theorem]
 \label{thm:mct}
     \begin{shaded*}
@@ -470,7 +503,7 @@ Here, we build some theory on complex sequences (and later, complex series and c
         A complex sequence is a function $f:\N\to\C$.
     \end{shaded*}
 \end{definition}
-\noindent Again, practically, we write $(z_n)$ or just $z_n$ to denote a complex sequence. For a complex sequence $(z_n)$ it is natural to associate two real sequences $(x_n)$, $(y_n)$ with $(z_n)$ such that for each $n\in \N$, $z_n=x_n+iy_n$, i.e. $x_n=\Re(z_n)$ and $y_n=\Im(z_n)$, where $\Re$ and $\Im$ denote the real and imaginary parts of a complex number, respectively.
+Again, practically, we write $(z_n)$ or just $z_n$ to denote a complex sequence. For a complex sequence $(z_n)$ it is natural to associate two real sequences $(x_n)$, $(y_n)$ with $(z_n)$ such that for each $n\in \N$, $z_n=x_n+iy_n$, i.e. $x_n=\Re(z_n)$ and $y_n=\Im(z_n)$, where $\Re$ and $\Im$ denote the real and imaginary parts of a complex number, respectively.
 It is therefore not too hard to prove facts about complex sequences using our results about real sequences.
 
 \begin{definition}[Convergence of a sequence in $\C$]
@@ -497,7 +530,7 @@ First, we prove a convergence criterion for complex sequences, in relation to it
 \begin{example}
     \begin{enumerate}
         \item[1.] Let $z_n=\frac{1}{n}+in$. This does not converge because $\Im(z_n)=n\to\infty$. Geometrically, since $\Re(z_n)=\frac{1}{n}\to 0$, this sequence gets arbitrarily close to the imaginary axis in the complex plane, but diverges from the real axis.
-        \item[2.] For $k\in\N$, define the sequence $z_n=e^{\frac{2n\pi i}{k}}$; this does not converge (cycles around a regular $k$-gon centred at $(0,0)$). Exercise: what are the possible subsequential limits of this sequence? (i.e. if $(z_{n_k})$ is a subsequence of $(z_n)$, what are the possible limits?)
+        \item[2.] For $k\in\N$, define the sequence $z_n=e^{\frac{2n\pi i}{k}}$; this does not converge (cycles around a regular $k$-gon centred at $(0,0)$). Exercise: what are the possible subsequential limits of this sequence? (i.e. if $(z_{n_k})$ is a convergent subsequence of $(z_n)$, what are the possible limits?)
         \item[3.] Fix $z_1\in \C$ and for $n\in\N$ define $z_{n+1}=\frac{z_n+|z_n|}{2}$. We claim that this sequence converges. First, for $n\in\N$ we write $z_n=x_n+iy_n$, so we have $$z_{n+1}=\frac{x_n+iy_n+|z_n|}{2},$$and $|z_n|$ is real for all $n\in\N$, so we have $x_{n+1}=\Re(z_{n+1})=\frac{x_n+|z_n|}{2}$ and $y_{n+1}=\Im(z_{n+1})=\frac{y_n}{2}$. Therefore, by induction $y_{n+1}=\frac{y_1}{2^n}$ so $y_n\to 0$. Furthermore, we know that $$|z_n|=\sqrt{x_n^2+y_n^2}\ge \sqrt{x_n^2}=|x_n|,$$so $x_{n+1}\ge x_n$ for all $n\in\N$. Also, by construction of $(z_n)$, $|z_n|\le |z_1|$ for all $n\in\N$ so $|x_n|\le |z_n|\le |z_0|$ for all $n\in\N$. Therefore, $(x_n)$ is an increasing sequence and is bounded above, so by the Monotone Convergence Theorem, $x_n$ converges to some $L\in\R$. Therefore, by Theorem \ref{thm:complexrealconvergence}, $z_n\to L$.
     \end{enumerate}
     \end{example}
@@ -664,7 +697,7 @@ Some remarks:
     so $s_{2^n}\to\infty$ as $n\to\infty$. Therefore, given $R>0$, let $n\in\N$ be such that $s_{2^n}>R$. Since $(s_n)$ is an increasing sequence, for $m\ge 2^n$ we have $s_m\ge s_{2^n}>R$, so $s_n\to\infty$ as $n\to\infty$.\qedhere 
 \end{proof}
 
-\noindent Therefore, despite the incredibly slow pace ($\mathcal{O}(\log n)$), this sequence of partial sums eventually surpasses every positive real number.\par
+Therefore, despite the incredibly slow pace ($\mathcal{O}(\log n)$), this sequence of partial sums eventually surpasses every positive real number.\par
 
 In fact, the argument used in the previous result can be generalised:
 
@@ -692,6 +725,87 @@ In fact, the argument used in the previous result can be generalised:
     \end{align*}
     as desired. The result follows.\qedhere
 \end{proof}
+
+A diagram showing this inequality visually is given below. The partial sums of the series $\sum a_n$, $\sum 2^na_{2^n}$, and $2\sum a_n$ are represented, overlaid from left to right.
+
+\begin{center}
+    % PANEL 1: Standard terms f(n)
+    \begin{minipage}{0.31\textwidth}
+      \centering
+      \resizebox{\linewidth}{!}{%
+      \begin{tikzpicture}
+        \foreach \i in {0,1,...,14} {
+            \fill[black!80] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*\i)});
+        }
+      \end{tikzpicture}%
+      }\\[1ex]
+      \footnotesize \textit{Terms of the sequence $a_n$}
+    \end{minipage}\hfill
+    % PANEL 2: Condensed groupings overlaid on f(n)
+    \begin{minipage}{0.31\textwidth}
+      \centering
+      \resizebox{\linewidth}{!}{%
+      \begin{tikzpicture}
+        
+        % BACK LAYER (Taller): Condensed sum groupings
+        \fill[black!50] (0*0.55, 0) rectangle (0*0.55 + 0.5, {2.5 * exp(-0.3*0)});
+        \foreach \i in {1,2} {
+            \fill[black!50] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*1)});
+        }
+        \foreach \i in {3,...,6} {
+            \fill[black!50] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*3)});
+        }
+        \foreach \i in {7,...,14} {
+            \fill[black!50] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*7)});
+        }
+        
+        % FRONT LAYER (Shorter): Original terms
+        \foreach \i in {0,1,...,14} {
+            \fill[black!80] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*\i)});
+        }
+      \end{tikzpicture}%
+      }\\[1ex]
+      \footnotesize \textit{Bounded by terms of $2^n a_{2^n}$}
+    \end{minipage}\hfill
+    % PANEL 3: 2 * f(n) overlaid on everything
+    \begin{minipage}{0.31\textwidth}
+      \centering
+      \resizebox{\linewidth}{!}{%
+      \begin{tikzpicture}
+        
+        % BACK LAYER (Tallest): 2 * f(n) paired bars
+        \foreach \k in {0,1,...,6} {
+            \fill[black!20] (2*\k*0.55, 0) rectangle (2*\k*0.55 + 0.5, {2.5 * exp(-0.3*\k)});
+            \fill[black!20] ({(2*\k+1)*0.55}, 0) rectangle ({(2*\k+1)*0.55 + 0.5}, {2.5 * exp(-0.3*\k)});
+        }
+        \fill[black!20] (14*0.55, 0) rectangle (14*0.55 + 0.5, {2.5 * exp(-0.3*7)});
+        
+        % MIDDLE LAYER: Condensed sum groupings
+        \fill[black!50] (0*0.55, 0) rectangle (0*0.55 + 0.5, {2.5 * exp(-0.3*0)});
+        \foreach \i in {1,2} {
+            \fill[black!50] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*1)});
+        }
+        \foreach \i in {3,...,6} {
+            \fill[black!50] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*3)});
+        }
+        \foreach \i in {7,...,14} {
+            \fill[black!50] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*7)});
+        }
+        
+        % FRONT LAYER (Shortest): Original terms
+        \foreach \i in {0,1,...,14} {
+            \fill[black!80] (\i*0.55, 0) rectangle (\i*0.55 + 0.5, {2.5 * exp(-0.3*\i)});
+        }
+      \end{tikzpicture}%
+      }\\[1ex]
+      \footnotesize \textit{Bounded by terms of $2a_n$}
+    \end{minipage}
+\end{center}
+
+
+
+
+
 This is a powerful test and can be used to determine the convergence or divergence of a large class of infinite series. Indeed, a simple (but useful) corollary is:
 
 
@@ -792,7 +906,7 @@ This is a powerful test and can be used to determine the convergence or divergen
     Taking the limit of both sides as $n \to \infty$, and using the initial hypothesis that $\lim_{n \to \infty} a_n = 0$, we find, by the Algebra of Limits:
     \[ \lim_{n \to \infty} s_{2n+1} = \lim_{n \to \infty} (s_{2n} + a_{2n+1}) = \lim_{n \to \infty} s_{2n} + \lim_{n \to \infty} a_{2n+1} = s + 0 = s \]
         
-    Because the sequence of even partial sums $(s_{2n})$ and the sequence of odd partial sums $(s_{2n+1})$ both converge to the exact same limit $s$, the sequence of all partial sums $(s_m)$ must also converge to $s$. Therefore, the alternating series converges.\qedhere
+    Because the sequence of even partial sums $(s_{2n})$ and the sequence of odd partial sums $(s_{2n+1})$ both converge to the exact same limit $s$, the sequence of all partial sums $(s_n)$ must also converge to $s$. Therefore, the alternating series converges.\qedhere
 \end{proof}
 
 
@@ -885,23 +999,22 @@ The following series test is useful for series with oscillating terms.
         \item[2.] The sequence $(b_n)$ is decreasing ($b_{n+1} \le b_n$ for all $n \in \N$).
         \item[3.] $\lim_{n \to \infty} b_n = 0$.
     \end{enumerate}
-\noindent Let $S_n = \sum_{k=1}^n a_k b_k.$ First, we rewrite $S_n$ using summation by parts (also known as Abel's lemma). Since $a_k = A_k - A_{k-1}$ (where we define $A_0 = 0$), we can substitute this into our partial sum:
+Let $S_n = \sum_{k=1}^n a_k b_k.$ First, we rewrite $S_n$ using summation by parts (also known as Abel's lemma). Since $a_k = A_k - A_{k-1}$ (where we define $A_0 = 0$), we can substitute this into our partial sum:
 
 \[ S_n = \sum_{k=1}^n (A_k - A_{k-1}) b_k. \]
 
-\noindent Thus
+Thus
 \[ S_n = A_n b_n + \sum_{k=1}^{n-1} A_k (b_k - b_{k+1}). \]
 Now, because $|A_n| \le M$ for all $n \in \N$, we have $\allowbreak -M b_n \le A_n b_n \le M b_n$.
 Since $\lim_{n \to \infty} b_n = 0$, both bounds approach zero. By the Squeeze Theorem (Theorem \ref{thm:squeeze}):
 \[ \lim_{n \to \infty} A_n b_n = 0. \]
 
-\noindent We must now show that the series $\sum_{k=1}^{\infty} A_k (b_k - b_{k+1})$ converges. We have
+We must now show that the series $\sum_{k=1}^{\infty} A_k (b_k - b_{k+1})$ converges. We have
 \[ \sum_{k=1}^{n-1} |A_k (b_k - b_{k+1})| = \sum_{k=1}^{n-1} |A_k| |b_k - b_{k+1}|, \]
 and since $(b_n)$ is decreasing, $b_k - b_{k+1} \ge 0$, so we can drop the absolute value. Using our bound $|A_k| \le M$, we get:
 \[ \sum_{k=1}^{n-1} |A_k| (b_k - b_{k+1}) \le \sum_{k=1}^{n-1} M (b_k - b_{k+1}) = M \sum_{k=1}^{n-1} (b_k - b_{k+1}) = M(b_1 - b_n). \]
-Because $b_n \ge 0$, we know $M(b_1 - b_n) \le M b_1$. Therefore, the partial sums of the absolute series are bounded above by the constant $M b_1$. Because it is a series of non-negative terms with bounded partial sums, $\sum_{k=1}^{\infty} |A_k (b_k - b_{k+1})|$ converges. Absolute convergence implies convergence, so the series $\sum_{k=1}^{\infty} A_k (b_k - b_{k+1})$ must converge to some real number $L$.
+Because $b_n \ge 0$, we know $M(b_1 - b_n) \le M b_1$. Therefore, the partial sums of the absolute series are bounded above by the constant $M b_1$. Because it is a series of non-negative terms with bounded partial sums, $\sum_{k=1}^{\infty} |A_k (b_k - b_{k+1})|$ converges. Absolute convergence implies convergence, so the series $\sum_{k=1}^{\infty} A_k (b_k - b_{k+1})$ must converge to some real number $L$.\par
 
-\textbf{Conclusion} \\
 Taking the limit of our summation by parts equation as $n \to \infty$, we have, by the Algebra of Limits:
 \[ \lim_{n \to \infty} S_n = \lim_{n \to \infty} A_n b_n + \lim_{n \to \infty} \sum_{k=1}^{n-1} A_k (b_k - b_{k+1}) = 0 + L = L \]
 Therefore, $(S_n)$ converges, i.e. the series $\sum_{n=1}^{\infty} a_n b_n$ converges.\qedhere

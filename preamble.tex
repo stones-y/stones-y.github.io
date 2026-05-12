@@ -1,10 +1,11 @@
 % --- Core Mathematics Packages ---
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{amscd}
 \usepackage{mathtools} % For advanced formatting (e.g., \coloneqq for :=)
 
 \usepackage{fancyhdr}
-%\setlength{\headheight}{13.59999pt}
-%\addtolength{\topmargin}{-1.59999pt}
+\setlength{\headheight}{13.59999pt}
+\addtolength{\topmargin}{-1.59999pt}
 
 % --- Typography and Page Layout ---
 %\usepackage[margin=1in]{geometry}
@@ -32,9 +33,18 @@
 \usepackage{framed}
 \definecolor{shadecolor}{gray}{0.92}
 
+% --- TikZ ---
+
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{decorations.pathreplacing,calligraphy}
+\usetikzlibrary{positioning}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\definecolor{mred}{rgb}{0.5,0,0}
 
 
 % --- Theorem Environments ---
@@ -67,3 +77,11 @@
 
 % Upright 'd' for differentials (Standard UK/Imperial convention)
 \newcommand{\dd}{\mathrm{d}}
+
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\Null}{Null}
+\DeclareMathOperator{\RS}{RS}
+\DeclareMathOperator{\CS}{CS}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\im}{im}
