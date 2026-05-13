@@ -75,8 +75,6 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\C}{\mathbb{C}}
 
-% Upright 'd' for differentials (Standard UK/Imperial convention)
-\newcommand{\dd}{\mathrm{d}}
 
 \DeclareMathOperator{\Span}{Span}
 \DeclareMathOperator{\Null}{Null}
@@ -85,3 +83,31 @@
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\nullity}{nullity}
 \DeclareMathOperator{\im}{im}
+
+
+% Roman d for integrals
+\letcs\originald{\encodingdefault\string\d}
+\DeclareRobustCommand*{\d}[1]{\ifmmode\mathop{}\!\mathrm{d} #1\else\expandafter\originald #1\fi}
+% Derivative, optional order argument
+\newcommand{\deriv}[3][\relax]{
+  \ifstrempty{#1}{
+    \frac{\mathrm{d} #2}{\mathrm{d} #3}
+  }{
+    \frac{\mathrm{d}^{#1} #2}{\mathrm{d} #3^{#1}}
+  }
+}
+% Partial Derivative, optional order argument
+\newcommand{\pderiv}[3][]{
+  \ifstrempty{#1}{
+    \frac{\partial #2}{\partial #3}
+  }{
+    \frac{\partial^{#1} #2}{\partial #3^{#1}}
+  }
+}
+
+% Permutation cycle notation, see https://tex.stackexchange.com/questions/135868/permutation-cycle-notation
+\newcommand\cycle[2][~~]{
+  \setsepchar{ }
+  \readlist\thecycle{#2}
+  (\foreachitem\i\in\thecycle{\ifnum\icnt=1\else#1\fi\i})
+}

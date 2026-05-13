@@ -385,16 +385,16 @@ It is not hard to check that all our previous results about continuous functions
 \end{theorem}
 
 \begin{proof}
-    We prove the first case. Define the set $S\coloneqq \{x\in K: f(x)\le A\}$. Then $f(b)\in S$ so $S$ is non-empty, and $S\subseteq K$ so $S$ is bounded. Therefore, by the completeness of $\R$, $a\coloneqq \sup S$ exists. We claim that $f(a)=A$; suppose for contradiction that $f(a)\ne A$.\par
-    Case 1: $f(a)<A$. First we note that $f(c)\ge A$ so $a<c$. Since $f$ is continuous, if we pick $\varepsilon=\frac{A-f(a)}{2}$, there exists $\delta>0$ such that for any $x\in (a-\delta,a+\delta)\cap K$, we have \[|f(x)-f(a)|<\varepsilon=\frac{A-f(a)}{2},\]
+    We prove the first case. Define the set $S\coloneqq \{x\in K: f(x)\le A\}$. Since $f(b)\le A$, $b\in S$ so $S$ is non-empty, and $S\subseteq K$ so $S$ is bounded. Therefore, by the completeness of $\R$, $a\coloneqq \sup S$ exists. We claim that $f(a)=A$; suppose for contradiction that $f(a)\ne A$.\par
+    Case 1: $f(a)<A$. First we note that $f(c)\ge A$, but by assumption $f(a)<A$, so $a\ne c$, i.e. $a<c$. Since $f$ is continuous, if we pick $\varepsilon=\frac{A-f(a)}{2}$, there exists $\delta>0$ such that for any $x\in (a-\delta,a+\delta)\cap K$, we have \[|f(x)-f(a)|<\varepsilon=\frac{A-f(a)}{2},\]
     i.e. for $x\in (a-\delta,a+\delta)\cap K$, we have
     \[f(x)<f(a)+\varepsilon=f(a)+\frac{A-f(a)}{2}=\frac{f(a)+A}{2}<A,\]
-    so $x\in (a-\delta,a+\delta)\cap K\implies x\in S$. In particular, we can pick $\delta'>0$ small enough such that $I\coloneqq(a-\delta',a+\delta')\subset K$ and $x\in I\implies x\in S$ by the above argument. Therefore, picking any $t\in (a,a+\delta')$, we have that $t\in S$ but $t>a$, contradicting the fact that $a$ is an upper bound for $S$.\par
-    Case 2: $f(a)>A$. Since $f$ is continuous, if we pick $\varepsilon=\frac{f(a)-A}{2}$, there exists $\delta>0$ such that for any $x\in(a-\delta,a+\delta)\cap K$, we have
+    so $x\in (a-\delta,a+\delta)\cap K\implies x\in S$. In particular, since $a<c$, we can find a $\delta'>0$ small enough such that $I\coloneqq[a,a+\delta')\subset K$ and $x\in I\implies x\in S$ by the above argument. Therefore, picking any $t\in (a,a+\delta')$, we have that $t\in S$ but $t>a$, contradicting the fact that $a$ is an upper bound for $S$.\par
+    Case 2: $f(a)>A$. First we note that $f(b)\le A$ but by assumption $f(a)>A$, so $a\ne b$, i.e. $a>b$. Since $f$ is continuous, if we pick $\varepsilon=\frac{f(a)-A}{2}$, there exists $\delta>0$ such that for any $x\in(a-\delta,a+\delta)\cap K$, we have
     \[|f(x)-f(a)|<\varepsilon=\frac{f(a)-A}{2},\]
     i.e. for $x\in(a-\delta,a+\delta)\cap K$, we have
     \[f(x)>f(a)-\varepsilon=f(a)-\frac{f(a)-A}{2}=\frac{f(a)+A}{2}>A,\]
-    so $x\in (a-\delta,a+\delta)\cap K\implies x\notin S$. In particular, we can pick $\delta'>0$ small enough such that $I\coloneqq (a-\delta',a+\delta')\subset K$ and $x\in I\implies x\notin S$ by the previous argument. Therefore, for every $x>a-\delta'$, $f(x)>A$, so $S\subseteq[b,a-\delta']$, so $a-\delta'$ is an upper bound for $S$, contradicting that $a$ is the least upper bound for $S$.\par
+    so $x\in (a-\delta,a+\delta)\cap K\implies x\notin S$. In particular, since $a>b$, we can find a $\delta'>0$ small enough such that $I\coloneqq (a-\delta',a]\subset K$ and $x\in I\implies x\notin S$ by the previous argument. Therefore, for every $x>a-\delta'$, $f(x)>A$, so $S\subseteq[b,a-\delta']$, so $a-\delta'$ is an upper bound for $S$, contradicting that $a$ is the least upper bound for $S$.\par
     In both cases, we reach a contradiction, so $f(a)=A$.\par
     \noindent To prove the second case, note that if $f(c)\le f(b)$, and $A$ is any real number such that $f(c)\le A\le f(b)$, then $-f(b)\le -A\le  -f(c)$ and $-f$ is continuous by the Algebra for Continuous Functions (Theorem \ref{thm:algebracontinuity}), so by the first case there exists $a\in K$ such that $-f(a)=-A$, i.e. $f(a)=A$. \qedhere
 \end{proof}
@@ -423,58 +423,326 @@ In fact, we can generalise this result for odd degree polynomials. Intuitively, 
     \end{shaded*}
 \end{corollary}
 \begin{proof}
-    
+    Let $P:\R\to\R$ be defined by \[P(x)=a_{2n+1}x^{2n+1}+a_{2n}x^{2n}+\cdots+a_{1}x+a_0,\]
+    where $a_i\in\R$ are constants with $a_{2n+1}\ne 0$, and $n$ is some natural number. Without loss of generality, assume $a_{2n+1}>0$ (if not, then replace $P$ with $-P$ which has a root if and only if $P$ does). We write $Q(x)=a_{2n}x^{2n}+\cdots+a_1x+a_0$.\par
+    Consider evaluating $Q$ on the natural numbers. Then $Q(i)/i^{2n+1}\to 0$ as $i\to\infty$, so if $i$ is large enough then $|Q(i)/i^{2n+1}|<a_{2n+1}$ and so $|Q(i)|<a_{2n+1}i^{2n+1}$. Hence
+    \[P(i)=a_{2n+1}i^{2n+1}+Q(i)\ge a_{2n+1}i^{2n+1}-|Q(i)| > 0,\]
+    and
+    \[P(-i)\le -a_{2n+1}i^{2n+1}+|Q(i)|<0,\]for sufficiently large $i$. Now fix $j$ sufficiently large such that the above inequalities hold; then $P$ is continuous on $[-j,j]$ with $P(-j)<0$ and $P(j)>0$, so $P$ has a root in $(-j,j)$. \qedhere
 \end{proof}
 
 
-\begin{theorem}[Strict Monotonicity and Injectivity]
+\begin{theorem}
     \begin{shaded*}
         Let $I$ be an interval. If $f: I \to \R$ is continuous and injective (one-to-one) on $I$, then $f$ is either strictly increasing or strictly decreasing on $I$.
     \end{shaded*}
 \end{theorem}
 
-\subsection{Uniform and Lipschitz Continuity}
+\section{Topology of $\R$}
 
+\begin{definition}[$\varepsilon$-neighborhood]
+    \begin{shaded*}
+        Let $z\in\C$ and $\varepsilon>0$. An \textit{$\varepsilon$-neighborhood} of $z$ is the set
+        \[V_\varepsilon(z)\coloneqq\{w\in\C:|w-z|<\varepsilon\}.\]
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}[Open Set in $\C$]
+    \begin{shaded*}
+        A set $O\subset\C$ is \textit{open} if for all $z \in O$, there exists $\varepsilon>0$ such that $V_\varepsilon(z)\subset O$.
+    \end{shaded*}
+\end{definition}
+\begin{remark}
+    Intuitively, this means that if $O$ is an open set, then every point has a small ``neighborhood'' that is entirely contained within $O$, i.e. the point has ``room'', it is not right at the boundary, say.
+\end{remark}
+\begin{example}
+    For $a<b$ in $\R$, the open interval $(a,b)=\{x\in\R:a<x<b\}$ is an open set (exercise: show this), however $[a,b]$ is not a closed set.
+\end{example}
+\begin{lemma}
+    \begin{shaded*}
+    Let $n\in\N$ and suppose $O_1,\dots,O_n\subset \C$ are open. Then
+    \[\bigcap_{i=1}^n O_i\subset\C\]
+    is open.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Put $O\coloneqq \bigcap_{i=1}^n O_i$ and let $z\in O$ be arbitrary. Then for each $i$, there exists $\varepsilon_i$ such that $V_{\varepsilon_i}(z)\subset O_i$. Take $\varepsilon\coloneqq\min_i \{\varepsilon_i\}$. Then we have $V_\varepsilon(z)\subset O_i$ for each $i$, so $V_\varepsilon(z)\subset O$, so $O$ is open.\qedhere
+\end{proof}
+
+\begin{exercise*}
+    Find an example of a collection of open sets $\{O_n\}_{n\in\N}$ in $\R$ such that $\bigcap_{n\in\N}O_n$ is not open.
+\end{exercise*}
+
+\begin{lemma}
+    \begin{shaded*}
+        Let $\{O_\alpha\}_{\alpha\in I}$ be an arbitrary collection of open sets in $\C$. Then
+        \[\bigcup_{\alpha\in I}O_\alpha \subset \C\]
+        is open.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Exercise.
+\end{proof}
+
+\begin{definition}[Closed Set in $\C$]
+    \begin{shaded*}
+        A subset $A\subset\C$ is \textit{closed} if for every convergent sequence $(a_n)$ contained in $A$ we have
+        \[\lim_{n\to\infty}a_n\in A.\]
+    \end{shaded*}
+\end{definition}
+
+
+\begin{lemma}
+    \begin{shaded*}
+        Let $A_1,\dots,A_n\subset\C$ be closed. Then
+        \[\bigcup_{i=1}^n A_i\subset\C\]
+        is closed.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Exercise.\qedhere
+\end{proof}
+
+\begin{lemma}
+    \begin{shaded*}
+        Let $\{A_\alpha\}_{\alpha\in I}$ be an arbitrary collection of closed sets in $\C$. Then
+        \[\bigcap_{\alpha\in I}A_\alpha\subset\C\]
+        is closed.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{exercise*}
+    Find an example of a collection of closed sets $\{A_n\}_{n\in\N}$ in $\R$ such that $\bigcup _{n\in\N}A_n$ is not closed.
+\end{exercise*}
+
+\begin{definition}[Bounded Set in $\C$]
+    \begin{shaded*}
+        A subset $B\subset\C$ is \textit{bounded} if there exists $R\in\R_{>0}$ such that
+        \[B\subset \{z\in\C:|z|\le R\}.\]
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}[Compact Set in $\C$]
+    \begin{shaded*}
+        A subset $K\subset \C$ is \textit{compact} if
+        \begin{enumerate}
+            \item[1.] $K$ is closed;
+            \item[2.] $K$ is bounded. 
+        \end{enumerate}
+    \end{shaded*}
+\end{definition}
+
+\begin{lemma}
+    \begin{shaded*}
+    Let $K_1,\dots,K_n\subset \C$ be compact. Then
+    \[\bigcup_{i=1}^n K_i\subset\C\]
+    is compact. Moreover, the intersection of an arbitrary collection of compact subsets of $\C$ is compact.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    Exercise.\qedhere
+\end{proof}
+There is a useful characterisation of compact sets using the Bolzano-Weierstraß Theorem:
+\begin{theorem}
+\label{thm:bwcompact}
+    \begin{shaded*}
+    A subset $K\subset \C$ is compact if and only if for every sequence $(z_n)$ in $K$, there exists a convergent subsequence $(z_{n_j})$ such that
+    \[\lim_{j\to\infty}z_{n_j}\in K.\] 
+    \end{shaded*} 
+\end{theorem}
+\begin{proof}
+    Suppose $K\subset\C$ is compact, and let $(z_n)$ be an arbitrary sequence in $K$. Since $K$ is bounded, $(z_n)$ is bounded so by the Bolzano-Weierstraß Theorem in $\C$ (Theorem \ref{thm:bw-c}), there exists a convergent subsequence $(z_{n_j})$ of $(z_n)$ such that $\lim_{j\to\infty}z_{n_j}=:z$ exists. Since $K$ is closed, $z\in K$.\par
+    Conversely, suppose that for every sequence $(z_n)$ in $K$, there exists a convergent subsequence $(z_{n_j})$ such that $z\coloneqq\lim_{j\to\infty}z_{n_j}\in K$. We now need to argue that $K$ is closed and bounded.\par
+    $K$ bounded: suppose for contradiction that $K$ is unbounded. Then we could choose a sequence $(z_n)$ in $K$ such that $|z_n|\to\infty$ as $n\to\infty$, which has no convergent subsequence in $\C$, contradicting our assumption, so $K$ must be bounded.\par
+    $K$ closed: let $(z_n)$ be a convergent sequence in $K$ such that $z_n\to z$ as $n\to\infty$. We need to show that $z\in K$. By our assumption, there exists a convergent subsequence $(z_{n_j})$ of $(z_n)$ converging to some $w\in K$. However, convergent sequences have unique limits so $z=w$ and thus $z\in K$, so $K$ is closed.\par
+    Therefore, $K$ is compact.\qedhere
+\end{proof}
+
+\begin{theorem}[Continuity preserves compact sets]
+\label{thm:preservecompact}
+    \begin{shaded*}
+    Let $K\subset \C$ and $f:K\to\C$ be continuous. Then the image
+    \[f(K)=\{f(z):z\in K\}\subset\C\]
+    is compact.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $(w_n)$ be a sequence in $f(K)$ with, and let $(z_n)$ be the sequence such that for all $n\in\N$, $f(z_n)=w_n$. Since $K$ is compact, by Theorem \ref{thm:bwcompact}, there exists a convergent subsequence $(z_{n_j})$ of $(z_n)$ such that $\lim_{j\to\infty}z_{n_j}=z$ for some $z\in K$. By the sequential characterisation of continuity, it follows that
+    \[\lim_{j\to\infty}w_{n_j}=\lim_{j\to\infty}f(z_{n_j})=f(z),\]
+    so $(w_n)$ has a convergent subsequence $(w_{n_j})$ whose limit $f(z)$ is in $K$, so by Theorem \ref{thm:bwcompact} again, $f(K)$ is compact.\qedhere
+\end{proof}
+
+\begin{theorem}
+\label{thm:evtc}
+    \begin{shaded*}
+        Let $K\subset\C$ be compact and let $f:K\to\R$ be continuous. Then there exist $z_1,z_2\in K$ such that
+        \[f(z_1)\le f(z)\le f(z_2)\quad\forall z\in K.\]
+        In other words, $f$ attains both its minimum and maximum on $K$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    By Theorem \ref{thm:preservecompact}, $f(K)$ is compact, so in particular $f(K)$ is bounded, so the real numbers
+    \[m\coloneqq \inf f(K),\quad M\coloneqq \sup f(K)\]
+    exist. Since $f(K)$ is closed as well, we have $m,M\in K$ (to see this, note that for any bounded set $S\subset \R$, by definition of supremum and infimum, there are convergent sequences $(x_n)$ and $(y_n)$ such that $x_n\to \inf S$ and $y_n\to \sup S$, so for compact sets $\inf S$, $\sup S$ must be in $S$).
+    Therefore, there exist $z_1,z_2\in K$ such that $f(z_1)=m$ and $f(z_2)=M$, which completes the proof.\qedhere
+\end{proof}
+The statement of Theorem \ref{thm:evtc} cannot be directly generalised to functions with codomain $\mathbb{C}$. This is because the complex numbers do not possess a natural total ordering compatible with field operations. Inequalities such as $f(z_1) \le f(z) \le f(z_2)$ are undefined when the outputs are complex numbers; therefore, a complex-valued function cannot attain a ``maximum'' or ``minimum'' value in the traditional sense (think about a circle in the complex plane; every point on this circle has equal magnitude).
+
+However, the topological core of the theorem---that continuous functions map compact sets to compact sets---does apply. We can use this to prove a highly useful variation of the Extreme Value Theorem in $\C$ by looking at the \textit{modulus} (magnitude) of the complex function:
+\begin{theorem}[Extreme Value Theorem in $\C$]
+\label{thm:evtc2}
+    \begin{shaded*}
+        Let $K \subset \C$ be compact and $f : K\to \C$ be continuous. Then $f(K)$ is bounded in $\C$, and there exist $z_1, z_2 \in K$ such that 
+\[ |f(z_1)| \le |f(z)| \le |f(z_2)| \quad \forall z \in K. \]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    First we note that by Theorem \ref{thm:preservecompact}, $f(K)$ is compact, so in particular is bounded. Now, define $h : K \to \R$ by taking the modulus of our original function:
+    \[ h(z) = |f(z)| \]
+    The function $h$ can be viewed as the composition of $f$ and the absolute value function $g:\C\to\R$ defined by $g(w) = |w|$. We are given that $f : K \to C$ is continuous. Furthermore, the absolute value function $g : \C \to \R$ is continuous (this follows from the reverse triangle inequality, $\big| |w_1| - |w_2| \big| \le |w_1 - w_2|$). Since the composition of continuous functions is continuous (by Theorem \ref{thm:compcontinuity}), $h(z)$ is continuous on $K$.
+
+    By Theorem \ref{thm:evtc}, there exist $z_1, z_2 \in K$ such that:
+\[ h(z_1) \le h(z) \le h(z_2) \quad \text{for all } z \in K \]
+
+Substituting $|f(z)|$ back in for $h(z)$, we obtain the desired inequality for the extreme values of the modulus:
+\[ |f(z_1)| \le |f(z)| \le |f(z_2)| \quad \text{for all } z \in K. \]\qedhere
+\end{proof}
+\begin{remark}
+    Both the compactness of $K$ and the continuity of $f$ are essential hypotheses of this theorem.
+\end{remark}
+\begin{center}
+\begin{tikzpicture}
+
+    % Axes
+    \draw[->, thick] (-3.5, 0) -- (3.5, 0) node[right] {$\Re$};
+    \draw[->, thick] (0, -3.5) -- (0, 3.5) node[above] {$\Im$};
+
+    \draw[dashed, thick, red] (0,0) circle (1);
+    
+    \node[red, below left] at (-0.7, -0.7) {$|f(z_1)|$}; 
+
+    \draw[dashed, thick, red] (0,0) circle (2.5);
+    \node[red, above left] at (-1.76, 1.76) {$|f(z_2)|$};
+
+    \filldraw[fill=blue!20, draw=blue, thick, opacity=0.8] 
+        (1,0) 
+        to[out=90, in=180] (1.6, 1.3) 
+        to[out=0, in=90] (2.5,0) 
+        to[out=-90, in=0] (1.8, -1.1) 
+        to[out=180, in=-90] cycle;
+
+    \node[blue!80!black, font=\large] at (1.75, 0.1) {$f(D)$};
+
+\end{tikzpicture}
+\end{center}
+
+
+
+\begin{example}
+    The following examples satisfy both hypotheses of the Extreme Value Theorem in $\C$ (Theorem \ref{thm:evtc2}): the domain $K \subset \C$ is compact (closed and bounded), and the function $f$ is continuous.
+    \begin{enumerate}
+        \item[1.]Let $f(z) = z^2$ defined on the closed unit disk, $K = \{z \in \C : |z| \le 1\}$. 
+        Because $K$ is closed and bounded, it is compact. The polynomial $f$ is continuous everywhere. The modulus is $|f(z)| = |z^2| = |z|^2$. 
+        The minimum modulus is $0$, attained at $z_1 = 0$. The maximum modulus is $1$, attained anywhere on the boundary (e.g., $z_2 = 1$ or $z_2 = i$). The image $f(K)$ is the closed unit disk itself, which is bounded.
+        \item[2.] Let $f(z) = e^z$ defined on the rectangle $K = \{x + iy : 0 \le x \le 1, 0 \le y \le \pi\}$. 
+        $K$ is compact and $f$ is continuous. The modulus is $|f(z)| = |e^{x+iy}| = |e^x e^{iy}| = e^x$. 
+        The minimum modulus is $1$ (attained when $x=0$, anywhere on the left edge), and the maximum modulus is $e$ (attained when $x=1$, anywhere on the right edge). The image $f(K)$ is bounded between radius $1$ and $e$.
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    The following examples demonstrate why both hypotheses in Theorem \ref{thm:evtc2} are strictly required.
+    \begin{enumerate}
+        \item[1.] Let $D = (0, 1)$ and $f(x) = x$. The domain is not compact because it does not contain its limit points. The function is continuous, but it never attains a maximum or minimum on this open interval.
+        \item[2.] Let $D = [1, \infty)$ and $f(x) = x$. The domain is closed but extends infinitely. The function is continuous, but the set $f(D)$ is unbounded, meaning no maximum exists.
+        \item[3.] Let $D = [0, 1]$. Define $f(x) = 1/x$ for $x \in (0, 1]$, and $f(0) = 0$. The domain is compact. However, due to the discontinuity at $x=0$, the function approaches infinity as $x \to 0$. It does not attain a maximum value.
+        \item[4.] Let $D = \{z \in \C : |z| \le 1\}$ (the closed unit disk). Define $f(z) = 1/z$ for $z \neq 0$, and set $f(0) = 0$. The domain is compact, but the function is discontinuous at the origin. The magnitude $|f(z)| = 1/|z|$ grows arbitrarily large near $0$, so $f(D)$ is unbounded and no maximum modulus exists. 
+    \end{enumerate}
+\end{example}
+
+
+
+\section{Uniform Continuity}
+We now consider a \textit{stronger} notion of continuity, which controls the function's behaviour \textit{globally}, rather than \textit{locally}, like the notion of ``normal'' continuity we have just been studying (left and right limits matching the function value at a point).
 \begin{definition}[Uniform Continuity]
     \begin{shaded*}
-        A function $f: D \to \R$ is \textit{uniformly continuous} on $D$ if $\forall \varepsilon > 0, \exists \delta > 0$ such that for all $x, y \in D$:
-        $$ |x - y| < \delta \implies |f(x) - f(y)| < \varepsilon. $$
+        Let $D\subset\C$. A function $f: D \to \C$ is \textit{uniformly continuous} on $D$ if
+        \[\forall \varepsilon > 0,\,\exists \delta > 0,\,\forall x, y \in D,\, |x-y|<\delta\implies |f(x)-f(y)|<\varepsilon.\]
     \end{shaded*}
 \end{definition}
 
 \begin{remark}
-    \textbf{Normal vs. Uniform Continuity:} Normal continuity is a local property (defined \textit{at a point} $a$). The $\delta$ depends on both the tolerance $\varepsilon$ and the specific location $a$. If a function gets infinitely steep (like $1/x$ near $0$), you need smaller and smaller $\delta$'s as you move. 
-    Uniform continuity is a global property (defined \textit{on a set}). It means you can find a single "universal $\delta$" that works for the given $\varepsilon$ everywhere on the domain. Geometrically, if you draw a horizontal tube of height $2\varepsilon$ and length $2\delta$, you can slide it anywhere along the graph without the function ever escaping the top or bottom of the tube.
-\end{remark}
+    Normal continuity is a local property (defined \textit{at a point} $a$). The $\delta$ depends on both the tolerance $\varepsilon$ \textit{and} the specific location $a$ (i.e., we may write $\delta=\delta(\varepsilon,a)$). If a function gets infinitely steep (like $1/x$ near $0$), you need smaller and smaller $\delta$'s as you move, to stay within the same $\varepsilon$ tolerance.
+    
+    Uniform continuity guarantees that the function does not suddenly oscillate very fast when you move to a diﬀerent part of the domain.
 
-\begin{theorem}[Heine's Theorem / Heine-Cantor Theorem]
-    \begin{shaded*}
-        If $f: K \to \R$ is continuous and $K$ is a closed and bounded (compact) set, then $f$ is uniformly continuous on $K$.
-    \end{shaded*}
-\end{theorem}
-
-\begin{theorem}[Uniform Continuity from Limits]
-    \begin{shaded*}
-        If $f: (a,b) \to \R$ is continuous, and the limits $\lim_{x\to a^+} f(x)$ and $\lim_{x\to b^-} f(x)$ both exist and are finite, then $f$ is uniformly continuous on $(a,b)$.
-    \end{shaded*}
-\end{theorem}
-\textit{Proof Idea:} We can extend $f$ to a continuous function $\tilde{f}$ on the closed interval $[a,b]$ by defining the endpoints as the limits. By Heine's Theorem, $\tilde{f}$ is uniformly continuous on $[a,b]$, so $f$ must be uniformly continuous on $(a,b)$.
-
-\begin{definition}[Lipschitz Continuity]
-    \begin{shaded*}
-        A function $f: D \to \R$ is \textit{Lipschitz continuous} if there exists a real constant $L \ge 0$ (the Lipschitz constant) such that for all $x, y \in D$:
-        $$ |f(x) - f(y)| \le L|x - y|. $$
-    \end{shaded*}
-\end{definition}
-
-\begin{remark}
-    \textbf{Hierarchy of Continuity:} Lipschitz $\implies$ Uniformly Continuous $\implies$ Continuous. 
-    Lipschitz continuity places a strict, global speed limit on the function. It guarantees the absolute value of the secant slope between \textit{any} two points is bounded by $L$. If a function is differentiable, bounding its derivative ($|f'(x)| \le L$) guarantees it is Lipschitz. 
+    Uniform continuity is a global property (defined \textit{on a set}). It means you can find a single "universal $\delta$" that works for the given $\varepsilon$ everywhere on the domain (i.e. we may write $\delta=\delta(\varepsilon)$).
 \end{remark}
 
 \begin{example}
-    The function $f(x) = \sqrt{x}$ on $[1]$ is continuous. Because $[1]$ is compact, it is uniformly continuous. However, it is \textbf{not} Lipschitz continuous because its derivative $1/(2\sqrt{x})$ approaches infinity near $x=0$, meaning its "stretch" cannot be globally bounded by a single constant $L$.
+    The function $f:(0,1)\to\R$ defined by $f(x)=\frac{1}{x}$ is not uniformly continuous.
+
+    Intuitively, near 0 the graph of $f(x) = \frac{1}{x}$ becomes extremely steep: very small changes in $x$ can cause very large changes in $\frac{1}{x}$, suggesting that no single $\delta>0$ can work for all points in $(0,1)$ at once.
+
+    Indeed, pick $\varepsilon\coloneqq \frac{1}{2}$, and let $\delta>0$ be arbitrary. Let $n\in\N$ be large enough such that $0<\frac{1}{n}<\delta$, and pick $x=\frac{1}{n}$, $y=\frac{1}{2n}$. Then we have $|x-y|=\frac{1}{n}<\delta$, but
+    \[|f(x)-f(y)|=|n-2n|=n\ge 1>\frac{1}{2}=\varepsilon,\]
+    so $f$ is not uniformly continuous on $(0,1)$.
 \end{example}
+Again, the problem in the above example was that $f$ diverges to $\infty$ at 0 and the domain $(0,1)$ is not closed, i.e. we were allowed to take points arbitrarily close to 0, allowing the function to grow too rapidly to control.
+
+Therefore, given our brief discussion of compact sets in the previous section, it is natural to suspect that continuity on a compact set is enough to be uniformly continuous. Indeed, we have the following theorem:
+
+\begin{theorem}[Heine's Theorem]
+    \begin{shaded*}
+        Let $K\subset\C$ be compact and let $f:K\to\C$ be continuous. Then $f$ is uniformly continuous on $K$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Suppose for contradiction that $f$ is not uniformly continuous on $K$. Let $\varepsilon_0>0$ be such that for any $\delta>0$, there exist $x,y\in K$ such that $|x-y|<\delta$ and $|f(x)-f(y)|\ge \varepsilon_0$.
+
+    In particular, for $n\in\N$ we let $\delta_n\coloneqq\frac{1}{n}$, and for $n\in\N$ we inductively choose $z_n,w_n\in K$ such that $|z_n-w_n|<\delta_n$ and $|f(z_n)-f(w_n)|\ge \varepsilon_0$ by definition.
+
+    Since $K$ is compact, $(z_n)$ has a convergent subsequence $(z_{n_j})$ such that $z\coloneqq \lim_{j\to\infty}z_{n_j}\in K$. Furthermore, we have
+    \[|z_{n_j}-w_{n_j}|<\frac{1}{n_j}\le \frac{1}{j}\to 0\]
+    as $j\to\infty$, so $w_{n_j}\to z$ as $j\to\infty$.
+
+    Now, by the sequential characterisation of continuity (Theorem \ref{thm:sequentialcontinuity}), since $f$ is continuous we get
+    \[\lim_{j\to\infty}f(z_{n_j})=f(z)\quad\text{and}\quad \lim_{j\to\infty}f(w_{n_j})=f(z),\]
+    so in particular
+    \[\lim_{j\to\infty}|f(z_{n_j})-f(w_{n_j})|=0.\]
+    Therefore, for sufficiently large $j$, we have
+    \[|f(z_{n_j})-f(w_{n_j})|<\frac{\varepsilon_0}{2}<\varepsilon_0,\]
+    which contradicts the construction of $(z_n)$ and $(w_n)$, which satsify $|f(z_n)-f(w_n)|\ge\varepsilon_0$ for all $n\in\N$.\qedhere
+\end{proof}
+
+\begin{definition}[Lipschitz Continuity]
+    \begin{shaded*}
+        Let $D\subset\R$. A function $f: D \to \R$ is \textit{Lipschitz continuous} if there exists a real constant $L \ge 0$ (the \textit{Lipschitz constant}) such that for all $x, y \in D$,
+        \[ |f(x) - f(y)| \le L|x - y|. \]
+    \end{shaded*}
+\end{definition}
+
+Lipschitz continuity places a strict limit on how ``steep'' the function can get on $D$. Indeed, if $x<y$, the Lipschitz condition above rearranges to \[\left|\frac{f(x)-f(y)}{x-y}\right|\le L,\]
+which places a uniform bound $L$ on the average slope of the function on any interval $(x,y)$). If a function is differentiable, bounding its derivative ($|f'(x)| \le L$) guarantees it is Lipschitz (exercise: once you have read the derivative chapter, prove this). 
+
+\begin{remark}
+    Lipschitz $\implies$ Uniformly Continuous $\implies$ Continuous, however \textit{none} of the reverse implications hold (exercise: find counterexamples).
+\end{remark}
+
+\begin{example}
+    The function $f:[0,1]\to\R$ defined by $f(x) = \sqrt{x}$ is continuous. Because $[0,1]$ is compact, it is uniformly continuous by Heine's Theorem. However, it is \textit{not} Lipschitz continuous because its derivative $\frac{1}{2\sqrt{x}}$ approaches infinity near $x=0$, meaning its slope cannot be globally bounded by a single constant $L$. To prove this rigorously (since we have not defined derivative yet), we argue as follows.
+
+    The idea is to fix one point at 0 and let $(x_n)$ be a sequence converging to 0, to get the slope diverging as $n\to\infty$ (visually, imagine the tangent line at a point $x_0>0$ getting steeper and steeper as $x_0\to 0$).
+
+    Suppose for contradiction there exists $L\ge 0$ such that for all $x,y\in [0,1]$,
+    \[|\sqrt{x}-\sqrt{y}|\le L|x-y|.\]
+    Let $y=0$, and for $n\in\N$ define $x_n\coloneqq\frac{1}{n^2}$. Given $n\in\N$, we have by the Lipschitz condition,
+    \[\left|\sqrt{\frac{1}{n^2}}-0\right|=\frac{1}{n}\le L\left|\frac{1}{n^2}-0\right|,\]
+    so rearranging we get $n\le L$ for all $n\in\N$, which is a contradiction (e.g. pick $n=\lceil L\rceil +1$ since $n$ was arbitrary). Therefore, $f$ is not Lipschitz on $[0,1]$.
+\end{example}
+
 
 
 

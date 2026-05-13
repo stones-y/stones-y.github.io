@@ -533,7 +533,7 @@ First, we prove a convergence criterion for complex sequences, in relation to it
         \item[2.] For $k\in\N$, define the sequence $z_n=e^{\frac{2n\pi i}{k}}$; this does not converge (cycles around a regular $k$-gon centred at $(0,0)$). Exercise: what are the possible subsequential limits of this sequence? (i.e. if $(z_{n_k})$ is a convergent subsequence of $(z_n)$, what are the possible limits?)
         \item[3.] Fix $z_1\in \C$ and for $n\in\N$ define $z_{n+1}=\frac{z_n+|z_n|}{2}$. We claim that this sequence converges. First, for $n\in\N$ we write $z_n=x_n+iy_n$, so we have $$z_{n+1}=\frac{x_n+iy_n+|z_n|}{2},$$and $|z_n|$ is real for all $n\in\N$, so we have $x_{n+1}=\Re(z_{n+1})=\frac{x_n+|z_n|}{2}$ and $y_{n+1}=\Im(z_{n+1})=\frac{y_n}{2}$. Therefore, by induction $y_{n+1}=\frac{y_1}{2^n}$ so $y_n\to 0$. Furthermore, we know that $$|z_n|=\sqrt{x_n^2+y_n^2}\ge \sqrt{x_n^2}=|x_n|,$$so $x_{n+1}\ge x_n$ for all $n\in\N$. Also, by construction of $(z_n)$, $|z_n|\le |z_1|$ for all $n\in\N$ so $|x_n|\le |z_n|\le |z_0|$ for all $n\in\N$. Therefore, $(x_n)$ is an increasing sequence and is bounded above, so by the Monotone Convergence Theorem, $x_n$ converges to some $L\in\R$. Therefore, by Theorem \ref{thm:complexrealconvergence}, $z_n\to L$.
     \end{enumerate}
-    \end{example}
+\end{example}
 
 
 

@@ -1,0 +1,260 @@
+\documentclass[../linear_algebra_and_groups.tex]{subfiles}
+
+\begin{document}
+
+
+\chapter{Dual Vector Spaces}
+
+\begin{definition}
+    \begin{shaded*}
+        Let $V$ be a vector space over $F$. The dual space, denoted $V^*$, is the vector space of all linear maps from $V$ to $F$:
+        \[ V^* \coloneqq \{T : V \to F \mid T \text{ is linear}\} \]
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    A vector $v \in V$ is an algebraic object (a geometric arrow, a polynomial, a matrix). A dual vector $f \in V^*$ is a linear scalar-valued function. It is best understood as an abstract ``measurement object'' that takes a vector and returns a scalar value in the base field $F$, representing some linear property of that vector.
+    
+    If $V = F^n$ consists of column vectors, $V^*$ consists of row vectors. The evaluation $f(v)$ is exactly the matrix multiplication of a $1 \times n$ row vector with an $n \times 1$ column vector to yield a $1 \times 1$ scalar, i.e. the dot product (we will see what this means geometrically in $\R^n$ later).
+\end{remark}
+
+\begin{example}
+    Let $V = \R[x]_{\le 2}$ be the vector space of polynomials in $\R$ of degree at most 2. The elements are polynomials $p(x) = a + bx + cx^2$. 
+    We can define several distinct dual vectors (``measurement objects'') in $V^*$:
+    \begin{itemize}
+        \item Pointwise evaluation: Let $E_2 \in V^*$ be defined by $E_2(p) = p(2)$. This function takes a polynomial and returns its value at $x=2$. It is linear, so $E_2 \in V^*$.
+        \item Differentiation: Let $D_0 \in V^*$ be defined by $D_0(p) = p'(0)$. This measures the slope of the polynomial at the origin (which evaluates to the coefficient $b$).
+        \item Integration: Let $I \in V^*$ be defined by $I(p) = \int_0^1 p(x) dx$. This measures the area under the curve.
+    \end{itemize}
+    Each of these is a distinct vector in the dual space $V^*$.
+\end{example}
+
+The vector space structure on $V^*$ is given by pointwise addition and scalar multiplication. For $f, g \in V^*$ and $\lambda \in F$:
+\begin{align*}
+    (f+g)(v) &= f(v) + g(v) \\
+    (\lambda f)(v) &= \lambda(f(v))
+\end{align*}
+This space is also denoted as $\operatorname{Hom}(V,F)$. More generally, $\operatorname{Hom}(V,W)$ denotes the vector space of linear maps from $V$ to $W$.
+
+\begin{exercise*}
+    Verify the vector space axioms for $\operatorname{Hom}(V,W) \coloneqq \{T : V \to W \mid T \text{ is linear}\}$, and hence also for $V^*$.
+\end{exercise*}
+
+\begin{example}
+    Consider $V = F^n$, viewed as column vectors. All linear maps $V \to F \cong F^1$ are given by multiplication by matrices, in this case row vectors $u \in M_{1\times n}(F)$. We can identify the dual with row vectors $M_{1\times n}(F)$, so that if $u \in M_{1\times n}(F)$ and $v \in M_{n\times 1}(F)$, we get the linear transformation $T_u : M_{n\times 1}(F) \to M_{1\times 1}(F) \cong F$. Precisely, this gives an isomorphism $M_{n\times 1}(F) \to M_{1\times n}(F)^*$, $u \mapsto T_u$.
+\end{example}
+
+The preceding example shows that dualising a finite-dimensional vector space produces another vector space of the same dimension ($\dim V = n \implies V \cong F^n \implies V^* \cong (F^n)^*$). 
+
+\section{Dual Transformations}
+
+In addition to dualising vector spaces, we can also dualise maps.
+
+\begin{definition}
+    \begin{shaded*}
+        Given a linear transformation $T : V \to W$, the dual transformation $T^* : W^* \to V^*$ is defined as:
+        \[ T^*(f) \coloneqq f \circ T \]
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Given a linear map $T: V \to W$, the dual map $T^*: W^* \to V^*$ reverses the direction. When translated into matrices via bases, this exact operation yields the transpose: ${}_{\mathcal{B}^\vee}[T^*]_{\mathcal{C}^\vee} = ({}_{\mathcal{C}}[T]_{\mathcal{B}})^\top$, which is the ``dual'' idea (we will see why this is the case later).
+
+    More specifically, if you want to evaluate an object $v\in V$ using a measuring object $f\in W^*$ after a transformation $T$ has been applied, there are two ``dual'' persepctives. You can either push $v\in V$ forward via $T$, and then measure it with $f$. This is $f(T(v))$.
+    Alternatively, the ``dual'' perspective is that you can pull $f$ backwards via $T^*$, and measure the original $v\in V$ using a measurement object in $V^*$, namely $T^*(f)$. Formally, we say that $T^*$ is the pullback induced by $T$. 
+\end{remark}
+
+\begin{proposition}
+    \begin{shaded*}
+    Given a linear transformation $T$, the dual $T^*$ is also a linear transformation.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    We have $T^*(f+g) = (f+g) \circ T = (f \circ T) + (g \circ T) = T^*f + T^*g$, and also $T^*(\lambda f) = (\lambda f) \circ T = \lambda(f \circ T) = \lambda T^*(f)$.
+    \qedhere
+\end{proof}
+
+\begin{example}
+    Let $T = T_A : F^n \to F^m$. Identifying $F^n \cong M_{n\times 1}(F)$ and $(F^n)^* \cong M_{1\times n}(F)$, we have $T_A^*(u)v = u(Av)$, which implies $T_A^* u = uA$. Thus, $T_A^* : M_{1\times m}(F) \to M_{1\times n}(F)$ is the operation of right multiplication by $A$ on row vectors.
+\end{example}
+
+\begin{proposition}
+    \begin{shaded*}
+    Given a composition $U \xrightarrow{S} V \xrightarrow{T} W$, we have the corresponding dual maps $U^* \xleftarrow{S^*} V^* \xleftarrow{T^*} W^*$, and:
+    \[ (T \circ S)^* = S^* \circ T^* \]
+    Also, $I_V^* = I_{V^*}$.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    The first assertion is associativity of composition: $(T \circ S)^*(f) = f \circ (T \circ S) = (f \circ T) \circ S = S^*(T^*(f))$. The second follows from the identity for composition: $f \circ I_V = f$.
+    \qedhere
+\end{proof}
+
+\begin{corollary}
+    \begin{shaded*}
+    If $T : V \to W$ is invertible, so is $T^*$, and $(T^{-1})^* = (T^*)^{-1}$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    We have $T^* \circ (T^{-1})^* = (T^{-1} \circ T)^* = I_V^* = I_{V^*}$. Similarly $(T^{-1})^* \circ T^* = I_W^* = I_{W^*}$.
+    \qedhere
+\end{proof}
+
+\section{Dual Basis}
+
+\begin{definition}
+    \begin{shaded*}
+        Given a finite basis $(v_1, \dots, v_n)$ of a vector space $V$ over $F$, let $v_1^\vee, \dots, v_n^\vee \in V^*$ be the functions defined by:
+        \[ v_i^\vee(\lambda_1 v_1 + \dots + \lambda_n v_n) = \lambda_i \]
+    \end{shaded*}
+\end{definition}
+
+In particular, we have the formula: \[v_i^\vee(v_j) = \delta_{ij} \coloneqq \begin{cases} 1, & \text{if } i = j \\ 0, & \text{otherwise} \end{cases}\]
+
+\begin{proposition}
+    \begin{shaded*}
+    The $n$-tuple $(v_1^\vee, \dots, v_n^\vee)$ of elements of $V^*$ is a basis.
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    First we show that the tuple is linearly independent. If $f \coloneqq \lambda_1 v_1^\vee + \dots + \lambda_n v_n^\vee = 0$, then evaluating at $v_i$ gives $f(v_i) = \lambda_i = 0$ for all $i$. 
+    
+    Next we show that it spans. If $f \in V^*$, we claim that:
+    \begin{equation}
+        f = f(v_1)v_1^\vee + \dots + f(v_n)v_n^\vee
+    \end{equation}
+    Let $g$ be the right-hand side. Then $g(v_i) = f(v_i)$ for all $i$, by definition. By linearity and the fact that $(v_1, \dots, v_n)$ span $V$, we get $g = f$.
+    \qedhere
+\end{proof}
+
+\begin{definition}
+    \begin{shaded*}
+        The basis $\mathcal{B}^\vee \coloneqq (v_1^\vee, \dots, v_n^\vee)$ is called the \textit{dual basis} of $\mathcal{B} = (v_1, \dots, v_n)$.
+    \end{shaded*}
+\end{definition}
+
+This yields the companion formula for all $v \in V$: \[v = v_1^\vee(v)v_1 + \dots + v_n^\vee(v)v_n.\]
+
+\begin{corollary}
+    \begin{shaded*}
+    For $V$ a finite-dimensional vector space, $V^*$ is also finite-dimensional, and \[\dim V^* = \dim V\].
+    \end{shaded*}
+\end{corollary}
+
+This together with the injectivity of $\iota$ yields:
+
+\begin{corollary}
+    \begin{shaded*}
+    For $V$ a finite-dimensional vector space, $\iota : V \to (V^*)^*$ is an isomorphism.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    We have seen $\iota$ is linear and injective. Since $V$ is finite-dimensional, so is $(V^*)^*$, and it has the same dimension. Now $\iota$ is a linear map between finite-dimensional vector spaces of the same dimension; so it is an isomorphism.
+    \qedhere
+\end{proof}
+
+\subsection{The Double Dual}
+
+Given a vector space $V$, we define the map: \[\iota : V \to (V^*)^*, \quad v \mapsto \iota_v, \quad \text{where } \iota_v(f) = f(v)\]
+\begin{remark}
+    Note that no basis is required in order to define this map.
+\end{remark}
+
+\begin{proposition}
+    \begin{shaded*}
+    The map $\iota$ is injective and linear (assuming $V$ is finite-dimensional).
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Linearity follows because $\iota_{v+v'}(f) = f(v+v') = f(v) + f(v') = \iota_v(f) + \iota_{v'}(f)$, and similarly $\iota_{\lambda v}(f) = \lambda \iota_v(f)$.
+    
+    For injectivity, suppose $v \in V$ is nonzero. Then we have an inclusion $F \cdot v = \operatorname{Span}(v) \subseteq V$ of subspaces, so the restriction map $V^* \to (F \cdot v)^*$ is surjective. That is, there exists $f \in V^*$ with $f(v) \ne 0$. Then $\iota_v(f) = f(v) \ne 0$ as well, so $\iota_v \ne 0$. Thus, $\ker(\iota) = \{0\}$, so $\iota$ is injective.
+    \qedhere
+\end{proof}
+
+We will see that $\iota$ is an isomorphism when $V$ is finite-dimensional. To do this, we find a basis for $V^*$.
+
+Given a finite-dimensional vector space $V$ and a basis $\mathcal{B} \subseteq V$, we form the bases:
+\[ \mathcal{B}^\vee \subseteq V^*, \quad \mathcal{B}^{\vee\vee} \subseteq V^{**} \]
+We also have the isomorphism $\iota : V \xrightarrow{\sim} (V^*)^*$.
+
+\begin{proposition}
+    \begin{shaded*}
+    Taking the double dual basis recovers the image under the isomorphism $\iota$:
+    \[ \mathcal{B}^{\vee\vee} = \iota(\mathcal{B}) \]
+    \end{shaded*}
+\end{proposition}
+\begin{proof}
+    Let $\mathcal{B} = (v_1, \dots, v_n)$, $\mathcal{B}^\vee = (v_1^\vee, \dots, v_n^\vee)$, and $\mathcal{B}^{\vee\vee} = (v_1^{\vee\vee}, \dots, v_n^{\vee\vee})$. Then we have:
+    \[ \iota(v_i)(v_j^\vee) = v_j^\vee(v_i) = \delta_{ij} = v_i^{\vee\vee}(v_j^\vee) \]
+    Fix $i$. Since $\iota(v_i)(v_j^\vee) = v_i^{\vee\vee}(v_j^\vee)$ for all $j$, by taking linear combinations of the basis $(v_1^\vee, \dots, v_n^\vee)$ of $V^*$, we get $\iota(v_i)(f) = v_i^{\vee\vee}(f)$ for all $f \in V^*$. That is, $\iota(v_i) = v_i^{\vee\vee}$.
+    \qedhere
+\end{proof}
+
+As a consequence, $v_i^{\vee\vee}$ depends only on $v_i$, not on $v_j$ for $j \ne i$. This is not true about the dual basis: $v_i^\vee$ depends on all $v_j$. It is defined so that $v_i^\vee(v_j) = 0$ when $i \ne j$.
+
+\begin{example}
+    Let $V = F^2$, with basis $\mathcal{B} = (v_1, v_2)$ for $v_1 = e_1$ and $v_2 = \lambda e_1 + e_2$. Then $v_1^\vee = e_1^\vee - \lambda e_2^\vee$. We see that it depends on $\lambda$, hence on $v_2$. 
+    In terms of column and row vectors: $\mathcal{B} = \left( \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \begin{pmatrix} \lambda \\ 1 \end{pmatrix} \right)$ and $\mathcal{B}^\vee = \left( \begin{pmatrix} 1 & 0 \end{pmatrix}, \begin{pmatrix} -\lambda & 1 \end{pmatrix} \right)$.
+\end{example}
+
+
+
+\subsection{Annihilators}
+
+\begin{definition}
+    \begin{shaded*}
+        Given $W \subseteq V$, we define $W^\perp \subseteq V^*$ by:
+        \[ W^\perp \coloneqq \{f \in V^* \mid f(w) = 0, \forall w \in W\} \]
+    \end{shaded*}
+\end{definition}
+In other words, it is the set of vectors which annihilate all of $W$.
+
+\begin{example}
+    Suppose $V$ has basis $\mathcal{B} = (v_1, \dots, v_n)$ and $W = \operatorname{Span}(v_1, \dots, v_k)$ for some $1 \le k \le n$. Then $W^\perp = \operatorname{Span}(v_{k+1}^\vee, \dots, v_n^\vee)$. For example, if $V = M_{n\times 1}(F)$ and $v_i = e_i$ is the standard basis, then
+    \[ 
+    W = \left\{ \begin{pmatrix} a_1 \\ \vdots \\ a_m \\ 0 \\ \vdots \\ 0 \end{pmatrix} : a_1, \dots, a_m \in F \right\}, \quad W^\perp = \{(0 \quad \cdots \quad 0 \quad b_1 \quad \cdots \quad b_{n-m}) : b_1, \dots, b_{n-m} \in F\} 
+    \]
+\end{example}
+
+\begin{proposition}
+    \begin{shaded*}
+    If $V$ is finite-dimensional, and $W \subseteq V$ a subspace, then:
+    \[ \dim V = \dim W + \dim W^\perp \]
+    \end{shaded*}
+\end{proposition}
+
+\begin{remark}
+    When inner products are introduced, they provide an isomorphism $V \to V^*$, and using this, the preimage of $W^\perp$ is the usual subspace of vectors which dot with all $w \in W$ to zero.
+\end{remark}
+
+\section{Dualisation and Transpose}
+
+\begin{theorem}
+    \begin{shaded*}
+        Let $V$ and $W$ be finite-dimensional vector spaces with bases $\mathcal{B}$ and $\mathcal{C}$, respectively. Let $T : V \to W$ be a linear transformation. Then:
+        \[ {}_{\mathcal{B}^\vee}[T^*]_{\mathcal{C}^\vee} = ({}_{\mathcal{C}}[T]_{\mathcal{B}})^\top \]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $\mathcal{B} = (v_1, \dots, v_n)$ and $\mathcal{C} = (w_1, \dots, w_m)$, with dual bases $\mathcal{B}^\vee = (v_1^\vee, \dots, v_n^\vee)$ and $\mathcal{C}^\vee = (w_1^\vee, \dots, w_m^\vee)$. Then
+    \[ T^*(w_j^\vee)(v_i) = w_j^\vee \circ T(v_i) = w_j^\vee(T(v_i)) \]
+    By definition, the left-hand side is the $ij$-th entry of the matrix ${}_{\mathcal{B}^\vee}[T^*]_{\mathcal{C}^\vee}$, whereas the right-hand side is the $ji$-th entry of the matrix ${}_{\mathcal{C}}[T]_{\mathcal{B}}$.
+    \qedhere
+\end{proof}
+
+\begin{example}
+    In the case $V = F^n, W = F^m$, we can verify the theorem directly. Every linear transformation from $V$ to $W$ is of the form $T_A$ for $A \in M_{m\times n}(F)$. We know the formula ${}_{(e_1, \dots, e_m)}[T_A]_{(e_1, \dots, e_n)} = A$. If we identify $F^n$ with column vectors, and $(F^n)^*$ with row vectors, then for $u \in M_{1\times n}(F)$ a row vector, thought of as an element of $V^*$, we have
+    \[ [u]_{(e_1^\vee, \dots, e_n^\vee)} = u^\top \]
+    We found previously that $T_A^*(T_u) = T_{uA}$, left multiplication by the row vector $uA \in M_{1\times n}(F) \cong V^*$. We then get:
+    \[ [T_A^* u]_{(e_1^\vee, \dots, e_n^\vee)} = [uA]_{(e_1^\vee, \dots, e_n^\vee)} = (uA)^\top = A^\top u^\top = A^\top [u]_{(e_1^\vee, \dots, e_m^\vee)} \]
+    This implies ${}_{\mathcal{B}^\vee}[T_A^*]_{\mathcal{C}^\vee} = A^\top$, by the definition of the matrix of a linear transformation.
+\end{example}
+
+
+
+\newpage
+a
+
+
+\end{document}

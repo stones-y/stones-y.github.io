@@ -6,6 +6,104 @@
 \chapter{Limits and Continuity}
 
 
+\section{Limits of Functions}
+
+The fundamental concept of calculus is the limit. We formalise the notion of a function approaching a specific value.
+
+\begin{definition}[$\varepsilon$-$\delta$ definition of a limit]
+    \begin{shaded*}
+    Let $f$ be a function defined on an open interval containing $x_0$, except possibly at $x_0$ itself. We say that $\lim_{x\to x_0}f(x)=\ell$ if for every $\varepsilon>0$, there exists a $\delta>0$ such that for all $x$, 
+    \[0<|x-x_0|<\delta \implies |f(x)-\ell|<\varepsilon.\]
+    \end{shaded*}
+\end{definition}
+
+\begin{example}
+    We prove that $\lim_{x\to 2}(3x-1)=5$. Given $\varepsilon>0$, we want to find $\delta>0$ such that $0<|x-2|<\delta$ implies $|(3x-1)-5|<\varepsilon$. We manipulate the consequent:
+    $$|(3x-1)-5| = |3x-6| = 3|x-2|.$$
+    To ensure this is strictly less than $\varepsilon$, we require $3|x-2|<\varepsilon$, which is equivalent to $|x-2|<\frac{\varepsilon}{3}$. Therefore, we choose $\delta = \frac{\varepsilon}{3}$. Then for all $x$ satisfying $0<|x-2|<\delta$, we have $|(3x-1)-5| = 3|x-2| < 3\delta = \varepsilon$.
+\end{example}
+
+\begin{theorem}[Algebraic properties of limits]
+    \begin{shaded*}
+        Suppose $\lim_{x\to x_0}f(x)=L$ and $\lim_{x\to x_0}g(x)=M$. Then:
+        \begin{enumerate}
+            \item \textit{Sum:} $\lim_{x\to x_0} (f(x)+g(x)) = L+M$
+            \item \textit{Product:} $\lim_{x\to x_0} (f(x)g(x)) = LM$
+            \item \textit{Quotient:} $\lim_{x\to x_0} \frac{f(x)}{g(x)} = \frac{L}{M}$, provided $M \neq 0$
+            \item \textit{Scalar multiple:} $\lim_{x\to x_0} (cf(x)) = cL$ for any constant $c\in\R$
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+
+\begin{definition}[Limit at infinity]
+    \begin{shaded*}
+    We say that $\lim_{x\to\infty}f(x)=\ell$ if for every $\varepsilon>0$, there exists an $A>0$ such that for all $x$,
+    \[x>A \implies |f(x)-\ell|<\varepsilon.\]
+    \end{shaded*}
+\end{definition}
+
+\begin{example}
+    We prove $\lim_{x\to\infty}\frac{1}{x}=0$. Given $\varepsilon>0$, we require $\left|\frac{1}{x}-0\right|<\varepsilon$, which means $\frac{1}{x}<\varepsilon$ for $x>0$. Rearranging gives $x>\frac{1}{\varepsilon}$. We choose $A=\frac{1}{\varepsilon}$. For all $x>A$, we have $x>\frac{1}{\varepsilon}$, so $\frac{1}{x}<\varepsilon$.
+\end{example}
+
+\begin{definition}
+    \begin{shaded*}
+    We say that $\lim_{x\to x_0}f(x)=\infty$ if for every $B>0$, there exists a $\delta>0$ such that for all $x$,
+    \[0<|x-x_0|<\delta \implies f(x)>B.\]
+    \end{shaded*}
+\end{definition}
+
+
+\begin{definition}[One-sided limits]
+    \begin{shaded*}
+    The right-sided limit $\lim_{x\to x_0^+}f(x)=\ell$ if for every $\varepsilon>0$, there exists a $\delta>0$ such that for all $x$,
+    \[0<x-x_0<\delta \implies |f(x)-\ell|<\varepsilon.\]
+    The left-sided limit $\lim_{x\to x_0^-}f(x)=\ell$ if for every $\varepsilon>0$, there exists a $\delta>0$ such that for all $x$,
+    \[0<x_0-x<\delta \implies |f(x)-\ell|<\varepsilon.\]
+    A two-sided limit exists if and only if both one-sided limits exist and are equal.
+    \end{shaded*}
+\end{definition}
+
+\begin{theorem}[Squeezing property]
+    \begin{shaded*}
+        Suppose $g(x) \le f(x) \le h(x)$ for all $x$ in an open interval containing $x_0$, except possibly at $x_0$ itself. If $\lim_{x\to x_0}g(x) = \lim_{x\to x_0}h(x) = \ell$, then $\lim_{x\to x_0}f(x) = \ell$.
+    \end{shaded*}
+\end{theorem}
+
+\begin{example}
+    Evaluate $\lim_{x\to 0} x \sin\left(\frac{1}{x}\right)$. 
+    Since $-1 \le \sin\left(\frac{1}{x}\right) \le 1$ for all $x \neq 0$, we multiply the inequality by $|x|$ to obtain:
+    \[-|x| \le x \sin\left(\frac{1}{x}\right) \le |x|.\]
+    We know $\lim_{x\to 0} (-|x|) = 0$ and $\lim_{x\to 0} |x| = 0$. By the comparison test, $\lim_{x\to 0} x \sin\left(\frac{1}{x}\right) = 0$.
+\end{example}
+
+\section{Continuity}
+
+\begin{definition}[Continuity at a point]
+    \begin{shaded*}
+    A function $f$ is continuous at $x_0$ if for every $\varepsilon>0$, there exists a $\delta>0$ such that for all $x$ in the domain of $f$,
+    \[|x-x_0|<\delta \implies |f(x)-f(x_0)|<\varepsilon.\]
+    Equivalently, this requires that $\lim_{x\to x_0}f(x)=f(x_0)$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    For $f$ to be continuous at $x_0$, three conditions must be satisfied: $f(x_0)$ must be defined, $\lim_{x\to x_0}f(x)$ must exist, and these two values must be equal.
+\end{remark}
+
+\begin{example}
+    Let $f(x)$ be defined as:
+    $$f(x) = \begin{cases} 
+    \frac{x^2-1}{x-1} & x \neq 1 \\
+    2 & x = 1 
+    \end{cases}$$
+    We check for continuity at $x=1$. We have $f(1) = 2$. Taking the limit as $x \to 1$, we note that $x \neq 1$, so we can divide by $x-1$:
+    \[\lim_{x\to 1} \frac{x^2-1}{x-1} = \lim_{x\to 1} \frac{(x-1)(x+1)}{x-1} = \lim_{x\to 1} (x+1) = 2.\]
+    Since $\lim_{x\to 1} f(x) = f(1)$, the function is continuous at $x=1$.
+\end{example}
+
+
+
 
 
 \end{document}

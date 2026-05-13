@@ -88,8 +88,9 @@ A less trivial fact is that the rational numbers, $\Q$, is countable. This may b
         $\N^2$ is countably infinite.
     \end{shaded*}
 \end{theorem}
-\begin{proof}
-    \begin{figure}[h]
+
+\begin{center}
+    \begin{minipage}{1.0\textwidth}
     \centering
     \begin{tikzpicture}[>={Stealth[length=4pt]}, scale=1.2]
 
@@ -124,10 +125,11 @@ A less trivial fact is that the rational numbers, $\Q$, is countable. This may b
           \node at (5.6, -\j) {$\cdots$};
         }
         
-        \end{tikzpicture}
-        \caption{The diagonal listing of $\mathbb{N}^2$, showing it is countably infinite.}
-        \label{fig:diagonal-listing}
-    \end{figure}
+    \end{tikzpicture}
+    \end{minipage}
+\end{center}
+
+\begin{proof}
     The idea is illustrated in the above diagram. Note that the listing goes $$(0,0),(0,1),(1,0),(2,0),(1,1),(0,2),\dots$$
     Notice that along each diagonal, $a+b$ is constant for all pairs $(a,b)$ in that diagonal. This, along with the triangular number formula,
     provides the motivation for how to construct a bijection between $\N^2$ and $\N$.\par

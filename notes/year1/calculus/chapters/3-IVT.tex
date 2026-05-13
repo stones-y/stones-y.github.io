@@ -1,0 +1,85 @@
+\documentclass[../calculus.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Mean Value and Intermediate Value Theorems}
+
+\section{Extrema and Critical Points}
+
+\begin{definition}[Global and Local Extrema]
+    \begin{shaded*}
+        Let $f$ be defined on a domain $D$.
+        \begin{enumerate}
+            \item $f$ has an absolute (or global) maximum at $c \in D$ if $f(c) \ge f(x)$ for all $x \in D$.
+            \item $f$ has a local maximum at $c$ if there exists an open interval $I$ containing $c$ such that $f(c) \ge f(x)$ for all $x \in I \cap D$.
+        \end{enumerate}
+        Minimums are defined analogously.
+    \end{shaded*}
+\end{definition}
+
+\begin{definition}[Critical Point]
+    \begin{shaded*}
+        A point $c$ in the domain of a differentiable function $f$ is called a critical point if either $f'(c) = 0$.
+    \end{shaded*}
+\end{definition}
+
+\begin{theorem}[Fermat's Theorem]
+    \begin{shaded*}
+        Let $f$ be a function which is defined and differentiable on the open interval $(a,b)$. If $c \in (a,b)$ is a maximum (or minimum) for the function, then $f'(c) = 0$.
+    \end{shaded*}
+\end{theorem}
+
+\begin{example}
+    Let $f(x) = x^3 - 3x$. We find the critical points by solving $f'(x) = 0$. We have $f'(x) = 3x^2 - 3 = 3(x-1)(x+1)$. Thus, $x = 1$ and $x = -1$ are critical points. Evaluating the function, $f(1) = -2$ (a local minimum) and $f(-1) = 2$ (a local maximum).
+\end{example}
+
+\section{The Mean Value Theorem}
+
+\begin{theorem}[Extreme Value Theorem]
+    \begin{shaded*}
+        If a function $f$ is continuous on a closed and bounded interval $[a,b]$, then $f$ attains an absolute maximum value $f(c)$ and an absolute minimum value $f(d)$ at some numbers $c, d \in [a,b]$.
+    \end{shaded*}
+\end{theorem}
+
+\begin{theorem}[Rolle's Theorem]
+    \begin{shaded*}
+        Let $f$ be continuous on the closed interval $[a,b]$ and differentiable on the open interval $(a,b)$. If $f(a) = f(b)$, then there exists $c \in (a,b)$ such that $f'(c) = 0$.
+    \end{shaded*}
+\end{theorem}
+
+\begin{theorem}[Mean Value Theorem]
+    \begin{shaded*}
+        Let $f$ be continuous on the closed interval $[a,b]$ and differentiable on the open interval $(a,b)$. Then there exists $c \in (a,b)$ such that
+        \[f'(c) = \frac{f(b) - f(a)}{b - a}.\]
+    \end{shaded*}
+\end{theorem}
+
+\begin{example}
+    Consider $f(x) = x^2$ on the interval $[1, 3]$. The function is continuous on $[1,3]$ and differentiable on $(1,3)$. The average rate of change is $\frac{f(3)-f(1)}{3-1} = \frac{9-1}{2} = 4$. By the Mean Value Theorem, there exists $c \in (1,3)$ such that $f'(c) = 4$. Since $f'(x) = 2x$, solving $2c = 4$ yields $c = 2$, which lies in $(1,3)$.
+\end{example}
+
+\begin{theorem}[Monotonicity and Derivatives]
+    \begin{shaded*}
+        Let $f$ be differentiable on an interval $I$.
+        \begin{enumerate}
+            \item If $f'(x) > 0$ for all $x \in I$, then $f$ is strictly increasing on $I$.
+            \item If $f'(x) < 0$ for all $x \in I$, then $f$ is strictly decreasing on $I$.
+            \item If $f'(x) = 0$ for all $x \in I$, then $f$ is constant on $I$.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+
+\section{Intermediate Value Theorem}
+
+\begin{theorem}[Intermediate Value Theorem]
+    \begin{shaded*}
+        Let $f$ be a continuous function on the closed interval $[a,b]$. If $y$ is any number strictly between $f(a)$ and $f(b)$, then there exists $c \in (a,b)$ such that $f(c) = y$.
+    \end{shaded*}
+\end{theorem}
+
+\begin{example}
+    We show that the equation $x^3 - x - 1 = 0$ has a root in the interval $[1,2]$. Let $f(x) = x^3 - x - 1$. Since $f$ is a polynomial, it is continuous everywhere. We evaluate the endpoints: $f(1) = 1 - 1 - 1 = -1$ and $f(2) = 8 - 2 - 1 = 5$. Since $f(1) < 0 < f(2)$, the Intermediate Value Theorem guarantees the existence of a $c \in (1,2)$ such that $f(c) = 0$.
+\end{example}
+
+
+\end{document}
