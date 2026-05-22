@@ -5,5 +5,861 @@
 
 \chapter{The Derivative}
 
+The notion of the derivative is an intuitive one, and is no doubt familiar to the reader. Nonetheless, we first cover some motivation for this concept.
+
+
+One useful way of interpreting the derivative is that it is the slope of the tangent line of a given differnetiable function at a point. Alternatively, it is the best linear approximation of the function at that point, and provides some useful information local information about the function at that point (we will see this later with the \textit{local comparison} theorems).
+
+\begin{example}
+    Let $f:\R\to\R$ be defined by $f(x)=1-(x-1)^2$. By how we define the derivative, $f'(x)=-2(x-1)$, so $f'(1.5)=-1$. This is the \textit{slope} of the tangent line to the graph of $y=f(x)$ at $x=1.5$. One can think of this as our best linear guess of how the function is behaving \textit{locally} at $x=1.5$ (we will extend this interpretation to higher order derivatives with polynomial approximations when we study Taylor's Theorem).
+
+    Indeed, the equation of the tangent line to $y=f(x)$ at $x=1.5$ is \[y-0.75=-(x-1.5),\]
+    and we provide an illustration of this below.
+    \begin{center}
+        \begin{tikzpicture}[scale=1.1]
+            % Draw axes with labels
+            \draw[->] (-0.5, 0) -- (3, 0) node[right] {$x$};
+            \draw[->] (0, -1) -- (0, 3) node[above] {$y$};
+        
+            % Draw the parabola f(x) = 1 - (x-1)^2
+            \draw[thick, smooth, domain=-0.4:2.4, samples=50] plot (\x, {1 - (\x-1)*(\x-1)});
+        
+            % Draw the tangent line at x = 1.5 (y = -x + 2.25)
+            % Extended slightly past the axes to clearly show intersections
+            \draw (-0.2, 2.45) -- (2.6, -0.35);
+            \filldraw[blue] (1.5, 0.75) circle (2pt);
+        \end{tikzpicture}
+    \end{center}
+\end{example}
+
+The other important way to interpret the derivative is that, if we assign some physical meaning to the output of our function $f(x)$, say displacement, then the derivative measures the instantaneous rate of change of displacement, otherwise known as instantaneous velocity.
+
+\begin{example}
+    Let $P$ be a particle travelling in 1 dimension, with displacement given by $x(t)=e^{-t}\sin t$ for $t\ge 0$. Let $\Delta t>0$ be a short period of time, during which the particle moves. Then the average velocity of the particle in this time is given by
+    \[\text{average velocity} = \frac{x(t+\Delta t)-x(t)}{\Delta t},\quad\text{for }t>0.\]
+    The natural way to get the instantaneous velocity from this is to take the limit of the expression as $\Delta t\to 0$, for some fixed $t_0$. This will be how we define the \textit{derivative}:
+    \[\text{velocity at }t_0=\deriv[]{}{x}x(t_0)=\lim_{\Delta t\to 0}\frac{x(t_0+\Delta t)-x(t_0)}{\Delta t}=e^{-t_0}\left(\cos t_0 - \sin t_0\right).\]
+\end{example}
+
+We will now define what it means for a function to be \textit{differentiable} formally.
+\begin{definition}
+    \begin{shaded*}
+        Let $I$ be an open interval and let $f:I\to\R$ be a function. We say that $f$ is \textit{differentiable} at $a\in I$ if the limit
+        \[\lim_{x\to a}\frac{f(x)-f(a)}{x-a}\]
+        exists. To denote the \textit{derivative} of $f$ at $a$, we write $f'(a)$.
+    \end{shaded*}
+\end{definition}
+We say that $f:I\to\R$ is \textit{differentiable everywhere}, or just \textit{differentiable}, if $f$ is differentiable at every point $a\in I$.
+
+\begin{remark}
+    Notice that this is a two-sided limit, so at the very least $f$ must be well-defined on an open interval containing $a$, and the slope of $f$ cannot change as we approach $a$ from the left and from the right.
+\end{remark}
+
+\begin{exercise*}
+    Show that it is equivalent to write \[f'(a)=\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}.\]
+\end{exercise*}
+
+\section{Properties of Differentiable Functions}
+
+\subsection{Basic Results}
+
+In fact, being continuous at $a$ is a necessary condition for differentiability (but not sufficient; exercise, give a counterexample).
+
+\begin{theorem}
+\label{thm:diffimplycont}
+    \begin{shaded*}
+        If $f:I\to\R$ is differentiable at $a\in I$ then $f$ is continuous at $a$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    For $x\in I\setminus\{a\}$ we have
+    \[f(x)-f(a)=\frac{f(x)-f(a)}{x-a}(x-a),\]
+    so taking the limit of this expression as $x\to a$ we obtain, using the differentiability of $f$ at $a$ and the Algebra of Limits for functions (Theorem \ref{thm:altfunctions}):
+    \[\lim _{x\to a}\left(f(x)-f(a)\right)=f'(a)\cdot 0 = 0.\]
+    Thus $f$ is continuous at $a$ since $\lim_{x\to a}f(x)=f(a)$.\qedhere
+\end{proof}
+\begin{exercise*}
+    For which values of $a\in\R$ is the function
+    \[f:\R\to\R,\quad f(x)=\begin{cases}
+        x^2, & x\in\Q\\
+        0, & x\notin \Q
+    \end{cases}\]
+    differentiable?
+\end{exercise*}
+We also have an analogue of the Algebra of Limits for differentiable functions:
+
+\begin{theorem}
+\label{thm:altdiff}
+    \begin{shaded*}
+        Let $f:I\to\R$ and $g:I\to\R$ be differentiable at $a\in I$. Then
+        \begin{enumerate}
+            \item[1.] The function $f+g:I\to\R$ is differentiable at $a\in I$ and \[(f+g)'(a)=f'(a)+g'(a).\]
+            \item[2.] The function $fg:I\to\R$ is differentiable at $a\in I$ and \[(fg)'(a)=f'(a)g(a)+f(a)g'(a).\]
+            \item[3.] If $f(a)\ne 0$ then there exists an open interval $J\subset I$ with $a\in J$ such that the function $\frac{1}{f}:J\to\R$ is well-defined and differentiable at $a\in I$, with \[\left(\frac{1}{f}\right)'(a)=-\frac{f'(a)}{(f(a))^2}.\]
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item[1.] Follows directly from the Algebra of Limits for functions.
+        \item[2.] For $x\in I\setminus\{a\}$ we have
+        \begin{align*}
+            \frac{f(x)g(x)-f(a)g(a)}{x-a}&=\frac{f(x)g(x)-f(a)g(x)+f(a)g(x)-f(a)g(a)}{x-a}\\
+            &=\frac{f(x)-f(a)}{x-a}g(x)+f(a)\frac{g(x)-g(a)}{x-a}.
+        \end{align*}
+    \end{enumerate}
+    Using the Algebra of Limits for functions, taking the limit of the above expression as $x\to a$ yields the result by differentiability of $f,g$ at $a\in I$.
+    \item[3.] By continuity of $f$ at $a\in I$ (by Theorem \ref{thm:diffimplycont}), there exists an open interval $J\subset I$ with $a\in J$ such that $f(x)\ne 0$ for all $x\in J$. Therefore, the function $\frac{1}{f}:J\to\R$ defined by $x\mapsto \frac{1}{f(x)}$ is well-defined. Furthermore, for $x\in J\setminus\{a\}$ we have
+    \[\frac{\frac{1}{f(x)}-\frac{1}{f(a)}}{x-a}=\frac{\frac{f(a)-f(x)}{f(a)f(x)}}{x-a}=-\frac{1}{f(a)f(x)}\frac{f(x)-f(a)}{x-a}.\]
+    Using the Algebra of Limits for functions, taking the limit of the above expression as $x\to a$ yields the result by differentiability of $f$ at $a\in J$.\qedhere
+\end{proof}
+\begin{remark}
+    Combining items 2 and 3 in the above theorem, provided that $g(a)\ne 0$ we get the usual quotient rule for the differentiable function $\frac{f}{g}$, on a suitable open interval $J\subset I$ with $a\in J$ (exercise: write out this formula).
+\end{remark}
+
+\begin{example}
+    Constant functions are differentiable, with derivative zero. This is trivial by the fact that for any $a,x\in \R$, with $x\ne a$, $f(a)-f(x)=0$.
+
+    The identity function on $\R$ is differentiable with derivative 1 for all $x\in \R$. Indeed, we have for a fixed $a\in \R$, and $x\ne a$,
+    \[\frac{f(x)-f(a)}{x-a}=\frac{x-a}{x-a}=1.\]
+
+    We deduce by induction using items 1 and 2 above that polynomial functions $a_0+a_1x+\cdots+a_nx^n$ are differentiable on $\R$. Therefore, rational functions $P/Q:J\to\R$ for some polynomials $P,Q$ where $Q$ does not vanish on $J$, are differentiable too.
+\end{example}
+
+\subsection{The Chain Rule}
+
+Just like with continuity, compositions of differentiable functions are differentiable:
+\begin{theorem}[Chain Rule]
+    \begin{shaded*}
+        Let $f:I\to\R$ be differentiable at $a\in I$. Let $f(I)\subset J$ for some open interval $J$, and let $g:J\to\R$ be differentiable at $f(a)$. Then $g\circ f : I\to\R$ is differentiable at $a\in I$ and
+        \[(g\circ f)'(a)=f'(a)g'(f(a)).\]
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Define $\phi:I\to\R$ by
+    \[\phi(x)=\begin{cases}
+        \frac{g(f(x))-g(f(a))}{f(x)-f(a)},& f(x)\ne f(a),\\
+        g'(f(a)),& f(x)=f(a).
+    \end{cases}\]
+    We claim that $\phi$ is continuous at $a$. Let $\varepsilon>0$ be arbitrary. Since $g$ is differentiable at $f(a)$, there exists $\delta>0$ such that for all $y\in J$ with $0<|y-f(a)|<\delta$, we have
+    \[\left|\frac{g(y)-g(f(a))}{y-f(a)}-g'(f(a))\right|<\varepsilon.\]
+    Since $f$ is continuous at $a$ there exists $\delta'>0$ such that for all $x\in I$ with $|x-a|<\delta'$, we have
+    \[|f(x)-f(a)|<\delta.\]
+    Therefore, for $x\in I\cap (a-\delta',a+\delta')$, if $f(x)\ne f(a)$ we have
+    \[\left|\phi(x)-\phi(a)\right|=\left|\frac{g(f(x))-g(f(a))}{f(x)-f(a)}-g'(f(a))\right|<\varepsilon,\]
+    and, if $\allowbreak x\in I\cap (a-\delta',a+\delta')$ with $f(x)=f(a)$, then $\allowbreak\phi(x)=g'(f(a))$, so $\allowbreak|\phi(x)-\phi(a)|=0<\varepsilon$ in this case too. Therefore, $\phi$ is continuous at $a$.
+
+    To conclude, we observe that for $x\ne a$, if $f(x)\ne f(a)$ then
+    \begin{align*}
+        \frac{g(f(x))-g(f(a))}{x-a}&=\frac{g(f(x))-g(f(a))}{x-a}\cdot \frac{f(x)-f(a)}{f(x)-f(a)}\\
+        &=\frac{g(f(x))-g(f(a))}{f(x)-f(a)}\cdot \frac{f(x)-f(a)}{x-a}\\
+        &=\phi(x)\frac{f(x)-f(a)}{x-a}.
+    \end{align*}
+    Furthermore, the above expression holds in the case $f(x)=f(a)$, since both sides become zero. Therefore, the above holds for all $x \in I\setminus\{a\}$. Taking the limit as $x\to a$, and using the continuity of $\phi$ at $a$ with $\phi(a)=g'(f(a))$, we get the result.\qedhere
+\end{proof}
+
+
+\begin{exercise*}
+    Show that if $f,g$ are differentiable everywhere and are inverses of each other, then $f'$ and $g'$ are both non-zero, and $f'=\frac{1}{g'(f)}$.
+\end{exercise*}
+
+\subsection{The Local Comparison Theorem}
+As mentioned at the start of this chapter, the derivative is a useful tool to gather information about the behaviour of a function locally.
+
+\begin{lemma}[Local Comparison Theorem]
+\label{lem:localcomparison}
+\begin{shaded*}
+    Let $f:I\to\R$ be a function, and suppose $f$ is differentiable at $c\in I$. Then
+    \begin{enumerate}
+        \item[1.] If $f'(c)>0$ then there exists $\delta>0$ such that for all $x\in (c-\delta,c)$ and $y\in(c,c+\delta)$, we have \[f(x)<f(c)<f(y).\]
+        \item[2.] If $f'(c)<0$ then there exists $\delta>0$ such that for all $x\in (c-\delta,c)$ and $y\in(c,c+\delta)$, we have \[f(y)<f(c)<f(x).\]
+    \end{enumerate}
+\end{shaded*}
+\end{lemma}
+\begin{proof}
+    We will prove the case $f'(c)>0$; the proof for case 2 is identical. Since
+    \[\lim_{t\to c}\frac{f(t)-f(c)}{t-c}=f'(c)>0,\]
+    by definition of the limit there exists $\delta>0$ such that for all $t\in(c-\delta,c+\delta)\cap I$, we have
+    \[\frac{f(t)-f(c)}{t-c}>0.\]
+    If $t\in (c-\delta,c)$ then $t<c$ so $f(t)-f(c)<0$, i.e. $f(t)<f(c)$. If $t\in (c,c+\delta)$ then $t>c$ so $f(t)-f(c)>0$, i.e. $f(t)>f(c)$.\qedhere
+\end{proof}
+\begin{remark}
+    This does not mean that the function is monotonic increasing on $(c-\delta,c+\delta)$ (we provide an explicit counterexample below), it just means that \textit{locally}, the function sits below the line $f(c)$ on $(c-\delta,c)$ and above the line $f(c)$ on $(c,c+\delta)$.
+\end{remark}
+\begin{example}
+    Fix $1 < \alpha < 2$ and define $f : \mathbb{R} \to \mathbb{R}$ by
+\[
+f(x) =
+\begin{cases}
+x + |x|^\alpha \sin\left(\frac{1}{x}\right), & x \neq 0, \\
+0, & x = 0.
+\end{cases}
+\]
+We first observe that $f$ is differentiable at $0$ with a positive derivative; for $x \neq 0$ we have
+\[
+\frac{f(x) - f(0)}{x - 0} = \frac{x + |x|^\alpha \sin\left(\frac{1}{x}\right)}{x} = 1 + |x|^{\alpha-1} \sin\left(\frac{1}{x}\right).
+\]
+Taking the limit as $x \to 0$ we have that $f'(0) = 1 > 0$.
+
+However, we claim that for any $\varepsilon > 0$, there exist $x, y \in (0, \varepsilon)$ such that $f'(x) < 0 < f'(y)$. Indeed, let $\varepsilon > 0$ be arbitrary. For $x > 0$, by the chain and product rules we have
+\[
+f'(x) = 1 + \alpha x^{\alpha-1} \sin\left(\frac{1}{x}\right) - x^{\alpha-2} \cos\left(\frac{1}{x}\right).
+\]
+
+To show this oscillation, we evaluate $f'(x)$ at points where the sine term vanishes. Since $\alpha - 2 < 0$, we have $2 - \alpha > 0$, and $(2n\pi)^{2-\alpha} \to \infty$ as $n \to \infty$ by Theorem \ref{thm:divergenceresults1234}. We can therefore choose $n \in \mathbb{N}$ large enough such that $\frac{1}{2n\pi} < \varepsilon$ and $(2n\pi)^{2-\alpha} > 1$.
+
+Picking $x = \frac{1}{2n\pi} \in (0, \varepsilon)$, we have $\sin\left(\frac{1}{x}\right) = 0$ and $\cos\left(\frac{1}{x}\right) = 1$, yielding
+\[
+f'(x) = 1 + 0 - (2n\pi)^{2-\alpha} = 1 - (2n\pi)^{2-\alpha} < 0.
+\]
+
+Similarly, picking $y = \frac{1}{(2n+1)\pi} \in (0, \varepsilon)$, we have $\sin\left(\frac{1}{y}\right) = 0$ and $\cos\left(\frac{1}{y}\right) = -1$, yielding
+\[
+f'(y) = 1 + 0 - (-(2n+1)\pi)^{2-\alpha} = 1 + ((2n+1)\pi)^{2-\alpha} > 0.
+\]
+
+Now, by the Local Comparison Theorem (Lemma \ref{lem:localcomparison}), it follows that $f$ is not monotone on any interval of the form $(0, \varepsilon)$ for $\varepsilon > 0$, concluding our proof that this is a counterexample to the claim that $f'(c) > 0$ at a point implies monotonicity.
+\end{example}
+   
+
+\subsection{Increasing and Decreasing Functions}
+
+We can use the derivative to show monotonicity of differentiable functions:
+\begin{theorem}
+\label{thm:monotonederivative}
+    \begin{shaded*}
+        Let $f:I\to\R$ be differentiable.
+        \begin{enumerate}
+            \item[1.] If $f'(x)>0$ for all $x\in I$ then $f$ is strictly increasing.
+            \item[2.] If $f'(x)<0$ for all $x\in I$ then $f$ is strictly decreasing. 
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem} 
+\begin{proof}
+    First we prove the case where $f'(x)>0$ for all $x\in I$. Suppose for contradiction there exist $s<t$ in $I$ such that $f(s)\ge f(t)$. We consider the set $S\coloneqq \{x\in I: x>s,\, f(x)\le f(t)\}$. Since $t\in S$, $S$ is non-empty and $S\subset I$ so $S$ is bounded, so by the completeness of $\R$, we may define $\alpha \coloneqq \inf S$.
+
+    We claim that $\alpha>s$. Indeed, by local comparison at $s$, $f'(s)>0$ implies that there exists $\delta>0$ such that for all $x\in (s,s+\delta)$, $f(s)<f(x)$. In particular, if $x\in (s,s+\delta)$ then $x\notin S$, so $\alpha\ge s+\delta>s$, as required. Furthermore, since $f$ is differentiable at $\alpha$, it is continuous there, so $f(\alpha)\le f(t)$ (to see this, let $x_n$ be a sequence in $S$ converging to $\alpha$, and use the Order Limit Theorem for sequences, Theorem \ref{thm:olt}, and sequential continuity, to conclude that the limit $f(\alpha)$ satisfies the required inequality). Therefore, $\alpha\in S$.
+    
+    Finally, to get the desired contradiction we apply the Local Comparison Theorem (Lemma \ref{lem:localcomparison}) at $\alpha$; since $f'(\alpha)>0$, applying local comparison implies that there exists $\rho>0$ such that for all $x\in (\alpha-\rho,\alpha)$, $f(x)<f(\alpha)\le f(t)$, implying that for any $x\in (\alpha-\rho,\alpha)$ with $x>s$, we have $x\in S$, but $x<\alpha$, which contradicts the fact that $\alpha$ is a lower bound for $S$. 
+
+    To prove the case where $f'(x)<0$ for all $x\in I$, we note that by Theorem \ref{thm:altdiff} $-f$ is differentiable, and $-f'(x)>0$ for all $x\in I$, so applying the previous item, $-f$ is strictly increasing on $I$, so $-f(s)<-f(t)$ for all $s<t$ in $I$, i.e. $f(s)>f(t)$ for all $s<t$ in $I$, which proves that $f$ is strictly decreasing.\qedhere
+\end{proof}
+\begin{exercise*}
+    Does the converse of Theorem \ref{thm:monotonederivative} hold? In other words, if $f$ is strictly increasing (or decreasing), does it necessarily hold that $f'(x)>0$ for all $x\in I$ (or $f'(x)<0$ for all $x\in I$)? Provide a proof or counterexample.  
+\end{exercise*}
+
+\begin{exercise*}
+    Show that if $f:I\to\R$ is continuously differentiable (that is, $f$ is differentiable and $f'$ is continuous) and $f'(a)\ne 0$ for some $a\in I$, then there exists $\delta>0$ such that $f$ is injective on $(a-\delta,a+\delta)\subset I$. 
+\end{exercise*}
+
+
+\section{Critical Points}
+
+The derivative can also be used to locate \textit{candidates} for local and global extrema of a differentiable function. 
+
+\begin{definition}[Local Extrema]
+    \begin{shaded*}
+        Let $f:I\to\R$ be a function.
+        \begin{enumerate}
+            \item[1.] We say that $f$ attains a \textit{local maximum} at $c\in I$ if there exists $\delta>0$ such that for all $x\in(c-\delta,c+\delta)\subset I$, $f(x)\le f(c)$.
+            \item[2.] We say that $f$ attains a \textit{local minimum} at $c\in I$ if there exists $\delta>0$ such that for all $x\in(c-\delta,c+\delta)\subset I$, $f(x)\ge f(c)$. 
+        \end{enumerate}
+    \end{shaded*}
+\end{definition}
+One makes the obvious modifications to the above definitions for the notions of \textit{global} extrema.
+
+\begin{definition}[Critical Point]
+    \begin{shaded*}
+        Let $f:I\to\R$ be differentiable. We say that $c\in I$ is a \textit{critical point} of $f$ if $f'(c)=0$.
+    \end{shaded*}
+\end{definition}
+\begin{remark}
+    Critical points do not have to correspond to local extrema.
+\end{remark}
+
+\begin{theorem}[Fermat's Theorem]
+\label{thm:fermat}
+    \begin{shaded*}
+        Let $I\subset\R$ be open, and let $f:I\to\R$ be a function. If $f$ attains a local maximum or a local minimum at $c\in I$, and $f$ is differentiable at $c$, then $f'(c)=0$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We prove the case where $f$ attains a local maximum at $c\in I$, the proof for the local minimum case is identical. Let $c\in I$ be a local maxmimum of $f$, and suppose $f$ is differentiable at $c$. Let $\delta>0$ be such that for all $x\in (c-\delta,c+\delta)\subset I$, $f(x)\le f(c)$. Fix $s\in(c-\delta,c)$ and $t\in(c,c+\delta)$. Then we have
+    \[\frac{f(t)-f(c)}{t-c}\le 0\le \frac{f(c)-f(s)}{c-s}.\]
+    Taking the limit as $t\to c^+$, $s\to c^-$, we have that, since $f$ is differentiable at $c$, and by the Order Limit Theorem for functions,
+    \[\lim_{t\to c^+}\frac{f(t)-f(c)}{t-c}\le 0\le \lim_{s\to c^-}\frac{f(c)-f(s)}{c-s},\]
+    so
+    \[f'(c)\le 0\le f'(c),\]
+    i.e. $f'(c)=0$, as required.\qedhere
+\end{proof}
+
+After locating critical points one usually needs more information to decide whether they are maxima, minima, or neither. Furthermore, the classification and existence of global extrema of a function is an even harder problem, requiring the function to satisfy stronger properties. 
+
+\begin{remark}
+    If $I$ is a closed interval, the maximum or minimum must occur in the interior of the interval. For example, $f:[0,1]\to\R$ defined by $f(x)=x$ has a (global) minimum and a (global) maximum at $x=0$ and $x=1$ respectively, but there does not exist $c\in(0,1)$ such that $f'(c)=0$.
+\end{remark}
+
+\begin{exercise*}
+    Find a counterexample to the converse of Fermat's Theorem.
+\end{exercise*}
+
+\subsection{A Historical Application: The Law of Light Refraction}
+
+\begin{theorem}[Fermat's Principle]
+    \begin{shaded*}
+        The path light takes to travel between two points $P$ and $Q$ is the path of least time.
+    \end{shaded*}
+\end{theorem}
+
+\begin{remark}
+    Fermat realised that optical problems can be framed purely in terms of mathematical optimisation. By framing the physics as a problem of finding a global minimum, we can utilise tools from real analysis (specifically, the derivative and critical points) to derive geometric laws.
+\end{remark}
+
+\begin{theorem}[Snell's Law]
+    \begin{shaded*}
+        Let $M_1$ and $M_2$ be two media separated by a straight interface. Assume the speed of light is $v_1$ in $M_1$ and $v_2$ in $M_2$. If a light ray travels from $P \in M_1$ to $Q \in M_2$ and crosses the interface making angles $\theta_1$ and $\theta_2$ with the normal, then:
+        $$ \frac{\sin \theta_1}{\sin \theta_2} = \frac{v_1}{v_2} $$
+    \end{shaded*}
+\end{theorem}
+
+\begin{remark}
+    Fermat realised that Snell's Law can be derived entirely from an optimisation problem. Light does not simply travel in a straight line from $P$ to $Q$; it takes an optimal intermediate path to minimise the distance travelled in the slower medium, allowing it to reach the faster medium quicker. This principle allows \textit{any} optical problem to be translated into a mathematical optimisation problem, solvable using the tools of real analysis.
+\end{remark}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    
+    \draw[thick] (-1, 0) -- (4, 0) node[right] {Interface ($y=0$)};
+    
+    
+    \node at (3, 1.2) {$M_1$, speed $v_1$};
+    \node at (-0.5, -1.2) {$M_2$, speed $v_2$};
+
+    \draw[dashed, gray] (1.5, -2) -- (1.5, 2) node[above, black] {Normal};
+
+    
+    \coordinate (P) at (0, 1.5);
+    \coordinate (Q) at (3, -0.5);
+    \coordinate (X) at (1.5, 0);
+
+    
+    \draw[thick, red] (P) -- (X) node[midway, above right, black] {$d_1$};
+    \draw[thick, red] (X) -- (Q) node[midway, below, black] {$d_2$};
+
+    
+    \filldraw (P) circle (1pt) node[left] {$P(0, h)$};
+    \filldraw (Q) circle (1pt) node[right] {$Q(a, -b)$};
+    \filldraw (X) circle (1pt) node[above right] {$(x, 0)$};
+
+    
+    \draw (1.5, 0.4) arc (90:135:0.4);
+    \node at (1.2, 0.6) {$\theta_1$};
+
+    \draw (1.5, -0.4) arc (270:340:0.4);
+    \node at (1.8, -0.6) {$\theta_2$};
+
+
+\end{tikzpicture}
+\end{center}
+
+\begin{proof}[Derivation of Snell's Law]
+    We will show that Fermat's Principle implies Snell's Law. Choose coordinates such that the interface lies on the line $y=0$. Let the starting point be $P = (0,h) \in M_1$ and the destination be $Q = (a,-b) \in M_2$, with $a,b,h > 0$. Let the light cross the interface at some variable point $(x,0)$.
+    
+    The distances travelled in each medium are:
+    \[ d_1(x) = \sqrt{x^2 + h^2}, \quad d_2(x) = \sqrt{(a-x)^2 + b^2} \]
+    
+    The total travel time $T(x)$ is the sum of the times spent in each medium ($t = d/v$):
+    \[ T(x) = \frac{\sqrt{x^2 + h^2}}{v_1} + \frac{\sqrt{(a-x)^2 + b^2}}{v_2} \]
+    
+    By Fermat's Principle, light takes the path of least time, so we must find the global minimum of $T(x)$. We begin by differentiating $T(x)$ with respect to $x$ to find the critical points:
+    \[ T'(x) = \frac{x}{v_1\sqrt{x^2 + h^2}} - \frac{a-x}{v_2\sqrt{(a-x)^2 + b^2}} \]
+    
+    Looking at the geometry of the diagram, we can express the trigonometric ratios of the angles $\theta_1$ and $\theta_2$ in terms of our coordinate distances:
+    \[ \sin \theta_1 = \frac{x}{\sqrt{x^2 + h^2}} \quad \text{and} \quad \sin \theta_2 = \frac{a-x}{\sqrt{(a-x)^2 + b^2}} \]
+    
+    Substituting these into our derivative yields:
+    \[ T'(x) = \frac{\sin \theta_1}{v_1} - \frac{\sin \theta_2}{v_2} \]
+    
+    Setting $T'(x) = 0$ to find the optimal path gives:
+    \[ \frac{\sin \theta_1}{v_1} = \frac{\sin \theta_2}{v_2} \implies \frac{\sin \theta_1}{\sin \theta_2} = \frac{v_1}{v_2} \]
+    
+    Finally, we must confirm this critical point is a global minimum. As $x \to \pm\infty$, the distance $d_1(x)$ grows without bound, meaning $T(x) \to \infty$. Since $T(x)$ is continuous and differentiable, and blows up at infinity, the single critical point we found must correspond to the global minimum (see below). 
+\end{proof}
+
+\begin{exercise*}
+    Let $f:\R\to\R$ be differentiable with a unique critical point $c\in \R$. Show that if $f(x)\to \infty$ as $x\to \pm \infty$, then $c$ is a global minimum.
+\end{exercise*}
+
+\subsection{The Brachistochrone Problem}
+
+The Brachistochrone problem asks for the curve of fastest descent: Given two points $A$ and $B$ in a vertical plane (where $A$ is higher than $B$), what is the shape of the wire along which a frictionless bead will slide from $A$ to $B$ in the shortest amount of time under the influence of gravity?
+
+\begin{remark}
+    Johann Bernoulli solved this by noticing an analogy between this mechanical problem and Fermat's Principle in optics. Both problems are fundamentally searching for the ``curve of least time.''
+    
+    In mechanics, the conservation of energy dictates the velocity of the falling object at any given height $y$. Assuming it starts from rest, kinetic energy equals the loss in potential energy, yielding a speed that depends strictly on vertical height:
+    \[ v(y) = \sqrt{2gy} \]
+    
+    Bernoulli imagined the physical space as an ``aquarium'' made of discrete horizontal layers. In each layer, the speed is constant, dictated entirely by the conservation of energy equation for that specific height. 
+    
+    By Fermat's Principle, if the speed in every region is known, the path of least time is completely determined by Snell's Law at every interface. As the thickness of these horizontal layers approaches zero in the limit, the discrete path dictated by Snell's Law converges exactly to the continuous Brachistochrone curve.
+\end{remark}
+
+\begin{proof}[Derivation of the Brachistochrone Curve]
+    Let the particle start from rest at the origin $(0,0)$. Let the $y$-axis point downwards (representing depth) and the $x$-axis point horizontally. 
+    
+    By the conservation of energy, the kinetic energy gained equals the potential energy lost. Therefore, the velocity $v$ at any depth $y$ is given by:
+    \[ \frac{1}{2}mv^2 = mgy \implies v = \sqrt{2gy} \]
+    
+    Bernoulli modelled the continuous space as an infinite sequence of infinitesimally thin horizontal optical media. The normal to these horizontal interfaces is the vertical axis. Let $\theta$ be the angle between the curve's tangent and the vertical normal. 
+    
+    From the geometry of the curve $y(x)$, the differential arc length is $ds = \sqrt{dx^2 + dy^2}$. The sine of the angle $\theta$ with the vertical is:
+    \[ \sin \theta = \deriv[]{x}{s} = \frac{\d x}{\sqrt{\d x^2 + \d y^2}} = \frac{1}{\sqrt{1 + \left(\deriv[]{y}{x}\right)^2}} = \frac{1}{\sqrt{1 + (y')^2}} \]
+    
+    Applying Snell's Law, the ratio of the sine of the angle to the velocity must be constant along the entire path:
+    \[ \frac{\sin \theta}{v} = C \]
+    
+    Substituting our expressions for $v$ and $\sin \theta$:
+    \[ \frac{1}{\sqrt{2gy} \sqrt{1 + (y')^2}} = C \]
+    
+    Squaring both sides and rearranging isolates the differential equation governing the curve:
+    \[ \frac{1}{2gy(1 + (y')^2)} = C^2 \implies y(1 + (y')^2) = \frac{1}{2gC^2} \]
+    
+    To simplify, let $2a = \frac{1}{2gC^2}$, where $a$ is a positive constant. The equation becomes:
+    \[ y(1 + (y')^2) = 2a \]
+    
+    Solving for the derivative $y'$:
+    \[ (y')^2 = \frac{2a - y}{y} \implies \deriv{y}{x} = \sqrt{\frac{2a - y}{y}} \]
+    
+    Separating the variables to integrate:
+    \[ \d x = \sqrt{\frac{y}{2a - y}} \, \d y \]
+    
+    To solve this integral, we introduce a parameter $t$ by substituting $y = a(1 - \cos t)$. This substitution is motivated by the domain of $y$, which must lie between $0$ and $2a$. Differentiating gives $\d y = a \sin t \, \d t$. Substituting these into the integral yields:
+    \[ \d x = \sqrt{\frac{a(1 - \cos t)}{a(1 + \cos t)}} (a \sin t) \, \d t \]
+    
+    Using the half-angle trigonometric identities, the term inside the square root simplifies to $\tan^2(t/2)$, but we can also multiply numerator and denominator by $(1 - \cos t)$:
+    \[ \d x = \sqrt{\frac{(1 - \cos t)^2}{1 - \cos^2 t}} (a \sin t) \, \d t = \frac{1 - \cos t}{\sin t} (a \sin t) \, \d t \]
+    \[ \d x = a(1 - \cos t) \, \d t \]
+    
+    Integrating this with respect to $t$ gives $x$:
+    \[ x = \int a(1 - \cos t) \, \d t = a(t - \sin t) + K \]
+    
+    Since the curve starts at the origin $(0,0)$, when $t = 0$, both $x = 0$ and $y = 0$. This implies the integration constant $K = 0$. 
+    
+    Thus, the path of least time is described by the parametric equations:
+    \[ x(t) = a(t - \sin t) \]
+    \[ y(t) = a(1 - \cos t) \]
+    
+    These are the exact parametric equations of a cycloid generated by a circle of radius $a$ rolling along the horizontal axis (we will learn more about parametric curves in the ``Curves in the Plane'' chapter).
+\end{proof}
+
+\begin{remark}
+    We took a slight detour into an application of the analysis tools we have learnt (albeit in a slightly less rigorous manner) to demonstrate the practical applications of the results we are proving with care. Note also that the \textit{indefinite integral} can be seen as simply the reverse of differentiation, which we have already defined rigorously, so the above derivation is not too far from the rigour of analysis. We will define \textit{definite integration} rigorously in a later chapter.
+\end{remark}
+
+\section{The Mean Value Theorem}
+
+The main result we will be proving in this section is the \textit{Mean Value Theorem}, a very important result in analysis. First, we need a result regarding the existence of critical points, Rolle's Theorem. This handles the special case where the function values at the endpoints are equal.
+\begin{theorem}[Rolle's Theorem]
+\label{thm:rolle}
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ be continuous on $[a,b]$ and differentiable on $(a,b)$. If $f(a)=f(b)$ then there exists $c\in (a,b)$ such that $f'(c)=0$. 
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    By the Extreme Value Theorem (Theorem \ref{thm:evt}), there exists $c\in [a,b]$ such that \[f(c)=\max_{x\in[a,b]}f(x).\]
+    If $c\in (a,b)$ then we are done by Fermat's Theorem (Theorem \ref{thm:fermat}) since $f'(c)=0$.
+
+    If $c=a$ or $c=b$, then since $f(a)=f(b)$, $b$ is also the global maximum of $f$. Applying the Extreme Value Theorem again, there exists $d\in[a,b]$ such that \[f(d)=\min_{x\in[a,b]}f(x).\]
+    If $d\in(a,b)$, then again we are done by Fermat's Theorem since $f'(d)=0$. 
+    
+    If $d=a$ or $d=b$, then $\min _{x\in[a,b]}f(x)=\max_{x\in[a,b]}f(x)$, so $f$ is constant on $[a,b]$, in which case $f'(c)=0$ for every $c\in(a,b)$. This finishes the proof of the theorem.\qedhere
+\end{proof}
+
+\begin{remark}
+    The picture to keep in mind for this theorem is illustrated below. The idea is that if $f(a) = f(b)$, then as you slide a horizontal line down from above (and up from below), it will touch the graph for the first time at some interior point, producing a horizontal tangent.
+    \begin{center}
+        \begin{tikzpicture}[
+            scale=1,
+            declare function={
+                f(\x) = 3.0 - 0.3*(\x-3)^2 + 0.5*cos(360*(\x-3));
+            }
+        ]
+            % Axes
+            \draw[->, thick] (-0.5, 0) -- (6.5, 0) node[right] {$x$};
+            \draw[->, thick] (0, -0.5) -- (0, 4.8) node[above] {$y$};
+        
+            \draw[thick, black] plot[domain=1:5, samples=150] (\x, {f(\x)}) node[right, black] {$f(x)$};
+        
+            \draw[dashed] (1, {f(1)}) -- (1, 0) node[below] {$a$};
+            \draw[dashed] (5, {f(5)}) -- (5, 0) node[below] {$b$};
+            
+            \draw[dashed, gray] (0, {f(1)}) node[left, black] {$f(a)=f(b)$} -- (5.5, {f(1)});
+            
+            
+            \filldraw[black] (1, {f(1)}) circle (1.5pt);
+            \filldraw[black] (5, {f(5)}) circle (1.5pt);
+        
+            
+            \draw[dashed] (3, {f(3)}) -- (3, 0) node[below] {$c$};
+            \filldraw[red] (3, {f(3)}) circle (1.5pt);
+        
+            \draw[dashed, black!75!white, thick] (1.2, {f(3)+0.2}) -- (4.8, {f(3)+0.2});
+            \draw[dashed, black!60!white, thick] (1.2, {f(3)+0.4}) -- (4.8, {f(3)+0.4});
+            \draw[dashed, black!40!white, thick] (1.2, {f(3)+0.8}) -- (4.8, {f(3)+0.8});
+            \draw[dashed, black!20!white, thick] (1.2, {f(3)+1.3}) -- (4.8, {f(3)+1.3});
+        
+            
+            \draw[thick, red] (1.2, {f(3)}) -- (4.8, {f(3)}) node[right, black] {$f'(c) = 0$};
+        
+        \end{tikzpicture}
+    \end{center}
+\end{remark}
+
+There is another common scenario that forces a critical point: the derivative being positive at one point and negative at another. In this case, the picture to keep in mind is that of a dome (or bowl depending on the signs).
+
+\begin{theorem}
+\label{thm:lemdarboux}
+    \begin{shaded*}
+        Let $f:(a,b)\to\R$ be differentiable, and suppose there exist $x<y$ in $(a,b)$ such that $f'(x)>0>f'(y)$. Then there exists $c\in(x,y)$ such that $f'(c)=0$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    By the Local Comparison Theorem at $x$ (Lemma \ref{lem:localcomparison}), since $f'(x)>0$ there exists $\delta>0$ such that for all $t\in(x,x+\delta)\subset(x,y)$, $f(c)<f(t)$. Similarly, by the Local Comparison Theorem at $y$, since $f'(y)<0$ there exists $\delta'>0$ such that for all $t\in(y-\delta',y)\subset(x,y)$, $f(t)>f(y)$. Therefore, $f$ does not attain its global maximum on $[x,y]$ at the endpoints, but since $f$ is continuous on $[x,y]$, by the Extreme Value Theorem there exists $c\in(x,y)$ such that $f(c)=\max_{t\in[x,y]}f(t)$. By Fermat's Theorem (Theorem \ref{thm:fermat}), $f'(c)=0$.\qedhere
+\end{proof}
+
+\begin{theorem}[Mean Value Theorem]
+\label{thm:mvt}
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ be continuous on $[a,b]$ and differentiable on $(a,b)$. Then there exists $\xi\in(a,b)$ such that
+        \[f'(\xi)=\frac{f(b)-f(a)}{b-a}.\]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We prove this by reducing it to Rolle's Theorem. Define $\ell:[a,b]\to\R$ by
+    \[ \ell(x) = f(a) + \frac{f(b) - f(a)}{b - a}(x - a). \]
+    We know that $\ell$ is continuous on $[a,b]$ and differentiable on $(a,b)$.
+
+    Also, define $h:[a,b]\to\R$ by $h(x) = f(x) - \ell(x)$. Explicitly:
+    \[ h(x) = f(x) - \left( f(a) + \frac{f(b) - f(a)}{b - a}(x - a) \right) \]
+    
+    Since $f(x)$ is continuous on $[a,b]$ and differentiable on $(a,b)$, and $\ell$ is continuous on $[a,b]$ and differentiable on $(a,b)$, $h$ is also continuous on $[a,b]$ and differentiable on $(a,b)$.
+    
+    Evaluating $h(x)$ at the endpoints, we have
+    \[ h(a) = f(a) - \left( f(a) + \frac{f(b) - f(a)}{b - a}(a - a) \right) = f(a) - f(a) = 0, \]
+    and
+    \[ h(b) = f(b) - \left( f(a) + \frac{f(b) - f(a)}{b - a}(b - a) \right) = f(b) - (f(a) + f(b) - f(a)) = 0. \]
+    
+    Since $h(a) = h(b) = 0$, $h(x)$ satisfies all the hypotheses of Rolle's Theorem. Therefore, there exists some $c \in (a,b)$ such that $h'(c) = 0$.
+    
+    Differentiating $h(x)$ gives:
+    \[ h'(x) = f'(x) - \frac{f(b) - f(a)}{b - a} \]
+    
+    Setting $h'(c) = 0$:
+    \[ 0 = f'(c) - \frac{f(b) - f(a)}{b - a} \implies f'(c) = \frac{f(b) - f(a)}{b - a} \]
+    This completes the proof.
+\end{proof}
+
+It is worth noting that Rolle's Theorem is simply a special case of the Mean Value Theorem where the endpoints are at the same height ($f(a) = f(b)$). In this scenario, the average rate of change (the slope of the secant line) is exactly zero, yielding $f'(c) = 0$.
+
+To see the motivation for this elegant proof, notice that the new function $h(x)$ simply measures the \textit{vertical distance} (or error) between the function and the secant line. Because the function intersects the secant line at both endpoints, this vertical distance is exactly zero at $x=a$ and $x=b$ (i.e., $h(a) = h(b) = 0$). We have successfully reduced the general problem into a scenario where Rolle's Theorem directly applies. Finding the point $c$ where $h'(c) = 0$ is exactly finding the point where the vertical distance between the curve and the secant line stops growing and starts shrinking—meaning the function's instantaneous slope is identical to the secant line's slope.
+
+\begin{remark}
+    The quantity $\frac{f(b) - f(a)}{b - a}$ is the slope of the secant line connecting the endpoints $(a, f(a))$ and $(b, f(b))$. The Mean Value Theorem guarantees that if a curve is continuous and smooth, there must be at least one interior point $c$ where the tangent line is perfectly parallel to this secant line. In kinematic terms, if you travel from point A to point B, your instantaneous velocity must exactly equal your average velocity at some point during the trip.
+\end{remark}
+
+\begin{exercise*}
+    Use the MVT to find an easier proof of Theorem \ref{thm:monotonederivative}.
+\end{exercise*}
+\begin{exercise*}
+    Let $I$ be an open interval and suppose $f:I\to\R$ is differentiable. Show that if $f'(x)=0$ for all $x\in I$ then $f$ is constant on $I$.
+\end{exercise*}
+
+There is also the following generalisation of the MVT, known as Cauchy's Mean Value Theorem (CMVT).
+\begin{theorem}[Cauchy's Mean Value Theorem]
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ and $g:[a,b]\to\R$ both be continuous on $[a,b]$ and differentiable on $(a,b)$. Then there exists $\xi\in(a,b)$ such that
+        \[(f(b)-f(a))g'(\xi)=(g(b)-g(a))f'(\xi).\]
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    We prove this in a similar way to the Mean Value Theorem.
+    Let $h:[a,b]\to\R$ be defined by
+\[
+h(x) = (f(b) - f(a))g(x) - (g(b) - g(a))f(x)
+\]
+Since $f$ and $g$ are continuous on $[a, b]$ and differentiable on $(a, b)$, it follows that $h$, being a linear combination of $f(x)$ and $g(x)$ with constant coefficients, is also continuous on $[a, b]$ and differentiable on $(a, b)$.
+
+Evaluating $h$ at the endpoints $a$ and $b$, we get
+\begin{align*}
+h(a) &= (f(b) - f(a))g(a) - (g(b) - g(a))f(a) \\
+     &= f(b)g(a) - f(a)g(a) - g(b)f(a) + g(a)f(a) \\
+     &= f(b)g(a) - g(b)f(a),
+\end{align*}
+\begin{align*}
+h(b) &= (f(b) - f(a))g(b) - (g(b) - g(a))f(b) \\
+     &= f(b)g(b) - f(a)g(b) - g(b)f(b) + g(a)f(b) \\
+     &= -f(a)g(b) + g(a)f(b) \\
+     &= f(b)g(a) - g(b)f(a),
+\end{align*}
+so $h(a) = h(b)$.
+
+Because $h$ satisfies all conditions of Rolle's Theorem on $[a, b]$, there exists $\xi \in (a, b)$ such that $h'(\xi) = 0$.
+
+Taking the derivative of $h$ gives:
+\[
+h'(x) = (f(b) - f(a))g'(x) - (g(b) - g(a))f'(x).
+\]
+Therefore,
+\[
+h'(\xi) = (f(b) - f(a))g'(\xi) - (g(b) - g(a))f'(\xi) = 0,
+\]
+which implies that
+\[
+(f(b) - f(a))g'(\xi) = (g(b) - g(a))f'(\xi),
+\]
+which completes the proof.\qedhere
+\end{proof}
+\begin{remark}
+    If additionally we have that $g(b)\ne g(a)$ and $g'$ does not vanish on $(a,b)$, then the above implies that there exists $\xi\in(a,b)$ such that
+    \[\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(\xi)}{g'(\xi)},\]
+    which is a more useful and intuitive form of the theorem (indeed, it is used in proving L'Hôpital's Rule).
+\end{remark}
+
+\subsection{Darboux's Theorem}
+
+\begin{theorem}[Darboux's Theorem]
+    \begin{shaded*}
+        Let $f: (a,b) \to \R$ be differentiable. Then $f'$ satisfies the intermediate value property, i.e. for any $x<y$ in $(a,b)$, if $\eta$ is any real number strictly between $f'(x)$ and $f'(y)$, then there exists $\xi \in (x,y)$ such that $f'(\xi) = \eta$.
+    \end{shaded*}
+\end{theorem}
+
+
+\begin{proof}
+    Assume without loss of generality that $f'(a) < \eta < f'(b)$ (the case where $f'(a) > \eta > f'(b)$ is symmetric, i.e. the argument doesn't change). Define $g: [x,y] \to \R$ by $g(t) = f(t) - \eta t$.
+    Since $f$ is differentiable on $(a,b)$, $g$ is continuous on $[x,y]$ and differentiable on $(x,y)$. Also, for $t\in(x,y)$ we have
+    \[ g'(t) = f'(t) - \eta. \]
+    Evaluating this derivative at the endpoints gives:
+    \[ g'(x) = f'(x) - \eta < 0 \quad \text{(since } f'(a) < \eta) \]
+    \[ g'(y) = f'(y) - \eta > 0 \quad \text{(since } f'(b) > \eta) \]
+    By Theorem \ref{thm:lemdarboux}, it follows that there exists $\xi\in(x,y)$ such that $g'(\xi)=0$, i.e. $f'(\xi)=\eta$, which finishes the proof of the theorem.\qedhere
+   
+\end{proof}
+
+\begin{remark}
+    Darboux's Theorem is somewhat surprising, in that it does not require $f'$ to be continuous. We already know from the standard Intermediate Value Theorem that continuous functions cannot ``jump over'' intermediate values. Darboux's Theorem tells us that \textit{derivatives} also cannot ``jump over'' intermediate values. 
+    
+    This imposes a massive restriction on how a derivative can behave; derivatives \textit{cannot have jump discontinuities}. Therefore, if a derivative is discontinuous, it must be an essential (oscillatory) discontinuity.
+    
+    The mere property of being a derivative is strong enough to enforce this. A classic example is the function $f:\R\to\R$ defined by:
+    \[ f(x) = \begin{cases} x^2\sin(1/x), &  x \neq 0 \\ 0, &  x = 0. \end{cases} \]
+    Its derivative $f'$ oscillates wildly near 0 and is discontinuous at 0, yet by Darboux's Theorem, $f'$ still successfully takes on every intermediate value in its range.
+\end{remark}
+
+
+We also obtain the very important corollary of Darboux's theorem:
+
+\begin{corollary}
+\label{cor:nvm}
+    \begin{shaded*}
+        If $f:I\to\R$ is differentiable and $f'(t) \neq 0$ for all $t \in I$, then $f$ is strictly monotone on $I$.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    By Darboux's Theorem, if $f'$ ever took both positive and negative values, it would have to cross $0$, which contradicts $f'(t) \neq 0$. Thus, $f'$ is either always strictly positive or always strictly negative, making $f$ strictly monotone by Theorem \ref{thm:monotonederivative}.
+\end{proof}
+
+\begin{exercise*}
+    Let $I\subset\R$ be an open interval and let $f:I\to\R$ be differentiable. Suppose that $|f'(x)|=1$ for all $x\in I$. Show that there exists a constant $C\in\R$ such that either
+    \[f(x)=x+C\quad\text{for all }x\in I,\]
+    or
+    \[f(x)=-x+C\quad\text{for all }x\in I.\]
+\end{exercise*}
+The above fact will be used in the ``Curves in the Plane'' chapter to show that an arc-length parametrisation of a curve is unique, up to a translation of the parameter (and possibly reversing orientation).
+
+
+\section{L'Hôpital's Rule}
+
+In this section, we state and prove a very useful tool for finding limits which are in certain so-called ``indeterminate forms'' (that is to say, the limits themselves are in a form which cannot be directly evaluated using, say, continuity of the function(s) in question). These forms are $\frac{0}{0}$ and $\frac{\pm \infty}{\pm \infty}$ (note that the sign of $\infty$ does not have to be the same for the numerator and denominator limits). It can be applied as $x\to c$ for some finite $a\in\R$ (including one-sided limits as $x\to a^\pm$), or as $x\to \pm \infty$.
+
+\begin{theorem}[L'Hôpital's Rule, $\frac{0}{0}$ Case]
+    \begin{shaded*}
+        Let $a \in \R$, and suppose there exists $\rho > 0$ such that $f$ and $g$ are real-valued functions defined on the domain $D = (a - \rho, a + \rho) \setminus \{a\}$. If \[\lim_{x\to a}f(x)=\lim_{x\to a}g(x)=0,\]
+        and the limit \[\lim_{x\to a}\frac{f'(x)}{g'(x)}\]
+        exists, then the limit \[\lim_{x\to a}\frac{f(x)}{g(x)}\]
+        exists, and both limits are equal.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    First we note the following implications of our hypotheses. There exists $\delta > 0$ such that:
+\begin{enumerate}
+    \item[1.] $f$ and $g$ are differentiable on $(a - \delta, a + \delta) \setminus \{a\}$;
+    \item[2.] $g'(x) \neq 0$ on $(a - \delta, a + \delta) \setminus \{a\}$.
+\end{enumerate}
+Note that (1) and (2) do not need to hold at $x = a$. In fact, $f$ and $g$ do not need to be defined at $a$ for $\lim_{x\to a} \frac{f'(x)}{g'(x)}$ to make sense. Since we are assuming
+\[
+\lim_{x\to a} f(x) = \lim_{x\to a} g(x) = 0,
+\]
+it makes sense to set $f(a) = g(a) = 0$ (redefining $f$ and $g$ at $a$ if necessary). Now we can say $f$ and $g$ are continuous on $(a - \delta, a + \delta)$ including $a$, therefore we can use Rolle's theorem and the Extended Mean Value Theorem on closed intervals contained in $(a - \delta, a]$ or in $[a, a + \delta)$.
+
+We claim that $g(x) \neq 0$ for all $x \in (a - \delta, a + \delta) \setminus \{a\}$. Indeed, by assumption $g'(x) \neq 0$ near $a$, hence $g$ is strictly monotone there by Corollary \ref{cor:nvm}, which implies injectivity. Since $g(a) = 0$, it follows that $g(x) \neq 0$ for every $x \neq a$ sufficiently close to $a$.
+
+Now, since $g(x) \neq 0$ for all $x \neq a$ near $a$, by the Extended Mean Value Theorem, for every $x \in (a, a + \delta)$ (with $\delta > 0$ small) there exists $\alpha_x \in (a, x)$ such that
+\[
+\frac{f'(\alpha_x)}{g'(\alpha_x)} = \frac{f(x) - f(a)}{g(x) - g(a)} = \frac{f(x)}{g(x)}, \quad \text{and} \quad |\alpha_x - a| < |x - a|.
+\]
+
+We want to show that given $\varepsilon > 0$, there exists $\delta > 0$ such that
+\[
+|x - a| < \delta \implies \left| \frac{f(x)}{g(x)} - L \right| < \varepsilon, \quad \text{where } L = \lim_{x\to a} \frac{f'(x)}{g'(x)}.
+\]
+
+By assumption, there exists $\delta_0 > 0$ such that
+\[
+0 < |y - a| < \delta_0 \implies \left| \frac{f'(y)}{g'(y)} - L \right| < \varepsilon.
+\]
+
+Now choose $x$ such that $0 < |x - a| < \delta_0$. Then
+\[
+0 < |\alpha_x - a| < |x - a| < \delta_0,
+\]
+so (taking $y = \alpha_x$) we obtain
+\[
+\left| \frac{f'(\alpha_x)}{g'(\alpha_x)} - L \right| < \varepsilon.
+\]
+
+Using $\frac{f'(\alpha_x)}{g'(\alpha_x)} = \frac{f(x)}{g(x)}$, this gives
+\[
+\left| \frac{f(x)}{g(x)} - L \right| < \varepsilon,
+\]
+hence $\lim_{x\to a} \frac{f(x)}{g(x)} = L. \hfill \square$
+\end{proof}
+\begin{remark}
+    To extend this result to the limits as $x\to\pm\infty$, we apply the substitution $t = 1/x$. Define $F(t) = f(1/t)$ and $G(t) = g(1/t)$. As $x \to \pm\infty$, we have $t \to 0^\pm$. 
+    
+    Note that this substitution requires the one-sided limit version of L'H\^opital's rule, in the case $\frac{0}{0}$. The proof of the initial $x \to a$ case remains identical for one-sided limits, requiring only obvious modifications to the intervals (e.g., restricting to $(a, a+\delta)$ rather than $(a-\delta, a+\delta)$ for the right-sided limit).
+    
+    Applying this finite, one-sided case at $a=0$, we obtain:
+    $$\lim_{x\to\pm\infty} \frac{f(x)}{g(x)} = \lim_{t\to 0^\pm} \frac{F(t)}{G(t)} = \lim_{t\to 0^\pm} \frac{F'(t)}{G'(t)}$$
+    Using the chain rule, $F'(t) = f'(1/t)(-1/t^2)$ and $G'(t) = g'(1/t)(-1/t^2)$. The $-1/t^2$ factors cancel out, which yields:
+    $$\lim_{t\to 0^\pm} \frac{F'(t)}{G'(t)} = \lim_{t\to 0^\pm} \frac{f'(1/t)}{g'(1/t)} = \lim_{x\to\pm\infty} \frac{f'(x)}{g'(x)}$$
+    This completes the proof for infinite limits.
+\end{remark}
+
+\begin{theorem}[L'Hôpital's Rule, $\frac{\infty}{\infty}$ Case]
+    \begin{shaded*}
+        Let $a \in \R$, and suppose there exists $\rho > 0$ such that $f$ and $g$ are real-valued functions defined on the domain $D = (a - \rho, a + \rho) \setminus \{a\}$. If \[\lim_{x\to a}|f(x)|=\lim_{x\to a}|g(x)|=\infty,\]
+        and the limit \[\lim_{x\to a}\frac{f'(x)}{g'(x)}\]
+        exists, then the limit \[\lim_{x\to a}\frac{f(x)}{g(x)}\]
+        exists, and both limits are equal.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Exercise.\qedhere
+\end{proof}
+
+\begin{remark}
+    Just as in the $\frac{0}{0}$ case, we can extend this result to the limits as $x\to\pm\infty$ by applying the substitution $t = 1/x$. Define $F(t) = f(1/t)$ and $G(t) = g(1/t)$. As $x \to \pm\infty$, we have $t \to 0^\pm$, and our hypothesis becomes $\lim_{t\to 0^\pm}|F(t)| = \lim_{t\to 0^\pm}|G(t)| = \infty$. 
+    
+    This substitution again requires the one-sided limit version of L'H\^opital's rule for the finite case. The proof of the initial $x \to a$ case for $\frac{\infty}{\infty}$ remains identical for one-sided limits, requiring only obvious modifications to the intervals (e.g., restricting to $(a, a+\delta)$ rather than $(a-\delta, a+\delta)$ for the right-sided limit).
+    
+    Applying this finite, one-sided $\frac{\infty}{\infty}$ case at $a=0$, we obtain:
+    $$\lim_{x\to\pm\infty} \frac{f(x)}{g(x)} = \lim_{t\to 0^\pm} \frac{F(t)}{G(t)} = \lim_{t\to 0^\pm} \frac{F'(t)}{G'(t)}$$
+    Using the chain rule, $F'(t) = f'(1/t)(-1/t^2)$ and $G'(t) = g'(1/t)(-1/t^2)$. The $-1/t^2$ factors cancel out, which yields:
+    $$\lim_{t\to 0^\pm} \frac{F'(t)}{G'(t)} = \lim_{t\to 0^\pm} \frac{f'(1/t)}{g'(1/t)} = \lim_{x\to\pm\infty} \frac{f'(x)}{g'(x)}$$
+    This completes the extension to infinite limits for the $\frac{\infty}{\infty}$ case.
+\end{remark}
+
+\begin{exercise*}
+    Evaluate the following limits. You may assume the Fundamental Theorem of Calculus (which will be proved in the integration chapter).
+    
+    \begin{enumerate}
+        \item[(a)] $\displaystyle \lim_{x \to 0} \left( \frac{\sin x}{x} \right)^{\frac{1}{x^2}}$
+        
+        \item[(b)] $\displaystyle \lim_{x\to\infty} x \left( \left( 1 + \frac{1}{x} \right)^x - e \right)$
+        
+        \item[(c)] $\displaystyle \lim_{x \to 0} \frac{1}{x^4} \int_0^x (t - \sin t) \,dt$
+    \end{enumerate}
+\end{exercise*}
+
+\section{Second Derivatives}
+
+When we say ``$f''(x)$ exists'', we are assuming:
+\begin{enumerate}
+    \item $f'(y)$ exists for all $y$ near $x$ (equivalently: there exists an open interval $I$ containing $x$ where $f$ is differentiable);
+    \item the limit
+    \[
+    \lim_{y \to x} \frac{f'(y) - f'(x)}{y - x}
+    \]
+    exists.
+\end{enumerate}
+
+The second derivatives can help us determine the local geometry of $f$ near a critical point (i.e. whether the curve ``bending upwards'' or ``bending downwards'' will help us determine the nature of critical points in most cases, excluding the degenerate case when $f''(c)=0$).
+
+\begin{theorem}[Second Derivative Test]
+    \begin{shaded*}
+        Let $f:I\to\R$ be differentiable and suppose $c$ is a critical point of $f$, i.e. $f'(c) = 0$. Then
+        \begin{enumerate}
+            \item[1.] If $f''(c) > 0$ then $f$ has a local minimum at $c$.
+            \item[2.] If $f''(c) < 0$ then $f$ has a local maximum at $c$.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+We prove the case $f''(c) > 0$. The case $f''(c) < 0$ is similar.
+Let $g(x) = f'(x)$. Then we are assuming $g(c) = 0$ and $g'(c) > 0$. By local comparison (Lemma \ref{lem:localcomparison}), there exists $\delta > 0$ such that
+\begin{align*}
+&g(x) < g(c) = 0 \quad \forall x \in (c - \delta, c), \\
+&g(x) > g(c) = 0 \quad \forall x \in (c, c + \delta).
+\end{align*}
+Therefore,
+\begin{align*}
+&f'(x) < 0 \quad \forall x \in (c - \delta, c), \\
+&f'(x) > 0 \quad \forall x \in (c, c + \delta),
+\end{align*}
+so $f$ is monotone decreasing on $(c - \delta, c)$ and monotone increasing on $(c, c+ \delta)$. Hence for every $x < c < y$ with $x, y \in (c - \delta, c + \delta)$ we have
+\[
+f(x) > f(c) \quad \text{and} \quad f(y) > f(c),
+\]
+which shows that $c$ is a local minimum for $f$.\qedhere
+\end{proof}
+It is important to remember that evaluating $f''$ at a single point $x=a$ yields strictly \textit{local} information. A positive second derivative at a critical point guarantees a local minimum, but it tells us absolutely nothing about whether it is a global minimum.
+    
+This is best understood through the lens of Taylor series. The values of the derivatives at a point construct a polynomial that matches the function's behaviour only in a small $\delta$-neighborhood around that point. The second derivative term $\frac{f''(a)}{2!}(x-a)^2$ dominates the local shape, forcing the curve to bend upwards (like a parabola) when $f''(a) > 0$.
+
+
+\begin{remark}[The Degenerate Case $f''(c) = 0$]
+    When $c$ is a critical point ($f'(c) = 0$) but the second derivative vanishes (i.e., $f''(c) = 0$), the Second Derivative Test is \textit{inconclusive}. 
+    
+    Intuitively, this means the graph of $f$ is very ``flat'' at $x=c$. The local quadratic approximation is completely horizontal, failing to capture whether the curve ultimately bends upward or downward. From $f''(c) = 0$ alone, we cannot conclude whether $c$ is a local minimum, a local maximum, or neither (such as a saddle/inflection point). Standard examples at $c=0$ illustrate all three possibilities: $f(x) = x^4$ has a minimum, $f(x) = -x^4$ has a maximum, and $f(x) = x^3$ has neither.
+    
+    To classify the critical point in this degenerate case, we need extra information regarding the behavior of the function near $c$.
+\end{remark}
+
+What about the reciprocal direction: if $f$ has a local minimum at $a$, must we have $f''(a) > 0$?
+\begin{itemize}
+    \item Without extra assumptions, this does not even make sense (for instance $f$ may fail to be differentiable).
+    \item Even if we assume $f''(a)$ exists, the conclusion $f''(a) > 0$ is still false in general: for example, $f$ constant; or $f(x) = x^4$, which has a (unique global) minimum at $0$ but $f''(0) = 0$.
+\end{itemize}
+
+\begin{theorem}
+    \begin{shaded*}
+        Assume $f''(a)$ exists and $f$ has a local minimum at $a$. Then $f''(a) \ge 0$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+We show it by contradiction. Assume:
+\begin{enumerate}
+    \item $a$ is a local minimum;
+    \item $f''(a) < 0$.
+\end{enumerate}
+Since $a$ is a local minimum and $f'(a)$ exists, we must have $f'(a) = 0$, i.e.\ $a$ is a critical point. Together with $f''(a) < 0$, the previous theorem implies that $a$ is a local maximum.
+Therefore $a$ is both a local minimum and a local maximum, so $f$ is locally constant near $a$. In particular $f''(a) = 0$, which contradicts $f''(a) < 0$.\qedhere
+\end{proof}
+
+
 
 \end{document}
