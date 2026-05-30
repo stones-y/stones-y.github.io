@@ -18,13 +18,10 @@
       x:     Math.random() * W,
       y:     Math.random() * H,
       r:     Math.random() * 1.1 + 0.2,
-      // slow drift direction
       vx:    (Math.random() - 0.5) * 0.035,
       vy:    (Math.random() - 0.5) * 0.018,
-      // twinkle
       alpha: Math.random(),
       dAlpha:(Math.random() * 0.003 + 0.0005) * (Math.random() < 0.5 ? 1 : -1),
-      // warm or cool tint
       hue:   Math.random() < 0.3 ? 45 : 220,
     };
   }
@@ -38,15 +35,12 @@
     ctx.clearRect(0, 0, W, H);
 
     for (const s of stars) {
-      // drift
       s.x += s.vx;
       s.y += s.vy;
-      // wrap
       if (s.x < 0) s.x = W;
       if (s.x > W) s.x = 0;
       if (s.y < 0) s.y = H;
       if (s.y > H) s.y = 0;
-      // twinkle
       s.alpha += s.dAlpha;
       if (s.alpha > 0.85 || s.alpha < 0.05) s.dAlpha *= -1;
 
@@ -59,16 +53,31 @@
     requestAnimationFrame(draw);
   }
 
-  window.addEventListener('resize', () => { resize(); });
-  init();
-  draw();
+  // Reinitialise stars on resize/orientation change so they
+  // fill the new dimensions rather than clustering in a corner
+  function onResize() {
+    resize();
+    stars = Array.from({ length: COUNT }, mkStar);
+  }
+
+  window.addEventListener('resize', onResize);
+  window.addEventListener('orientationchange', function () {
+    // Small delay lets the browser finish rotating before we read dimensions
+    setTimeout(onResize, 200);
+  });
+
+  // Wait for full load before sizing the canvas — fixes mobile Safari
+  // reading wrong dimensions if the canvas is sized too early
+  window.addEventListener('load', function () {
+    init();
+    draw();
+  });
 })();
 
 /* ══════════════════════════════════════
    PROGRESS BARS — animate in on load
 ══════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', function () {
-  // Small delay so the CSS transition fires visibly
   requestAnimationFrame(function () {
     document.querySelectorAll('.progress-fill').forEach(function (el) {
       const pct = el.style.getPropertyValue('--pct');
