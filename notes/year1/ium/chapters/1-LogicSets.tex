@@ -1,0 +1,454 @@
+\documentclass[../ium.tex]{subfiles}
+
+\begin{document}
+
+
+\chapter{Logic and Sets}
+
+\section{Elementary Logic}
+
+\begin{definition}[Proposition]
+    \begin{shaded*}
+        A logical proposition, usually just called a proposition, is a true/false statement.
+    \end{shaded*}
+\end{definition}
+\begin{example}
+    The following are logical propositions:
+    \begin{itemize}
+        \item $1+1=3$.
+        \item The statement of the Riemann Hypothesis.
+        \item Swans are black.
+        \item Pigs can fly.
+    \end{itemize}
+\end{example}
+
+\begin{example}
+    The following are \textit{not} logical propositions:
+    \begin{itemize}
+        \item $2+2$.
+        \item $0$.
+        \item The proof of Pythagoras' Theorem.
+        \item Pigs.
+    \end{itemize}
+\end{example}
+
+\subsection{Logical Operators}
+
+We usually use letters like $P,Q,R$ to denote propositions. Unlike number variables like $x$, proposition variables like $P$ can only take two values: true and false. So we can explain precisely what $P\land Q$ is by writing down the so-called truth table for $\land$:
+
+\begin{definition}
+\begin{shaded*}
+The \textit{conjunction} of two propositions $P$ and $Q$, denoted $P \land Q$ (read ``$P$ and $Q$''), is a proposition defined by the following truth table:
+\begin{center}
+\begin{tabular}{cc|c}
+$P$ & $Q$ & $P \land Q$ \\
+\hline
+T & T & T \\
+T & F & F \\
+F & T & F \\
+F & F & F
+\end{tabular}
+\end{center}
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+The \textit{disjunction} of two propositions $P$ and $Q$, denoted $P \lor Q$ (read ``$P$ or $Q$''), is a proposition defined by the following truth table:
+\begin{center}
+\begin{tabular}{cc|c}
+$P$ & $Q$ & $P \lor Q$ \\
+\hline
+T & T & T \\
+T & F & T \\
+F & T & T \\
+F & F & F
+\end{tabular}
+\end{center}
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+The \textit{negation} of a proposition $P$, denoted $\neg P$ (read ``not $P$''), is a proposition defined by the following truth table:
+\begin{center}
+\begin{tabular}{c|c}
+$P$ & $\neg P$ \\
+\hline
+T & F \\
+F & T
+\end{tabular}
+\end{center}
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+The \textit{implication} from $P$ to $Q$, denoted $P \implies Q$ (read ``$P$ implies $Q$''), is a proposition that is false if and only if $P$ is true and $Q$ is false. It is defined by the following truth table:
+\begin{center}
+\begin{tabular}{cc|c}
+$P$ & $Q$ & $P \implies Q$ \\
+\hline
+T & T & T \\
+T & F & F \\
+F & T & T \\
+F & F & T
+\end{tabular}
+\end{center}
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+The \textit{biconditional} of $P$ and $Q$, denoted $P \iff Q$ (read ``$P$ if and only if $Q$''), is a proposition defined by the following truth table:
+\begin{center}
+\begin{tabular}{cc|c}
+$P$ & $Q$ & $P \iff Q$ \\
+\hline
+T & T & T \\
+T & F & F \\
+F & T & F \\
+F & F & T
+\end{tabular}
+\end{center}
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+Two propositions $P,Q$ are \textit{logically equivalent} if they have identical truth values for every possible assignment of truth values to their constituent propositions. In other words, $P\iff Q$.
+\end{shaded*}
+\end{definition}
+
+\subsection{Logic Theorems}
+
+\begin{theorem}
+\begin{shaded*}
+The \textit{law of the excluded middle} states that if $P$ is a proposition then $P\iff \neg(\neg P)$. 
+\end{shaded*}
+\end{theorem}
+\begin{proof}
+We write out the truth table, and exhaust all possibilities.
+\begin{center}
+    \begin{tabular}{c|c|c}
+    $P$ & $\neg P$ & $\neg(\neg P)$ \\
+    \hline
+    T & F & T \\
+    F & T & F \\
+    \end{tabular}
+\end{center}
+Therefore, $P\iff \neg(\neg P)$ is always true.\qedhere
+\end{proof}
+
+\begin{theorem}
+\begin{shaded*}
+\textit{De Morgan's laws} state the following logical equivalences for negating conjunctions and disjunctions:
+\begin{align*}
+    \neg (P \land Q) &\iff \neg P \lor \neg Q, \\
+    \neg (P \lor Q) &\iff \neg P \land \neg Q.
+\end{align*}
+\end{shaded*}
+\end{theorem}
+\begin{proof}
+Exercise.\qedhere
+\end{proof}
+
+\begin{theorem}
+\begin{shaded*}
+Implication is \textit{transitive}. That is,
+\[
+(P \implies Q) \land (Q \implies R) \implies (P \implies R).
+\]
+Furthermore, an implication is logically equivalent to its \textit{contrapositive}:
+\[
+(P \implies Q) \iff (\neg Q \implies \neg P).
+\]
+\end{shaded*}
+\end{theorem}
+
+\begin{theorem}
+\begin{shaded*}
+Logical conjunction and disjunction satisfy \textit{distributivity}. Specifically:
+\begin{align*}
+    P \land (Q \lor R) &\iff (P \land Q) \lor (P \land R), \\
+    P \lor (Q \land R) &\iff (P \lor Q) \land (P \lor R).
+\end{align*}
+\end{shaded*}
+\end{theorem}
+
+\begin{remark}
+\textit{Appendix: we don't need all the symbols.} Many logical operators are redundant. For instance, implication can be written entirely in terms of disjunction and negation, since $P \implies Q$ is logically equivalent to $\neg P \lor Q$. In fact, all truth-functional connectives can be constructed using just negation and one other operation, such as conjunction or disjunction.
+\end{remark}
+
+\subsection{Proof by Contradiction}
+
+Let $P$ be a statement that we wish to prove is false. We want to prove that $\neg P$ is true. But $\neg P$ is logically equivalent to $P\implies \text{false}$ (exercise: show this), so it will suffice to prove that $P\implies\text{false}$. This is done by assuming that $P$ is true, and deducing that a false statement is true.
+
+\begin{theorem}
+\begin{shaded*}
+The square root of 2 is irrational.
+\end{shaded*}
+\end{theorem}
+\begin{proof}
+We proceed by contradiction. Assume that $\sqrt{2}$ is rational. Then there exist integers $p$ and $q$, with $q \ne 0$, such that the fraction $p/q$ is in simplest form, meaning $p$ and $q$ share no common factors, and
+\[
+\sqrt{2} = \frac{p}{q}.
+\]
+Squaring both sides yields
+\[
+2 = \frac{p^2}{q^2},
+\]
+which implies that
+\[
+p^2 = 2q^2.
+\]
+Since $p^2$ is a multiple of $2$, $p^2$ is an even integer, which forces $p$ to also be even. Thus, we can write $p = 2k$ for some integer $k$. Substituting this back into our equation gives
+\[
+(2k)^2 = 2q^2,
+\]
+which simplifies to
+\[
+4k^2 = 2q^2,
+\]
+and dividing by $2$ yields
+\[
+2k^2 = q^2.
+\]
+This indicates that $q^2$ is even, so $q$ must also be even. However, if both $p$ and $q$ are even, they share a common factor of $2$. This contradicts our initial assumption that the fraction $p/q$ is in simplest form. Therefore, our assumption that $\sqrt{2}$ is rational must be false, meaning $\sqrt{2}$ is irrational.
+\end{proof}
+
+\begin{definition}
+\begin{shaded*}
+A set $A$ is a \textit{subset} of a set $B$, denoted $A \subseteq B$, if every element of $A$ is also an element of $B$. If $A \subseteq B$ and $A \ne B$, then $A$ is a \textit{proper subset} of $B$, denoted $A \subset B$.
+\end{shaded*}
+\end{definition}
+
+\begin{remark}
+\textit{Interlude: a little philosophy.} Naive set theory assumes that any definable collection of objects can form a set. However, this unrestricted assumption leads to contradictions, most notably Russell's paradox, which asks whether the set of all sets that do not contain themselves contains itself. To avoid such paradoxes, modern mathematics relies on strict axiomatic systems where not every arbitrary collection qualifies as a set.
+\end{remark}
+
+\begin{definition}
+\begin{shaded*}
+Let $X$ be a universal set containing $A$. The \textit{complement} of $A$, denoted $A^c$ or $X \setminus A$, is the set of all elements in $X$ that are not in $A$.
+\end{shaded*}
+\end{definition}
+
+\subsection*{1.7 Sets and propositions}
+
+\begin{definition}
+\begin{shaded*}
+The \textit{universal quantifier}, denoted $\forall$ and read ``for all'', asserts that a predicate holds for every element in a given set. The \textit{existential quantifier}, denoted $\exists$ and read ``there exists'', asserts that there is at least one element in a given set for which the predicate holds.
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+Let $I$ be an arbitrary index set, and let $A_i$ be a set for each $i \in I$. The \textit{infinite union} of these sets is defined as
+\[
+\bigcup_{i \in I} A_i = \{ x : x \in A_i \text{ for some } i \in I \}.
+\]
+The \textit{infinite intersection} of these sets is defined as
+\[
+\bigcap_{i \in I} A_i = \{ x : x \in A_i \text{ for all } i \in I \}.
+\]
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+The \textit{empty set}, denoted $\emptyset$, is the unique set that contains no elements.
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+Let $P$ and $Q$ be propositions. We define the following basic logical operations:
+\begin{itemize}
+    \item \textit{Negation} ($\neg P$): True if and only if $P$ is false.
+    \item \textit{Conjunction} ($P \land Q$): True if and only if both $P$ and $Q$ are true.
+    \item \textit{Disjunction} ($P \lor Q$): True if either $P$ is true, $Q$ is true, or both are true.
+    \item \textit{Implication} ($P \implies Q$): False if and only if $P$ is true and $Q$ is false.
+    \item \textit{Biconditional} ($P \iff Q$): True if and only if $P$ and $Q$ have the same truth value.
+\end{itemize}
+\end{shaded*}
+\end{definition}
+
+\begin{remark}
+The truth values of these logical operations are summarized in the following truth table:
+\begin{center}
+\begin{tabular}{cc|ccccc}
+$P$ & $Q$ & $\neg P$ & $P \land Q$ & $P \lor Q$ & $P \implies Q$ & $P \iff Q$ \\
+\hline
+T & T & F & T & T & T & T \\
+T & F & F & F & T & F & F \\
+F & T & T & F & T & T & F \\
+F & F & T & F & F & T & T
+\end{tabular}
+\end{center}
+\end{remark}
+
+\begin{definition}
+\begin{shaded*}
+A \textit{predicate} $P$ on a set $X$ may be regarded as a map $X \to \{\mathrm{True}, \mathrm{False}\}$, since for each element $x \in X$, $P$ maps $x$ to a proposition with a definitive truth value.
+\end{shaded*}
+\end{definition}
+
+\begin{remark}
+The symbol $\exists!$ denotes that there is a unique $x$ satisfying a given predicate.
+\end{remark}
+
+\section{Elementary Set Theory}
+
+\begin{definition}
+\begin{shaded*}
+A \textit{set} is a well-defined collection of distinct objects, considered as an object in its own right. The objects are called the \textit{elements} of the set.
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+Let $A$ and $B$ be sets. We define the following fundamental set operations and relations:
+\begin{itemize}
+    \item \textit{Subset} ($A \subseteq B$): Every element of $A$ is also an element of $B$.
+    \item \textit{Union} ($A \cup B$): The set of all elements that are in $A$, in $B$, or in both.
+    \item \textit{Intersection} ($A \cap B$): The set of all elements that are in both $A$ and $B$.
+    \item \textit{Set Difference} ($A \setminus B$): The set of all elements that are in $A$ but not in $B$.
+    \item \textit{Cartesian Product} ($A \times B$): The set of all ordered pairs $(a, b)$ where $a \in A$ and $b \in B$.
+\end{itemize}
+\end{shaded*}
+\end{definition}
+
+\begin{remark}
+There is a one-to-one correspondence, or a bijection, between subsets and predicates. In other words, given a predicate we can form a subset of elements that satisfy the predicate, and given a subset we can form a predicate that evaluates to true exactly for the elements of that subset.
+\end{remark}
+
+\subsection*{Functions}
+
+\begin{definition}
+\begin{shaded*}
+A \textit{function} from a set $X$ to a set $Y$ assigns to each element of $X$ exactly one element of $Y$.
+\end{shaded*}
+\end{definition}
+
+\begin{remark}
+A neat and quick way to prove that a function $f$ is bijective is to construct a function that is a two-sided inverse of $f$. By the standard theorem that $f$ has a two-sided inverse if and only if $f$ is bijective, you can immediately conclude that $f$ is bijective. After constructing your two-sided inverse, you must show that it satisfies the two defining properties. Even quicker would be if a function is self-inverse; that is, if $f \circ f$ is the identity function, because then there is only one check: that $f(f(x)) = x$ for all $x$ in the domain of $f$.
+\end{remark}
+
+\subsection*{Relations and Orders}
+
+\begin{definition}
+\begin{shaded*}
+A \textit{binary relation} $R$ on a set $X$ is a function $X \times X \to \{\mathrm{True}, \mathrm{False}\}$.
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+Let $X$ be a set and let $R$ be a binary relation on $X$.
+\begin{itemize}
+    \item $R$ is a \textit{partial order} if it is reflexive, antisymmetric, and transitive.
+    \item $R$ is \textit{total} if for all $a, b \in X$, either $R(a, b) \lor R(b, a)$, meaning $a$ is related to $b$, or $b$ is related to $a$, or both.
+    \item $R$ is a \textit{total order} if it is a partial order and is total.
+\end{itemize}
+\end{shaded*}
+\end{definition}
+
+\begin{definition}
+\begin{shaded*}
+A binary relation $R$ on a set $X$ is \textit{antisymmetric} if
+\[
+\forall a, b \in X, \, R(a, b) \land R(b, a) \implies a = b.
+\]
+\end{shaded*}
+\end{definition}
+
+\begin{remark}
+Antisymmetry is not the opposite of symmetry.
+\end{remark}
+
+\begin{lemma}
+\begin{shaded*}
+A binary relation $R$ on a set $X$ is antisymmetric if and only if for all $a, b \in X$,
+\[
+R(a, b) \land a \ne b \implies \neg R(b, a).
+\]
+\end{shaded*}
+\end{lemma}
+\begin{proof}
+We prove this by considering the equivalent contrapositive of the definition of antisymmetry. The standard definition asserts that for all $a, b \in X$, $R(a,b) \land R(b,a) \implies a=b$. The contrapositive of this implication is 
+\[
+a \ne b \implies \neg(R(a,b) \land R(b,a)).
+\]
+By De Morgan's laws, we can distribute the negation to obtain 
+\[
+a \ne b \implies \neg R(a,b) \lor \neg R(b,a).
+\]
+Suppose that both $R(a,b)$ and $a \ne b$ are true. Since $R(a,b)$ holds, it is certain that $\neg R(a,b)$ is false. However, by the aforementioned contrapositive, the disjunction $\neg R(a,b) \lor \neg R(b,a)$ must be true. Therefore, to satisfy the disjunction, it must follow that $\neg R(b,a)$ is true, which concludes the proof.
+\end{proof}
+
+\begin{remark}
+Examples of total (and hence partial) orders on $\N, \Z, \Q, \R$ are $\le$ and $\ge$. Note that $<$ and $>$ are not partial orders as they are not reflexive.
+\end{remark}
+
+\subsection*{Equivalence Relations and Partitions}
+
+\begin{definition}
+\begin{shaded*}
+Let $X$ be a set and let $\sim$ be an equivalence relation on $X$. The \textit{equivalence class} of an element $s \in X$, denoted $\mathrm{cl}(s)$, is the subset of all elements in $X$ that are related to $s$.
+\end{shaded*}
+\end{definition}
+
+\begin{lemma}
+\begin{shaded*}
+Let $X$ be a set and let $\sim$ be an equivalence relation on $X$. Say $s, t$ are two elements of $X$. If $s \sim t$, then
+\[
+\mathrm{cl}(t) = \mathrm{cl}(s).
+\]
+\end{shaded*}
+\end{lemma}
+\begin{proof}
+Assume $s \sim t$. Let $x$ be an arbitrary element such that $x \in \mathrm{cl}(s)$, which implies $x \sim s$. By the transitivity of the equivalence relation, from $x \sim s$ and $s \sim t$, it follows that $x \sim t$. This means $x \in \mathrm{cl}(t)$, which establishes that $\mathrm{cl}(s) \subseteq \mathrm{cl}(t)$. Furthermore, by the symmetry of the relation, $s \sim t$ implies $t \sim s$. We can thus apply an identical argument to show that if $y \in \mathrm{cl}(t)$, then $y \sim s$, yielding $\mathrm{cl}(t) \subseteq \mathrm{cl}(s)$. Since both subsets contain each other, they are equal, giving $\mathrm{cl}(t) = \mathrm{cl}(s)$.
+\end{proof}
+
+\begin{lemma}
+\begin{shaded*}
+Let $X$ be a set and let $\sim$ be an equivalence relation on $X$. Say $s, t$ are two elements of $X$. If $\neg (s \sim t)$, then
+\[
+\mathrm{cl}(t) \cap \mathrm{cl}(s) = \emptyset.
+\]
+\end{shaded*}
+\end{lemma}
+\begin{proof}
+We proceed by contradiction. Assume that $\neg(s \sim t)$ holds, yet the intersection is non-empty, such that $\mathrm{cl}(t) \cap \mathrm{cl}(s) \ne \emptyset$. This implies there exists an element $x \in X$ belonging to both classes, meaning $x \sim t$ and $x \sim s$. By the symmetry of the equivalence relation, $x \sim s$ implies $s \sim x$. Through transitivity, the combination of $s \sim x$ and $x \sim t$ forces the conclusion that $s \sim t$. This directly contradicts our initial assumption that $\neg(s \sim t)$, meaning our assumption of a non-empty intersection must be false, leaving $\mathrm{cl}(t) \cap \mathrm{cl}(s) = \emptyset$.
+\end{proof}
+
+\begin{definition}
+\begin{shaded*}
+A \textit{partition} of a set $X$ is a collection of mutually disjoint, non-empty subsets of $X$ whose union is exactly $X$.
+\end{shaded*}
+\end{definition}
+
+\begin{theorem}
+\begin{shaded*}
+Let $X$ be a set and let $\sim$ be an equivalence relation on $X$. Then the set $V$ of equivalence classes for $\sim$, defined as the quotient $V = \{\mathrm{cl}(s) : s \in X\}$, is a partition of $X$.
+\end{shaded*}
+\end{theorem}
+\begin{proof}
+To demonstrate that $V$ is a partition, we must verify that the equivalence classes are non-empty, that they cover the set $X$, and that they are mutually disjoint. First, the reflexivity of $\sim$ ensures that $x \sim x$ for every $x \in X$, dictating that $x \in \mathrm{cl}(x)$. This guarantees that no equivalence class is empty, and since every element belongs to its own class, the union of all classes is exactly $X$. Second, we consider any two equivalence classes, $\mathrm{cl}(s)$ and $\mathrm{cl}(t)$. According to our earlier lemmas, if $s \sim t$, then $\mathrm{cl}(s) = \mathrm{cl}(t)$, and if $\neg(s \sim t)$, then $\mathrm{cl}(s) \cap \mathrm{cl}(t) = \emptyset$. Therefore, any two equivalence classes are either identical or completely disjoint, confirming that the collection $V$ forms a valid partition of $X$.
+\end{proof}
+
+\begin{remark}
+The number of equivalence relations on a set of size $n$ is equal to the number of partitions of a set of size $n$.
+\end{remark}
+
+\begin{remark}
+The axioms of an equivalence relation are an attempt to mimic and generalise the concept of equality. When we define structures like the integers or rationals, we squish together different elements of a set by putting an equivalence relation on the set, and then considering the equivalence classes. When you quotient out a set by an equivalence relation by taking the set of equivalence classes, the concept of equivalence in the bigger set becomes the concept of equality in the quotient set: if $x \sim y$ are equivalent, then the equivalence classes $\mathrm{cl}(x)$ and $\mathrm{cl}(y)$ are equal. This equivalence relation is heavily motivated by the idea that $a-b = c-d$, which is useful intuition to keep in mind.
+\end{remark}
+
+\newpage
+
+a
+
+
+
+\end{document}
