@@ -552,14 +552,14 @@ There is another common scenario that forces a critical point: the derivative be
     and
     \[ h(b) = f(b) - \left( f(a) + \frac{f(b) - f(a)}{b - a}(b - a) \right) = f(b) - (f(a) + f(b) - f(a)) = 0. \]
     
-    Since $h(a) = h(b) = 0$, $h(x)$ satisfies all the hypotheses of Rolle's Theorem. Therefore, there exists some $c \in (a,b)$ such that $h'(c) = 0$.
+    Since $h(a) = h(b) = 0$, $h(x)$ satisfies all the hypotheses of Rolle's Theorem. Therefore, there exists some $\xi \in (a,b)$ such that $h'(\xi) = 0$.
     
     Differentiating $h(x)$ gives:
-    \[ h'(x) = f'(x) - \frac{f(b) - f(a)}{b - a} \]
+    \[ h'(x) = f'(x) - \frac{f(b) - f(a)}{b - a}. \]
     
-    Setting $h'(c) = 0$:
-    \[ 0 = f'(c) - \frac{f(b) - f(a)}{b - a} \implies f'(c) = \frac{f(b) - f(a)}{b - a} \]
-    This completes the proof.
+    Setting $h'(\xi) = 0$:
+    \[ 0 = f'(\xi) - \frac{f(b) - f(a)}{b - a} \implies f'(\xi) = \frac{f(b) - f(a)}{b - a}, \]
+    which completes the proof.
 \end{proof}
 
 It is worth noting that Rolle's Theorem is simply a special case of the Mean Value Theorem where the endpoints are at the same height ($f(a) = f(b)$). In this scenario, the average rate of change (the slope of the secant line) is exactly zero, yielding $f'(c) = 0$.
@@ -579,6 +579,7 @@ To see the motivation for this elegant proof, notice that the new function $h(x)
 
 There is also the following generalisation of the MVT, known as Cauchy's Mean Value Theorem (CMVT).
 \begin{theorem}[Cauchy's Mean Value Theorem]
+\label{thm:cmvt}
     \begin{shaded*}
         Let $f:[a,b]\to\R$ and $g:[a,b]\to\R$ both be continuous on $[a,b]$ and differentiable on $(a,b)$. Then there exists $\xi\in(a,b)$ such that
         \[(f(b)-f(a))g'(\xi)=(g(b)-g(a))f'(\xi).\]
@@ -702,21 +703,16 @@ Note that (1) and (2) do not need to hold at $x = a$. In fact, $f$ and $g$ do no
 \[
 \lim_{x\to a} f(x) = \lim_{x\to a} g(x) = 0,
 \]
-it makes sense to set $f(a) = g(a) = 0$ (redefining $f$ and $g$ at $a$ if necessary). Now we can say $f$ and $g$ are continuous on $(a - \delta, a + \delta)$ including $a$, therefore we can use Rolle's theorem and the Extended Mean Value Theorem on closed intervals contained in $(a - \delta, a]$ or in $[a, a + \delta)$.
+it makes sense to set $f(a) = g(a) = 0$ (redefining $f$ and $g$ at $a$ if necessary). Now we can say $f$ and $g$ are continuous on $(a - \delta, a + \delta)$ including $a$, therefore we can use Rolle's theorem and Cauchy's Mean Value Theorem (Theorem \ref{thm:cmvt}) on closed intervals contained in $(a - \delta, a]$ or in $[a, a + \delta)$.
 
 We claim that $g(x) \neq 0$ for all $x \in (a - \delta, a + \delta) \setminus \{a\}$. Indeed, by assumption $g'(x) \neq 0$ near $a$, hence $g$ is strictly monotone there by Corollary \ref{cor:nvm}, which implies injectivity. Since $g(a) = 0$, it follows that $g(x) \neq 0$ for every $x \neq a$ sufficiently close to $a$.
 
-Now, since $g(x) \neq 0$ for all $x \neq a$ near $a$, by the Extended Mean Value Theorem, for every $x \in (a, a + \delta)$ (with $\delta > 0$ small) there exists $\alpha_x \in (a, x)$ such that
+Now, since $g(x) \neq 0$ for all $x \neq a$ near $a$, by Cauchy's Mean Value Theorem, for every $x \in (a, a + \delta)$ (with $\delta > 0$ small) there exists $\alpha_x \in (a, x)$ such that
 \[
 \frac{f'(\alpha_x)}{g'(\alpha_x)} = \frac{f(x) - f(a)}{g(x) - g(a)} = \frac{f(x)}{g(x)}, \quad \text{and} \quad |\alpha_x - a| < |x - a|.
 \]
 
-We want to show that given $\varepsilon > 0$, there exists $\delta > 0$ such that
-\[
-|x - a| < \delta \implies \left| \frac{f(x)}{g(x)} - L \right| < \varepsilon, \quad \text{where } L = \lim_{x\to a} \frac{f'(x)}{g'(x)}.
-\]
-
-By assumption, there exists $\delta_0 > 0$ such that
+Now, let $\varepsilon > 0$ be arbitrary. By assumption, there exists $\delta_0 > 0$ such that
 \[
 0 < |y - a| < \delta_0 \implies \left| \frac{f'(y)}{g'(y)} - L \right| < \varepsilon.
 \]
@@ -860,6 +856,129 @@ Since $a$ is a local minimum and $f'(a)$ exists, we must have $f'(a) = 0$, i.e.\
 Therefore $a$ is both a local minimum and a local maximum, so $f$ is locally constant near $a$. In particular $f''(a) = 0$, which contradicts $f''(a) < 0$.\qedhere
 \end{proof}
 
+\section{The Inverse Function Theorem}
+
+It is common to encounter functions that are locally bijective, that is, there exists a neighborhood of a point $a\in I$ where $I$ is open such that the function restricted to that neighborhood is bijective. For example, even though the function $f:\R\to\R$ defined by $f(x)=\cos x$ is periodic, and is therefore not bijective on $\R$, when we restrict $f$ to the domain $[0,\pi]$, $f$ is bijective and takes every value in $[-1,1]$.
+
+It is therefore natural to ask the question: what properties of a bijective function's inverse can we deduce from the properties of the function itself (e.g. in particular continuity and differentiability), and how does, say, the derivative of $f^{-1}$ relate to the derivative of $f$? In this section, we answer such questions.
+
+\begin{definition}
+    \begin{shaded*}
+        Let $f:(a,b)\to (c,d)$ be a bijection. We say that a function $g:(c,d)\to (a,b)$ is the \textit{inverse} of $f$ if for all $x\in (a,b)$, $g(f(x))=x$, and for all $y\in(c,d)$, $f(g(y))=y$.
+    \end{shaded*}
+\end{definition}
+
+One checks that inverses are unique, and therefore we can write $f^{-1}$ to denote \textit{the} inverse of a bijection $f$.
+
+Strictly monotone functions are natural examples of bijections between intervals. In fact, in the set of continuous functions, these are the \textit{only} bijective functions between intervals.
+This follows from the Intermediate Value Theorem and is encapsulated in the following exercise.
+
+\begin{exercise*}
+    Show that if $f$ is continuous and injective on an interval $(x,y)$, then $f$ is either strictly increasing or strictly decreasing on that interval.
+\end{exercise*}
+
+As a result of the above exercise, continuous bijections map intervals to intervals:
+\begin{corollary}
+\label{cor:preserveintervals}
+    \begin{shaded*}
+        Let $f:[a,b]\to S$ be a continuous bijection. Then
+        \[S=[\min\{f(a),f(b)\},\max\{f(a),f(b)\}].\]
+    \end{shaded*}
+\end{corollary}
+Now, we observe that continuity is preserved by inverses of continuous bijections:
+\begin{theorem}
+\label{thm:continuousinverses}
+    \begin{shaded*}
+        Let $f:(a,b)\to (c,d)$ be a continuous bijection. Then $f^{-1}:(c,d)\to (a,b)$ is continuous.
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Let $\varepsilon>0$ and $y_0\in (c,d)$ be arbitrary. By Corollary \ref{cor:preserveintervals}, since $f$ is continuous it is strictly monotonic. Without loss of generality, assume $f$ is strictly increasing (if $f$ is strictly decreasing, a similar argument applies, or one can consider the increasing function $-f$). Since $f$ is a bijection onto $(c,d)$, there exists $x_0\in (a,b)$ such that $f(x_0)=y_0$. Let $\varepsilon' \coloneqq \min\{\frac{x_0-a}{2},\frac{b-x_0}{2},\varepsilon \}$, so that $(x_0-\varepsilon',x_0+\varepsilon')\subset (a,b)$.
+    Since $f$ is continuous and strictly increasing, by Corollary \ref{cor:preserveintervals}, it follows that \[f((x_0-\varepsilon',x_0+\varepsilon'))=(f(x_0-\varepsilon'),f(x_0+\varepsilon')).\quad (\dagger)\]
+    In particular, $y_0\in(f(x_0-\varepsilon'), f(x_0+\varepsilon'))$. Now, pick \[\delta=\min\left\{\frac{y_0-f(x_0-\varepsilon')}{2},\frac{f(x_0+\varepsilon')-y_0}{2}\right\}.\] It follows that for any $y\in (y_0-\delta,y_0+\delta)$, we have $y\in (f(x_0-\varepsilon'),f(x_0+\varepsilon'))$, from which it follows that \[f^{-1}(y)\in f^{-1}(f(x_0-\varepsilon'),f(x_0+\varepsilon'))=(x_0-\varepsilon',x_0+\varepsilon'),\]
+    by using the preimage of $f((x-\varepsilon',x+\varepsilon'))$ and ($\dagger$). Hence, since $x_0=f^{-1}(y_0)$, we have $|f^{-1}(y)-f^{-1}(y_0)|<\varepsilon'\le \varepsilon$, so $f^{-1}$ is continuous on $(c,d)$.\qedhere
+\end{proof}
+
+Next, we analyse differentiability. One version of the inverse function theorem is the following:
+\begin{theorem}
+\label{thm:ift1}
+    \begin{shaded*}
+        Let $f$ be continuous and injective on an open interval $I$. Assume that $f$ is differentiable at $x_0\in I$ with $f'(x_0)\ne 0$. Then $f^{-1}$ is differentiable at $f(x_0)$ and $\left(f^{-1}\right)'(f(x_0))=\frac{1}{f'(x_0)}$.
+    \end{shaded*}
+\end{theorem} 
+\begin{proof}
+    Let $y_0=f(x_0)$. We wish to show that the limit \[\lim_{y\to y_0}\frac{f^{-1}(y)-f^{-1}(y_0)}{y-y_0}\]
+    exists, and is equal to $\frac{1}{f'(x_0)}$. Given $y\in f(I)\setminus \{y_0\}$, we have $y=f(x)$ for some $x\in I\setminus\{x_0\}$, and since $f$ is injective, $f(x)\ne f(x_0)$, so
+    \[\frac{f^{-1}(y)-f^{-1}(y_0)}{y-y_0}=\frac{x-x_0}{f(x)-f(x_0)}.\quad (\star)\]
+    Now, we need to argue why the limit as $y\to y_0$ of the LHS of the above equation is the same as the limit as $x\to x_0$ of the RHS of the equation, which by differentiability of $f$ at $x_0$ is $\frac{1}{f'(x_0)}$. Let $\varepsilon>0$ be arbitrary. Then by differentiability of $f$ at $x_0$, and the Algebra of Limits for functions since $f'(x_0)\ne 0$, there exists $\delta>0$ such that for any $x\in (x_0-\delta,x_0+\delta)\setminus\{x_0\}\subset I$, we have
+    \[\left|\frac{1}{\frac{f(x)-f(x_0)}{x-x_0}}-\frac{1}{f'(x_0)}\right|=\left|\frac{x-x_0}{f(x)-f(x_0)}-\frac{1}{f'(x_0)}\right|<\varepsilon.\]
+    By continuity of $f^{-1}$ (Theorem \ref{thm:continuousinverses}), there exists $\rho > 0$ such that for any $y\in (y_0-\rho,y_0+\rho)\setminus\{y_0\}\subset f(I)$, we have $f^{-1}(y)\in (x_0-\delta,x_0+\delta)\setminus\{x_0\}$.
+    
+    Therefore, by $(\star)$, for $y\in (y_0-\rho,y_0+\rho)\setminus\{y_0\}$, we have (by putting $x=f^{-1}(y)$),
+    \[\left|\frac{f^{-1}(y)-f^{-1}(y_0)}{y-y_0}-\frac{1}{f'(x_0)}\right|=\left|\frac{x-x_0}{f(x)-f(x_0)}-\frac{1}{f'(x_0)}\right|<\varepsilon,\]
+    which completes the proof.\qedhere
+\end{proof}
+However, we will take the theorem below (which is a corollary of Theorem \ref{thm:ift1} above) as our Inverse Function Theorem, as it is slightly more general.
+
+\begin{theorem}[Inverse Function Theorem]
+\label{thm:ift}
+    \begin{shaded*}
+        Let $I$ be an open interval. Assume $f : I \to \mathbb{R}$ is continuously differentiable. If $f'(a) \neq 0$ for some $a \in I$, then there exists $\delta > 0$ such that the restriction of $f$ to $(a - \delta, a + \delta)$ is injective. Consequently, $f$ is invertible onto its image $J = f(a - \delta, a + \delta)$, and its inverse $f^{-1} : J \to (a - \delta, a + \delta)$ is differentiable with $(f^{-1})'(f(t)) = \frac{1}{f'(t)}$ for all $t \in (a - \delta, a + \delta)$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Exercise.
+\end{proof}
+
+\begin{remark}
+    The reciprocal relationship in the Inverse Function Theorem has a couple of nice interpretations. It is a direct consequence of basic geometry and the definition of a slope. 
+
+    \textit{1. The Geometric Perspective}:
+    The graph of an inverse function $f^{-1}$ is just the graph of $f$ reflected across the diagonal line $y = x$. This reflection physically swaps the horizontal and vertical axes. 
+    
+    The derivative is the slope of the tangent line, which is the ratio of "rise" over "run" ($\frac{\Delta y}{\Delta x}$). When you reflect the graph across $y = x$, the old vertical "rise" becomes the new horizontal "run", and the old horizontal "run" becomes the new vertical "rise". 
+    
+    The new slope is therefore $\frac{\Delta x}{\Delta y}$, which is exactly the reciprocal of the original slope $\frac{\Delta y}{\Delta x}$. If a tangent line on $f$ is very steep, its reflection on $f^{-1}$ will be very shallow. Spend some time thinking about a reflection across the line $y=x$, and this should become clear (a picture is also provided below).
+
+    \textit{2. The Kinematics Perspective}:
+    Suppose $y = f(x)$ represents your distance travelled ($y$) at a given time ($x$). The derivative $f'(x)$ is your velocity, say $5$ meters per second. 
+    
+    The inverse function $x = f^{-1}(y)$ flips the question: ``How much time $x$ does it take to reach distance $y$?'' If you are travelling at $5$ meters per second, it takes exactly $\frac{1}{5}$ of a second to travel one meter. The rate of change of time with respect to distance is logically the reciprocal of the rate of change of distance with respect to time.
+\end{remark}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Axes
+    \draw[->] (-0.5, 0) -- (4, 0) node[right] {$x$};
+    \draw[->] (0, -0.5) -- (0, 4) node[above] {$y$};
+
+    % y = x reflection line
+    \draw[dashed, gray] (-0.5, -0.5) -- (4, 4) node[right] {$y=x$};
+
+    % Function f(x) = x^2 (for x > 0)
+    \draw[thick] plot[domain=0:1.9, samples=50] (\x, {\x*\x}) node[right] {$f(x)$};
+
+    % Inverse f^{-1}(x) = sqrt(x)
+    \draw[thick] plot[domain=0:3.61, samples=50] (\x, {sqrt(\x)}) node[above] {$f^{-1}(x)$};
+
+    % Point on f(x) and its tangent
+    \coordinate (P) at (1.2, 1.44);
+    \filldraw (P) circle (1pt) node[left] {$(a, b)$};
+    % Derivative of x^2 at x=1.2 is 2.4. Tangent: y - 1.44 = 2.4(x - 1.2)
+    \draw[red, thick, <->] (0.8, 0.48) -- (1.6, 2.4) node[above left, black] {slope $m$};
+
+    % Reflected point on f^{-1}(x) and its tangent
+    \coordinate (Q) at (1.44, 1.2);
+    \filldraw (Q) circle (1pt) node[below right] {$(b, a)$};
+    % Derivative of sqrt(x) at x=1.44 is 1 / (2*1.2) = 1/2.4. Tangent: y - 1.2 = (1/2.4)(x - 1.44)
+    \draw[blue, thick, <->] (0.48, 0.8) -- (2.4, 1.6) node[below right, black] {slope $1/m$};
+    
+    % Dotted lines connecting the points across y=x
+    \draw[dotted, gray] (P) -- (Q);
+
+\end{tikzpicture}
+\end{center}
 
 
 \end{document}

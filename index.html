@@ -3,149 +3,266 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>stones-y — Maths Notes</title>
+  <title>stones-y — Mathematics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- Starfield canvas sits behind everything -->
+  <canvas id="starfield"></canvas>
+
+  <!-- Graph paper grid overlay -->
+  <div class="grid-overlay"></div>
+
   <div class="wrap">
 
-    <header>
-      <span class="site-url">stones-y.github.io</span>
-      <h1>Mathematics lecture notes</h1>
-      <p class="tagline">
-        Typed notes from my undergraduate degree at Imperial College London.<br>
-        My own work — errors may exist, use with care.
-      </p>
-      <p class="contact">
-        <span class="email">yourname [at] gmail [dot] com</span>
-        &nbsp;&nbsp;&middot;&nbsp;&nbsp;
-        <a href="https://github.com/stones-y" target="_blank" rel="noopener">github</a>
-      </p>
+    <!-- ══════════════════ HERO ══════════════════ -->
+    <header class="hero">
+      <div class="hero-inner">
+        <span class="site-url">stones-y.github.io</span>
+        <h1>Mathematics</h1>
+        <p class="tagline">
+          Undergraduate at Imperial College London.<br>
+          My notes from university and other cool maths stuff.
+        </p>
+        <p class="contact">
+          <span class="email">yourname [at] gmail [dot] com</span>
+          &nbsp;&middot;&nbsp;
+          <a href="https://github.com/stones-y" target="_blank" rel="noopener">github</a>
+        </p>
+      </div>
+      <div class="hero-fade"></div>
     </header>
 
-    <div class="divider"></div>
-
-    <!-- ═══ FIRST YEAR ═══ -->
-    <div class="year-section">
-      <button class="year-btn open" onclick="toggleYear(this)" aria-expanded="true">
-        <span class="yr-chev" aria-hidden="true">▶</span> First year
-      </button>
-      <div class="modules open">
-
-        <div class="module">
-          <div class="mod-head" onclick="toggleMod(this)" role="button" tabindex="0" aria-expanded="false">
-            <div class="mod-left">
-              <span class="mod-name">Introduction to University Mathematics</span>
-              <span class="mod-code">MATH40001</span>
-            </div>
-            <span class="mod-chev" aria-hidden="true">▶</span>
-          </div>
-          <div class="files">
-            <a class="file-row" href="notes/year1/ium/ium.pdf" target="_blank" rel="noopener">
-              <div class="fl"><span class="pdf-badge">PDF</span><span class="fname">Lecture notes</span></div>
-              <span class="fterm">Autumn 2025</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="module">
-          <div class="mod-head" onclick="toggleMod(this)" role="button" tabindex="0" aria-expanded="false">
-            <div class="mod-left">
-              <span class="mod-name">Analysis I</span>
-              <span class="mod-code">MATH40002</span>
-            </div>
-            <span class="mod-chev" aria-hidden="true">▶</span>
-          </div>
-          <div class="files">
-            <a class="file-row" href="notes/year1/analysis1/analysis1.pdf" target="_blank" rel="noopener">
-              <div class="fl"><span class="pdf-badge">PDF</span><span class="fname">Lecture notes</span></div>
-              <span class="fterm">Autumn 2025 – Spring 2026</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="module">
-          <div class="mod-head" onclick="toggleMod(this)" role="button" tabindex="0" aria-expanded="false">
-            <div class="mod-left">
-              <span class="mod-name">Linear Algebra and Groups</span>
-              <span class="mod-code">MATH40003</span>
-            </div>
-            <span class="mod-chev" aria-hidden="true">▶</span>
-          </div>
-          <div class="files">
-            <a class="file-row" href="notes/year1/linear_algebra_and_groups/linear_algebra_and_groups.pdf" target="_blank" rel="noopener">
-              <div class="fl"><span class="pdf-badge">PDF</span><span class="fname">Lecture notes</span></div>
-              <span class="fterm">Autumn 2025 – Spring 2026</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="module">
-          <div class="mod-head" onclick="toggleMod(this)" role="button" tabindex="0" aria-expanded="false">
-            <div class="mod-left">
-              <span class="mod-name">Calculus and Applications</span>
-              <span class="mod-code">MATH40004</span>
-            </div>
-            <span class="mod-chev" aria-hidden="true">▶</span>
-          </div>
-          <div class="files">
-            <a class="file-row" href="notes/year1/calculus/calculus.pdf" target="_blank" rel="noopener">
-              <div class="fl"><span class="pdf-badge">PDF</span><span class="fname">Lecture notes</span></div>
-              <span class="fterm">Autumn 2025 – Spring 2026</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="module">
-          <div class="mod-head" onclick="toggleMod(this)" role="button" tabindex="0" aria-expanded="false">
-            <div class="mod-left">
-              <span class="mod-name">Probability and Statistics</span>
-              <span class="mod-code">MATH40005</span>
-            </div>
-            <span class="mod-chev" aria-hidden="true">▶</span>
-          </div>
-          <div class="files">
-            <a class="file-row" href="notes/year1/probability/lecture-notes.pdf" target="_blank" rel="noopener">
-              <div class="fl"><span class="pdf-badge">PDF</span><span class="fname">Lecture notes</span></div>
-              <span class="fterm">Autumn 2025 – Spring 2026</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="module">
-          <div class="mod-head" onclick="toggleMod(this)" role="button" tabindex="0" aria-expanded="false">
-            <div class="mod-left">
-              <span class="mod-name">Introduction to Applied Mathematics</span>
-              <span class="mod-code">MATH40007</span>
-            </div>
-            <span class="mod-chev" aria-hidden="true">▶</span>
-          </div>
-          <div class="files">
-            <a class="file-row" href="notes/year1/applied-maths/lecture-notes.pdf" target="_blank" rel="noopener">
-              <div class="fl"><span class="pdf-badge">PDF</span><span class="fname">Lecture notes</span></div>
-              <span class="fterm">Spring 2026</span>
-            </a>
-          </div>
-        </div>
-
+    <!-- ══════════════════ STATS BAR ══════════════════ -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-num">6</span>
+        <span class="stat-label">modules</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat">
+        <span class="stat-num">6</span>
+        <span class="stat-label">PDFs typed</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat">
+        <span class="stat-num">Year 1</span>
+        <span class="stat-label">in progress</span>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat">
+        <span class="stat-num">May 2026</span>
+        <span class="stat-label">last updated</span>
       </div>
     </div>
 
-    <!-- ═══ SECOND YEAR ═══ -->
-    <div class="year-section">
-      <button class="year-btn" onclick="toggleYear(this)" aria-expanded="false">
-        <span class="yr-chev" aria-hidden="true">▶</span> Second year
-      </button>
-      <div class="modules">
-        <p class="empty-note">Notes will appear here in due course.</p>
+    <!-- ══════════════════ SITE NAV ══════════════════ -->
+    <nav class="section-nav">
+      <a href="#lecture-notes" class="nav-pill active">Lecture Notes</a>
+      <a href="#writing" class="nav-pill">Writing</a>
+      <a href="#resources" class="nav-pill">Resources</a>
+    </nav>
+
+    <!-- ══════════════════ LECTURE NOTES ══════════════════ -->
+    <section id="lecture-notes" class="content-section active">
+      <div class="section-header">
+        <h2 class="section-title">Lecture Notes</h2>
+        <p class="section-desc">Typed notes from lectures. My own work — errors may exist, use with care. These notes are free to use under the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> license — share or adapt them freely, with credit.</p>
       </div>
-    </div>
+
+      <!-- FIRST YEAR -->
+      <div class="year-block">
+        <div class="year-label">
+          <span class="yr-text">First Year</span>
+          <span class="yr-tag">2025 – 2026</span>
+        </div>
+
+        <div class="modules-grid">
+
+          <div class="mod-card" data-status="complete">
+            <div class="mod-card-top">
+              <div class="mod-meta">
+                <span class="mod-code">MATH40001</span>
+                <span class="mod-status-badge complete">Complete</span>
+              </div>
+              <h3 class="mod-name">Introduction to University Mathematics</h3>
+              <!-- Blurb, if needed <p class="mod-blurb">Proof techniques, logic, sets, and the language of modern mathematics.</p> -->
+            </div>
+            <div class="mod-progress">
+              <div class="progress-bar"><div class="progress-fill" style="--pct:100%"></div></div>
+              <span class="progress-label">100%</span>
+            </div>
+            <div class="mod-files">
+              <a class="file-link" href="notes/year1/ium/ium.pdf" target="_blank" rel="noopener">
+                <span class="file-icon">⬡</span>
+                <span class="file-name">Lecture notes</span>
+                <span class="file-meta">PDF · Autumn 2025</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="mod-card" data-status="complete">
+            <div class="mod-card-top">
+              <div class="mod-meta">
+                <span class="mod-code">MATH40002</span>
+                <span class="mod-status-badge complete">Complete</span>
+              </div>
+              <h3 class="mod-name">Analysis I</h3>
+              <!-- Blurb, if needed <p class="mod-blurb">Sequences, limits, continuity, and the foundations of real analysis.</p> -->
+            </div>
+            <div class="mod-progress">
+              <div class="progress-bar"><div class="progress-fill" style="--pct:100%"></div></div>
+              <span class="progress-label">100%</span>
+            </div>
+            <div class="mod-files">
+              <a class="file-link" href="notes/year1/analysis1/analysis1.pdf" target="_blank" rel="noopener">
+                <span class="file-icon">⬡</span>
+                <span class="file-name">Lecture notes</span>
+                <span class="file-meta">PDF · Autumn 2025 – Spring 2026</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="mod-card" data-status="complete">
+            <div class="mod-card-top">
+              <div class="mod-meta">
+                <span class="mod-code">MATH40003</span>
+                <span class="mod-status-badge complete">Complete</span>
+              </div>
+              <h3 class="mod-name">Linear Algebra and Groups</h3>
+              <!-- Blurb, if needed <p class="mod-blurb">Vector spaces, linear maps, eigenvalues, and an introduction to group theory.</p> -->
+            </div>
+            <div class="mod-progress">
+              <div class="progress-bar"><div class="progress-fill" style="--pct:100%"></div></div>
+              <span class="progress-label">100%</span>
+            </div>
+            <div class="mod-files">
+              <a class="file-link" href="notes/year1/linear_algebra_and_groups/linear_algebra_and_groups.pdf" target="_blank" rel="noopener">
+                <span class="file-icon">⬡</span>
+                <span class="file-name">Lecture notes</span>
+                <span class="file-meta">PDF · Autumn 2025 – Spring 2026</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="mod-card" data-status="complete">
+            <div class="mod-card-top">
+              <div class="mod-meta">
+                <span class="mod-code">MATH40004</span>
+                <span class="mod-status-badge complete">Complete</span>
+              </div>
+              <h3 class="mod-name">Calculus and Applications</h3>
+              <!-- Blurb, if needed <p class="mod-blurb">Differentiation, integration, ODEs, and series in one and several variables.</p> -->
+            </div>
+            <div class="mod-progress">
+              <div class="progress-bar"><div class="progress-fill" style="--pct:100%"></div></div>
+              <span class="progress-label">100%</span>
+            </div>
+            <div class="mod-files">
+              <a class="file-link" href="notes/year1/calculus/calculus.pdf" target="_blank" rel="noopener">
+                <span class="file-icon">⬡</span>
+                <span class="file-name">Lecture notes</span>
+                <span class="file-meta">PDF · Autumn 2025 – Spring 2026</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="mod-card" data-status="complete">
+            <div class="mod-card-top">
+              <div class="mod-meta">
+                <span class="mod-code">MATH40005</span>
+                <span class="mod-status-badge complete">Complete</span>
+              </div>
+              <h3 class="mod-name">Probability and Statistics</h3>
+              <!-- Blurb, if needed <p class="mod-blurb">Random variables, distributions, expectation, and statistical inference.</p> -->
+            </div>
+            <div class="mod-progress">
+              <div class="progress-bar"><div class="progress-fill" style="--pct:100%"></div></div>
+              <span class="progress-label">100%</span>
+            </div>
+            <div class="mod-files">
+              <a class="file-link" href="notes/year1/probability/lecture-notes.pdf" target="_blank" rel="noopener">
+                <span class="file-icon">⬡</span>
+                <span class="file-name">Lecture notes</span>
+                <span class="file-meta">PDF · Autumn 2025 – Spring 2026</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="mod-card" data-status="in-progress">
+            <div class="mod-card-top">
+              <div class="mod-meta">
+                <span class="mod-code">MATH40007</span>
+                <span class="mod-status-badge in-progress">In Progress</span>
+              </div>
+              <h3 class="mod-name">Introduction to Applied Mathematics</h3>
+              <!-- Blurb, if needed <p class="mod-blurb">Dimensional analysis, classical mechanics, and mathematical modelling.</p> -->
+            </div>
+            <div class="mod-progress">
+              <div class="progress-bar"><div class="progress-fill" style="--pct:65%"></div></div>
+              <span class="progress-label">65%</span>
+            </div>
+            <div class="mod-files">
+              <a class="file-link" href="notes/year1/applied-maths/lecture-notes.pdf" target="_blank" rel="noopener">
+                <span class="file-icon">⬡</span>
+                <span class="file-name">Lecture notes</span>
+                <span class="file-meta">PDF · Spring 2026</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /year-block -->
+
+      <!-- SECOND YEAR -->
+      <div class="year-block">
+        <div class="year-label">
+          <span class="yr-text">Second Year</span>
+          <span class="yr-tag">2026 – 2027</span>
+        </div>
+        <div class="empty-state">
+          <span class="empty-glyph">∅</span>
+          <p>Notes will appear here in due course.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════ WRITING (placeholder) ══════════════════ -->
+    <section id="writing" class="content-section">
+      <div class="section-header">
+        <h2 class="section-title">Writing</h2>
+        <p class="section-desc">Essays, expositions, and mathematical writing outside of coursework.</p>
+      </div>
+      <div class="empty-state">
+        <span class="empty-glyph">∑</span>
+        <p>Coming soon.</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ RESOURCES (placeholder) ══════════════════ -->
+    <section id="resources" class="content-section">
+      <div class="section-header">
+        <h2 class="section-title">Resources</h2>
+        <p class="section-desc">Books, links, and tools I've found useful.</p>
+      </div>
+      <div class="empty-state">
+        <span class="empty-glyph">∞</span>
+        <p>Coming soon.</p>
+      </div>
+    </section>
 
     <footer>
-      <span class="footer-dot">Built with GitHub Pages</span>
+      <span>stones-y.github.io</span>
+      <span>Built with GitHub Pages</span>
     </footer>
 
-  </div>
+  </div><!-- /wrap -->
+
   <script src="script.js"></script>
 </body>
 </html>

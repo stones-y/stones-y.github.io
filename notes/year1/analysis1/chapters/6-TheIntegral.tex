@@ -5,5 +5,840 @@
 
 \chapter{The Integral}
 
+The concept of \textit{area} is a simple and intuitive one, yet formalising it presents some subtle challenges.
+
+The simplest definition area, and the most intuitive one, is that of the rectangle, which is simply the base of the rectangle multiplied by the height: $b\times h$. It can be seen as the number of unit squares that fit inside the rectangle.
+
+However, for a curved region (say, a circle) the idea ``counting how many unit squares fit inside'' is not so straightforward. The integral formalises the geometric concept of the area under a curve. To do this rigorously, we approximate the area using sums of rectangular areas from below and above, and analyse the limits of these approximations as they become more and more precise. We formalise this notion via \textit{Darboux} integration (equivalently, this is sometimes called \textit{Riemann} integration; ultimately, these two concepts are equivalent).
+
+
+\section{Lower and Upper Sums}
+
+\begin{definition}[Partition]
+    \begin{shaded*}
+        Let $[a,b]$ be a closed bounded interval. A \textit{partition} of $[a,b]$ is a finite set of points $P = \{x_0, x_1, \dots, x_n\}$ such that
+        \[
+            a = x_0 < x_1 < \dots < x_n = b.
+        \]
+    \end{shaded*}
+\end{definition}
+To denote a partition $P$ of $[a,b]$ we will write \[P=\{a=x_0<x_1<\cdots<x_{n-1}<x_n=b\},\]
+or simply \[P=\{x_0,x_1,\dots,x_n\}.\]
+
+\begin{definition}[Upper and Lower Sums]
+    \begin{shaded*}
+        Let $f \colon [a,b] \to \R$ be a bounded function and let $P$ be a partition of $[a,b]$. The \textit{lower sum} of $f$ for $P$ is
+        \[
+            L(f,P) \coloneqq \sum_{i=1}^n m_i (x_i - x_{i-1})
+        \]
+        where $m_i \coloneqq \inf_{x \in [x_{i-1}, x_i]} f(x)$. 
+        
+        The \textit{upper sum} of $f$ for $P$ is
+        \[
+            U(f,P) \coloneqq \sum_{i=1}^n M_i (x_i - x_{i-1})
+        \]
+        where $M_i \coloneqq \sup_{x \in [x_{i-1}, x_i]} f(x)$.
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    Observe the first necessary condition imposed for integrability: the function $f$ \textit{must be bounded}. We use $\sup$ and $\inf$ (rather than $\max$ and $\min$) because a merely bounded function is not guaranteed to attain its extreme values on a sub-interval. It only attains these if it is continuous. Boundedness ensures that $M_i$ and $m_i$ are finite, well-defined real numbers, making the upper and lower sums well-defined.
+\end{remark}
+
+
+\begin{lemma}
+\label{lem:refinement}
+    \begin{shaded*}
+        Let $P$ and $P'$ be partitions of $[a,b]$. If $P \subseteq P'$ ($P'$ is a \textit{refinement} of $P$), then
+        \[
+            L(f,P) \le L(f, P')\quad\text{and}\quad  U(f, P') \le U(f,P).
+        \]
+    \end{shaded*}
+\end{lemma}
+
+\begin{proof}
+    Since partitions are finite, it suffices to prove the case where we add \textit{one} extra point to the partition. This is because any refinement $P'$ of $P$ can be obtained as a sequence of refinements
+    \[P= P_0\subset P_1\subset\cdots\subset P_k = P'\]in which each step $P_i\subset P_{i+1}$ consists of refining by exactly one point (in particular, $k=|P'|-|P|$).
+
+    Therefore, let \[P=\{x_0,x_1,\dots,x_{\ell-1},x_\ell,\dots,x_{n-1},x_n\}\quad\text{and}\quad P'=P\cup \{y\},\]
+    where $x_{\ell - 1}<y<x_\ell$. Now, the only sub-intervals over which the upper and lower sums will change in the refinement $P'$ are $[x_{\ell -1},y]$ and $[y,x_\ell]$; the other terms in the sums $L(f,P')$ and $U(f,P')$ will remain the same as in $L(f,P)$ and $U(f,P)$. Now, since \[[x_{\ell -1},y]\subset [x_{\ell-1},x_\ell]\quad\text{and}\quad [y,x_\ell]\subset[x_{\ell - 1},x_\ell],\]
+    it follows that, by using standard properties of the supremum and infimum (in particular, if $A$ and $B$ are non-empty, bounded subsets of $\R$ and $A\subseteq B$ then $\sup A \le \sup B$ and $\inf A \ge \inf B$):
+    \[m'\coloneqq \inf_{x\in [x_{\ell-1},y]}f(x)\ge \inf_{x\in [x_{\ell-1},x_\ell]}f(x)\quad\text{and}\quad m''\coloneqq \inf_{x\in[y,x_\ell]}f(x)\ge \inf_{x\in [x_{\ell-1},x_\ell]}f(x),\]
+    and similarly
+    \[M'\coloneqq \sup_{x\in [x_{\ell-1},y]}f(x)\le \sup_{x\in [x_{\ell-1},x_\ell]}f(x)\quad\text{and}\quad M''\coloneqq \sup_{x\in[y,x_\ell]}f(x)\le \sup_{x\in [x_{\ell-1},x_\ell]}f(x).\]
+    Using these inequalities, and the previous observation that these are the only sub-intervals which change in the lower and upper sums, it follows that
+    \begin{align*}
+        L(f,P')-L(f,P)&=m'(y-x_{\ell-1})+m''(x_\ell - y)-m_\ell (x_\ell - x_{\ell - 1})\\
+            &\ge m_\ell(y-x_{\ell - 1})+m_\ell (x_\ell - y)-m_\ell (x_\ell - x_{\ell - 1})\\
+            &= 0.
+    \end{align*}
+    The same argument shows that $U(f,P')-U(f,P)\le 0$, which completes the proof for a single point refinement, and as mentioned at the start of the proof, this is sufficient to imply the statement for an arbitrary refinement $P\subseteq P'$.\qedhere  
+\end{proof}
+
+\begin{remark}
+    The intuition here is that by adding more points to the partition, the approximation cannot get worse; it can only improve. Mathematically, the lower sums grow as you extend to refinements, and the upper sums shrink. $L$ and $U$ are forced closer together, indicating the approximation to the true area is getting better.
+\end{remark}
+
+\begin{theorem}
+\label{thm:lowerupperbound}
+    \begin{shaded*}
+        For any two partitions $P$ and $Q$ of $[a,b]$, 
+        \[
+            L(f,P) \le U(f,Q).
+        \]
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    It is difficult to compare $L(f,P)$ and $U(f,Q)$ directly with basic tools because the partitions are different. We resolve this by bringing both $P$ and $Q$ to a common partition, specifically their union $R \coloneqq P \cup Q$. Because $P \subseteq R$ and $Q \subseteq R$, $R$ is a refinement of both. By the previous monotonicity lemma (Lemma \ref{lem:refinement}), we have
+    \[
+        L(f,P) \le L(f,R) \le U(f,R) \le U(f,Q).
+    \]
+    By transitivity, $L(f,P) \le U(f,Q)$.
+\end{proof}
+
+\section{The Darboux Integral}
+
+Theorem \ref{thm:lowerupperbound} implies that \textit{every} lower sum is less or equal than \textit{every} upper sum (as we would expect). Therefore,
+\[\sup \{L(f,P):P\text{ partition of }[a,b]\}\le \inf \{U(f,P):P\text{ partition of }[a,b]\}.\]
+In general, these two numbers might be far apart:
+\begin{exercise*}
+    Show that for the function $f:[0,1]\to\R$ defined by \[f(x)=\begin{cases}
+        1, & x\in\Q, \\
+        0, & x\notin \Q.
+    \end{cases}\]
+    we have \[\sup \{L(f,P):P\text{ partition of }[a,b]\} < \inf \{U(f,P):P\text{ partition of }[a,b]\}.\]
+
+\end{exercise*}
+
+However, when these numbers coincide, we say that $f$ is (Darboux) integrable, and the common number is the value of the \textit{integral}:
+
+
+\begin{definition}
+    \begin{shaded*}
+        A bounded function $f \colon [a,b] \to \R$ is \textit{Darboux integrable} if 
+        \[
+            \sup_{P} \{ L(f,P) \} = \inf_{P} \{ U(f,P) \}
+        \]
+        where the supremum and infimum are taken over all possible partitions $P$ of $[a,b]$. This common value is denoted by the singular symbol 
+        \[
+            \int_a^b f(x) \d{x}.
+        \]
+    \end{shaded*}
+\end{definition}
+
+In this course, because we are not going to discuss other definitions of the integral (e.g. the \textit{Lebesgue integral}), we will simply say that $f$ is integrable if the above definition is satisfied for a function $f:[a,b]\to\R$.
+
+\begin{remark}
+    The symbol $\int_a^b f(x) \d{x}$ is not a collection of operators acting together; it represents a single number. The subtlety of using $\sup$ and $\inf$ over sets of partitions is that it automatically handles all possible partitions, side-stepping the need to formally define a ``limit'' of partitions.
+\end{remark}
+
+In practice, we want a nicer criterion to show that a given function is integrable, since the above requires knowledge of upper and lower sums over \textit{all} partitions of a given interval. Luckily, we have an $\varepsilon$ criterion for integrability from standard properties of $\inf$ and $\sup$:
+
+\begin{theorem}
+\label{thm:epsilonintegrability}
+    \begin{shaded*}
+        A bounded function $f: [a,b] \to \R$ is integrable if and only if for all $\varepsilon > 0$, there exists a partition $P$ of $[a,b]$ such that 
+        \[
+            U(f,P) - L(f,P) < \varepsilon.
+        \]
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Let \[A = \{L(f,P) : P \text{ is a partition of } [a,b]\},\] and \[B = \{U(f,P) : P \text{ is a partition of } [a,b]\}.\]
+    
+    By Theorem \ref{thm:lowerupperbound}, $a \le b$ for all $a \in A$ and $b \in B$, guaranteeing $\sup A \le \inf B$.
+    
+    ($\Leftarrow$) Assume that for all $\varepsilon > 0$, there exists a partition $P$ such that $U(f,P) - L(f,P) < \varepsilon$. For this partition $P$, we have $\sup A \ge L(f,P)$ and $\inf B \le U(f,P)$. Therefore, 
+    \[
+        0 \le \inf B - \sup A \le U(f,P) - L(f,P) < \varepsilon.
+    \]
+    Since this holds for all $\varepsilon > 0$, we must have $\inf B - \sup A = 0$, so $\sup A = \inf B$, meaning $f$ is integrable.
+
+    ($\Rightarrow$) Assume $f$ is integrable, so $\sup A = \inf B = I$. Let $\varepsilon > 0$ be arbitrary. By definition of supremum and infimum, there exists a lower sum $L(f, P_1)$ and an upper sum $U(f, P_2)$ such that
+    \[
+        I - \frac{\varepsilon}{2} < L(f, P_1) \le I \le U(f, P_2) < I + \frac{\varepsilon}{2}.
+    \]
+    Let $P = P_1 \cup P_2$. Since $P$ is a refinement of both $P_1$ and $P_2$, $L(f,P_1) \le L(f,P)$ and $U(f,P) \le U(f,P_2)$. Therefore,
+    \[
+        I - \frac{\varepsilon}{2} < L(f,P) \le U(f,P) < I + \frac{\varepsilon}{2}.
+    \]
+    Subtracting the inequalities yields $U(f,P) - L(f,P) < \varepsilon$.
+\end{proof}
+
+\begin{remark}
+    The idea for the above theorem is that, for a (Darboux) integrable function, we can always make the upper and lower approximation arbitrarily close, by choosing an appropriate partition. This is incredibly useful in practice: instead of trying to understand the entire set of upper and lower sums simultaneously, you only need to construct \textit{one} partition where the error is less than $\epsilon$ to conclude that a function is integrable.
+\end{remark}
+
+As usual, connected to this $\varepsilon$ criterion is a natural (and equally as useful) \textit{sequential} criterion for integrability, which is perhaps more familiar if you have seen \textit{Riemann sums} in a non-rigorous calculus course (perhaps even at A-Level or equivalent). The proof is left as an exercise:
+
+\begin{exercise*}
+\begin{enumerate}
+    \item[(a)] Prove that a bounded function $f$ is integrable on $[a,b]$ if and only if there exists a sequence of partitions $(P_n)_{n=1}^\infty$ satisfying
+    \[
+    \lim_{n\to\infty} [U(f, P_n) - L(f, P_n)] = 0,
+    \]
+    and in this case $\int_a^b f(x) \d{x} = \lim_{n\to\infty} U(f, P_n) = \lim_{n\to\infty} L(f, P_n)$.
+    \item[(b)] For each $n$, let $P_n$ be the partition of $[0,1]$ into $n$ equal subintervals. Find formulas for $U(f, P_n)$ and $L(f, P_n)$ if $f(x) = x$. The formula \[1 + 2 + 3 + \cdots + n = \frac{n(n + 1)}{2}\] will be useful.
+    \item[(c)] Use the sequential criterion for integrability from (a) to show directly that $f(x) = x$ is integrable on $[0,1]$ and compute $\int_0^1 f(x) \d{x}$.
+\end{enumerate}
+\end{exercise*}
+
+
+\section{Basic Properites of the Integral}
+A nice fact we can prove which also demonstrates the power of choosing appropriate partitions is the following rough estimate of an integral:
+\begin{lemma}[Rough Integral Estimate]
+\label{lem:integralestimate}
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ be integrable. Then
+        \[
+            \inf_{x\in[a,b]}(b-a) \le \int_a^b f(x) \d{x} \le \sup_{x\in[a,b]}(b-a).
+        \]
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    We pick the trivial partition of $[a,b]$, $P=\{a,b\}$. Then, \[L(f,P)=\inf_{x\in[a,b]}f(x)(b-a),\] and \[U(f,P)=\sup_{x\in[a,b]}f(x)(b-a).\] Furthermore, the integral $\int_a^b f(x) \d{x}$ by definition always lies between any lower sum and any upper sum, so we have
+    \[\inf_{x\in[a,b]}f(x)(b-a)\le \int_a^b f(x) \d{x}\le \sup_{x\in [a,b]}f(x)(b-a).\]
+\end{proof}
+
+\begin{remark}
+    Geometrically, we are estimating the integral with a \textit{pair} of rectangles, rather than a more sophisticated bound which may use more rectangles, or different shapes like trapeziums (recall the trapezium rule from A-Level):
+    \begin{center}
+        \begin{tikzpicture}[scale=0.7]
+            % Shade the upper bound rectangle (red) first
+            \fill[black!60!red, opacity=0.15] (0,0) rectangle (4,3);
+            
+            % Shade the lower bound rectangle (blue) over it
+            \fill[black!60!blue, opacity=0.25] (0,0) rectangle (4,0.6);
+    
+            % Axes
+            \draw[->] (-0.5,0) -- (5,0) node[right] {$x$};
+            \draw[->] (0,-0.5) -- (0,4) node[above] {$y$};
+            
+            % Function Curve
+            \draw[thick, black, domain=0:4, samples=200] plot (\x, {sin(10*\x^2)+cos(10*\x^3)+1});
+            
+            % Dashed Lines
+            \draw[-, dashed, thick, black!60!red] (0,3) -- (4,3);
+            \draw[-, dashed, thick, black!60!blue] (0,0.6) -- (4,0.6);
+            
+            % Optional: Add vertical bounding lines to complete the rectangle visual
+            \draw[-, dashed, thick, black!60!red] (4,0) -- (4,3);
+        \end{tikzpicture}
+    \end{center}
+\end{remark}
+
+\begin{theorem}[Basic Properties of the Integral]
+\label{thm:aoi}
+    \begin{shaded*}
+        Let $f$ and $g$ be integrable on $[a,b]$. Then
+        \begin{enumerate}
+            \item $f+g$ is integrable on $[a,b]$, and $\int_a^b ( f(x) + g(x)) \d{x} = \int_a^b f(x) \d{x} + \int_a^b g(x) \d{x}$.
+            \item For all $\lambda\in\R$, $\lambda f$ is integrable on $[a,b]$, and $\int_a^b \lambda f(x)\d{x} = \lambda\int_a^b f(x)\d{x}$.
+            \item $fg$ is integrable on $[a,b]$. 
+            \item If $f(x) \le g(x)$ for all $x \in [a,b]$, then $\int_a^b f(x) \d{x} \le \int_a^b g(x) \d{x}$.
+            \item For $c \in (a,b)$,
+            \[f\text{ integrable on }[a,b]\iff f\text{ integrable on }[a,c]\text{ and }[c,b],\]
+            and in that case $\int_a^b f(x) \d{x} = \int_a^c f(x) \d{x} + \int_c^b f(x) \d{x}$.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    1. Let $\varepsilon>0$ be arbitrary. By the $\varepsilon$ criterion for integrability (Theorem \ref{thm:epsilonintegrability}), there are partitions $P_1$ and $P_2$ of $[a,b]$ such that 
+    \[U(f,P_1)-L(f,P_1)<\frac{\varepsilon}{2}\quad\text{and}\quad U(g,P_2)-L(g,P_2)<\frac{\varepsilon}{2}.\]
+    Now, let $P=P_1\cup P_2$, and write $P=\{x_0,\dots,x_n\}$. For every $1\le i\le n$ we have
+    \begin{align*}
+    M''_i\coloneqq \sup_{x\in[x_{i-1},x_i]}(f+g)(x)&\le \sup_{x\in[x_{i-1},x_i]}f(x)+\sup_{x\in[x_{i-1},x_i]}g(x)\\
+    &= M_i+M'_i,
+    \end{align*}
+    and
+    \begin{align*}
+        m''_i\coloneqq \inf_{x\in[x_{i-1},x_i]}(f+g)(x)&\ge \inf_{x\in[x_{i-1},x_i]}f(x)+\inf_{x\in[x_{i-1},x_i]}g(x)\\
+        &= m_i+m'_i.
+    \end{align*}
+    Therefore, summing these inequalites over $1\le i\le n$ we get
+    \begin{align*}
+    U(f+g,P)-L(f+g,P)&=\sum_{i=1}^n(M''_i-m''_i)(x_i-x_{i - 1})\\
+    &\le \sum_{i=1}^n(M_i+M'_i-m_i-m'_i)(x_i-x_{i - 1})\\
+    &= \left(U(f,P)-L(f,P)\right)+\left(U(g,P)-L(g,P)\right)\\
+    &\le \left(U(f,P_1)-L(f,P_1)\right)+\left(U(g,P_2)-L(g,P_2)\right)\\
+    &< \frac{\varepsilon}{2}+\frac{\varepsilon}{2}\\
+    &=\varepsilon.
+    \end{align*}
+    Thus $f+g$ is integrable on $[a,b]$. Furthermore, it follows from the supremum and infimum inequalities at the start that
+    \[L(f,P)+L(g,P)\le \int_a^b(f(x)+g(x))\d{x}\le U(f,P)+U(g,P),\]
+    and by definition we have
+    \[L(f,P)+L(g,P)\le \int_a^b f(x)\d{x}+\int_a^b g(x)\d{x}\le U(f,P)+U(g,P).\]
+    Therefore, both $\int_a^b(f(x)+g(x))\d{x}$ and $\int_a^b f(x)\d{x}+\int_a^b g(x)\d{x}$ are bounded in the same range, which has a width of $\varepsilon$. However, since $\varepsilon$ was chosen to be arbitrary, it follows from
+    \[\left|\int_a^b(f(x)+g(x))\d{x}-\left(\int_a^b f(x)\d{x}+\int_a^b g(x)\d{x}\right)\right|<\varepsilon\]
+    that \[\int_a^b(f(x)+g(x))\d{x}=\int_a^bf(x)\d{x}+\int_a^b g(x)\d{x},\]
+    which completes the proof of (1).\hfill \qedsymbol
+
+    2. Let $\varepsilon>0$ and $\lambda\in\R$ be arbitrary.
+
+    Case A: $\lambda = 0$. Then $f(x)=0$ for all $x\in [a,b]$, so choosing the partition $P=\{a,b\}$ yields $U(f,P)-L(f,P)=0<\varepsilon$, so $\lambda f$ is integrable in this case and since for any partition the upper and lower sums are zero, it follows by definition that \[\int_a^b \lambda f(x)\d{x}=\int_a^b 0 \d{x}=0,\]
+    which verifies the trivial case for $\lambda = 0$.
+
+    Case B: $\lambda \ne 0$. By the $\varepsilon$ criterion for integrability, there exists a partition $P=\{x_0,\dots,x_n\}$ of $[a,b]$ such that
+    \[U(f,P)-L(f,P)<\frac{\varepsilon}{|\lambda|}.\]
+    Now, by a standard property of infimum and supremum (which you should verify), for any $1\le i\le n$ we have
+    \[\sup_{x\in[x_{i-1},x_i]}\lambda f(x)-\inf_{x\in[x_{i - 1},x_i]}\lambda f(x)=|\lambda|\left(M_i-m_i\right),\]
+    which implies that
+    \[U(\lambda f,P)-L(\lambda f,P)\le |\lambda|\left(U(f,P)-L(f,P)\right)<\varepsilon,\]
+    so $\lambda f$ is integrable and by the same argument as in the proof of (1), it follows that
+    \[\int_a^b \lambda f(x)\d{x}=\lambda \int_a^b f(x)\d{x},\]
+    which completes the proof of (2).\hfill \qedsymbol
+
+    3. First we will show that if $f:[a,b]\to\R$ is integrable, then $f^2$ is integrable. Suppose $f$ is integrable on $[a,b]$. Since $f$ is integrable, it is bounded, so there exists $M > 0$ such that $|f(x)| \le M$ for all $x \in [a,b]$.
+
+Let $\varepsilon > 0$. Then, by integrability of $f$ and Theorem \ref{thm:epsilonintegrability}, there exists a partition $P$ of $[a,b]$ such that
+\[ U(f,P) - L(f,P) < \frac{\varepsilon}{2M}. \]
+Let $P = \{a = x_0 < x_1 < \cdots < x_n = b\}$. For any subinterval $[x_{i-1}, x_i]$ (where $1 \le i \le n$) and for all $s, t \in [x_{i-1}, x_i]$, we have:
+\begin{align*}
+    |f(s)^2 - f(t)^2| &= |f(s) + f(t)| |f(s) - f(t)| \\
+    &\le (|f(s)| + |f(t)|) |f(s) - f(t)| \\
+    &\le 2M \left( \sup_{x \in [x_{i-1}, x_i]} f(x) - \inf_{x \in [x_{i-1}, x_i]} f(x) \right).
+\end{align*}
+
+By taking the supremum over all $s, t \in [t_{i-1}, t_i]$ on the left-hand side, we obtain the difference between the supremum and infimum of $f^2$ on that interval:
+\[ \sup_{x \in [x_{i-1}, x_i]} f^2(x) - \inf_{x \in [x_{i-1}, x_i]} f^2(x) \le 2M \left( \sup_{x \in [x_{i-1}, x_i]} f(x) - \inf_{x \in [x_{i-1}, x_i]} f(x) \right). \]
+
+Since this holds for all subintervals, we can sum over all $i$:
+\begin{align*}
+    U(f^2, P) - L(f^2, P) &= \sum_{i=1}^n \left( \sup_{x \in [x_{i-1}, x_i]} f^2(x) - \inf_{x \in [x_{i-1}, x_i]} f^2(x) \right) (t_i - t_{i-1}) \\
+    &\leq \sum_{i=1}^n 2M \left( \sup_{x \in [x_{i-1}, x_i]} f(x) - \inf_{x \in [x_{i-1}, x_i]} f(x) \right) (t_i - t_{i-1}) \\
+    &= 2M \big( U(f, P) - L(f, P) \big) \\
+    &< 2M \left( \frac{\varepsilon}{2M} \right) \\
+    &= \varepsilon.
+\end{align*}
+
+Thus, $f^2$ is integrable on $[a,b]$. Now, to prove the full statement for (3), suppose $f$ and $g$ are integrable on $[a,b]$. Then
+\begin{itemize}
+    \item $f+g$ is integrable (known from item 1 in this theorem).
+    \item $f^2$ and $g^2$ are integrable.
+    \item $(f+g)^2$ is integrable.
+\end{itemize}
+Furthermore, we can write the product as:
+\[ 2fg = (f+g)^2 - f^2 - g^2 \]
+
+Since the sum and difference of integrable functions are integrable (by linearity of integration), $2fg$ is integrable. Therefore, $fg = \frac{1}{2}(2fg)$ is also integrable, by item 2 in this theorem (with $\lambda = \frac{1}{2}$). This completes the proof of (3).\hfill \qedsymbol
+
+4. Let $P = \{x_0, x_1, \dots, x_n\}$ be an arbitrary partition of $[a, b]$. Since $f(x) \leq g(x)$ for all $x \in [a, b]$, it follows that on any subinterval $[x_{i-1}, x_i]$, the infimum of $f$ must be less than or equal to the infimum of $g$. That is:
+\[ \inf_{x \in [x_{i-1}, x_i]} f(x) \le \inf_{x \in [x_{i-1}, x_i]} g(x). \]
+
+Since this holds for all $1\le i\le n$, summing over all $i$ yields
+\[ \sum_{i=1}^n \left( \inf_{x \in [x_{i-1}, x_i]} f(x) \right)(x_i-x_{i - 1}) \le \sum_{i=1}^n \left( \inf_{x \in [x_{i-1}, x_i]} g(x) \right)(x_{i}-x_{i - 1}),\]
+which implies that
+\[ L(f, P) \leq L(g, P). \]
+
+Since $g$ is integrable, we know that any lower sum of $g$ is bounded above by its integral. Therefore:
+\[ L(f, P) \leq L(g, P) \leq \int_a^b g(x) \d{x}. \]
+
+This shows that the number $\int_a^b g(x) \d{x}$ is an upper bound for the set of all lower sums of $f$, since $P$ was arbitrary. Because the integral of $f$ is defined as the supremum (the least upper bound) of its lower sums, it cannot exceed this upper bound, by definition of supremum. Thus
+\[ \int_a^b f(x) \,dx \leq \int_a^b g(x) \d{x}, \]
+which completes the proof of (4).\hfill \qedsymbol
+
+5. Fix $c\in (a,b)$. ($\Rightarrow$) Suppose $f$ is integrable on $[a,b]$, and let $\varepsilon>0$ be arbitrary. Let $P$ be a partition of $[a,b]$ such that \[U(f,P)-L(f,P)<\varepsilon.\]
+Without loss of generality, we may assume $c\in P$ (if not, replace $P$ by $P\cup \{b\}$; refining can only decrease $U$ and increase $L$, so we would still have the same inequality above).
+Therefore, we can split $P$ into $P'\coloneqq P\cap [a,c]$ which is a partition of $[a,c]$ and $P''\coloneqq P\cap [c,b]$, which is a partition of $[c,b]$. Since $P=P'\cup P''$, we have
+\[L(f,P)=L(f,P')+L(f,P'')\quad\text{and}\quad U(f,P)=U(f,P')+U(f,P''),\]
+which implies that (since there are less positive terms in the sum)
+\[U(f,P')-L(f,P')\le U(f,P)-L(f,P)<\varepsilon,\]
+and
+\[U(f,P'')-L(f,P'')\le U(f,P)-L(f,P)<\varepsilon.\]
+Therefore, by the $\varepsilon$-criterion for integrability (Theorem \ref{thm:epsilonintegrability}), it follows that $f$ is integrable on $[a,c]$ and $[c,b]$.
+
+($\Leftarrow$) Suppose $f$ is integrable on $[a,c]$ and $[c,b]$, and let $\varepsilon>0$ be arbitrary. By the $\varepsilon$-criterion for integrability, we may choose partitions $P',P''$ of $[a,c]$ and $[c,b]$ respectively such that
+\[U(f|_{[a,c]},P')-L(f|_{[a,c]},P')<\frac{\varepsilon}{2}\quad\text{and}\quad U(f|_{[c,b]},P'')-L(f|_{[c,b]},P'')<\frac{\varepsilon}{2}.\]
+Now, let $P=P'\cup P''$, which is a partition of $[a,b]$. Then
+\[U(f,P)=U(f,P')+U(f,P'')\quad\text{and}\quad L(f,P)=L(f,P')+L(f,P''),\]
+so
+\[U(f,P)-L(f,P)=(U(f,P')-L(f,P'))+(U(f,P'')-L(f,P''))<\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.\]
+Thus $f$ is integrable on $[a,b]$.
+
+Finally, to prove the integral equality, note that for $\varepsilon>0$ arbitrary we can write
+\[\left|\int_a^b f(x)\d{x}-\left(\int_a^c f(x)\d{x}+\int_c^b f(x)\d{x}\right)\right|<\varepsilon,\]
+since \[U(f,P)-\left(\int_a^c f + \int_c^b f\right)=\left(U(f,P')-\int_a^c f\right) + \left(U(f,P'')-\int_c^b f\right),\]
+and both errors on the RHS can be made arbitrarily small (respectively for lower sums too).\qedhere
+\end{proof}
+
+Another extremely important and useful property of the integral is left as an exercise:
+\begin{exercise*}[Integral Triangle Inequality]
+    Let $f:[a,b]\to\R$ be integrable. Show that $|f|$ is integrable and
+    \[\left|\int_a^b f(x)\d{x} \right| \le \int_a^b |f(x)|\d{x}.\]\textit{(Hint: you may wish to use the reverse triangle inequality.)}
+\end{exercise*}
+
+\begin{remark}
+    The equality 
+    \[ \sup_{s,t \in [x_{i-1}, x_i]} |f(s)^2 - f(t)^2| = \sup_{x \in [x_{i-1}, x_i]} f^2(x) - \inf_{x \in [x_{i-1}, x_i]} f^2(x),\]
+    which was used in the proof of item 3 of the above theorem (Theorem \ref{thm:aoi}) relies on a standard, though non-trivial, property of the supremum and infimum. Specifically, for any bounded real-valued function $g$ on a set $I$, the supremum of the distance between any two function values is equal to the difference between the supremum and the infimum of the function on that set:
+    \[ \sup_{s,t \in I} |g(s) - g(t)| = \sup_{x \in I} g(x) - \inf_{x \in I} g(x) \]
+    To see why, note that for any $s, t \in I$, we have $g(s) \leq \sup_{x \in I} g(x)$ and $g(t) \geq \inf_{x \in I} g(x)$, meaning $|g(s) - g(t)| \leq \sup_{x \in I} g(x) - \inf_{x \in I} g(x)$. Taking the supremum over all $s,t$ yields the $\leq$ inequality. The reverse inequality follows from the definition of supremum and infimum, as we can choose $s$ and $t$ such that $g(s)$ and $g(t)$ are arbitrarily close to the supremum and infimum, respectively. Applying this general property with $g = f^2$ and $I = [x_{i-1}, x_i]$ justifies the step.
+\end{remark}
+
+\begin{remark}
+    The idea for the inequalities $\sup(f+g) \le \sup f + \sup g$ and $\inf(f+g) \ge \inf f + \inf g$, used in the proof of item 1 in the above theorem, is as follows: when we take the supremum of $f+g$, we are taking the \textit{pointwise} supremum, whereas the expression $\sup f+\sup g$ means that we are searching for the supremum of $f$ and $g$ independently; so unless the supremum of $f$ and $g$ on the interval occur precisely at the same point, we must have $\sup (f+g)< \sup f + \sup g$. This idea can be applied to the respective infimum inequality too.
+\end{remark}
+
+Properties 1 and 2 in the above Theorem shows that the integral is \textit{linear} on the space of Darboux integrable functions; this is very useful in practice.
+
+\begin{theorem}
+\label{thm:contintegrable}
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ be continuous. Then $f$ is integrable.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Let $\varepsilon>0$ be arbitary. By Heine's Theorem (Theorem \ref{thm:heine}), since $f$ is continuous on a closed and bounded interval $[a,b]$, $f$ is uniformly continuous on $[a,b]$ so there exists $\delta>0$ such that for all $x,y\in[a,b]$ such that $|x-y|<\delta$, $|f(x)-f(y)|<\frac{\varepsilon}{b-a}$. Now, choose a partition $P=\{x_0,\dots,x_n\}$ such that for every $1\le i\le n$, we have $x_i-x_{i - 1}<\delta$. By the Extreme Value Theorem (Theorem \ref{thm:evt}), $f$ attains its supremum and infimum on each sub-interval, so by uniform continuity, for each $1\le i\le n$,
+    \[M_i-m_i<\frac{\varepsilon}{b-a}.\]
+    Hence, we have
+    \[U(f,P)-L(f,P)=\sum_{i=1}^n (M_i-m_i)(x_i-x_{i - 1})<\frac{\varepsilon}{b-a}\sum_{i=1}^n(x_i - x_{i - 1})=\varepsilon,\]
+    so by the $\varepsilon$-criterion for integrability (Theorem \ref{thm:epsilonintegrability}), $f$ is integrable on $[a,b]$. \qedhere
+\end{proof}
+
+\begin{remark}
+    This proof relied on forcing the \textit{vertical} error of the rectangle approximations to be within $\frac{\varepsilon}{b-a}$, and this is precisely why uniform continuity is required: achieving uniform control of the function on $[a,b]$ is exactly the property of uniform continuity.
+\end{remark}
+
+To make the above remark more precise, let $P=\{x_0,\dots,x_n\}$ be an arbitrary partition of $[a,b]$. Then
+\[U(f,P)-L(f,P)=\sum_{i=1}^n (M_i-m_i)(x_i-x_{i - 1}).\]
+To \textit{control} the size of $U(f,P)-L(f,P)$ (i.e. the size of our error in trying to approximate the area with rectangles), this depends entirely on the differences $M_i-m_i$, which we can interpret as the variation in the range (the \textit{oscillation}) of the function over the interval $[x_{i - 1},x_i]$. Restricting the varation of $f$ uniformly over arbitrary intervals is \textit{precisely} what it means to say that $f$ is uniformly continuous on that interval.
+
+However, not all integrable functions have to be continuous; continuity is a sufficient condition, but not a necessary one. For example, consider the following exercise:
+
+\begin{exercise*}
+    Show that if a function $f:[a,b]\to\R$ is continuous except perhaps at finitely many points, then it is integrable.
+\end{exercise*}
+
+The idea of the above exercise (\textit{Hint!}) is that rather than controlling the vertical variation of $f$ using continuity, if $f$ only ``jumps'' (i.e. has a removable or jump discontinuity) at finitely many points, then at these points, despite the oscillation of the function ($M_i-m_i$) being fixed to \textit{at least} the size of the discontinuity jump, we can also restrict the \textit{horizontal} width of the interval around those points, in order to make our error $U(f,P)-L(f,P)$, and construct a partition that way.
+
+The idea is best understood conceptually via Measure Theory (in particular, Lebesgue's Criterion for Riemann Integrability), but the intuitive way via our rectangle approximations is that because these are finitely many ``isolated'' points (not in the topological sense, we use the word ``isolated'' purely in the colloquial sense here) at which the function is discontinuous, we can make our rectangle approximation around those points arbitrarily small (in the limit, they are 1-dimensional strips) which makes it clear that they do not contribute to the \textit{area} underneath the curve, because 1-dimensional objects do not have area.
+
+Again, this will make much more sense when you study Measure Theory, but the proof only requires the ideas discussed here, and the full details are left to the reader.
+
+
+\begin{exercise*}
+    Show that if $f:[a,b]\to\R$ is a continuous function such that $f(x) \ge 0$ for all $x\in [a,b]$, and $\int_a^b f(x) \d{x} = 0$, then $f(x) = 0$ for all $x \in [a,b]$. Does this still hold if we drop the hypothesis that $f$ is continuous?
+\end{exercise*}
+
+\section{The Fundamental Theorem of Calculus}
+By Theorem \ref{thm:aoi} (in particular, item 5), we the following function is well-defined. Let $f[a,b]\to\R$ be continuous; we then define $F:[a,b]\to\R$ by \[
+            F(x) \coloneqq \int_a^x f(t) \d{t}.
+        \]
+
+\begin{theorem}
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ be integrable. Then the function $F:[a,b]\to\R$ defined by $F(x) = \int_a^x f(t) \d{t}$ is Lipschitz continuous on $[a,b]$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Since $f$ is integrable on $[a,b]$, it must be bounded. Therefore, we can let $M > 0$ be such that $|f(t)| \le M$ for all $t \in [a,b]$. For any $x, y \in [a,b]$ with $x < y$, we examine the difference quotient:
+    \begin{align*}
+    |F(y) - F(x)| &= \left| \int_a^y f(t) \d t - \int_a^x f(t) \d t \right|\\
+    &= \left|\int_a^x f(t)\d{t} +\int_x^y f(t)\d{t} -\int_a^x f(t)\d{t}\right|&(\text{Theorem }\ref{thm:aoi}\text{ (5)})\\
+    & = \left| \int_x^y f(t) \d t \right|.
+    \end{align*}
+    By the Integral Triangle Inequality from an exercise and the rough estimate for integrals (Lemma \ref{lem:integralestimate}), we get
+    \[ \left| \int_x^y f(t) \d t \right| \le \int_x^y |f(t)| \d t \le M(y - x) = M|y - x|. \]
+    If $x=y$, the inequality holds because the integral becomes zero. Thus, $|F(y) - F(x)| \le M|y - x|$ for all $x, y \in [a,b]$, which completes the proof.\qedhere
+\end{proof}
+
+\begin{remark}
+    This theorem reveals a fundamental geometric property of integration: the act of accumulating area is \textit{smoothing}. 
+    
+    Because integrable functions are bounded (say, by a maximum magnitude $M$), the rate at which $F(x)$ accumulates area is strictly capped. The steepness of $F$ can never exceed $M$. Therefore, no matter how "rough" or erratic the original function $f$ is, its integral $F$ is forced to be tightly constrained.
+    
+    Consider what happens if the original function $f$ has a severe jump discontinuity. The value of $f$ teleports instantly from one height to another. However, area cannot teleport; it must be gathered progressively. The integral $F$ responds to this jump not by breaking or jumping itself, but simply by abruptly changing its rate of accumulation. The jump discontinuity in $f$ is smoothed out into a \textit{sharp corner} (a kink) in $F$; this is illustrated below.
+    
+    This relates to why Lipschitz continuity is viewed as being \textit{almost differentiable}. A Lipschitz function is globally constrained by a maximum slope, preventing vertical asymptotes or infinite cusps. It is smoothly continuous everywhere, save for isolated sharp corners corresponding to the jumps in $f$. If we slightly strengthen the condition and demand $f$ be continuous instead of just integrable, those remaining corners are smoothed out entirely, and $F$ becomes fully differentiable everywhere (which leads directly into the Fundamental Theorem of Calculus, which we will prove shortly).
+\end{remark}
+
+\begin{center}
+    % Side-by-side diagrams using minipages
+    \begin{minipage}{0.48\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[scale=0.8]
+        % Axes
+        \draw[->] (-0.5, 0) -- (6, 0) node[right] {$t$};
+        \draw[->] (0, -0.5) -- (0, 4) node[above] {$f(t)$};
+    
+        
+        \draw[thick, domain=0:2, samples=50] plot (\x, {-0.75*((\x-2)^2) + 3});
+        
+    
+        \draw[thick] (2, 3) circle (1.5pt);
+        
+        \filldraw[black] (2, 1) circle (1.5pt); 
+    
+        \draw[thick, domain=2:3, samples=20] plot (\x, {1 + 0.5*(\x-2)});
+        
+        
+        \draw[thick, domain=3:5, samples=50] plot (\x, {1.5 + 0.25*(\x-3)*(\x-5)});
+    
+        
+        \fill[lightgray, opacity=0.7] (0, 0) -- plot[domain=0:2] (\x, {-0.75*((\x-2)^2) + 3}) 
+                                       -- plot[domain=2:3] (\x, {1 + 0.5*(\x-2)}) 
+                                       -- plot[domain=3:5] (\x, {1.5 + 0.25*(\x-3)*(\x-5)})
+                                       -- (5,0) -- cycle;
+        
+        
+        \draw[dashed] (0, 0) -- (0, 0) node[below right] {$a$};
+        \draw[dashed] (5, 0) -- (5, 0) node[below] {$b$};
+        
+        
+        \draw[dashed, gray] (2, 0) -- (2, 1);
+        \draw[dashed, gray] (2, 3) -- (2, 3);
+        \draw[dashed, gray] (3, 0) -- (3, 1.5);
+    
+    \end{tikzpicture}
+    \par
+    \end{center}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[scale=0.8]
+        % Axes
+        \draw[->] (-0.5, 0) -- (6, 0) node[right] {$x$};
+        \draw[->] (0, -0.5) -- (0, 4) node[above] {$F(x)$};
+    
+        \draw[thick, domain=0:2, samples=50] plot (\x, {0.5*\x*\x});
+    
+        \draw[thick, domain=2:3, samples=20] plot (\x, {2 + 0.5*(\x-2)});
+    
+    
+        \draw[thick, domain=3:5, samples=50] plot (\x, {2.5 + (\x-3) - 0.15*(\x-3)*(\x-3)});
+    
+    
+        \draw[dashed, gray] (2, 0) -- (2, 2);
+        \filldraw (2, 2) circle (1pt);
+    
+        \draw[dashed, gray] (3, 0) -- (3, 2.5);
+        \filldraw (3, 2.5) circle (1pt);
+        
+        \draw[dashed] (0, 0) -- (0, 0) node[below right] {$a$};
+        \draw[dashed] (5, 0) -- (5, 0) node[below] {$b$};
+    
+    \end{tikzpicture}
+    \par
+    \end{center}
+    \end{minipage}
+\end{center}
+
+
+\begin{theorem}[Fundamental Theorem of Calculus, 1st Version]
+\label{thm:ftc1}
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ be integrable and define $F:[a,b]\to\R$ by $F(x)=\int_a^x f(t)\d{t}$. If $f$ is continuous at $c\in (a,b)$, then $F$ is differentiable at $c$ and
+        \[F'(c)=f(c).\] 
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Fix $h \neq 0$ such that $c+h \in [a,b]$ (this is possible since $a<c<b$). We have
+    \begin{align*}
+    \frac{F(c+h) - F(c)}{h} &= \frac{1}{h} \left( \int_a^{c+h} f(t) \d t - \int_a^c f(t) \d t \right)\\ 
+    &= \frac{1}{h} \int_c^{c+h} f(t) \d t.
+    \end{align*} 
+    
+    Now, we rewrite the constant $f(c)$ as an integral over the same interval divided by $h$ (since $f(c)$ does not depend on the dummy variable $t$), giving
+    \[ f(c) = \frac{1}{h} \int_c^{c+h} f(c) \d t. \]
+    
+    It follows that, using standard properties of the integral from the previous section,
+    \begin{align*}
+    \left| \frac{F(c+h) - F(c)}{h} - f(c) \right| &= \left| \frac{1}{h} \int_c^{c+h} f(t) \d t - \frac{1}{h} \int_c^{c+h} f(c) \d t \right| \\
+     &= \left| \frac{1}{h} \int_c^{c+h} (f(t) - f(c)) \d t \right|\\
+     &\le \frac{1}{|h|}\left| \int_c^{c+h} |f(t) - f(c)| \d t\right|.
+    \end{align*}
+    
+    By definition of continuity at $c$, for any given $\varepsilon > 0$, there exists a $\delta > 0$ such that for all $t$:
+    \[ |t - c| < \delta \implies |f(t) - f(c)| < \varepsilon \]
+    
+    Now, choose $h$ small enough such that $0 < |h| < \delta$ and the interval of width $2\delta$ about $c$ is contained in $[a,b]$. Then, for any $t$ between $c$ and $c+h$, $|t - c|\le |h|<\delta$. Therefore, $|f(t) - f(c)|<\varepsilon$. Since this holds for any $t$ between $c$ and $c+h$, it follows that
+    
+    \[\left| \frac{F(c+h) - F(c)}{h} - f(c) \right|< \frac{1}{|h|}\left|\int_c^{c+h}\varepsilon\d{t} \right|=\frac{1}{|h|}\varepsilon|h|=\varepsilon,\]
+    so we have shown that \[\lim_{h\to 0}\frac{F(c+h)-F(c)}{h}=f(c),\]
+    i.e. $F'(c)=f(c)$.\qedhere
+\end{proof}
+
+Notice that we require $f$ to be continuous in this case. If $f$ were not continuous then the supremum and infimum of $f$ on the interval between $c$ and $c+h$ for a small fixed $h\ne0 $ would not necessarily converge to the same value as $h\to 0$, but these are the left and right limits of the quotient $\frac{F(c+h)-F(c)}{h}$, so it would mean the graph of $F$ has a ``kink'' (or sharp corner) at $c$, meaning it is not differentiable there. So integration ``smooths out discontinuities'' into sharp corners.
+
+\begin{remark}
+    The proof should make clear the intuition behind this theorem (the instantaneous rate of change of area $F$ is just the height of the curve $f$ at that point). If the geometry isn't clear, one can think of this in terms of accumulation or kinematics. If $f(t)$ is the velocity of a particle over time, then the area underneath the curve represents the total net displacement of the particle, which is $F(t)$. The derivative $F'(t)$ simply asks: \textit{at what rate is this accumulation (which in this case is displacement) changing at the point $t$?} Well that is precisely the velocity, $f(t)$.
+\end{remark}
+
+
+\begin{corollary}
+\label{cor:ftc1cor}
+    \begin{shaded*}
+        Let $f:[a,b]\to\R$ and $g:[a,b]\to\R$ be continuous. If $g$ is differentiable on $(a,b)$ and $f(x)=g'(x)$ for all $x\in(a,b)$, then
+        \[\int_a^b f(x)\d{x}=g(b)-g(a).\]
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Define $F:[a,b]\to\R$ by \[F(x)=\int_a^x f(t)\d{t}.\]
+    By the 1st version of the Fundamental Theorem of Calculus (Theorem \ref{thm:ftc1}), since $f$ is continuous $F$ is differentiable and $F'(x)=f(x)$ for every $x\in(a,b)$. Now, consider the function $H:[a,b]\to\R$ defined by
+    \[H(x)=F(x)-g(x).\]
+    Since $F$ and $g$ are differentiable on $(a,b)$, so is $H$ and $H'(x)=F'(x)-g'(x)=f(x)-f(x)=0$ for all $x\in (a,b)$. Therefore, by an exercise in Chapter 4, $H$ is constant on $(a,b)$, i.e. $H(x)=c$ for every $x\in(a,b)$, for some $c\in\R$. By continuity of $F$ and $g$, it follows that $H$ must be constant on $[a,b]$ (one can show this by contradiction).
+
+    Furthermore, $H(a)=F(a)-g(a)=-g(a)$, and $H(b)=F(b)-g(b)$, but $H(a)=H(b)$ since $H$ is constant on $[a,b]$, from which it follows that
+    \[\int_a^b f(x)\d{x}=F(b)=g(b)-g(a),\]
+    which completes the proof.\qedhere
+\end{proof}
+
+We now introduce the notion of ``swapping the order of integration'' which is often not rigorously justified or defined in standard calculus courses, and is just taken as a rule. However, the standard definition of the (Darboux) integral using partitions strictly requires the lower bound to be smaller than the upper bound, because a partition is defined as a strictly increasing sequence of points $a=x_0<\cdots<x_n=b$. Because of this, an integral evaluated ``backwards'' (from $b$ to $a$ rather than from $a$ to $b$ where $a<b$) has absolutely no meaning under the partition definition. We must define what happens when bounds are varied or swapped. To motivate our definition, we must first define a new integral function which varies the \textit{lower limit} of integration, rather than the upper limit.
+
+\begin{definition}
+    \begin{shaded*}
+        Let $f$ be integrable on $[a,b]$. For $x \in [a,b]$, the function defined by varying the lower limit of integration is given by:
+        \[
+            \int_x^b f(t) \d{t} \coloneqq \int_a^b f(t) \d{t} - \int_a^x f(t) \d{t}.
+        \]
+    \end{shaded*}
+\end{definition}
+
+\begin{theorem}
+    \begin{shaded*}
+        If $f$ is continuous on $[a,b]$, then the function $G:[a,b]\to\R$ defined by $G(x) \coloneqq \int_x^b f(t) \d{t}$ is differentiable on $(a,b)$ and its derivative is:
+        \[
+            \deriv{G(x)}{x} = -f(x).
+        \]
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Using the definition above, we can write $G(x) = \int_a^b f(t) \d{t} - \int_a^x f(t) \d{t}$. Differentiating both sides with respect to $x$ gives:
+    \[
+        \deriv{G(x)}{x} = \deriv{}{x} \left( \int_a^b f(t) \d{t} \right) - \deriv{}{x} \left( \int_a^x f(t) \d{t} \right).
+    \]
+    Since $\int_a^b f(t) \d{t}$ is a constant scalar value, its derivative is $0$. By the 1st version of the Fundamental Theorem of Calculus (Theorem \ref{thm:ftc1}), $\deriv{}{x} \left( \int_a^x f(t) \d{t} \right) = f(x)$. Therefore, 
+    \[
+        \deriv{G(x)}{x} = 0 - f(x) = -f(x).
+    \]
+\end{proof}
+
+\begin{remark}
+    The intuition here is that the derivative is a \textit{rate of change}, a directional quantity. 
+    
+    When we vary the upper limit, the area under the curve is growing, so the derivative is positive. However, if we increase the lower limit, the area is decreasing as $x$ increases. This is because we \textit{shrink} the size of the interval $[x,b]$ when we increase $x$, whereas it is the exact opposite for $[a,x]$.
+\end{remark}
+
+\begin{definition}
+    \begin{shaded*}
+        For $a< b$, we define the integral with swapped limits as:
+        \[
+            \int_b^a f(t) \d{t} \coloneqq -\int_a^b f(t) \d{t}.
+        \]
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    There are a few ways to see why this definition is natural.
+    \begin{itemize}
+        \item The integral measures the total accumulated change of a function. Integrating backwards asks for the reverse change, which is algebraically exactly the negative: $F(a) - F(b) = -(F(b) - F(a))$.
+        \item Geometrically, the integral sums the products of height and width ($f(x) \Delta x$). When integrating right-to-left, the step size $\Delta x$ is strictly negative, flipping the sign of the total sum.
+        \item More conceptually, the integral $\int_a^b f(x) \d{x}$ evaluates a function along a directed path (ordered partition), not over a static set. When we apply the same definition in reverse (i.e. traversing the number line in reverse), the $\Delta x$ terms become negative.
+    \end{itemize}
+\end{remark}
+
+There is also a second version of the Fundamental Theorem of Calculus, which is a \textit{stronger} statement than Corollary \ref{cor:ftc1cor} because it weakens the required hypotheses. We no longer assume that the derivative $g'$ is continuous, only that it exists and is integrable. Here, we bypass continuity by using the Mean Value Theorem to neatly link the net change of $g$ directly to points $g'(x_i)$ that fit perfectly into the upper and lower partition sums.
+
+\begin{theorem}[Fundamental Theorem of Calculus, 2nd Version]
+\label{thm:ftc2}
+    \begin{shaded*}
+        If $g:[a,b]\to\R$ is continuous on $[a,b]$ and differentiable on $(a,b)$ and $g'$ is integrable on $[a,b]$, then
+        \[
+            \int_a^b g'(x) \d{x} = g(b) - g(a).
+        \]
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Let $P = \{t_0, \dots, t_n\}$ be any partition of $[a,b]$. By the Mean Value Theorem applied to $g$ on each sub-interval $[t_{i-1}, t_i]$, there exists $x_i \in (t_{i-1}, t_i)$ such that
+    \[
+        g(t_i) - g(t_{i-1}) = g'(x_i)(t_i - t_{i-1}).
+    \]
+    Summing this from $i = 1$ to $n$ produces a telescoping sum on the left:
+    \[
+        g(b) - g(a) = \sum_{i=1}^n g'(x_i) (t_i - t_{i-1}).
+    \]
+    Let $m_i$ and $M_i$ be the infimum and supremum of $g'$ on $[t_{i-1}, t_i]$. Since $m_i \le g'(x_i) \le M_i$, we have:
+    \[
+        m_i(t_i - t_{i-1}) \le g(t_i) - g(t_{i-1}) \le M_i(t_i - t_{i-1}).
+    \]
+    Summing these inequalities from $i = 1$ to $n$ yields:
+    \[
+        L(g', P) \le g(b) - g(a) \le U(g', P).
+    \]
+    Since $g'$ is assumed to be integrable, for any $\varepsilon > 0$, we can choose a partition $P$ such that $U(g', P) - L(g', P) < \varepsilon$. Because the fixed value $g(b) - g(a)$ sits perfectly between every lower and upper sum, it must be exactly equal to the integral $\int_a^b g'(x) \d{x}$.
+\end{proof}
+
+\begin{remark}
+    There is a subtle technicality in evaluating $\int_a^b g'(x) \d{x}$. If $g$ is only differentiable on the open interval $(a,b)$ (which is how we defined the derivative, we did not define one-sided derivatives), then $g'$ is not defined at the endpoints $a$ and $b$. However, the partition definition of the integral requires the integrand to be defined on the entire closed interval $[a,b]$.
+    
+    To resolve this rigorously, we can implicitly extend $g'$ to $[a,b]$ by assigning arbitrary finite values to the endpoints (e.g., $g'(a) \coloneqq 0$ and $g'(b) \coloneqq 0$). Because changing a function's value at a finite number of points does not affect its integrability or the value of its integral (one should check this), this slight abuse of notation is perfectly safe. Alternatively, if we assume $g$ has one-sided derivatives at the boundaries on $[a,b]$, $g'$ is natively defined on $[a,b]$.
+\end{remark}
+
+\begin{remark}
+    While the 1st version of the FTC (Theorem \ref{thm:ftc1}) shows that the rate of change of an accumulated area is the function itself, this 2nd version (Theorem \ref{ftc2}) provides another perspective: it tells us that if you accumulate all the local rates of change of a function ($g'(x) \d{x}$) across an interval, they sum to the total net change of that function ($g(b) - g(a)$), which is what the telescoping sum showed algebraically, and the MVT allowed us to perform this for an arbitrary partition, thereby establishing the theorem. As an example, consider the case when $g(b)=g(a)$; then the integral of $g'$ over $[a,b]$ evaluates to zero, which matches our intuition that when you add up all the local rates of change, you get the net change, which is zero in this case. This is what the telescoping sum and the Mean Value Theorem formalised. 
+\end{remark}
+
+With the theorems established in this chapter, some familiar and useful properties of the integral can now be proven. We leave them as exercises for the reader.
+
+\begin{exercise*}[Integration by Parts]
+    Let $f:[a,b]\to\R$ and $g:[a,b]\to\R$ be continuously differentiable. Prove that
+    \[\int_a^b f(x)g'(x)\d{x} = f(b)g(b)-f(a)g(a)-\int_a^b f'(x)g(x)\d{x}.\]
+\end{exercise*}
+
+\begin{exercise*}[Change of Variables]
+    Let $\varphi:[a,b]\to\R$ be continuously differentiable, and let $f:\R\to\R$ be continuous. Prove that
+    \[\int_a^b f(\varphi(t))\varphi'(t)\d{t}=\int_{\varphi(a)}^{\varphi(b)}f(u)\d{u}.\] 
+\end{exercise*}
+
+\section{The Logarithm and Exponential Functions}
+
+\begin{definition}
+    \begin{shaded*}
+        Let $L \colon (0, \infty) \to \R$ be the function defined by
+        \[
+            L(x) \coloneqq \int_1^x \frac{1}{t} \d{t}, \quad x > 0.
+        \]
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    For $x > 1$, $L(x)$ represents the strictly positive area under the curve $1/t$ from $1$ to $x$. When $0 < x < 1$, we are integrating ``backwards'' from a larger lower limit ($1$) to a smaller upper limit ($x$). By our established convention for swapping limits, $\int_1^x \frac{1}{t} \d{t} = -\int_x^1 \frac{1}{t} \d{t}$, meaning $L(x)$ is negative the area under $1/t$ on $[x, 1]$. 
+\end{remark}
+
+\begin{theorem}
+    \begin{shaded*}
+        The function $L$ is differentiable and strictly increasing on $(0, \infty)$.
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    The integrand $f(t) = 1/t$ is continuous on $(0, \infty)$. By the Fundamental Theorem of Calculus (1st version, Theorem \ref{ftc1}), the integral function $L$ is differentiable for all $x > 0$, and its derivative is
+    \[
+        L'(x) = \frac{1}{x}.
+    \]
+    Since $x > 0$, we have $L'(x) > 0$ for all $x \in (0, \infty)$. A strictly positive derivative implies that $L$ is strictly increasing by Theorem \ref{thm:monotonederivative}.\qedhere
+\end{proof}
+
+\begin{theorem}[Algebraic Properties of $L$]
+    \begin{shaded*}
+        For all $x, y \in (0, \infty)$ and $n \in \Z$:
+        \begin{enumerate}
+            \item $L(xy) = L(x) + L(y)$
+            \item $L(1) = 0$
+            \item $L(1/x) = -L(x)$
+            \item $L(x^n) = nL(x)$
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    To prove (1), we use the domain additivity of the integral:
+    \[
+        L(xy) = \int_1^{xy} \frac{1}{t} \d{t} = \int_1^x \frac{1}{t} \d{t} + \int_x^{xy} \frac{1}{t} \d{t} = L(x) + \int_x^{xy} \frac{1}{t} \d{t}.
+    \]
+    For the second integral, we apply the change of variables theorem. Let $t = xu$, which implies $\d{t} = x \d{u}$. The integration bounds change from $t=x \implies u=1$ to $t=xy \implies u=y$. This yields:
+    \[
+        \int_x^{xy} \frac{1}{t} \d{t} = \int_1^y \frac{1}{xu} x \d{u} = \int_1^y \frac{1}{u} \d{u} = L(y).
+    \]
+    Substituting this back gives $L(xy) = L(x) + L(y)$.
+    
+    To prove (2), $L(1) = \int_1^1 \frac{1}{t} \d{t} = 0$. Alternatively, using (1), $L(1) = L(1 \cdot 1) = L(1) + L(1) \implies L(1) = 0$.
+    
+    To prove (3), we use (1) and (2): $0 = L(1) = L(x \cdot \frac{1}{x}) = L(x) + L(1/x) \implies L(1/x) = -L(x)$.
+    
+    To prove (4), for positive $n$, repeated application of (1) gives $L(x^n) = L(x \cdot x^{n-1}) = L(x) + (n-1)L(x) = nL(x)$. For negative $n$, let $m = -n$ where $m > 0$. Using (3), $L(x^{-m}) = L(1/x^m) = -L(x^m) = -mL(x) = nL(x)$.\qedhere
+\end{proof}
+
+\begin{theorem}
+    \begin{shaded*}
+        The function $L$ is a bijection from $(0, \infty)$ to $\R$, with limits:
+        \[
+            \lim_{x \to \infty} L(x) = \infty \quad \text{and} \quad \lim_{x \to 0^+} L(x) = -\infty.
+        \]
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Fix a real number $a > 1$. Because $L$ is strictly increasing, $L(a) > L(1) = 0$. 
+    Consider the sequence $x_n = a^n$ as $n \to \infty$. By our algebraic properties, $L(a^n) = nL(a)$. Since $L(a) > 0$, we have $\lim_{n \to \infty} nL(a) = \infty$. Because $L$ is strictly monotonic, it must be that $\lim_{x \to \infty} L(x) = \infty$.
+    
+    For the limit at zero, let $u = 1/x$. As $x \to 0^+$, $u \to \infty$. Using property (3), 
+    \[
+        \lim_{x \to 0^+} L(x) = \lim_{u \to \infty} L(1/u) = \lim_{u \to \infty} -L(u) = -\infty.
+    \]
+    Since $L$ is strictly increasing, it is injective. Because $L$ is continuous on $(0, \infty)$ with limits $-\infty$ and $\infty$ at the boundaries of its domain, the Intermediate Value Theorem (Theorem \ref{thm:ivt}) guarantees that $L$ takes on every real value. Thus, $L$ is surjective onto $\R$, making it a bijection.\qedhere
+\end{proof}
+
+\begin{definition}
+    \begin{shaded*}
+        Because $L \colon (0, \infty) \to \R$ is a continuous bijection, it has a well-defined inverse. We define the \textit{exponential function} $E \colon \R \to (0, \infty)$ to be the inverse of $L$. 
+    \end{shaded*}
+\end{definition}
+
+\begin{remark}
+    From this point forward, we use the standard notation for the functions $L$ and $E$, denoting $L(x)$ by $\log(x)$ and $E(x)$ by $\exp(x)$.
+\end{remark}
+
+\begin{theorem}
+    \begin{shaded*}
+        The function $E$ is differentiable on $\R$, strictly increasing, and satisfies
+        \[
+            E'(x) = E(x) \quad \text{with} \quad E(0) = 1.
+        \]
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Because $L(1) = 0$ and $E$ is the inverse of $L$, we immediately have $E(0) = 1$.
+    
+    To find the derivative, we use the Inverse Function Theorem (Theorem \ref{thm:ift}). Since $L$ is continuously differentiable and $L'(y) = 1/y \neq 0$ for all $y \in (0, \infty)$, its inverse $E$ is differentiable everywhere on $\R$. Evaluating the derivative gives:
+    \[
+        E'(x) = \frac{1}{L'(E(x))}.
+    \]
+    Since $L'(y) = 1/y$, substituting $y = E(x)$ yields $L'(E(x)) = 1/E(x)$. Therefore:
+    \[
+        E'(x) = \frac{1}{1/E(x)} = E(x).
+    \]\qedhere
+\end{proof}
+
+\begin{theorem}[Algebraic Properties of $E$]
+    \begin{shaded*}
+        For all $x, y \in \R$, $E(x + y) = E(x)E(y)$.
+    \end{shaded*}
+\end{theorem}
+
+\begin{proof}
+    Let $u = E(x)$ and $v = E(y)$, so $x = L(u)$ and $y = L(v)$. 
+    Using the algebraic property of $L$, we have:
+    \[
+        x + y = L(u) + L(v) = L(uv).
+    \]
+    Applying $E$ to both sides yields:
+    \[
+        E(x + y) = E(L(uv)) = uv = E(x)E(y).
+    \]
+\end{proof}
+
+\begin{exercise*}
+    Prove the inequality $\log(x) \le x - 1$ for all $x > 0$.
+    \textit{(Hint: Compare the constant function $f(t) = 1$ and $g(t) = 1/t$ on the interval $[1, x]$ for $x \ge 1$, and adapt the argument for $x \in (0, 1)$.)}
+\end{exercise*}
+
+\begin{exercise*}
+    Evaluate the limit:
+    \[
+        \lim_{h \to 0} \frac{\log(1 + h)}{h}.
+    \]
+\end{exercise*}
+
+\begin{exercise*}
+    Using the inequality established in the first exercise and the properties of the inverse function, deduce that $\exp(x) \ge 1 + x$ for all $x \in \R$.
+\end{exercise*}
+
 
 \end{document}
