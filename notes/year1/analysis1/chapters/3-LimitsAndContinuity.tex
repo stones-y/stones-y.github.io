@@ -76,11 +76,9 @@ Above, we formalised ``for $x>a$ sufficiently close to $a$'' as ``$x\in (a,a+\de
         xtick={1,2,3,4},
         ytick={1,2,3,4},
         tick style={thick},
-        % Ensure the plot area is clean
         axis line style={-latex, thick},
         clip=false
     ]
-        % Function before the hole (0 to 1.95)
         \addplot [
             domain=0:1.93, 
             samples=100, 
@@ -88,7 +86,7 @@ Above, we formalised ``for $x>a$ sufficiently close to $a$'' as ``$x\in (a,a+\de
             blue!40!black
         ] {sqrt(x)*2 + 0.2};
         
-        % Function after the hole (2.05 to 4.6)
+        
         \addplot [
             domain=2.07:4.6, 
             samples=100, 
@@ -96,8 +94,6 @@ Above, we formalised ``for $x>a$ sufficiently close to $a$'' as ``$x\in (a,a+\de
             blue!40!black
         ] {sqrt(x)*2 + 0.2} node[right] {$f(x)$};
         
-        % The Removable Discontinuity (The Hole)
-        % Coordinates calculated from the function: f(2) = sqrt(2)*2 + 0.2 ≈ 3.03
         \addplot [
             only marks, 
             mark=o, 
@@ -591,7 +587,7 @@ There is a useful characterisation of compact sets using the Bolzano-Weierstraß
 \end{proof}
 The statement of Theorem \ref{thm:evtc} cannot be directly generalised to functions with codomain $\mathbb{C}$. This is because the complex numbers do not possess a natural total ordering compatible with field operations. Inequalities such as $f(z_1) \le f(z) \le f(z_2)$ are undefined when the outputs are complex numbers; therefore, a complex-valued function cannot attain a ``maximum'' or ``minimum'' value in the traditional sense (think about a circle in the complex plane; every point on this circle has equal magnitude).
 
-However, the topological core of the theorem---that continuous functions map compact sets to compact sets---does apply. We can use this to prove a highly useful variation of the Extreme Value Theorem in $\C$ by looking at the \textit{modulus} (magnitude) of the complex function:
+However, the topological core of the theorem, that continuous functions map compact sets to compact sets, does apply. We can use this to prove a highly useful variation of the Extreme Value Theorem in $\C$ by looking at the \textit{modulus} (magnitude) of the complex function:
 \begin{theorem}[Extreme Value Theorem in $\C$]
 \label{thm:evtc2}
     \begin{shaded*}

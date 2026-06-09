@@ -17,15 +17,12 @@ One useful way of interpreting the derivative is that it is the slope of the tan
     and we provide an illustration of this below.
     \begin{center}
         \begin{tikzpicture}[scale=1.1]
-            % Draw axes with labels
+            % Axes
             \draw[->] (-0.5, 0) -- (3, 0) node[right] {$x$};
             \draw[->] (0, -1) -- (0, 3) node[above] {$y$};
         
-            % Draw the parabola f(x) = 1 - (x-1)^2
             \draw[thick, smooth, domain=-0.4:2.4, samples=50] plot (\x, {1 - (\x-1)*(\x-1)});
         
-            % Draw the tangent line at x = 1.5 (y = -x + 2.25)
-            % Extended slightly past the axes to clearly show intersections
             \draw (-0.2, 2.45) -- (2.6, -0.35);
             \filldraw[blue] (1.5, 0.75) circle (2pt);
         \end{tikzpicture}
@@ -937,7 +934,7 @@ However, we will take the theorem below (which is a corollary of Theorem \ref{th
     \textit{1. The Geometric Perspective}:
     The graph of an inverse function $f^{-1}$ is just the graph of $f$ reflected across the diagonal line $y = x$. This reflection physically swaps the horizontal and vertical axes. 
     
-    The derivative is the slope of the tangent line, which is the ratio of "rise" over "run" ($\frac{\Delta y}{\Delta x}$). When you reflect the graph across $y = x$, the old vertical "rise" becomes the new horizontal "run", and the old horizontal "run" becomes the new vertical "rise". 
+    The derivative is the slope of the tangent line, which is the ratio of ``rise'' over ``run'' ($\frac{\Delta y}{\Delta x}$). When you reflect the graph across $y = x$, the old vertical ``rise'' becomes the new horizontal ``run'', and the old horizontal ``run'' becomes the new vertical ``rise''. 
     
     The new slope is therefore $\frac{\Delta x}{\Delta y}$, which is exactly the reciprocal of the original slope $\frac{\Delta y}{\Delta x}$. If a tangent line on $f$ is very steep, its reflection on $f^{-1}$ will be very shallow. Spend some time thinking about a reflection across the line $y=x$, and this should become clear (a picture is also provided below).
 
@@ -953,28 +950,26 @@ However, we will take the theorem below (which is a corollary of Theorem \ref{th
     \draw[->] (-0.5, 0) -- (4, 0) node[right] {$x$};
     \draw[->] (0, -0.5) -- (0, 4) node[above] {$y$};
 
-    % y = x reflection line
     \draw[dashed, gray] (-0.5, -0.5) -- (4, 4) node[right] {$y=x$};
 
-    % Function f(x) = x^2 (for x > 0)
+    
     \draw[thick] plot[domain=0:1.9, samples=50] (\x, {\x*\x}) node[right] {$f(x)$};
 
-    % Inverse f^{-1}(x) = sqrt(x)
+    
     \draw[thick] plot[domain=0:3.61, samples=50] (\x, {sqrt(\x)}) node[above] {$f^{-1}(x)$};
 
-    % Point on f(x) and its tangent
+    
     \coordinate (P) at (1.2, 1.44);
     \filldraw (P) circle (1pt) node[left] {$(a, b)$};
-    % Derivative of x^2 at x=1.2 is 2.4. Tangent: y - 1.44 = 2.4(x - 1.2)
+    
     \draw[red, thick, <->] (0.8, 0.48) -- (1.6, 2.4) node[above left, black] {slope $m$};
 
-    % Reflected point on f^{-1}(x) and its tangent
+    
     \coordinate (Q) at (1.44, 1.2);
     \filldraw (Q) circle (1pt) node[below right] {$(b, a)$};
-    % Derivative of sqrt(x) at x=1.44 is 1 / (2*1.2) = 1/2.4. Tangent: y - 1.2 = (1/2.4)(x - 1.44)
+    
     \draw[blue, thick, <->] (0.48, 0.8) -- (2.4, 1.6) node[below right, black] {slope $1/m$};
     
-    % Dotted lines connecting the points across y=x
     \draw[dotted, gray] (P) -- (Q);
 
 \end{tikzpicture}

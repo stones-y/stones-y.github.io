@@ -35,12 +35,15 @@
     ctx.clearRect(0, 0, W, H);
 
     for (const s of stars) {
-      s.x += s.vx;
-      s.y += s.vy;
-      if (s.x < 0) s.x = W;
-      if (s.x > W) s.x = 0;
-      if (s.y < 0) s.y = H;
-      if (s.y > H) s.y = 0;
+      // Only drift on non-mobile
+      if (!isMobile) {
+        s.x += s.vx;
+        s.y += s.vy;
+        if (s.x < 0) s.x = W;
+        if (s.x > W) s.x = 0;
+        if (s.y < 0) s.y = H;
+        if (s.y > H) s.y = 0;
+      }
       s.alpha += s.dAlpha;
       if (s.alpha > 0.85 || s.alpha < 0.05) s.dAlpha *= -1;
 
@@ -52,6 +55,8 @@
 
     requestAnimationFrame(draw);
   }
+
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
 
   // Reinitialise stars on resize/orientation change so they
   // fill the new dimensions rather than clustering in a corner

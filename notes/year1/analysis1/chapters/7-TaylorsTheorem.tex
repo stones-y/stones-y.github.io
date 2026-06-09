@@ -5,9 +5,9 @@
 
 \chapter{Taylor's Theorem}
 
-This chapter is motivated by the question: how can we approximate a function with other, simpler functions, locally? In particular, the approximation of functions by \textit{polynomials}. Polynomials are the natural first choice as they are, in some way, the simplest type of function on $\R$ and have very nice properties.
+This chapter is motivated by the question: how can we approximate a function with other, simpler functions, locally? In particular, the approximation of functions by \textit{polynomials}. Polynomials are the natural first choice as they are, in some way, the simplest type of function on $\R$ and have very nice properties. 
 
-When discussing Taylor's theorem, we are fundamentally talking about \textit{polynomials}, not power series. A series that defines a function is not just a single series; for every $x$, you have a different limit. Establishing whether such a series converges, is continuous, or is differentiable requires significant machinery in general (we will see this in the sequences and series of functions topic), but for functions with a Taylor Series, these properties are automatic because of the properties of polynomials.
+When discussing Taylor's theorem, we are fundamentally talking about \textit{polynomials}, not power series. A series that defines a function is not just a single series; for every $x$, you have a different limit. Establishing whether such a series converges, is continuous, or is differentiable requires significant machinery in general, but for functions with a finite Taylor polynomial, these properties are automatic because of the algebraic properties of polynomials.
 
 \section{Taylor Polynomials}
 
@@ -21,9 +21,11 @@ When discussing Taylor's theorem, we are fundamentally talking about \textit{pol
 \end{definition}
 
 \begin{remark}
-    We can construct a polynomial with prescribed derivatives at a point $a$ by writing it in ``centred'' form $\sum_{k=0}^n c_k (x-a)^k$. Then the derivatives of this polynomial at $a$ directly determine the coefficients $c_k = f^{(k)}(a)/k!$. 
+    We can construct a polynomial with prescribed derivatives at a point $a$ by writing it in the ``centred'' form $\sum_{k=0}^n c_k(x-a)^k$. The derivatives of this polynomial at $a$ directly determine the coefficients $c_k = f^{(k)}(a)/k!$.
     
-    Geometrically, by forcing the polynomial and the function to agree up to $n$ derivatives, the \textit{local geometry} of the two functions becomes identical up to order $n$. To make this more clear, consider the remainder function below:
+    Geometrically, by forcing the polynomial and the function to share the exact same value, slope, concavity, and higher-order rates of change at a single point $a$, we are essentially locking their \textit{local geometries} together. The higher the order $n$, the more rigid this lock becomes, widening the neighbourhood where the polynomial stays glued to the function before inevitably peeling away.
+
+    It may seem slightly unnatural to construct a polynomial whose derivatives up to order $n$ to act as a local approximation to a given function, but to see why this works it is useful to consider the \textit{remainder} function for a given function and its Taylor polynomial:
 \end{remark}
 
 \begin{definition}[The Remainder]
@@ -35,22 +37,39 @@ When discussing Taylor's theorem, we are fundamentally talking about \textit{pol
     \end{shaded*}
 \end{definition}
 
-\begin{remark}
-    The remainder represents the ``error'' in the approximation of $f$ by $P_{n,a}$. Notice that the remainder $R_{n,a}$ has its first $n$ derivatives at $a$ vanishing, which geometrically corresponds to extreme ``flatness'' at $a$, showing that the local approximation near $a$ is extremely good. This is illustrated below with $x^{10}$ at 0; there is a $10$ multiplicity root at $0$, which geometrically corresponds to extreme ``flatness'' at zero.
-    \begin{center}
-        \begin{tikzpicture}[scale=0.7]
-            \useasboundingbox (-4.5, -1) rectangle (4.5, 6);
-            % Axes
-            \draw[->] (-4,0) -- (4,0) node[right] {$x$};
-            \draw[->] (0,-0.5) -- (0,5) node[above] {$y$};
-            \draw[thick, black, domain=-4:4, samples = 200] plot (\x, {(\x/3.5)^(10)}) node[above right]{$y=x^{10}$};
-        \end{tikzpicture}
-    \end{center} 
-    In terms of the polynomial approximation to a function, the above ``flatness'' corresponds to the polynomial ``hugging'' the function tightly, locally near the point $a$ (although, of course, the remainder is not necessarily a polynomial like $x^{10}$, but the flatness about $a$ mimics that of a polynomial with the appropriate root multiplicity there). More conceptually, this phenomenon is explained by the limit \[\lim_{x\to a}\frac{R_{n,a}(x)}{(x-a)^k}=0\] for $k\le n$; i.e. the $R$ ``dominates'' the behaviour compared to any lower degree polynomial with root multiplicty $k<a$ at that point. We illustrate this below with the example of $f(x)=\sin x$ and the corresponding $3$-rd order Taylor polynomial $P_{3,0}(x)=x-\frac{x^3}{6}$. Notice that the approximation no longer works for points away from $a$; this is expected, as $\sin x$ is not a polynomial (though it does have a power series, as we will see later).
+The remainder $R_{n,a}(x)$ represents the exact ``error'' in our approximation. By construction, the function and the polynomial share their first $n$ derivatives at $a$. Therefore, the remainder function has its first $n$ derivatives vanishing at $a$.
+    
+Geometrically, this corresponds to extreme ``flatness'' at $a$ (similar to how $y=x^{n}$ is extremely flat near the origin, for $n$ large - see below). Because the error is practically zero in this flat region, the polynomial ``hugs'' the function tightly. 
+
 \begin{center}
+    \begin{tikzpicture}[scale=0.7]
+        \useasboundingbox (-4.5, -1) rectangle (4.5, 6);
+        % Axes
+        \draw[->] (-4,0) -- (4,0) node[right] {$x$};
+        \draw[->] (0,-0.5) -- (0,5) node[above] {$y$};
+        \draw[thick, black, domain=-4:4, samples = 200] plot (\x, {(\x/3.5)^(10)}) node[above right]{$y=x^{10}$};
+    \end{tikzpicture}
+\end{center}
+
+\begin{definition}[Little-$o$ Notation]
+    \begin{shaded*}
+        Let $k \in \N$. We say that $f \in o(|x-a|^k)$ if
+        \[
+            \lim_{x \to a} \frac{f(x)}{|x-a|^k} = 0.
+        \]
+    \end{shaded*}
+\end{definition}
+
+Conceptually, the extreme flatness of the remainder is demonstrated in the above Little-$o$ notation. As we will show below, $R_{n,a} \in o(|x-a|^n)$. 
+    
+This limit explicitly states that as $x$ approaches $a$, the error $R_{n,a}(x)$ shrinks to zero strictly \textit{faster} than the $n$-th power of the distance from the centre. The error is strictly dominated by the polynomial $|x-a|^n$. This is the formal mathematical translation of the polynomial ``hugging'' the function: the approximation error vanishes so rapidly that it is negligible even when compared to the microscopic scale of $|x-a|^n$.
+
+
+\begin{center}
+
 \begin{tikzpicture}[scale=1]
     
-    \useasboundingbox (-4.5, -3.5) rectangle (4.5, 3);
+    \useasboundingbox (-4.5, -2) rectangle (4.5, 3);
 
     % Draw basic, clean axes
     \draw[->] (-3.2, 0) -- (3.2, 0) node[right, black] {$x$};
@@ -71,17 +90,6 @@ When discussing Taylor's theorem, we are fundamentally talking about \textit{pol
 
 \end{tikzpicture}
 \end{center}
-\end{remark}
-
-\begin{definition}[Little-$o$ Notation]
-    \begin{shaded*}
-        Let $k\in\N$. We say that $f\in o(|x-a|^k)$ if
-        \[\lim_{x\to a}\frac{f(x)}{|x-a|^k}=0.\]
-    \end{shaded*}
-\end{definition}
-\begin{example}
-    As we explained above, $R_{n,a}\in o(|x-a|^n)$.
-\end{example}
 
 \begin{theorem}[Taylor's Theorem with Lagrange Remainder]
 \label{thm:ttl}
@@ -154,7 +162,12 @@ When discussing Taylor's theorem, we are fundamentally talking about \textit{pol
 
 \section{Taylor Series}
 
-We have seen that Taylor polynomials are fundamentally local approximations, however there is a special class of functions, called \textit{analytic functions}, whose Taylor polynomials converge to the original function on an interval as $n\to\infty$. This is quite surprising, as it says that these functions can be recovered \textit{globally} in the form of an ``infinite polynomial'' from only their derivatives \textit{at a single point}, i.e. from only local information. Indeed, these \textit{are} the special functions defined by this property; there are many examples, as we will see below, of functions that are in $C^{\infty}$ (infinitely differentiable) but are not analytic.
+
+We have seen that Taylor polynomials are fundamentally local approximations, however there is a special class of functions, called \textit{analytic functions}, whose Taylor polynomials converge to the original function on an interval as $n\to\infty$. This is quite surprising, as it says that these functions can be recovered \textit{globally} in the form of an ``infinite polynomial'' from only their derivatives \textit{at a single point}, i.e. from only local information. Indeed, it can feel deeply counter-intuitive that purely local information - derivatives evaluated at a single microscopic point $a$ - can perfectly reconstruct a function's global shape. If you draw an arbitrary curve by hand, knowing its slope at $x=0$ tells you absolutely nothing about its height at $x=10$.
+
+However, polynomials are extremely rigid. A polynomial of degree $n$ cannot suddenly sprout a new wiggle or change its asymptotic behaviour; its entire fate across the whole real line is permanently sealed by its finite coefficients. In other words, its global behaviour is completely determined by a finite set of points. Because an analytic function is essentially an ``infinite polynomial'', it inherits this extreme global rigidity. If you know a real analytic function and all of its derivatives at a single point, you possess the entire ``genetic code'' of the function. The Taylor coefficients lock the \textit{local} geometry in place, propagating that local curvature outward. There is zero room for the function to do anything unexpected globally because its global behaviour is a rigid algebraic consequence of its local derivatives.
+
+Indeed, these \textit{are} the special functions defined by this property; there are many examples, as we will see below, of functions that are in $C^{\infty}$ (infinitely differentiable) but are not analytic.
 
 \begin{definition}[Real Analytic Function]
     \begin{shaded*}
@@ -216,7 +229,7 @@ Intuitively, this means that the function is ``rigid'' enough that it can be app
     
     This function is infinitely differentiable everywhere (which one should verify), but $f^{(n)}(0) = 0$ for all $n \in \N$. Therefore, its Taylor polynomial at $a=0$ is the identically zero function, $P_{n,0}(x) = 0$ for all $n$.
 
-    Intuitively, becauase this function converges to zero faster than any polynomial, on any interval around 0, each function $x^n$ is ``too weak'' to match the exponential decay of $f$ near 0, so has nothing to contribute to the Taylor polynomial at 0. In other words, it is because $f\in o(|x|^n)$ for every $n\in\N$. There is a complete loss of information, demonstrating that Taylor polynomials are fundamentally a \textit{local} matching tool, apart from in the special case of analytic functions.
+    Intuitively, becauase this function converges to zero as $x\to 0$ faster than any polynomial, each power $x^n$ is ``too weak'' to match the exponential decay of $f$ near 0, so has nothing to contribute to the Taylor polynomial at 0. Precisely, it is because $f\in o(|x|^n)$ for every $n\in\N$; the function itself vanishes faster than any polynomial term $x^n$ can measure, so its best polynomial approximation at the origin is simply the zero polynomial, $P_{n,0}(x) = 0$. The polynomials literally cannot ``see'' the function's global growth because it is locally too flat.
 \end{example}
 
 Based on the Lagrange form of the remainder in Taylor's Theorem, we get a useful sufficient condition for the convergence of Taylor series to the original function.
@@ -245,6 +258,12 @@ Based on the Lagrange form of the remainder in Taylor's Theorem, we get a useful
 \begin{remark}
     The expression $\frac{(n+1)!}{R^{n+1}}$ is highly advantageous when bounding error because factorials grow significantly faster than exponentials. This affords us a massive amount of ``room'' to bound the derivatives of functions like $\sin(x)$, $\cos(x)$, and $\exp(x)$, which are indeed analytic functions.
 \end{remark}
+
+The distinction between infinitely differentiable and analytic is better understood via Complex Analysis (the analysis of $\C$). 
+    
+In $\R$, being infinitely differentiable is a surprisingly weak geometric condition. Because you can only approach a point from two directions (left or right) on the 1D real line, it is easy to ``cheat'' and smoothly glue a completely flat line to a curved function (like our bump function) without breaking differentiability. 
+    
+However, in the complex plane, a function takes inputs from a 2D surface. To be complex-differentiable at a point, the limit of the difference quotient must perfectly agree no matter which of the infinite possible directions you approach from. This geometric constraint is so incredibly rigid that if a complex function is differentiable just \textit{once} on an open set, it is automatically infinitely differentiable and perfectly equal to its Taylor series everywhere in that domain. In the complex world, the ``bump function'' is mathematically impossible.
 
 \begin{exercise*}
     Prove that $\exp(x)$ is real analytic.

@@ -13,7 +13,7 @@ To understand convex functions, we must first define a more general notion of co
 \label{def:convexset}
     \begin{shaded*}
         A subset $S \subseteq \R^n$ is \textit{convex} in $\R^n$ if, for any two points $x, y \in S$, the straight line segment connecting them lies entirely within $S$. Mathematically, for any $x,y\in S$ and for all $t \in [0,1]$:
-        \[ (1-t)x + ty \in S \]
+        \[ (1-t)x + ty \in S. \]
     \end{shaded*}
 \end{definition}
 
@@ -25,15 +25,13 @@ In $\R$, the only convex sets are intervals (open, closed, or half-open) and sin
 
 \vspace{1em}
 
-% Triangle
+
 \begin{minipage}{0.31\textwidth}
     \centering
     \begin{tikzpicture}[scale=0.6]
-        % Fill and draw the triangle
         \filldraw[fill=blue!15, draw=blue, thick] 
             (-1.5, -1) -- (2, -1) -- (0.5, 2.5) -- cycle;
         
-        % Points and line segment showing convexity
         \coordinate (A) at (-0.2, -0.2);
         \coordinate (B) at (1.2, -0.5);
         \draw[thick, red, dashed] (A) -- (B);
@@ -45,15 +43,15 @@ In $\R$, the only convex sets are intervals (open, closed, or half-open) and sin
     %\textbf{Triangle}\\
     %(Common Convex Set)
 \end{minipage}\hfill
-% Ellipse
+
 \begin{minipage}{0.31\textwidth}
     \centering
     \begin{tikzpicture}[scale=0.6]
-        % Fill and draw the ellipse
+        
         \filldraw[fill=green!15, draw=green!60!black, thick] 
             (0, 0.5) ellipse (2 and 1.2);
         
-        % Points and line segment showing convexity
+        
         \coordinate (C) at (-1.2, 0.7);
         \coordinate (D) at (1.3, 0.1);
         \draw[thick, red, dashed] (C) -- (D);
@@ -65,16 +63,15 @@ In $\R$, the only convex sets are intervals (open, closed, or half-open) and sin
     %\textbf{Ellipse}\\
     %(Common Convex Set)
 \end{minipage}\hfill
-% Arbitrary Convex Shape
+
 \begin{minipage}{0.31\textwidth}
     \centering
     \begin{tikzpicture}[scale=0.6]
-        % Fill and draw an arbitrary smooth convex polygon
+        
         \filldraw[fill=orange!15, draw=orange!80!black, thick] 
             plot[smooth cycle, tension=0.6] coordinates 
             {(-1.5, -0.5) (0.5, -1.2) (2, 0.5) (1, 2.2) (-1, 1.5)};
         
-        % Points and line segment showing convexity
         \coordinate (E) at (-0.8, 0.2);
         \coordinate (F) at (1.2, 1.2);
         \draw[thick, red, dashed] (E) -- (F);
@@ -147,10 +144,8 @@ Some examples of convex functions are illustrated below. As seen in Theorem \ref
         \draw[->] (-2.2,0) -- (2.2,0) node[right] {$x$};
         \draw[->] (0,-0.5) -- (0,3.5) node[above] {$f(x)$};
         
-        % Function Curve
         \draw[thick, black, domain=-1.7:1.7, samples=50] plot (\x, {\x*\x});
         
-        % Secant line showing convexity
         \draw[thick, red, dashed] (-1.2, 1.44) -- (1.4, 1.96);
         \filldraw[black] (-1.2, 1.44) circle (2pt);
         \filldraw[black] (1.4, 1.96) circle (2pt);
@@ -158,7 +153,6 @@ Some examples of convex functions are illustrated below. As seen in Theorem \ref
     }
     
 \end{minipage}\hfill
-% ---------- Second Function: Absolute Value ----------
 \begin{minipage}{0.31\textwidth}
     \centering
     \resizebox{\linewidth}{!}{%
@@ -167,17 +161,16 @@ Some examples of convex functions are illustrated below. As seen in Theorem \ref
         \draw[->] (-2.2,0) -- (2.2,0) node[right] {$x$};
         \draw[->] (0,-0.5) -- (0,3.5) node[above] {$f(x)$};
         
-        % Function Curve
+        
         \draw[thick, black] (-1.7, 1.7) -- (0,0) -- (1.7, 1.7);
         
-        % Secant line showing convexity
+        
         \draw[thick, red, dashed] (-1.4, 1.4) -- (0.8, 0.8);
         \filldraw[black] (-1.4, 1.4) circle (2pt);
         \filldraw[black] (0.8, 0.8) circle (2pt);
     \end{tikzpicture}%
     }
 \end{minipage}\hfill
-% ---------- Third Function: Arbitrary Asymmetric ----------
 \begin{minipage}{0.31\textwidth}
     \centering
     \resizebox{\linewidth}{!}{%
@@ -190,7 +183,6 @@ Some examples of convex functions are illustrated below. As seen in Theorem \ref
         \draw[thick, black, domain=-1.6:1.9, samples=50] 
             plot (\x, {0.1*(\x*\x*\x*\x) + 0.3*(\x*\x) - 0.4*\x + 0.5});
         
-        % Secant line showing convexity
         \draw[thick, red, dashed] (-1, 1.3) -- (1.5, 1.075);
         \filldraw[black] (-1, 1.3) circle (2pt);
         \filldraw[black] (1.5, 1.075) circle (2pt);
