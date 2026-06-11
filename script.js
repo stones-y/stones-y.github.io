@@ -1,6 +1,9 @@
 /* ══════════════════════════════════════
    STARFIELD
 ══════════════════════════════════════ */
+
+/*
+
 (function () {
   const canvas = document.getElementById('starfield');
   const ctx = canvas.getContext('2d');
@@ -78,6 +81,8 @@
     draw();
   });
 })();
+
+*/
 
 /* ══════════════════════════════════════
    PROGRESS BARS — animate in on load

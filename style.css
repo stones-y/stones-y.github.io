@@ -115,6 +115,9 @@ body {
 }
 
 /* Radial glow behind the title */
+
+/*
+
 .hero::before {
   content: '';
   position: absolute;
@@ -130,6 +133,7 @@ body {
   pointer-events: none;
   z-index: -1;
 }
+*/
 
 .hero-inner {
   position: relative;
@@ -194,6 +198,8 @@ h1 {
 .contact a:hover {
   color: var(--accent);
 }
+
+
 
 /* ══════════════════════════════════════
    STATS BAR
@@ -596,11 +602,13 @@ footer {
   footer { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
 
   /* Constrain the glow so it doesn't cause horizontal overflow */
+  /*
   .hero::before {
     left: -4rem;
     width: 100vw;
     max-width: 100vw;
   }
+  */
 
   /* Stats bar: 2x2 grid on mobile */
   .stats-bar {
