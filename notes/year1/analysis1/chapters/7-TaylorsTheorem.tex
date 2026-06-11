@@ -163,9 +163,9 @@ This limit explicitly states that as $x$ approaches $a$, the error $R_{n,a}(x)$ 
 \section{Taylor Series}
 
 
-We have seen that Taylor polynomials are fundamentally local approximations, however there is a special class of functions, called \textit{analytic functions}, whose Taylor polynomials converge to the original function on an interval as $n\to\infty$. This is quite surprising, as it says that these functions can be recovered \textit{globally} in the form of an ``infinite polynomial'' from only their derivatives \textit{at a single point}, i.e. from only local information. Indeed, it can feel deeply counter-intuitive that purely local information - derivatives evaluated at a single microscopic point $a$ - can perfectly reconstruct a function's global shape. If you draw an arbitrary curve by hand, knowing its slope at $x=0$ tells you absolutely nothing about its height at $x=10$.
+We have seen that Taylor polynomials are fundamentally local approximations, however there is a special class of functions, called \textit{analytic functions}, whose Taylor polynomials converge to the original function on an interval as $n\to\infty$. This is quite surprising, as it says that these functions can be recovered \textit{globally} in the form of an ``infinite polynomial'' from only their derivatives \textit{at a single point}, i.e. from only local information. It may be counter-intuitive that purely local information - derivatives evaluated at a single microscopic point $a$ - can perfectly reconstruct a function's global shape. If you draw an arbitrary curve by hand, knowing its slope at $x=0$ tells you absolutely nothing about its height at $x=10$.
 
-However, polynomials are extremely rigid. A polynomial of degree $n$ cannot suddenly sprout a new wiggle or change its asymptotic behaviour; its entire fate across the whole real line is permanently sealed by its finite coefficients. In other words, its global behaviour is completely determined by a finite set of points. Because an analytic function is essentially an ``infinite polynomial'', it inherits this extreme global rigidity. If you know a real analytic function and all of its derivatives at a single point, you possess the entire ``genetic code'' of the function. The Taylor coefficients lock the \textit{local} geometry in place, propagating that local curvature outward. There is zero room for the function to do anything unexpected globally because its global behaviour is a rigid algebraic consequence of its local derivatives.
+However, polynomials are extremely rigid. A polynomial of degree $n$ cannot suddenly change its asymptotic behaviour; its behaviour on the real line is entirely determined by its finite coefficients. In other words, its global behaviour is completely determined by a finite set of points. Because an analytic function is essentially an ``infinite polynomial'', it inherits this ``rigidity''. If you know a real analytic function and all of its derivatives at a single point, you possess all the information you need to rebuild the function. There is zero room for the function to do anything unexpected globally because its global behaviour is a rigid algebraic consequence of its local derivatives.
 
 Indeed, these \textit{are} the special functions defined by this property; there are many examples, as we will see below, of functions that are in $C^{\infty}$ (infinitely differentiable) but are not analytic.
 
@@ -177,10 +177,10 @@ Indeed, these \textit{are} the special functions defined by this property; there
     \end{shaded*}
 \end{definition}
 
-Intuitively, this means that the function is ``rigid'' enough that it can be approached globally (i.e. on an interval) by polynomial functions. This is precisely why the derivatives of the function at one point generate can build the whole function; as we saw in the discussion at the start of this chapter, polynomials are extremely special functions that can be re-centred to any point while remaining invariant, and so the local information of an analytic function inherits this property, such that local information, like derivatives at a point $a$, can still recover the function globally. 
+Intuitively, this means that the function is ``rigid'' enough that it can be approached globally (i.e. on an interval) by polynomial functions. This is precisely why the derivatives of the function at one point generate can build the whole function; as we saw in the discussion at the start of this chapter, polynomials are extremely special functions that can be re-centred to any point while remaining invariant, and so the local information of an analytic function inherits this property, such that local information, like derivatives at a point $a$, can still recover the function globally. Where we ``centre'' our approximation does not matter, as long as it is inside the interval of convergence; in the limit, the approximation recovers the whole function.
 
 \begin{example}
-    Not all functions in $C^{\infty}$ are (real) analytic. A classic counterexample is the bump function $f:\R\to\R$ defined by
+    Not all functions in $C^{\infty}$ are (real) analytic. The idea is to construct a $C^{\infty}$ function $f:\R\to\R$ whose graph, though not horizontal, is ``very flat'' near $0$ in the sense that all of its derivatives vanish at $0$. A classic example is the bump function $f:\R\to\R$ defined by
     \[
         f(x) = \begin{cases} 
         \exp(-1/x^2), & x \neq 0, \\ 
@@ -221,7 +221,8 @@ Intuitively, this means that the function is ``rigid'' enough that it can be app
             \draw [thick, black] 
               plot [domain=-3:-0.05, samples=100] (\x, {exp(-1/(\x*\x))}) 
               -- (0,0) 
-              -- plot [domain=0.05:3, samples=100] (\x, {exp(-1/(\x*\x))});
+              -- plot [domain=0.05:3, samples=100] (\x, {exp(-1/(\x*\x))})
+            node[above left]{$f(x)$};
       
           \end{scope}
         \end{tikzpicture}
@@ -263,7 +264,7 @@ The distinction between infinitely differentiable and analytic is better underst
     
 In $\R$, being infinitely differentiable is a surprisingly weak geometric condition. Because you can only approach a point from two directions (left or right) on the 1D real line, it is easy to ``cheat'' and smoothly glue a completely flat line to a curved function (like our bump function) without breaking differentiability. 
     
-However, in the complex plane, a function takes inputs from a 2D surface. To be complex-differentiable at a point, the limit of the difference quotient must perfectly agree no matter which of the infinite possible directions you approach from. This geometric constraint is so incredibly rigid that if a complex function is differentiable just \textit{once} on an open set, it is automatically infinitely differentiable and perfectly equal to its Taylor series everywhere in that domain. In the complex world, the ``bump function'' is mathematically impossible.
+However, in the complex plane, a function takes inputs from a 2D surface. To be complex-differentiable at a point, the limit of the difference quotient must perfectly agree no matter which of the infinite possible directions you approach from. This geometric constraint is so incredibly rigid that if a complex function is differentiable just \textit{once} on an open set, it is automatically infinitely differentiable and perfectly equal to its Taylor series everywhere in that domain. In the complex world, the ``bump function'' is impossible.
 
 \begin{exercise*}
     Prove that $\exp(x)$ is real analytic.
