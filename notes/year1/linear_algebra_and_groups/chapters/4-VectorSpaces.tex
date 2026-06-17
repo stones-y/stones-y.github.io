@@ -44,7 +44,7 @@ For notation, sometimes we write $W\le V$ to indicate that $W\subseteq V$ is a s
 
 \subsection{Matrix Subspaces}
 
-\noindent We can now define three subspaces associated with any matrix.
+We can now define three subspaces associated with any matrix.
 
 \begin{definition}[Null Space, Row Space, Column Space]
     \begin{shaded*}
@@ -106,7 +106,7 @@ For notation, sometimes we write $W\le V$ to indicate that $W\subseteq V$ is a s
     \end{enumerate}
 \end{proof}
 
-\noindent We can generalise these results to arbitrary collections of subspaces:
+We can generalise these results to arbitrary collections of subspaces:
 
 \begin{proposition}
     \begin{shaded*}
@@ -235,7 +235,7 @@ Two simple observations that follow directly from the definitions are:
     \item If $X \subseteq Y$ and $X$ is spanning, then $Y$ is spanning.
 \end{itemize}
 
-\noindent Now we establish how to grow or shrink sets without losing their key properties.
+Now we establish how to grow or shrink sets without losing their key properties.
 
 \begin{lemma}[Extending linearly independent sets]
 \label{lem:extendlinindep}
@@ -273,7 +273,7 @@ Two simple observations that follow directly from the definitions are:
 \end{proof}
 
 
-\noindent Combining these two ideas allows us to swap vectors in and out of a spanning set:
+Combining these two ideas allows us to swap vectors in and out of a spanning set:
 
 \begin{lemma}[Steinitz Exchange Lemma]
 \label{lem:steinitz}
@@ -329,7 +329,7 @@ Two simple observations that follow directly from the definitions are:
     The induction here just formalises our algorithmic process of slowly putting each ``problematic'' $x\in X\setminus Y$ into a new set $Y'$ by replacing a $y_j$ which is outside of $X$ (if it was already in $X$ this is what we wanted - so replacing it would be redundant!). We then repeat and this process terminates because $X$ is finite; this is what the induction formalises.
 \end{remark}
 
-\noindent Consequently, we get:
+Consequently, we get:
 \begin{theorem}
 \label{thm:comparingcardinality}
     \begin{shaded*}
@@ -434,7 +434,7 @@ We have now proven two key facts for finite-dimensional vector spaces: at least 
     To formalize the ``this process eventually terminates'' argument, one would use induction on the integer $k \coloneqq n - |X|$, representing the number of vectors needed to reach the dimension of the space.
 \end{remark}
 
-\noindent The following proposition gives another useful way to think about bases.
+The following proposition gives another useful way to think about bases.
 \begin{proposition}
 \label{prop:uniquerepbasis}
     \begin{shaded*}
@@ -449,16 +449,16 @@ We have now proven two key facts for finite-dimensional vector spaces: at least 
 \begin{proof}
     \begin{enumerate}
         \item[1.] Suppose $X$ is linearly independent and $v\in\Span(X)$ has two expressions:
-        \[ v = \lambda_1x_1+\cdots+\lambda_mx_m = \lambda'_1x_1+\cdots+\lambda'_mx_m \]
+        \[ v = \lambda_1x_1+\cdots+\lambda_mx_m = \lambda'_1x_1+\cdots+\lambda'_mx_m, \]
         for distinct $x_i \in X$. Subtracting the second from the first gives:
-        \[ 0 = (\lambda_1-\lambda'_1)x_1+\cdots+(\lambda_m-\lambda'_m)x_m \]
+        \[ 0 = (\lambda_1-\lambda'_1)x_1+\cdots+(\lambda_m-\lambda'_m)x_m.\]
         Since $X$ is linearly independent, the only solution to this homogeneous equation is the trivial one. This forces $\lambda_i-\lambda'_i=0$, meaning $\lambda_i=\lambda'_i$ for all $i$. Thus, the representation is unique.
         \item[2.] This is the exact definition of $\Span(Y)=V$.
         \item[3.] A basis is by definition both linearly independent and spanning. Combining (1) and (2) ensures both the existence and uniqueness of the linear combination.\qedhere 
     \end{enumerate}
 \end{proof}
 
-\noindent Another useful proposition is:
+Another useful proposition is:
 \begin{proposition}
     \begin{shaded*}
         Let $V$ be a finite-dimensional vector space with $n \coloneqq \dim(V)$. Then the following are equivalent for a subset $X\subseteq V$:
@@ -505,7 +505,7 @@ We have now proven two key facts for finite-dimensional vector spaces: at least 
 \label{prop:subspacedim}
     \begin{shaded*}
         If $V$ is finite-dimensional and $U\subseteq V$ is a subspace, then $U$ is also finite-dimensional and:
-        \[ \dim(U) \le \dim(V) \]
+        \[ \dim(U) \le \dim(V). \]
         Moreover, $\dim(U)=\dim(V)$ if and only if $U=V$.
     \end{shaded*}
 \end{proposition}
@@ -516,44 +516,44 @@ We have now proven two key facts for finite-dimensional vector spaces: at least 
     
     Finally, if $\dim(U)=\dim(V)$, then a basis of $U$ is a linearly independent subset of $V$ of size exactly $\dim(V)$. By our previous corollary, it must therefore be a basis for $V$, meaning its span is all of $V$, so $U=V$. Conversely, if $U=V$, clearly $\dim(U)=\dim(V)$.\qedhere
 \end{proof}
-\noindent Now, consider the following examples:
+Now, consider the following examples:
 
 \begin{example}
     Let $V=F^n$. Define the following subspaces:
-    \[ U \coloneqq \{(x_1,\dots,x_m,0,\dots,0) : x_i\in F\} \]
-    \[ W \coloneqq \{(0,\dots,0,y_1,\dots,y_p) : y_i\in F\} \]
+    \[ U \coloneqq \{(x_1,\dots,x_m,0,\dots,0) : x_i\in F\}, \]
+    \[ W \coloneqq \{(0,\dots,0,y_1,\dots,y_p) : y_i\in F\}. \]
     Notice that $U$ is isomorphic to $F^m$ and $W$ is isomorphic to $F^p$. 
     
     If $m+p \le n$, there is no overlap between the non-zero entries. Thus, $U\cap W=\{0\}$, meaning $\dim(U\cap W)=0$. The sum is:
-    \[ U+W = \{(x_1,\dots,x_m,0,\dots,0,y_1,\dots,y_p) : x_i,y_j\in F\} \]
+    \[ U+W = \{(x_1,\dots,x_m,0,\dots,0,y_1,\dots,y_p) : x_i,y_j\in F\}. \]
     Since $U+W \cong F^{m+p}$, we have $\dim(U+W)=m+p$. This matches the formula:
-    \[ \dim(U+W) = \dim(U) + \dim(W) - \dim(U\cap W) = m + p - 0 = m+p \]
+    \[ \dim(U+W) = \dim(U) + \dim(W) - \dim(U\cap W) = m + p - 0 = m+p. \]
 
     If $m+p \ge n$, the non-zero components overlap in exactly $m+p-n$ positions. Thus:
-    \[ U\cap W \cong F^{m+p-n} \implies \dim(U\cap W) = m+p-n \]
+    \[ U\cap W \cong F^{m+p-n} \implies \dim(U\cap W) = m+p-n. \]
     Because the combined non-zero components cover all $n$ coordinates, $U+W = F^n$, so $\dim(U+W) = n$. This again matches the formula:
-    \[ \dim(U) + \dim(W) - \dim(U\cap W) = m + p - (m+p-n) = n \]
+    \[ \dim(U) + \dim(W) - \dim(U\cap W) = m + p - (m+p-n) = n. \]
 \end{example}
 
 \begin{example}
     Take two non-parallel planes $U,W\subset\R^3$ passing through the origin. Their sum $U+W$ is all of $\R^3$, so $\dim(U+W)=3$. Their intersection $U\cap W$ is a 1-dimensional line. Notice that:
-    \[ \dim(U+W) = 3 = 2 + 2 - 1 = \dim(U) + \dim(W) - \dim(U\cap W) \]
+    \[ \dim(U+W) = 3 = 2 + 2 - 1 = \dim(U) + \dim(W) - \dim(U\cap W). \]
     If we build a basis for $U+W$ by simply pasting together a basis for $U$ and a basis for $W$, we will have 4 vectors, which is linearly dependent in $\R^3$. The redundancy exactly corresponds to the vectors that lie in the shared intersection $U \cap W$.
 \end{example}
-\noindent Given this motivation, we now state and prove the Dimension Formula for finite-dimensional vector spaces.
+Given this motivation, we now state and prove the Dimension Formula for finite-dimensional vector spaces.
 \begin{theorem}[Dimension of Sums of Subspaces]
 \label{thm:dimensionformula}
     \begin{shaded*}
         Let $U,W\subseteq V$ be finite-dimensional subspaces. Then:
-        \[ \dim(U+W) = \dim(U) + \dim(W) - \dim(U\cap W) \]
+        \[ \dim(U+W) = \dim(U) + \dim(W) - \dim(U\cap W). \]
     \end{shaded*}
 \end{theorem}
 \begin{proof}
     Let $(v_1,\dots,v_m)$ be a basis for $U\cap W$. 
     Because $U\cap W$ is a subspace of $U$, we can extend this to a basis of $U$ by adding vectors $u_1,\dots,u_n$:
-    \[ (v_1,\dots,v_m,u_1,\dots,u_n) \]
+    \[ (v_1,\dots,v_m,u_1,\dots,u_n). \]
     Similarly, we extend the intersection basis to a basis of $W$ by adding vectors $w_1,\dots,w_p$:
-    \[ (v_1,\dots,v_m,w_1,\dots,w_p) \]
+    \[ (v_1,\dots,v_m,w_1,\dots,w_p). \]
     We claim that the combined list:
     \[ B = (v_1,\dots,v_m,u_1,\dots,u_n,w_1,\dots,w_p) \]
     is a basis for $U+W$.
@@ -576,9 +576,13 @@ We have now proven two key facts for finite-dimensional vector spaces: at least 
     
     \textit{Spanning:} Any vector in $U+W$ is of the form $u+w$. The vector $u$ is in the span of the $U$ basis, and $w$ is in the span of the $W$ basis. Adding them together simply creates a linear combination of vectors from the combined list $B$. Thus, $B$ spans $U+W$.\par
     We conclude that $B$ is a basis for $U+W$. Counting the vectors, we have:
-    \[ \dim(U+W) = m + n + p \]
-    Observe that $\dim(U) = m+n$, $\dim(W) = m+p$, and $\dim(U\cap W) = m$. Therefore:
-    \[ \dim(U) + \dim(W) - \dim(U\cap W) = (m+n) + (m+p) - m = m+n+p = \dim(U+W), \]
+    \[ \dim(U+W) = m + n + p.\]
+    Observe that $\dim(U) = m+n$, $\dim(W) = m+p$, and $\dim(U\cap W) = m$, so we get
+    \begin{align*}
+        \dim(U) + \dim(W) - \dim(U\cap W) &= (m+n) + (m+p) - m \\
+        &= m+n+p \\
+        &= \dim(U+W),
+    \end{align*}
     which concludes the proof.\qedhere
 \end{proof}
 Even though the union of vector spaces is not in general a subspace, we get the following natural result when we take the \textit{span} of the union:
@@ -591,9 +595,9 @@ Even though the union of vector spaces is not in general a subspace, we get the 
     The inclusion $\Span(X)+\Span(Y) \subseteq \Span(X\cup Y)$ clearly holds because any sum of a vector in $\Span(X)$ and a vector in $\Span(Y)$ is just a linear combination of elements drawn from both sets, which lies in $X\cup Y$. 
     
     For the reverse inclusion, let $v\in\Span(X\cup Y)$. It is a finite linear combination:
-    \[ v = \lambda_1z_1+\cdots+\lambda_kz_k \quad \text{for } z_i\in X\cup Y \]
+    \[ v = \lambda_1z_1+\cdots+\lambda_kz_k \quad \text{for } z_i\in X\cup Y. \]
     We can group all terms where $z_i \in X$ and all terms where $z_i \in Y$ separately (arbitrarily assigning elements in the intersection to one side), to obtain:
-    \[ v = (\mu_1x_1+\cdots+\mu_ax_a) + (\nu_1y_1+\cdots+\nu_by_b) \]
+    \[ v = (\mu_1x_1+\cdots+\mu_ax_a) + (\nu_1y_1+\cdots+\nu_by_b), \]
     where $x_i \in X$ and $y_j \in Y$. The first group lies entirely in $\Span(X)$ and the second group lies entirely in $\Span(Y)$. Thus, $v \in \Span(X)+\Span(Y)$.\qedhere
 \end{proof}
 
@@ -637,7 +641,7 @@ We now revisit the row space, column space, null space, and rank of a matrix wit
 \begin{proof}
     The linear combination can be written as the matrix-vector product $A\lambda = 0$, where $\lambda = (\lambda_1, \dots, \lambda_n)^\top$. 
     If $A'$ is obtained from $A$ by row operations, we know from our study of linear systems that the homogeneous solution set is preserved:
-    \[ A\lambda = 0 \iff A'\lambda = 0 \]
+    \[ A\lambda = 0 \iff A'\lambda = 0. \]
     Thus, $\Null(A) = \Null(A')$.
     \qedhere
 \end{proof}
@@ -694,7 +698,7 @@ An alternative way to prove that for any $A\in M_{m\times n}(F)$, $\dim(\RS(A))=
     Let $k = \dim \CS(A)$. Choose a basis $b_1, \dots, b_k$ for the column space of $A$. Form a matrix $B \in M_{m \times k}(F)$ whose columns are exactly these basis vectors. 
     
     Because every column $A_j$ of $A$ belongs to $\CS(A)$, it can be written as a linear combination of the basis vectors:
-    \[ A_j = c_{1j}b_1 + \cdots + c_{kj}b_k \]
+    \[ A_j = c_{1j}b_1 + \cdots + c_{kj}b_k. \]
     for some scalars $c_{ij} \in F$. We use these scalars to define a matrix $C \in M_{k \times n}(F)$ where the $(i,j)$-entry is $c_{ij}$. 
     
     By the column-wise definition of matrix multiplication, this explicitly means $A = BC$. 
@@ -704,10 +708,10 @@ An alternative way to prove that for any $A\in M_{m\times n}(F)$, $\dim(\RS(A))=
     where $C_{l*}$ denotes the $l^{\mathrm{th}}$ row of $C$. 
     
     This shows that every row of $A$ is a linear combination of the $k$ rows of $C$. Therefore, the row space of $A$ is spanned by the rows of $C$. Since the dimension of a vector space is bounded by the size of any spanning set:
-    \[ \dim \RS(A) \le k = \dim \CS(A) \]
+    \[ \dim \RS(A) \le k = \dim \CS(A). \]
     
     To obtain the reverse inequality, apply the exact same argument to the transpose $A^\top$. The column space of $A^\top$ is the row space of $A$, and the row space of $A^\top$ is the column space of $A$. Thus:
-    \[ \dim \RS(A^\top) \le \dim \CS(A^\top) \implies \dim \CS(A) \le \dim \RS(A) \]
+    \[ \dim \RS(A^\top) \le \dim \CS(A^\top) \implies \dim \CS(A) \le \dim \RS(A). \]
     Combining both inequalities yields $\dim \RS(A) = \dim \CS(A)$.
     \qedhere
 \end{proof}
@@ -717,7 +721,7 @@ An alternative way to prove that for any $A\in M_{m\times n}(F)$, $\dim(\RS(A))=
     
     Because all information must pass through this $k$-dimensional bottleneck, the matrix cannot contain more than $k$ independent linear equations (rows), nor can it reach more than $k$ independent directions in the output (columns). The rank of a matrix is precisely the smallest inner integer $k$ for which the factorization $A=BC$ exists.
 \end{remark}
-\noindent Therefore, the following definition makes sense:
+Therefore, we can make the following definition:
 \begin{definition}[Rank]
     \begin{shaded*}
         Let $A\in M_{m\times n}(F)$. The common dimension of the row space and the column space of $A$ is called the \textit{rank} of $A$ and is denoted $\rank(A)$.
@@ -729,7 +733,7 @@ The rank of $A\in M_{m\times n}(F)$ can thus be computed as the number of pivots
 \begin{theorem}[Rank-Nullity Theorem for Matrices]
     \begin{shaded*}
         For any matrix $A\in M_{m\times n}(F)$:
-        \[ \rank(A) + \dim(\Null(A)) = n \]
+        \[ \rank(A) + \dim(\Null(A)) = n. \]
     \end{shaded*}
 \end{theorem}
 \begin{proof}

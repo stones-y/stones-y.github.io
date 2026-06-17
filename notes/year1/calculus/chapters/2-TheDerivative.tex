@@ -22,6 +22,28 @@ Additionally, if a function is already known to be differentiable at $x$, we can
     The existence of the symmetric limit does \textit{not} imply differentiability. For example, if $f(x) = |x|$, the symmetric limit at $x=0$ evaluates to $0$, even though the standard derivative does not exist.
 \end{remark}
 
+One can continue in this way and define \textit{higher order derivatives}, $f^{(2)},f^{(3)},\dots$ and so on, either indefinitely (in which case we say that the function is \textit{infinitely differentiable} and is in $C^\infty$) or up to some finite order, say, $n\in\N$.
+
+\begin{example}
+  We define, for $n\ge 0$, the functions $f_n:\R\to\R$ given by \[f_n(x)=\begin{cases}
+    x^n\sin\left(\frac{1}{x}\right), & x\ne 0,\\
+    0, & x = 0.
+  \end{cases}\]
+\end{example}
+We will analyse when $f_n$ is differentiable, and for how many times. In the case $n=0$, one checks that $f_0$ is not continuous at zero (observe that the function oscillates infinitely many times on any interval $(-\delta,\delta)$ about zero, so intuitively the function never settles on a number as $x\to 0$).
+
+For $n=1$, though continuous at zero, the function $f_1$ is not differentiable at 0 because when we evaluate the quotient, for $x\ne 0$, we have
+\[\frac{f_1(x)-f_1(0)}{x-0}=\frac{x\sin\left(\frac{1}{x}\right)}{x}=\sin\left(\frac{1}{x}\right),\]
+which, as we just mentioned, does not have a limit as $x\to 0$.
+
+For $n\ge 2$, the function is differentiable. Given $n\ge 2$, the quotient evalutes to
+\[\frac{f_n(x)-f_n(0)}{x-0}=x^{n-1}\sin\left(\frac{1}{x}\right),\]
+and since $n-1>0$, $x^{n-1}\to 0$ so using the fact that $|\sin x|\le 1$ for all $x$, the squeeze theorem yields
+\[\lim_{x\to 0}\frac{f_n(x)-f_n(0)}{x-0}=0\]
+for $n\ge 2$.
+
+As an exercise, one can in fact prove that $f_n$ is differentiable exactly $n-1$ times for $n\ge 2$.
+
 \begin{example}
     Let $f(x) = x^2$. We compute the derivative at $x$ using the standard limit definition:
     \begin{align*}
@@ -139,6 +161,38 @@ Consider functions with jump discontinuities. Attempting to approximate them wit
       y - 4 = 10(x - 2) \implies y = 10x - 16.
     \]
 \end{example}
+
+\section{Properties of the Derivative}
+
+\begin{proposition}
+  \begin{shaded*}
+    Let $f,g$ be differentiable functions. Then
+    \begin{enumerate}
+      \item (\textit{Linearity}): $f+g$ is differentiable with $(f+g)'=f'+g'$.
+      \item (\textit{Linearity}): $cf$ is differentiable for all $c\in\R$ with $(cf)'=cf'$.
+      \item (\textit{Product Rule}): $fg$ is differentiable with $(fg)'=f'g+fg'$.
+      \item (\textit{Quotient Rule}): $\frac{f}{g}$ is differentiable, provided $g(x)\ne 0$ for all $x$, with $\left(\frac{f}{g}\right)'=\frac{gf'-fg'}{g^2}.$
+    \end{enumerate}
+  \end{shaded*}
+\end{proposition}
+\begin{example}
+  As a consequence of the above results, polynomials are differentiable, with \[\deriv{}{x}\sum_{k=0}^na_kx^k=\sum_{k=1}^n ka_kx^{k-1}.\]
+\end{example}
+
+\begin{theorem}[Chain Rule]
+  \begin{shaded*}
+    Let $f,g$ be differentiable such that $g$ is defined on the range of $f$. Then $g\circ f$ is differentiable with \[\deriv{}{x}g(f(x))=g'(f(x))f'(x)\]
+    for all $x$.
+  \end{shaded*}
+\end{theorem}
+\begin{example}
+  Let $f(x)=\sin\left(\sqrt{1+x^2}\right)$. Using the chain rule twice (first on $\sin(g(x))$ where $g(x)=\sqrt{1+x^2}$, and then on $g(x)=\sqrt{h(x)}$ where $h(x)=1+x^2$), we get
+  \[f'(x)=\deriv{}{x}\sin\left(\sqrt{1+x^2}\right)=\cos\left(\sqrt{1+x^2}\right)(\sqrt{1+x^2})'=\frac{x\cos\left(\sqrt{1+x^2}\right)}{\sqrt{1+x^2}}.\]
+\end{example}
+
+\section{Implicit Differentiation}
+
+A useful consequence of the chain rule is the concept of implicit differentiation. 
 
 
 

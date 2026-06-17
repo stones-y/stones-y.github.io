@@ -9,7 +9,7 @@ The concept of \textit{area} is a simple and intuitive one, yet formalising it p
 
 The simplest definition area, and the most intuitive one, is that of the rectangle, which is simply the base of the rectangle multiplied by the height: $b\times h$. It can be seen as the number of unit squares that fit inside the rectangle.
 
-However, for a curved region (say, a circle) the idea ``counting how many unit squares fit inside'' is not so straightforward. The integral formalises the geometric concept of the area under a curve. To do this rigorously, we approximate the area using sums of rectangular areas from below and above, and analyse the limits of these approximations as they become more and more precise. We formalise this notion via \textit{Darboux} integration (equivalently, this is sometimes called \textit{Riemann} integration; ultimately, these two concepts are equivalent).
+However, for a curved region (say, a circle) the idea ``counting how many rectangles fit inside'' is not so straightforward. The integral formalises the geometric concept of the area under a curve. To do this rigorously, we approximate the area using sums of rectangular areas from below and above, and analyse the limits of these approximations as they become more and more precise. We formalise this notion via \textit{Darboux} integration (equivalently, this is sometimes called \textit{Riemann} integration; ultimately, these two concepts are equivalent).
 
 
 \section{Lower and Upper Sums}
@@ -27,15 +27,15 @@ or simply \[P=\{x_0,x_1,\dots,x_n\}.\]
 
 \begin{definition}[Upper and Lower Sums]
     \begin{shaded*}
-        Let $f \colon [a,b] \to \R$ be a bounded function and let $P$ be a partition of $[a,b]$. The \textit{lower sum} of $f$ for $P$ is
+        Let $f \colon [a,b] \to \R$ be a bounded function and let $P=\{x_0,\dots,x_n\}$ be a partition of $[a,b]$. The \textit{lower sum} of $f$ for $P$ is
         \[
-            L(f,P) \coloneqq \sum_{i=1}^n m_i (x_i - x_{i-1})
+            L(f,P) \coloneqq \sum_{i=1}^n m_i (x_i - x_{i-1}),
         \]
         where $m_i \coloneqq \inf_{x \in [x_{i-1}, x_i]} f(x)$. 
         
         The \textit{upper sum} of $f$ for $P$ is
         \[
-            U(f,P) \coloneqq \sum_{i=1}^n M_i (x_i - x_{i-1})
+            U(f,P) \coloneqq \sum_{i=1}^n M_i (x_i - x_{i-1}),
         \]
         where $M_i \coloneqq \sup_{x \in [x_{i-1}, x_i]} f(x)$.
     \end{shaded*}

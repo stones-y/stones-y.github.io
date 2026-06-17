@@ -36,13 +36,13 @@ Recall that any finite-dimensional vector space $V$, with dimension $n$, is isom
 \begin{theorem}
     \begin{shaded*}
         For all linear maps $T:F^n\to F^m$ defined by $(x_1,\dots,x_n)\mapsto(y_1,\dots,y_m)$, there exists an array of numbers $(a_{ij})$ such that:
-        $$y_i=\sum_{j=1}^n a_{ij}x_j$$
+        $$y_i=\sum_{j=1}^n a_{ij}x_j.$$
     \end{shaded*}
 \end{theorem}
 \begin{proof}
     We define the standard elementary vectors $e_j\in F^n$ to have value 1 in the $j$-th entry, and 0 everywhere else.
     Since $T(e_j)$ is a vector in $F^m$, we can write it as a list of $m$ coordinates. For all $j$, define $a_{1j},\dots,a_{mj} \in F$ by:
-    $$T(e_j) = \begin{pmatrix} a_{1j} \\ \vdots \\ a_{mj} \end{pmatrix}$$
+    $$T(e_j) = \begin{pmatrix} a_{1j} \\ \vdots \\ a_{mj} \end{pmatrix}.$$
     
     \textit{(Idea: think of $T(e_j)$ as the $j^{\mathrm{th}}$ column of the matrix $(a_{ij})$).}
     
@@ -50,10 +50,10 @@ Recall that any finite-dimensional vector space $V$, with dimension $n$, is isom
     \begin{align*}
         T(x_1,\dots,x_n) &= T(x_1e_1+\cdots+x_ne_n) \\
         &= x_1T(e_1)+\cdots+x_nT(e_n) \\
-        &= \sum_{j=1}^n x_j \begin{pmatrix} a_{1j} \\ \vdots \\ a_{mj} \end{pmatrix}
+        &= \sum_{j=1}^n x_j \begin{pmatrix} a_{1j} \\ \vdots \\ a_{mj} \end{pmatrix}.
     \end{align*}
     Taking the $i^{\mathrm{th}}$ row (coordinate) of the above sum, we get:
-    $$y_i = \sum_{j=1}^n a_{ij}\,x_j$$
+    $$y_i = \sum_{j=1}^n a_{ij}\,x_j,$$
     as required.
     \qedhere
 \end{proof}
@@ -67,11 +67,11 @@ Observe that all the information needed to compute this linear transformation is
 \begin{definition}[Matrix]
     \begin{shaded*}
         The set of $m \times n$ matrices over a field $F$ is defined as:
-        $$M_{m\times n}(F)\coloneqq\left\{\begin{pmatrix}a_{11} & \cdots & a_{1n}\\\vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}\end{pmatrix}: a_{ij}\in F\right\}$$
+        $$M_{m\times n}(F)\coloneqq\left\{\begin{pmatrix}a_{11} & \cdots & a_{1n}\\\vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}\end{pmatrix}: a_{ij}\in F\right\}.$$
     \end{shaded*}
 \end{definition}
 
-\noindent How do we conveniently encode the action of $T$ using this? We define matrix-vector multiplication:
+How do we conveniently encode the action of $T$ using this? We define matrix-vector multiplication:
 $$\begin{pmatrix}a_{11} & \cdots & a_{1n}\\\vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}\end{pmatrix}\begin{pmatrix}x_1\\\vdots\\x_n\end{pmatrix}=\begin{pmatrix}y_1\\\vdots\\y_m\end{pmatrix}$$
 The upshot is that, given a linear map $T:F^n\to F^m$, we \textit{define} matrix multiplication with a column vector precisely to execute this map.
 
@@ -88,19 +88,19 @@ First, we motivate the definition of general matrix multiplication. Consider two
 Define the composite linear map $R:F^k\to F^m$ by $R=S\circ T$. By Claim $(\star)$, this new linear map must also have a matrix representation, which we will call $C \in M_{m\times k}(F)$. 
 
 We \textit{want} to calculate $c_{i\ell}$, the $(i,\ell)^{\mathrm{th}}$ element of the matrix $C$. Let's calculate the $\ell^{\mathrm{th}}$ column of $C$, call it $C_\ell$. We know that each column of $C$ represents the effect of the linear map $R$ on the standard basis vector $e_\ell$:
-$$C_\ell = R(e_\ell) = S(T(e_\ell))$$
+$$C_\ell = R(e_\ell) = S(T(e_\ell)).$$
 
 We know $T(e_\ell)$ is exactly the $\ell^{\mathrm{th}}$ column of $B$, call it $B_\ell$. So we must calculate $S(B_\ell)$. Because $B_\ell$ is a column vector in $F^n$, evaluating $S(B_\ell)$ is equivalent to taking a linear combination of the columns of $A$ (which we will denote $A_1, \dots, A_n$):
-$$S(B_\ell) = b_{1\ell}A_1 + \cdots + b_{n\ell}A_n$$
+$$S(B_\ell) = b_{1\ell}A_1 + \cdots + b_{n\ell}A_n.$$
 
 To find $c_{i\ell}$, we take the $i^{\mathrm{th}}$ row of this result:
 \begin{align*}
     c_{i\ell} = (C_\ell)_i &= b_{1\ell}(A_1)_i + \cdots + b_{n\ell}(A_n)_i \\
     &= b_{1\ell}a_{i1} + \cdots + b_{n\ell}a_{in} \\
-    &= \sum_{j=1}^n a_{ij}b_{j\ell}
+    &= \sum_{j=1}^n a_{ij}b_{j\ell}.
 \end{align*}
 
-\noindent This is exactly the formula for $c_{i\ell}$ that we use to define matrix multiplication. Therefore, the fact that composition of linear maps gives the formula above for the numbers $c_{i\ell}$ is why we define matrix multiplicaation in the following way:
+This is exactly the formula for $c_{i\ell}$ that we use to define matrix multiplication. Therefore, the fact that composition of linear maps gives the formula above for the numbers $c_{i\ell}$ is why we define matrix multiplicaation in the following way:
 
 \begin{definition}[Matrix operations]
     \begin{shaded*}\phantom{A}

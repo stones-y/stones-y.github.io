@@ -5,9 +5,6 @@
 
 
 \section{Countably infinite sets}
-Before starting this chapter (and, in general, this module), it
-is imperative that you are familiar with the logic and sets part
-of the introductory module, MATH40001.
 \begin{definition}
     \begin{shaded*}
         A set $A$ is countably infinite if there exists a bijection $f:\N\to A$.
@@ -41,11 +38,17 @@ This gives rise to an equivalence relation, which we define as cardinality.
     have been chosen and $f(i)=a_i$ for $1\le i \le k$. Since $A$ is
     infinite, $A\setminus\{a_1,\dots,a_k\}$ is nonempty. Pick $a_{k+1}=\min\left(A\setminus\{a_1,\dots,a_k\}\right)$,
     and let $f(k+1)=a_{k+1}$. Thus by construction $f$ is strictly increasing. We claim that $f$ is a bijection.
-    \begin{itemize}
-        \item Injective: this holds because by construction $f$ is strictly increasing. We saw in the introductory module that strictly increasing functions are injective.
-        \item Surjective: suppose for contradiction that $f$ is not surjective. Then there exists
-        $a\in A$ such that for all $n\in\N$, $f(n)\ne a$. Consider $A\setminus\{\}$.
-    \end{itemize}
+    
+        \textit{Injective}: this holds because by construction $f$ is strictly increasing. We saw in the introductory module that strictly increasing functions are injective.
+
+    \textit{Surjective}: suppose for contradiction that $f$ is not surjective. Then there exists
+        $a\in A$ such that for all $n\in\N$, $f(n)\ne a$. By the well-ordering of the natural numbers, we can choose $a$ to be the \textit{smallest} element in $A$ that is not in the image of $f$. 
+
+        Consider the set of elements in $A$ strictly less than $a$, which is $A \cap \{1, 2, \dots, a-1\}$. Since this set is bounded by $a$, it must be finite. Let $k$ be the number of elements in this set. 
+        
+        Because $a$ is the minimal element not in the image of $f$, all $k$ elements in $A$ that are smaller than $a$ must be in the image of $f$. Furthermore, because $f$ is strictly increasing, these $k$ elements must be exactly $f(1), f(2), \dots, f(k)$, which correspond to our chosen $a_1, a_2, \dots, a_k$.
+        
+        Following our inductive construction, the next element we pick is $a_{k+1} = \min(A \setminus \{a_1, \dots, a_k\})$. Since $\{a_1, \dots, a_k\}$ contains all elements of $A$ strictly less than $a$, the smallest remaining element in the set is precisely $a$. Therefore, $f(k+1) = a$, which contradicts our assumption that $f(n) \neq a$ for all $n \in \mathbb{N}$. Thus, $f$ is surjective.\qedhere
 \end{proof}
 
 \begin{lemma}
@@ -165,9 +168,20 @@ The following lemma is a useful way of proving that a given set $S$ is countably
         \end{enumerate}
     \end{shaded*}
 \end{lemma}
+
 \begin{proof}
-    a
+
+    1. $(\Rightarrow)$ Assume $S$ is countably infinite. By definition, there exists a bijection $f : S \to \mathbb{N}$. Since every bijection is, by definition, also an injection, we can simply let $\iota = f$. This proves the forward direction.
+
+    $(\Leftarrow)$ Assume there exists an injection $\iota : S \to \mathbb{N}$. The function $\iota$ restricts to a bijection between $S$ and its image, $\iota(S) \subseteq \mathbb{N}$. Because $S$ is an infinite set and $\iota$ is injective, $\iota(S)$ must be an infinite subset of $\mathbb{N}$. By Theorem 1.3, any infinite subset of the natural numbers is countably infinite. Therefore, there exists a bijection $h : \iota(S) \to \mathbb{N}$. Because the composition of bijections is a bijection, $h \circ \iota : S \to \mathbb{N}$ is a bijection. Thus, $S$ is countably infinite.
+
+    2. $(\Rightarrow)$ Assume $S$ is countably infinite. By definition, there exists a bijection $f : \mathbb{N} \to S$. Since every bijection is also a surjection, we can simply let $g = f$.
+
+    $(\Leftarrow)$ Assume there exists a surjection $g : \mathbb{N} \to S$. We will construct an injection from $S$ to $\mathbb{N}$ and invoke (1). Because $g$ is surjective, for every $s \in S$, the preimage $g^{-1}(\{s\}) = \{n \in \mathbb{N} \mid g(n) = s\}$ is a non-empty subset of $\mathbb{N}$. By the well-ordering of the natural numbers, every non-empty subset of $\mathbb{N}$ has a least element. Therefore, we can define a function $\iota : S \to \mathbb{N}$ by choosing the smallest index that maps to $s$:
+    \[ \iota(s) = \min(g^{-1}(\{s\})) \]
+    We claim $\iota$ is injective. Suppose $\iota(s_1) = \iota(s_2) = n$ for some $s_1, s_2 \in S$. This means $n$ is the minimum element of both $g^{-1}(\{s_1\})$ and $g^{-1}(\{s_2\})$. This implies that $g(n) = s_1$ and $g(n) = s_2$. Therefore, $s_1 = s_2$, showing that $\iota$ is injective. Since $S$ is infinite and we have found an injection $\iota : S \to \mathbb{N}$, it follows directly from (1) that $S$ is countably infinite.\qedhere
 \end{proof}
+
 The idea for item (1) above is that if you can $embed$ your set into the natural numbers via an injection $\iota:S\to\N$, then it must be countably infinite, as $\iota(S)\subseteq\N$, and we have shown infinite subsets of $\N$ are countable,
 so since $\iota$ is an injection, $S$ has the same cardinality as $\iota (S)$, (i.e. $S\sim \iota(S)$), so $S$ is countably infinite. The idea for item (2)
 is similar: if you can use the natural numbers to list all the elements of your infinite set $S$, then even though this surjective map $g:\N\to S$ may not be injective, we have nonetheless listed all the elements of $S$ using only the natural numbers,

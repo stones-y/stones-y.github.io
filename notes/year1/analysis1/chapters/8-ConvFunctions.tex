@@ -399,8 +399,8 @@ Thus, $f$ is uniformly continuous on $[a,b]$, so in particular $f$ is continuous
     To show the integral equality, using standard properties of the integral, we have for $n\in\N$
     \begin{align*}
         \left|\int_a^b f_n(x)\d{x}-\int_a^b f(x)\d{x}\right|&=\left|\int_a^b (f_n(x)-f(x))\d{x}\right|\\
-        &\le \int_a^b |f_n(x)-f(x)|\d{x}&(\text{Integral Triangle Inequality})\\
-        &\le (b-a)\|f_n-f\|_\infty,&(\text{Lemma \ref{lem:integralestimate}})
+        &\le \int_a^b |f_n(x)-f(x)|\d{x}\\
+        &\le (b-a)\|f_n-f\|_\infty,
     \end{align*}
     so since $\|f_n-f\|_\infty\to 0$ by uniform convergence of $f_n$ to $f$, and $(b-a)$ is finite, this upper bound can be made arbitrarily small for sufficiently large $n$, so by definition of sequence convergence (Definition \ref{def:convergence1}), we have \[\lim_{n\to\infty}\int_a^b f_n(x)\d{x}=\int_a^b f(x)\d{x}.\]\qedhere
 \end{proof}
@@ -650,6 +650,10 @@ Hence, in order to guarantee that a limit function is differentiable, and to saf
     
     The point $x_0$ acts as an ``anchor'' to guarantee the existence of a limit function; because $f_n(x_0)$ converges, this pins the sequence down and prevents the functions from simply drifting vertically to infinity (for example, without this hypothesis the sequence of constant functions $f_1=1,f_2=2,\dots$ have derivatives which converge uniformly to the zero function, but $f_n$ does not converge to any function). From this point $x_0$, we integrate the derivatives $f_n'$ outwards to build the rest of the function $f_n$, and we are guaranteed that there exists a limit function with the properties we desire by uniform convergence.
 \end{remark}
+
+\begin{exercise*}
+    Show that if $f_n\to f$ and $g_n\to g$ uniformly on $[a,b]$, and $f_n,g_n$ are all continuous, then $f_ng_n\to fg$.
+\end{exercise*}
 
 
 

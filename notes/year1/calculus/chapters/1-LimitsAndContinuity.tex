@@ -8,7 +8,7 @@
 
 \section{Limits of Functions}
 
-The fundamental concept of calculus is the limit. We formalise the notion of a function approaching a specific value.
+The fundamental concept of calculus is the limit. We formalise the notion of a function approaching a specific value. All of this content is covered in depth in Analysis I (MATH40002) so we will not spend much time on it, and all proofs can be found in Analysis I.
 
 \begin{definition}[$\varepsilon$-$\delta$ definition of a limit]
     \begin{shaded*}
@@ -18,19 +18,19 @@ The fundamental concept of calculus is the limit. We formalise the notion of a f
 \end{definition}
 
 \begin{example}
-    We prove that $\lim_{x\to 2}(3x-1)=5$. Given $\varepsilon>0$, we want to find $\delta>0$ such that $0<|x-2|<\delta$ implies $|(3x-1)-5|<\varepsilon$. We manipulate the consequent:
+    We prove that $\lim_{x\to 2}(3x-1)=5$. Given $\varepsilon>0$, we want to find $\delta>0$ such that $0<|x-2|<\delta$ implies $|(3x-1)-5|<\varepsilon$. We manipulate the absolute value we are trying to bound:
     $$|(3x-1)-5| = |3x-6| = 3|x-2|.$$
     To ensure this is strictly less than $\varepsilon$, we require $3|x-2|<\varepsilon$, which is equivalent to $|x-2|<\frac{\varepsilon}{3}$. Therefore, we choose $\delta = \frac{\varepsilon}{3}$. Then for all $x$ satisfying $0<|x-2|<\delta$, we have $|(3x-1)-5| = 3|x-2| < 3\delta = \varepsilon$.
 \end{example}
 
-\begin{theorem}[Algebraic properties of limits]
+\begin{theorem}[Algebra of Limits]
     \begin{shaded*}
         Suppose $\lim_{x\to x_0}f(x)=L$ and $\lim_{x\to x_0}g(x)=M$. Then:
         \begin{enumerate}
-            \item \textit{Sum:} $\lim_{x\to x_0} (f(x)+g(x)) = L+M$
-            \item \textit{Product:} $\lim_{x\to x_0} (f(x)g(x)) = LM$
-            \item \textit{Quotient:} $\lim_{x\to x_0} \frac{f(x)}{g(x)} = \frac{L}{M}$, provided $M \neq 0$
-            \item \textit{Scalar multiple:} $\lim_{x\to x_0} (cf(x)) = cL$ for any constant $c\in\R$
+            \item $\lim_{x\to x_0} (f(x)+g(x)) = L+M$
+            \item $\lim_{x\to x_0} (f(x)g(x)) = LM$
+            \item $\lim_{x\to x_0} \frac{f(x)}{g(x)} = \frac{L}{M}$, provided $M \neq 0$
+            \item $\lim_{x\to x_0} (cf(x)) = cL$ for any constant $c\in\R$
         \end{enumerate}
     \end{shaded*}
 \end{theorem}
@@ -41,6 +41,7 @@ The fundamental concept of calculus is the limit. We formalise the notion of a f
     \[x>A \implies |f(x)-\ell|<\varepsilon.\]
     \end{shaded*}
 \end{definition}
+One makes the analogous definition is made for limits at $-\infty$.
 
 \begin{example}
     We prove $\lim_{x\to\infty}\frac{1}{x}=0$. Given $\varepsilon>0$, we require $\left|\frac{1}{x}-0\right|<\varepsilon$, which means $\frac{1}{x}<\varepsilon$ for $x>0$. Rearranging gives $x>\frac{1}{\varepsilon}$. We choose $A=\frac{1}{\varepsilon}$. For all $x>A$, we have $x>\frac{1}{\varepsilon}$, so $\frac{1}{x}<\varepsilon$.
@@ -52,6 +53,7 @@ The fundamental concept of calculus is the limit. We formalise the notion of a f
     \[0<|x-x_0|<\delta \implies f(x)>B.\]
     \end{shaded*}
 \end{definition}
+Again, one makes the analogous definition for when $\lim_{x\to x_0}f(x)=-\infty$, and when $x\to \pm \infty$.
 
 
 \begin{definition}[One-sided limits]
@@ -63,8 +65,15 @@ The fundamental concept of calculus is the limit. We formalise the notion of a f
     A two-sided limit exists if and only if both one-sided limits exist and are equal.
     \end{shaded*}
 \end{definition}
+\begin{example}
+    Let $H:\R\to\R$ (the so-called Heaviside function) be defined by \[H(x)=\begin{cases}
+        1, & x\ge 0,\\
+        0, & x<0.
+    \end{cases}\]
+    We see that $\lim_{x\to 0^-}H(x)=0$ and $\lim_{x\to 0^+}H(x)=1$, and $H(0)=1$. Even though $H(0)=1$, the limit approaching 0 from the left is still zero.
+\end{example}
 
-\begin{theorem}[Squeezing property]
+\begin{theorem}[Squeeze Theorem]
     \begin{shaded*}
         Suppose $g(x) \le f(x) \le h(x)$ for all $x$ in an open interval containing $x_0$, except possibly at $x_0$ itself. If $\lim_{x\to x_0}g(x) = \lim_{x\to x_0}h(x) = \ell$, then $\lim_{x\to x_0}f(x) = \ell$.
     \end{shaded*}
@@ -75,6 +84,79 @@ The fundamental concept of calculus is the limit. We formalise the notion of a f
     Since $-1 \le \sin\left(\frac{1}{x}\right) \le 1$ for all $x \neq 0$, we multiply the inequality by $|x|$ to obtain:
     \[-|x| \le x \sin\left(\frac{1}{x}\right) \le |x|.\]
     We know $\lim_{x\to 0} (-|x|) = 0$ and $\lim_{x\to 0} |x| = 0$. By the comparison test, $\lim_{x\to 0} x \sin\left(\frac{1}{x}\right) = 0$.
+\end{example}
+
+\begin{example}
+
+A famous limit that is an indeterminate form but can be derived using geometric ideas is the following:
+\[\lim_{x\to 0}\frac{\sin x}{x}.\]
+
+Consider a unit circle centered at the origin $O(0,0)$. Let $x$ be a small positive angle such that $0 < x < \frac{\pi}{2}$, measured in radians. Let $A$ be the point $(1,0)$ and $B$ be the point on the circle such that $\angle AOB = x$. The coordinates of $B$ are $(\cos x, \sin x)$.
+
+Draw a vertical tangent line to the circle at point $A$. Extend the ray $OB$ until it intersects this tangent line at point $C$. The coordinates of $C$ are $(1, \tan x)$.
+
+We compare the areas of three geometric regions:
+\begin{enumerate}
+    \item The triangle $\triangle OAB$, which has base $1$ and height $\sin x$.
+    \item The circular sector $OAB$, which has radius $1$ and central angle $x$.
+    \item The triangle $\triangle OAC$, which has base $1$ and height $\tan x$.
+\end{enumerate}
+
+From the geometric construction, the triangle $\triangle OAB$ is contained within the sector $OAB$, which in turn is contained within the triangle $\triangle OAC$. Therefore, their areas satisfy the inequality:
+$$
+\text{Area}(\triangle OAB) < \text{Area}(\text{sector } OAB) < \text{Area}(\triangle OAC).
+$$
+Substituting the formulas for these areas yields:
+$$
+\frac{1}{2}(1)(\sin x) < \frac{1}{2}(1)^2 x < \frac{1}{2}(1)(\tan x).
+$$
+Multiplying by $2$, we obtain:
+$$
+\sin x < x < \tan x.
+$$
+Since $0 < x < \frac{\pi}{2}$, we know $\sin x > 0$. Dividing the entire inequality by $\sin x$ gives:
+$$
+1 < \frac{x}{\sin x} < \frac{1}{\cos x}.
+$$
+Taking the reciprocal of all terms reverses the inequalities:
+$$
+\cos x < \frac{\sin x}{x} < 1.
+$$
+As $x \to 0^+$, we know $\lim_{x \to 0^+} \cos x = 1$ and $\lim_{x \to 0^+} 1 = 1$. By the Squeeze Theorem, it follows that:
+$$
+\lim_{x \to 0^+} \frac{\sin x}{x} = 1.
+$$
+Since $f(x) = \frac{\sin x}{x}$ is an even function $\left(\text{as } \frac{\sin(-x)}{-x} = \frac{-\sin x}{-x} = \frac{\sin x}{x}\right)$, the left-hand limit is identical to the right-hand limit:
+$$
+\lim_{x \to 0^-} \frac{\sin x}{x} = 1.
+$$
+Therefore, the two-sided limit evaluates to $1$:
+$$
+\lim_{x \to 0} \frac{\sin x}{x} = 1. 
+$$
+\end{example}
+
+\begin{example}
+Another simple trigonometric limit is \[\lim_{x\to 0}\frac{\cos x-1}{x},\]
+which again is of an indeterminate form, and so care must be taken to find this limit.
+
+We evaluate the limit by multiplying the numerator and denominator by the conjugate of the numerator, $\cos x + 1$:
+\begin{align*}
+\lim_{x \to 0} \frac{\cos x - 1}{x} &= \lim_{x \to 0} \frac{(\cos x - 1)(\cos x + 1)}{x(\cos x + 1)} \\
+&= \lim_{x \to 0} \frac{\cos^2 x - 1}{x(\cos x + 1)}.
+\end{align*}
+Using the Pythagorean identity $\sin^2 x + \cos^2 x = 1$, we substitute $\cos^2 x - 1 = -\sin^2 x$:
+\begin{align*}
+\lim_{x \to 0} \frac{-\sin^2 x}{x(\cos x + 1)} &= \lim_{x \to 0} \left( -\frac{\sin x}{x} \cdot \frac{\sin x}{\cos x + 1} \right).
+\end{align*}
+Using the algebra of limits and the result from the previous proof:
+\begin{align*}
+\lim_{x \to 0} \left( -\frac{\sin x}{x} \cdot \frac{\sin x}{\cos x + 1} \right) &= -\left( \lim_{x \to 0} \frac{\sin x}{x} \right) \cdot \left( \lim_{x \to 0} \frac{\sin x}{\cos x + 1} \right) \\
+&= -(1) \cdot \left( \frac{0}{1 + 1} \right) \\
+&= 0.
+\end{align*}
+Therefore, $\lim_{x \to 0} \frac{\cos x - 1}{x} = 0$.
+
 \end{example}
 
 \section{Continuity}
@@ -101,7 +183,24 @@ The fundamental concept of calculus is the limit. We formalise the notion of a f
     \[\lim_{x\to 1} \frac{x^2-1}{x-1} = \lim_{x\to 1} \frac{(x-1)(x+1)}{x-1} = \lim_{x\to 1} (x+1) = 2.\]
     Since $\lim_{x\to 1} f(x) = f(1)$, the function is continuous at $x=1$.
 \end{example}
-
+There is an analogous version of the Algebra of Limits for continuous functions (as one would expect, since continuity is defined in terms of limits):
+\begin{theorem}[Algebra of Continuous Functions]
+    \begin{shaded*}
+        Let $f,g$ be continuous functions. Then
+        \begin{enumerate}
+            \item[1.] $f+g$ is continuous.
+            \item[2.] $fg$ is continuous.
+            \item[3.] $\frac{f}{g}$ is continuous, provided $g(x)\ne 0$ for all $x$.
+            \item[4.] $g\circ f$ is continuous.   
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+There are pathological examples of functions which are discontinuous everywhere on $\R$. For example, consider the function $f:\R\to\R$ defined by
+\[f(x)=\begin{cases}
+    1,& x\in\Q,\\
+    0,& x\notin\Q.
+\end{cases}\]
+By density of the rational and irrational numbers in $\R$, one checks that $f$ is discontinuous everywhere (exercise).
 
 
 

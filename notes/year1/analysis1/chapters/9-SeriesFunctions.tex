@@ -5,5 +5,103 @@
 
 \chapter{Series of Functions}
 
+Using the tools developed in the previous chapter, we may now discuss the concept of series of functions, for example Taylor series are series of polynomials $x^n$. More importantly, we may now consider when such series converge uniformly to a limit function, defined in terms of the series. From our discussion of Taylor series, we introduced analytic functions which converge \textit{pointwise} to a limit function $\sum_{n=0}^{\infty}a_nx^n$ on some interval of $\R$. By the end of this chapter, we will be able to analyse when such Taylor series converge uniformly.
+
+If $(\varphi_n)$ is a sequence of functions on $[a,b]$ then we define the \textit{partial sums} \[f_n(x)\coloneqq \sum_{k=1}^n \varphi_k(x),\quad x\in[a,b].\]
+\begin{definition}[Uniform Convergence of Series]
+    \begin{shaded*}
+        We say that the series $\sum_{n=1}^{\infty}\varphi_n$ \textit{converges uniformly} on $[a,b]$ to a function $f$ if the sequence $(f_n)$ converges uniformly on $[a,b]$. In that case, we write
+        \[f(x)=\sum_{n=1}^{\infty}\varphi_n(x),\]
+        meaning that $f_n\to f$ uniformly.
+    \end{shaded*}
+\end{definition}
+
+The definition above is just the usual definition of uniform convergence, applied to the sequence of partial sums $(f_n)$. In particular, we can apply the theorems from last section. In particular, we have the following three corollaries from results established in the previous chapter.
+
+\begin{corollary}
+    \begin{shaded*}
+        Let $(\varphi_n)$ be a sequence of continuous functions on $[a,b]$. If $f_n\coloneqq \sum_{k=1}^n \varphi_k \rightrightarrows f$ then $f$ is continuous.
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Since each $\varphi_n$ is continuous, each $f_n$ is continuous by the Algebra of Continuous Functions (Theorem \ref{thm:algebracontinuity}). Since $f_n\to f$ uniformly, Theorem \ref{thm:ucc} implies that $f=\sum_{n=1}^{\infty}\varphi_n$ is continuous on $[a,b]$.\qedhere
+\end{proof}
+
+\begin{corollary}
+\label{cor:swapsumintegral}
+    \begin{shaded*}
+        Let $(\varphi_n)$ be a sequence of integrable functions on $[a,b]$. If $f_n\coloneqq \sum_{k=1}^n \varphi_k \rightrightarrows f$ then $f$ is integrable and \[\int_a^b f(x)\d{x} = \int_a^b \sum_{n=1}^{\infty}\varphi_n(x)\d{x}=\sum_{n=1}^{\infty}\int_a^b \varphi_n(x)\d{x}.\]
+    \end{shaded*}
+\end{corollary}
+\begin{proof}
+    Since each $\varphi_n$ is integrable, by linearity of the integral each $f_n$ is integrable and, for each $n\in\N$,
+    \[\int_a^b f_n(x)\d{x} = \sum_{k=1}^n \int_a^b \varphi_k(x)\d{x}.\]
+    Applying Theorem \ref{thm:unifintegral} by uniform convergence of $f_n$ to $f$ gives
+    \[\int_a^b f(x)\d{x}=\lim_{n\to\infty}\int_a^b f_n(x)\d{x}=\lim_{n\to\infty} \sum_{k=1}^n \int_a^b \varphi_k(x)\d{x}=\sum_{n=1}^{\infty}\int_a^b \varphi_n(x)\d{x}.\]
+\end{proof}
+
+\begin{corollary}
+\label{cor:swapsumderivative}
+    \begin{shaded*}
+        Let $(\varphi_n)$ be a sequence of functions in $C^1([a,b])$, and suppose:
+        \begin{enumerate}
+            \item For some $x_0\in [a,b]$, the series $\sum_{n=1}^{\infty}\varphi_n(x_0)$ converges;
+            \item The series of derivatives $\sum_{n=1}^{\infty}\varphi_n'$ converges uniformly on $[a,b]$. 
+        \end{enumerate}
+        Then the partial sums $f_n\coloneqq \sum_{k=1}^n \varphi_k$ converge uniformly on $[a,b]$ to a function $f$, which is differentiable on $(a,b)$ and satisfies
+        \[f'(x)=\sum_{n=1}^{\infty}\varphi_n'(x)\quad\forall x\in(a,b),\]
+        where the series on the right is understood as the uniform limit of its partial sums.
+    \end{shaded*}
+\end{corollary}
+
+\section{Weierstraß \texorpdfstring{$M$}{M}-Test}
+
+In practice, it is often inconvenient to verify uniform convergence directly from the definition, so we would like a sufficient condition that implies uniform convergence of series that is easier to work with. 
+The Weierstraß $M$-test provides a simple sufficient criterion: if each term (or each derivative term) can be dominated by a numerical series that converges, then the relevant uniform convergence follows automatically.
+
+\begin{definition}[Uniformly Cauchy sequence]
+    \begin{shaded*}
+        Let $f_n:D\to\R$ be a sequence of functions. We say that the sequence of functions $(f_n)$ is \textit{uniformly Cauchy} if
+        \[\forall\varepsilon>0,\, \exists N\in\N,\, \forall m,n\ge N,\, \|f_m-f_n\|_\infty <\varepsilon.\]
+    \end{shaded*}
+\end{definition}
+
+\begin{lemma}
+\label{lem:cauchyuniformequivalent}
+    \begin{shaded*}
+        Let $f_n:D\to\R$ be a sequence of functions. Then $(f_n)$ converges uniformly if and only if $(f_n)$ is uniformly Cauchy.
+    \end{shaded*}
+\end{lemma}
+\begin{proof}
+    ($\Rightarrow$) Suppose $f_n\to f$ uniformly. Given $\varepsilon>0$, by definition there exists $N\in\N$ such that for all $n\ge N$, $\|f_n-f\|_\infty <\frac{\varepsilon}{2}$. Therefore, by the triangle inequality for the supremum norm we have, for $m,n \ge N$,
+    \[\|f_m-f_n\|_\infty\le \|f_m-f\|_\infty + \|f_n-f\|_\infty <\frac{\varepsilon}{2}+\frac{\varepsilon}{2}=\varepsilon.\]
+    ($\Leftarrow$) Conversely, suppose $(f_n)$ is uniformly Cauchy. Then in particular, the sequence $(f_n(x))$ is Cauchy for all $x\in D$ and since $\R$ is complete, $f_n(x)$ therefore converges for all $x\in D$. Construct $f:D\to\R$ by letting $f(x)=\lim_{n\to\infty}f(x)$ for all $x\in D$. We now want to show that $f_n\to f$ uniformly. Given $\varepsilon>0$, let $N\in\N$ be such that for all $m,n\ge N$ we have $\|f_m-f_n\|_\infty <\frac{\varepsilon}{2}.$ In particular, fixing $x\in D$ and $n\in\N$ and letting $m\to\infty$ yields \[|f_n(x)-f(x)|\le \frac{\varepsilon}{2},\]
+    since $f_m(x)\to f(x)$ as $m\to\infty$. Thus for all $x\in D$, $|f_n(x)-f(x)|\le \frac{\varepsilon}{2}<\varepsilon$, so $f_n\to f$ uniformly.\qedhere
+\end{proof}
+This is an important result. If we are given a concrete sequence of functions, then the usual way to show it converges is to compute the pointwise limit and then prove that the convergence is uniform. However, if we are dealing with sequences of functions in general, this is less likely to work. Instead, it is often much easier to show that a sequence of functions is uniformly convergent by showing it is uniformly Cauchy.
+\begin{theorem}[Weierstraß $M$-test]
+\label{thm:wm}
+    \begin{shaded*}
+        Let $(\varphi_n)$ be a sequence of functions on $[a,b]$ and define $f_n\coloneqq \sum_{k=1}^n\varphi_k$ as the partial sums. Suppose there exists numbers $M_n\ge 0$ such that $\| \varphi_n\|_\infty \le M_n$, and $\sum_{n=1}^{\infty} M_n$ converges. Then $f_n\rightrightarrows f$ on $[a,b]$.
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    First we must show that there exists a limit function, $f$, since we do not yet have a candidate limit. We do this by using the Cauchy criterion for sequences of functions. Given natural numbers $m<n$ and $x\in[a,b]$, we have, by the triangle inequality and hypothesis,
+    \[|f_m(x)-f_n(x)|=\left|\sum_{k=n+1}^m \varphi_n(x)\right|\le \sum_{k=n+1}^m |\varphi_k(x)|\le \sum_{k=n+1}^m M_k\le \sum_{k=n+1}^{\infty} M_k.\]
+    Since $\sum_{n=1}^{\infty}M_n$ converges, we know that the tail $\sum_{k=n}^{\infty} M_k\to 0$ as $n\to\infty$, so given $\varepsilon>0$, $N\in\N$ can be chosen sufficiently large such that for all $n\ge N$, $\sum_{k=n+1}^{\infty}M_k<\varepsilon$. Therefore, $(f_n)$ is uniformly Cauchy so by Lemma \ref{lem:cauchyuniformequivalent}, $f_n\to f$ uniformly on $[a,b]$.
+\end{proof}
+\begin{example}
+    Let $\varphi_n:[0,1]\to\R$ be defined by $\varphi_n(x)=\frac{\cos(nx)}{n^2}.$ Then $\|\varphi_n\|_\infty \le \frac{1}{n^2}$ for each $n\in\N$, and the series $\sum_{n=1}^{\infty}\frac{1}{n^2}$ converges by the $p$-series test since $p=2>1$. Therefore, the partial sums $f_n\coloneqq \sum_{k=1}^n \varphi_k$ converge uniformly to $f\coloneqq \sum_{n=1}^{\infty}\varphi_n$ on $[0,1]$. The limit function $f:[0,1]\to\R$ defined by $f(x)=\sum_{n=1}^{\infty}\frac{\cos(nx)}{n^2}$ is called a \textit{Fourier series}. 
+
+    By Corollary \ref{cor:swapsumderivative}, this Fourier series can be differentiated term-by-term to yield a new Fourier series (since $\cos $ differentiates to $-\sin $), $g:[0,1]\to\R$ defined by
+    \[g'(x)=f(x)=-\sum_{n=1}^{\infty}\frac{\sin (nx)}{n}.\]
+\end{example}
+
+
+\newpage
+a
+
+
+
 
 \end{document}
