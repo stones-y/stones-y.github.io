@@ -95,7 +95,64 @@ This is an important result. If we are given a concrete sequence of functions, t
 
     By Corollary \ref{cor:swapsumderivative}, this Fourier series can be differentiated term-by-term to yield a new Fourier series (since $\cos $ differentiates to $-\sin $), $g:[0,1]\to\R$ defined by
     \[g'(x)=f(x)=-\sum_{n=1}^{\infty}\frac{\sin (nx)}{n}.\]
+    \textit{Note: Fourier series and their computation is explored in Calculus and Applications (MATH40004).}
 \end{example}
+
+\section{Uniform Convergence of Power Series}
+
+A particularly interesting kind of series is a power series, and we have already met
+these in Chapter 7, and proved some results about them. However, as mentioned in the introduction to this chapter, our results were pointwise results, discussing how the series behaves at a particular point $x\in \R$.
+Here we will quickly look into how the power series behaves as a function of $x$. In particular, we want to know whether it converges uniformly.
+
+\begin{theorem}
+    \begin{shaded*}
+        Let $\sum_{n=0}^{\infty}c_n(x-a)^n$ be a (real) power series. Then there exists a unique number $R\in[0,+\infty]$ (called the radius of convergence) such that
+        \begin{enumerate}
+            \item If $|x-a|<R$, then $\sum c_n(x-a)^n$ converges absolutely;
+            \item If $|x-a|>R$, then $\sum c_n(x-a)^n$ diverges;
+            \item If $R>0$ and $0<r<R$ then $\sum c_n(x-a)^n$ converges uniformly on $[a-r,a+r]$.
+        \end{enumerate}
+    \end{shaded*}
+\end{theorem}
+\begin{proof}
+    Items (1) and (2) were proven in Chapter 2. 
+    For (3), note that from (1), taking $x=a-r$ shows that $\sum |c_n|r^n$ is convergent. But if $x\in[a-r,a+r]$ then $|x-a|\le r$ so \[|c_n(x-a)^n|\le |c_n|r^n,\]
+    so the result follows by the Weierstraß $M$-test (Theorem \ref{thm:wm}) with $M_n=|c_n|r^n$ which is independent of $x$.\qedhere
+\end{proof}
+
+Note that these results hold for complex power series as well. Also, uniform convergence need not hold on the entire interval of convergence, as the following example will demonstrate.
+
+\begin{example}
+    Consider the power series $\sum x^n$. The interval of convergence of this power series is $(-1,1)$, however it does not converge \textit{uniformly} on $(-1,1)$. For $m<n$, the tail
+    \[\sum_{k=m}^n x^k = x^n \sum_{k=0}^{n-m} x^k \ge \frac{x^m}{1-x},\]
+    for $x\in (-1,1)$. Since uniform convergence for series of functions relies on this tail going to zero uniformly in $x$, but the above expression on the right hand side can be made arbitrarily small by choosing $x$ close to $1$, we do not have uniform convergence on $(-1,1)$.
+\end{example}
+
+\begin{remark}
+    The idea for why power series do not necessarily converge on their entire \textit{open} interval of convergence is the same as the idea for why uniform continuity may only work on a compact interval and not the full open interval, for example the function $x\mapsto \frac{1}{x}$ on $(0,1)$ is not uniformly continuous, but is uniformly continuous on $[r,1)$ for any $0<r<1$. It is due to the fact that, with open intervals, there are limit points which are not in the interval itself, where points $x$ in the interval can ``escape'' to. If these points are where a function has a singularity (for example $\frac{1}{1-x}$ in the above example, near $x=1$), then we cannot control \textit{uniformly} in $x$ in the open interval, because by virtue of the interval being \textit{open}, one can always choose a point closer to the singularity, breaking the notion \textit{uniform} convergence (we are required to find some $N\in\N$, that works for all $x$ in the interval, whereas pointwise convergence relies on choosing an $N\in\N$ that may depend on $\varepsilon$ and $x$).
+
+    Another way to see this, specifically for Taylor series, is that polynomials have tails that blow up to $\pm \infty$ eventually, so if this is the Taylor series of, say, a bounded function on $\R$, we cannot possibly expect the Taylor series to converge uniformly on $\R$, because for each finite $N\in\N$ we choose, the Taylor polynomial approximation will blow up eventually for some large $x$, but the function is bounded, so while pointwise convergence holds here, uniform convergence does not, because no matter which $N\in\N$ we choose, there is always a large $x$ such that the Taylor polynomial has blown up and has ``stripped away'' from the target function. This is illustrated below with the function $x\mapsto \sin x$ on $\R$.
+\end{remark}
+
+\begin{center}
+    \begin{tikzpicture}[scale=0.7]
+
+        % Clip bounding box to contain the diverging polynomial
+        \clip (-1,-3) rectangle (7.5,6);
+      
+        % Axes
+        \draw[->] (-0.5,0) -- (7,0) node[right] {$x$};
+        \draw[->] (0,-2.5) -- (0,5) node[above] {$y$};
+      
+        % 5th degree Taylor polynomial P_5(x) diverging to +infinity
+        \draw[domain=-0.5:4.5, samples=150] plot (\x, {\x - (\x^3)/6 + (\x^5)/120}) node[above left] {$P_5(x)$};
+      
+        % Main function sin(x) as a distinct, thicker curve
+        \draw[thick, domain=-0.5:6.5, samples=200] plot (\x, {sin(\x r)}) node[above left] {$\sin x$};
+      
+      \end{tikzpicture}
+\end{center}
+
 
 
 \newpage
