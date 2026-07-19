@@ -154,10 +154,116 @@ Note that these results hold for complex power series as well. Also, uniform con
 \end{center}
 
 
+\section{Beyond the Weierstraß \texorpdfstring{$M$}{M}-Test}
 
-\newpage
-a
+One should also remember that the $M$-test is only a sufficient condition; uniform convergence may still hold if no summable supremum bound exists.
 
+For instance, two different mechanisms by which we can construct sequences of functions which converge uniformly are:
+\begin{itemize}
+    \item \textit{Geometric structure}: the functions in the sum have (almost) disjoint supports, so that at each point only few functions are ``active'';
+    \item \textit{Cancellation}: (e.g. alternating signs) where large terms cancel in the partial sums.
+\end{itemize}
+The next two examples illustrate these two phenomena.
+
+\begin{example}[Disjoint supports: uniform convergence without a summable bound on $|\phi_n'|$.]
+    We will work on the compact interval $[0,1]$. Define $\allowbreak \mathrm{dist}(t,\{1,2\})\coloneqq \min \{|t-1|,|t-2|\}$ to be the shortest distance from $t\in[1,2]$ to the points in the set $\{1,2\}$, and define the continuous ``tent'' function $\tau:\R\to\R$ by \[\tau(t)\coloneqq \begin{cases}
+        \mathrm{dist}(t,\{1,2\}),& t\in[1,2],\\
+        0,& t\notin [1,2].
+    \end{cases}\]
+    Therefore, the \textit{support} of $\tau$ (that is, the set of values of $t$ for which $\tau(t)\ne 0$) is contained in $[1,2]$, and the supremum of $\tau$ is $\frac{1}{2}$.
+
+    Now we will construct our sequence of functions. For $n\ge 1$, define \[\psi_n(x)\coloneqq \frac{2}{n}\tau(2^{n+1}x),\quad x\in[0,1],\]
+    and set \[\phi_n(x)\coloneqq \int_0^x \psi_n(t)\d{t},\]
+    so that in particular $\phi'_n=\psi_n$ by the Fundamental Theorem of Calculus (Theorem \ref{thm:ftc1}).
+
+    Now, notice that since $\tau$ vanishes outside of the interval $[1,2]$, the support of each $\psi_n$ is the set of values of $x$ for which \[1<2^{n+1}x<2,\]
+    i.e. $(2^{-(n+1)},2^{-n})$ is the support of $\psi_n$. These intervals are pairwise disjoint.
+
+    \textit{Uniform convergence of the derivative series.} Because $\sup|\tau|= \frac{1}{2}$, we have $\sup|\psi_n|=\frac{1}{n}$ by construction. Fixing $N\ge 1$, for any $x\in[0,1]$ we see that at most one term $\psi_n(x)$ with $n\ge N+1$ is non-zero, so for all $m>N$ we have
+    \[\left|\sum_{n=N+1}^m\phi'_n(x)\right|=\left|\sum_{n=N+1}^m\psi_n(x)\right|\le \sup_{n\ge N+1}|\psi_n|=\frac{1}{N+1}.\]
+    Thus the derivative series $\sum \phi'_n$ is uniformly Cauchy, so it converges uniformly on $[0,1]$.
+    
+    The uniform limit function is visualised below; the idea behind the construction is that each $x\in[0,1]$ belongs to precisely one interval of the form $(2^{-(n+1)},2^{-n})$, on which only the function $\psi_n$ is supported, so the infinite sum reduces to $\psi_n(x)$. The process of uniform convergence, here, acts as a ``glue'' stitching infinitely many localized functions $\psi_n$ together across the domain. 
+
+    The geometric separation of the functions guarantees that uniform convergence relies exclusively on the spatial disjointness of the functions; because at most one term in the sum is non-zero for any $x$, the absolute value of the tail of the series reduces to the absolute value of a single active term. The looseness of the $M$-test arises because replacing $|\psi_n(x)|$ with $\sup |\psi_n|$ discards the spatial dependence of each function. The final bound represents the sum of the global suprema regardless of where those values are attained. In this case we were able to construct a uniformly convergent function where this sup-norm summation is $\sum \frac{1}{n}$, which famously diverges.
+
+    \begin{center}
+        
+        \begin{tikzpicture}[x=12cm, y=5cm, samples=200, scale=0.8]
+
+            
+            \draw[->] (-0.05, 0) -- (1.1, 0) node[right] {$x$};
+            \draw[->] (0, -0.1) -- (0, 1.2) node[above] {$y$};
+        
+            
+            \foreach \x/\label in {0.0625/\frac{1}{16}, 0.125/\frac{1}{8}, 0.25/\frac{1}{4}, 0.5/\frac{1}{2}, 1/1} {
+                \draw[thick] (\x, 0.02) -- (\x, -0.02) node[below=4pt] {$\label$};
+            }
+            
+            
+            \foreach \y in {0.25, 0.5, 0.75, 1} {
+                \draw[thick] (0.01, \y) -- (-0.01, \y) node[left=4pt] {$\y$};
+            }
+        
+            
+            \foreach \i/\n in {0/1, 1/2, 2/3, 3/4, 4/5, 5/6, 6/7, 7/8} {
+                
+                \pgfmathsetmacro{\shadeval}{100 - 6 * \i}
+                
+                
+                \pgfmathsetmacro{\leftx}{pow(2, -\n-1)}
+                \pgfmathsetmacro{\midx}{3 * pow(2, -\n-2)}
+                \pgfmathsetmacro{\rightx}{pow(2, -\n)}
+                \pgfmathsetmacro{\peaky}{1/\n}
+                
+                
+                \fill[blue!\shadeval!black, opacity=0.3] 
+                    (\leftx, 0) -- (\midx, \peaky) -- (\rightx, 0) -- cycle;
+                    
+                
+                \draw[blue!\shadeval!black, thick, line join=round] 
+                    (\leftx, 0) -- (\midx, \peaky) -- (\rightx, 0);
+            }
+        
+            
+            \draw[black, line join=round] 
+                (0,0) -- ({pow(2, -9)}, 0)
+                \foreach \n in {8,7,6,5,4,3,2,1} {
+                    -- ({3*pow(2, -\n-2)}, {1/\n}) -- ({pow(2, -\n)}, 0)
+                } -- (1,0);
+        
+            
+            \node[font=\normalsize] at (0.65, 0.8) {$S(x) = \sum_{n=1}^\infty \psi_n(x)$};
+            \node[font=\normalsize, blue!90!black] at (0.375, 1.08) {$\psi_1(x)$};
+            \node[font=\normalsize, blue!80!black] at (0.1875, 0.58) {$\psi_2(x)$};
+            \node[font=\normalsize, blue!70!black] at (0.09375, 0.40) {$\psi_3(x)$};
+        
+        \end{tikzpicture}
+    \end{center}
+    \textit{Uniform convergence of the original series.} Each $\phi_n$ is increasing and non-negative, so $\sup|\phi_n|=\phi(1)$. Moreover,
+    \[\sup|\phi_n|=\int_0^1 \psi_n(t)\d{t}=\frac{2}{n}\int_0^1\tau(2^{n+1}t)\d{t},\]
+    and with the substitution $u=2^{n+1}t$ we obtain
+    \[\sup|\phi_n|=\frac{2}{n}2^{-(n+1)}\int_1^{2}\mathrm{dist}(u,\{1,2\})\d{u}.\]
+    Now, by the formulae for areas of triangles, the value of the integral is $\frac{1}{4}$ (tent of base 1, height $\frac{1}{2}$), so $\sup|\phi_n|=\frac{2^{-(n+2)}}{n}$. Since $\sum\frac{2^{-(n+2)}}{n}$ converges by the ratio test, the Weierstraß $M$-test (Theorem \ref{thm:wm}) implies that $\sum \phi_n$ converges uniformly on $[0,1]$.
+\end{example}
+
+\begin{example}[Cancellation: uniform convergence although $\sum \sup|\phi_n|$ and $\sum \sup|\phi'_n|$ diverge]
+    Again, we work on $[0,1]$. For $n\ge 1$, define \[\phi_n(x)\coloneqq (-1)^{n-1}\frac{x}{n+x},\quad x\in[0,1].\]
+    Then $\phi_n\in C^1([0,1])$ and \[\phi'_n(x)=(-1)^{n-1}\frac{n}{(n+x)^2}.\]
+    
+    \textit{Uniform convergence of $\sum \phi_n$ (alternating series mechanism)}. Let $u_n(x)\coloneqq \frac{x}{n+x}$. For each fixed $x\in[0,1]$, the sequence $u_n(x)$ is decreasing in $n$ and $u_n(x)\to 0$ as $n\to\infty$. Moreover, \[0\le u_n(x)\le \sup_{t\in[0,1]}u_n(t)=\frac{1}{n+1},\]
+    so using the alternating series estimate gives, for every $N\ge 1$ and every $x\in [0,1]$,
+    \[\left|\sum_{n=N+1}^{\infty}\phi_n(x)\right|\le u_{N+1}(x)\le \frac{1}{N+2}.\]
+    Hence, $\sum \phi_n$ converges uniformly on $[0,1]$.
+    \textit{Uniform convergence of $\sum \phi'_n$}. Set $v_n(x)\coloneqq \frac{n}{(n+x)^2}$. For each fixed $x\in[0,1]$, the function $s\mapsto \frac{s}{(s+x)^2}$ is decreasing for $s\ge x$; in particular, $v_n(x)$ is decreasing in $n$ for all $n\ge 2$. Also, $0\le v_n(x)\le v_n(0)=\frac{1}{n}$, so $v_n(x)\to 0$ uniformly. Applying the alternating series estimate again to $\sum_{n=2}^{\infty}(-1)^{n-1}v_n(x)$ yields, for every $N\ge 2$ and $x\in[0,1]$,
+    \[\left|\sum_{n=N+1}^{\infty}\phi'_n(x)\right|\le v_{N+1}(x)\le\frac{1}{N+1},\]
+    so $\sum \phi'_n$ converges uniformly on $[0,1]$.
+    
+    \textit{Failure of the $M$-test}. We have \[\sup|\phi_n| =\sup_{x\in[0,1]}\frac{x}{n+x}=\frac{1}{n+1}\quad\text{and}\quad \sup|\phi'_n|=\sup_{x\in[0,1]}\frac{n}{(n+x)^2}=\frac{1}{n},\]
+    so both $\sum \sup|\phi_n|$ and $\sum \sup|\phi'_n|$ diverge, so the Weierstraß $M$-test again does not apply, despite uniform convergence of both series.
+
+    Finally, note also that Since $\sum \phi_n(0)=0$ and $\sum \phi'_n$ converges uniformly, Corollary \ref{cor:swapsumderivative} still applies: the sum $f\coloneqq \sum\phi_n$ is differentiable on $(0,1)$ and $f'=\sum \phi'_n$ there.
+\end{example}
 
 
 
